@@ -1,0 +1,12 @@
+todo:
+Station contains list with fixed lenght
+StationEntity
+ModuleElementActor[8]
+instead of reloading all module only update the module of the corresponding list id
+add animation when added
+Add an "added" animation to all element that play when element is added
+Automatically calculate next level  cost & generation (adds a lot at low level then became less interesting)
+Add Loading screen
+use the assetManager
+
+faire distingo achievement dans assetManager et dans achivementManager

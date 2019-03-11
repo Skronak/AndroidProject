@@ -1,0 +1,189 @@
+[
+  {
+    "id": "0",
+    "title": "Station",
+    "description": "Amelioration de la station",
+    "posX": 210,
+    "posY": 94,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "mod0.png",
+    "width": 20,
+    "height": 50,
+    "sprite": "module0_0.png",
+    "level":[{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":10,"currency":1},
+      "actGen":{"value":0,"currency":1}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":3,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":5,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":7,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":20
+      ,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":50,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":100,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":130,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":150,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":180,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":250,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":300,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":350,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":400,"currency":0}
+    }
+    ]
+  },
+  {
+    "id": "1",
+    "title": "Moteur",
+    "description": "Amelioration des capteurs",
+    "posX": 100,
+    "posY": 94,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "mod1.png",
+    "width": 30,
+    "height": 25,
+    "sprite": "module1.png",
+    "level":[{
+      "cost":{"value":100,"currency":0},
+      "passGen":{"value":500,"currency":0},
+      "actGen":{"value":0,"currency":0}
+      },{
+      "cost":{"value":200,"currency":0},
+      "passGen":{"value":1,"currency":1},
+      "actGen":{"value":0,"currency":0}
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Laser",
+    "description": "Amelioration des capteurs",
+    "posX": 80,
+    "posY": -12,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "mod2.png",
+    "width": 40,
+    "height": 20,
+    "sprite": "",
+    "level":[{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+      },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Stabilisateur",
+    "description": "Amelioration des sta",
+    "posX": 152,
+    "posY": -10,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "mod3.png",
+    "width": 36,
+    "height": 15,
+    "sprite": "module3.png",
+    "level":[{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Personnel",
+    "description": "Amelioration des sta",
+    "posX": -50,
+    "posY": 20,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "icon4.png",
+    "width": 50,
+    "height": 110,
+    "sprite": "module4.png",
+    "level":[{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    }
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Personnel",
+    "description": "Amelioration des sta",
+    "posX": -50,
+    "posY": 20,
+    "iconPosX":115,
+    "iconPosY":0,
+    "icon": "icon4.png",
+    "width": 50,
+    "height": 110,
+    "sprite": "module4.png",
+    "level":[{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    },{
+      "cost":{"value":0,"currency":0},
+      "passGen":{"value":0,"currency":0},
+      "actGen":{"value":0,"currency":0}
+    }
+    ]
+  }
+]

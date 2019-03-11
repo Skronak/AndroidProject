@@ -1,0 +1,63 @@
+[
+  {
+    "id": 0,
+    "name": "Rocky",
+    "category": 1,
+    "hp": 10,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 120,
+    "height": 120,
+    "gold": 200,
+    "framesIdle": ["mod1_idle1.png","mod1_idle2.png","mod1_idle3.png","mod1_idle4.png"],
+    "framesHurt":["mod1_hurt1.png","mod1_hurt2.png"],
+    "framesDeath":["mod1_death1.png","mod1_death2.png"]
+  },
+  {
+    "id": "1",
+    "name": "Ogre",
+    "category": 1,
+    "hp": 20,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 120,
+    "height": 120,
+    "gold": 200,
+    "framesIdle": ["mod2_idle1.png","mod2_idle2.png","mod2_idle3.png","mod2_idle4.png"],
+    "framesHurt":["mod2_hurt1.png","mod2_hurt2.png"],
+    "framesDeath":["mod2_death1.png","mod2_death2.png"]
+  },
+  {
+    "id": "2",
+    "name": "Orc",
+    "category": 1,
+    "hp": 7,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 120,
+    "height": 120,
+    "gold": 200,
+    "framesIdle": ["mod3_idle1.png","mod3_idle2.png","mod3_idle3.png"],
+    "framesHurt":["mod3_hurt1.png","mod3_hurt2.png"],
+    "framesDeath":["mod3_death1.png","mod3_death2.png","mod3_death2.png"]
+  },
+  {
+    "id": "3",
+    "name": "Tree",
+    "category": 1,
+    "hp": 40,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 180,
+    "height": 200,
+    "gold": 200,
+    "framesIdle": ["mod4_idle1.png","mod4_idle2.png","mod4_idle3.png"],
+    "framesHurt":["mod4_hurt1.png"],
+    "framesDeath":["mod4_hurt1.png"]
+  }
+
+]

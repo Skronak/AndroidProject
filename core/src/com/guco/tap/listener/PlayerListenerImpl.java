@@ -1,6 +1,9 @@
-package com.brashmonkey.spriter;
+package com.guco.tap.listener;
 
 import com.badlogic.gdx.Gdx;
+import com.brashmonkey.spriter.Animation;
+import com.brashmonkey.spriter.Mainline;
+import com.brashmonkey.spriter.Player;
 import com.guco.tap.screen.PlayScreen;
 
 public class PlayerListenerImpl implements Player.PlayerListener {
@@ -13,16 +16,16 @@ public class PlayerListenerImpl implements Player.PlayerListener {
         this.playScreen=playScreen;
     }
 
+
     @Override
     public void animationFinished(Animation animation) {
-        if (playerParent.getAnimation().name.equals("atk")) {
-            playerParent.setAnimation("idle_1");
-        }
+        playerParent.setAnimation("idle_1");
+        playerParent.animationFinished = true;
     }
 
     @Override
     public void animationChanged(Animation oldAnim, Animation newAnim) {
-
+            playerParent.animationFinished = false;
     }
 
     @Override

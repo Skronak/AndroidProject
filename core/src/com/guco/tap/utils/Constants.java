@@ -9,6 +9,7 @@ public class Constants {
 
     public static final String CURRENT_VERSION = "build pre-alpha v1.0.1";
 
+    public static final String APP_NAME = "TapTapDungeon";
     // Taille virtuelle verticale de l'application
     public static final int V_WIDTH = 320; //320
 
@@ -47,7 +48,7 @@ public class Constants {
 
     public static int UPDATE_MENU_PAD_INTERNAL = 5;
 
-    public static int PLAYSCREEN_MENU_BUTTON_HEIGHT = 60;
+    public static int PLAYSCREEN_MENU_BUTTON_HEIGHT = 70;
 
     // Nombre d'heure minimum pour toucher la recompense de repos
     public static int DELAY_HOURS_REWARD = 1;

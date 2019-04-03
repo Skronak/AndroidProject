@@ -27,7 +27,7 @@ public class Animation {
 	Key currentKey;
 	Timeline.Key[] tweenedKeys, unmappedTweenedKeys;
 	private boolean prepared;
-
+	public int time;
     
     public Animation(Mainline mainline, int id, String name, int length, boolean looping, int timelines){
     	this.mainline = mainline;

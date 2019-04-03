@@ -336,34 +336,6 @@ public class SCMLReader {
      * @param tagLine
      */
     protected void loadTagIntoMainline(Animation animation, ArrayList<Element> tagName, TagLine tagLine) {
-        int indTag=0;
-        // Initialize each mainline key
-       for (int i = 0; i< animation.mainline.keys.length; i++  ) {
-            // defaut is 0
-           for (int y=0; y < tagName.size(); y++) {
-               animation.mainline.keys[i].tagName.put(tagName.get(y).get("name"), 0);
-           }
-           if (animation.mainline.keys[i].time <= tagLine.keys[indTag].time && animation.mainline.keys[i++].time >= tagLine.keys[indTag].time) {
-               for (int y=0; y < tagName.size(); y++) {
-                   animation.mainline.keys[i].tagName.put(tagName.get(y).get("name"), 1);
-               }
-               if(tagLine.keys.length > indTag) {
-                   indTag++;
-               }
-           }
-       // if (tagLine.keys.get())
-       //     if (animation.mainline.keys[i].time == tagLineKey.time) {
-       //         if (tagLineKey.tag.length>0) {
-       //             // Add each tag to the mainline Key
-       //             for (int y=0; y < tagLineKey.tag.length; y++) {
-       //                 animation.mainline.keys[i].tagName.put(tagName.get(tagLineKey.tag[y].id).get("name"),1);
-       //             }
-       //         }
-       //     }
-       //   //for (int n=0; i< animation.meta.tagLine.keys.length; n++) {
-          //     animation.mainline.keys[i].tagName.put("",0);
-          //}
-        }
     }
      /**
 	 * Returns the loaded SCML data.

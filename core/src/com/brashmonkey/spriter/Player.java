@@ -48,6 +48,7 @@ public class Player {
 	private ObjectIterator objectIterator;
 	private Mainline.Key currentKey, prevKey;
 	public boolean copyObjects = true;
+	public boolean animationFinished;
 	
 	/**
 	 * Creates a {@link Player} instance with the given entity.

@@ -3,6 +3,7 @@ package com.guco.tap.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.guco.tap.manager.AssetManager;
+import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public enum GameInformation {
         upgradeLevelList = new ArrayList<Integer>();
         achievList = new ArrayList<Integer>();
         characterEquipedList = new ArrayList<Integer>();
-        prefs = Gdx.app.getPreferences("TTDPrefs");
+        prefs = Gdx.app.getPreferences(Constants.APP_NAME);
 
         if (!prefs.contains("lastLogin")) {
             Gdx.app.debug("GameInformation", "Initialisation du compte par defaut");

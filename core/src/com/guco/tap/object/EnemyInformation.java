@@ -9,6 +9,9 @@ import com.guco.tap.entity.Enemy;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.utils.Constants;
 
+/**
+ *
+ */
 public class EnemyInformation extends Group {
     Image redImage;
     Image orangeImage;
@@ -32,6 +35,7 @@ public class EnemyInformation extends Group {
         crossImage = new Image(AssetManager.INSTANCE.crossTexture);
 
         nameLabel.setPosition(0,BAR_HEIGHT);
+        crossImage.setSize(10, BAR_HEIGHT);
         orangeImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         redImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         greyImage.setSize(BAR_WIDTH+6, redImage.getHeight()+6);
@@ -42,6 +46,7 @@ public class EnemyInformation extends Group {
         this.addActor(nameLabel);
         this.addActor(greyImage);
         this.addActor(orangeImage);
+        this.addActor(crossImage);
         this.addActor(redImage);
         this.addActor(healthLabel);
 
@@ -65,5 +70,6 @@ public class EnemyInformation extends Group {
         redImage.setWidth(redImage.getWidth()-percent);
         orangeImage.addAction(Actions.fadeOut(1f));
         healthLabel.setText(String.valueOf(targetActor.hp+"/"+maxHp));
+        crossImage.setPosition(redImage.getX()+redImage.getWidth(),redImage.getY());
     }
 }

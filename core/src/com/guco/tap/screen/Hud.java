@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -62,7 +64,7 @@ public class Hud implements Disposable {
     private BitmapFont font;
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private GameManager gameManager;
-    private Table buttonTable;
+    private Table mainTable;
     private Button skillButton;
     private Button upgradeButton;
     private Button mapButton;
@@ -111,7 +113,19 @@ public class Hud implements Disposable {
         activeMenuList.add(achievementMenu);
         activeMenuList.add(equipMenu);
         activeMenuList.add(gameInformationMenu);
-        activeMenuList.add(optionMenu);
+        //activeMenuList.add(optionMenu);
+    }
+
+    private void initTop(){
+
+    }
+
+    private void initMiddle(){
+
+    }
+
+    private void initBottom(){
+
     }
 
     /**
@@ -195,7 +209,7 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerOption = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                toggleMenu(activeMenuList.get(4));
+                toggleMenu(activeMenuList.get(3));
                 return true;
             }
         };
@@ -207,7 +221,6 @@ public class Hud implements Disposable {
             }
         };
         ascendButton.addListener(buttonListenerAscend);
-
     }
 
     /**
@@ -242,25 +255,31 @@ public class Hud implements Disposable {
         tableTopMiddle.row();
         tableTopMiddle.add(battleNbLabel);
 
-        buttonTable = new Table();
-        buttonTable.setFillParent(true);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
 
         // Ajout des menu a l'interface
         for(int i=0;i<activeMenuList.size();i++) {
-            buttonTable.addActor(activeMenuList.get(i).getParentTable());
-            stage.addActor(buttonTable);
+            mainTable.addActor(activeMenuList.get(i).getParentTable());
+            stage.addActor(mainTable);
         }
-
-        buttonTable.add(optionButton).height(50).width(50);
-        buttonTable.add(tableTopMiddle).colspan(activeMenuList.size()).align(Align.center).padRight(passiveButton.getWidth()/2);
-        buttonTable.row();
-        buttonTable.add(versionLabel).expandX().align(Align.right).colspan(activeMenuList.size()-1).bottom();
-        buttonTable.row();
-        buttonTable.add(upgradeButton).expandY().bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH/activeMenuList.size());
-        buttonTable.add(skillButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH/activeMenuList.size());
-        buttonTable.add(mapButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH/activeMenuList.size());
-        buttonTable.add(achievButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH/activeMenuList.size());
-        buttonTable.add(passiveButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH/activeMenuList.size());
+        Table menumainTable = new Table();
+        menumainTable.addActor(upgradeButton);
+        menumainTable.addActor(skillButton);
+        menumainTable.addActor(mapButton);
+        menumainTable.addActor(achievButton);
+        mainTable.add(optionButton).height(50).width(50);
+        mainTable.add(tableTopMiddle).colspan(activeMenuList.size()).align(Align.center).padRight(passiveButton.getWidth()/2);
+        mainTable.row();
+        mainTable.add(versionLabel).expandX().align(Align.right).colspan(activeMenuList.size()-1).bottom();
+        mainTable.row();
+        menumainTable.add(upgradeButton).expandY().bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menumainTable.add(skillButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menumainTable.add(mapButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menumainTable.add(achievButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+//        menumainTable.add(passiveButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.V_WIDTH / activeMenuList.size());
+        mainTable.debug();
+        mainTable.add(menumainTable).expandY().bottom().colspan(activeMenuList.size());
 
         ascendButton.setSize(80,80);
         ascendButton.setPosition(Constants.V_WIDTH/2 - ascendButton.getWidth()/2,350);
@@ -346,7 +365,7 @@ public class Hud implements Disposable {
 
     public void updateEnemyInformation(float value){
         enemyInformation.decrease(value);
-        Gdx.app.debug("HP",String.valueOf(playScreen.enemyActorList.get(0).hp));
+        //Gdx.app.debug("HP",String.valueOf(playScreen.enemyActorList.get(0).hp));
     }
 
     // Met a jour l'affichage de l'or

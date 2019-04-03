@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Data;
@@ -29,7 +27,7 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.Player;
-import com.brashmonkey.spriter.PlayerListenerImpl;
+import com.guco.tap.listener.PlayerListenerImpl;
 import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.Animation.AnimatedActor;
 import com.guco.tap.Animation.TapActor;
@@ -173,7 +171,7 @@ public class PlayScreen implements Screen {
         flamEffectActor.start();
         stage.addActor(flamEffectActor);
 
-        FileHandle handle = Gdx.files.internal("spriter/animation2.scml");
+        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
         Data data = new SCMLReader(handle.read()).getData();
         renderer = new ShapeRenderer();
         loader = new LibGdxLoader(data);
@@ -182,7 +180,8 @@ public class PlayScreen implements Screen {
         player = new Player(data.getEntity(0));
         player.setPosition(85,220);
         player.setScale(0.4f);
-        player.setAnimation("withtag");
+        player.speed=15;
+        player.setAnimation("idle_1");
         player.addListener(new PlayerListenerImpl(player,this));
     }
 
@@ -204,14 +203,13 @@ public class PlayScreen implements Screen {
         hud.updateGoldLabel();
         stage.act();
         stage.draw();
-        spriteBatch.setProjectionMatrix(hud.getStage().getCamera().combined);
-        hud.draw();
-
         player.update();
-
+        spriteBatch.setProjectionMatrix(hud.getStage().getCamera().combined);
         spriteBatch.begin();
         drawer.draw(player);
         spriteBatch.end();
+
+        hud.draw();
 
         //DEBUG
         //todo bloquer rezoom si deja zoom max, pareil max dezoom
@@ -242,8 +240,8 @@ public class PlayScreen implements Screen {
         }
 
         spriteBatch.begin();
-        torchParticleSEffect.update();
-        torchParticleSEffect.render(spriteBatch);
+//        torchParticleSEffect.update();
+//        torchParticleSEffect.render(spriteBatch);
         spriteBatch.end();
 
     }
@@ -272,7 +270,6 @@ public class PlayScreen implements Screen {
      */
     public void processHit() {
         player.setAnimation("atk");
-        characterActor.playAtk();
         gameManager.hurtEnemy();
 
         goldLabel = new Label(gameManager.largeMath.getDisplayValue(GameInformation.INSTANCE.getGenGoldActive(), GameInformation.INSTANCE.getGenCurrencyActive()),new Label.LabelStyle(AssetManager.INSTANCE.getFont(), Constants.NORMAL_LABEL_COLOR));

@@ -18,7 +18,7 @@ public class CharacterAnimatedActor extends Group {
     private AnimatedBaseActor head;
 
     private final String ATK_ANIM="atk";
-    private final String IDLE_ANIM="idle";
+    private final String IDLE_ANIM="idle_1";
     private final String IDLE_BODY_ANIM_PREFIX="idle_b";
     private final String IDLE_HEAD_ANIM_PREFIX="idle_h";
     private final String IDLE_WEAP_ANIM_PREFIX="idle_w";

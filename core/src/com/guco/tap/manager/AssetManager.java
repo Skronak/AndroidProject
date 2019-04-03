@@ -119,7 +119,7 @@ public enum AssetManager {
         redTexture = new Texture(Gdx.files.internal("sprites/ui/red.png"));
         orangeTexture = new Texture(Gdx.files.internal("sprites/ui/orange.png"));
         greyTexture = new Texture(Gdx.files.internal("sprites/ui/grey.png"));
-        crossTexture = new Texture(Gdx.files.internal("sprites/ui/red_orange.png"));;
+        crossTexture = new Texture(Gdx.files.internal("sprites/ui/red_orange.png"));
     }
 
 

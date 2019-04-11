@@ -17,6 +17,7 @@ public class EnemyInformation extends Group {
     Image orangeImage;
     Image greyImage;
     Image crossImage;
+    Image difficulty;
     Label nameLabel;
     Label healthLabel;
     int maxHp;
@@ -33,14 +34,15 @@ public class EnemyInformation extends Group {
         orangeImage = new Image(AssetManager.INSTANCE.orangeTexture);
         greyImage = new Image(AssetManager.INSTANCE.greyTexture);
         crossImage = new Image(AssetManager.INSTANCE.crossTexture);
-
+        difficulty = new Image(AssetManager.INSTANCE.diffTexture3);
         nameLabel.setPosition(0,BAR_HEIGHT);
         crossImage.setSize(10, BAR_HEIGHT);
         orangeImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         redImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         greyImage.setSize(BAR_WIDTH+6, redImage.getHeight()+6);
         greyImage.setPosition(-3, -3);
-
+        difficulty.setSize(20,20);
+        difficulty.setPosition(orangeImage.getX()+orangeImage.getWidth()+10, orangeImage.getY());
         nameLabel.setPosition(greyImage.getWidth()/2-nameLabel.getWidth()/2,BAR_HEIGHT);
         healthLabel.setPosition(greyImage.getWidth()/2-nameLabel.getWidth()/2,BAR_HEIGHT/2);
         this.addActor(nameLabel);
@@ -49,6 +51,7 @@ public class EnemyInformation extends Group {
         this.addActor(crossImage);
         this.addActor(redImage);
         this.addActor(healthLabel);
+        this.addActor(difficulty);
 
         this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 450);
     }

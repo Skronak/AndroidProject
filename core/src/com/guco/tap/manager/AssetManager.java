@@ -40,7 +40,7 @@ public enum AssetManager {
     private ArrayList<AchievementElement> achievementElementList;
     public ArrayList<Enemy> enemyList;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture;
-
+    public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4;
     private int loadValue;
 
     AssetManager() {
@@ -120,6 +120,12 @@ public enum AssetManager {
         orangeTexture = new Texture(Gdx.files.internal("sprites/ui/orange.png"));
         greyTexture = new Texture(Gdx.files.internal("sprites/ui/grey.png"));
         crossTexture = new Texture(Gdx.files.internal("sprites/ui/red_orange.png"));
+
+        diffTexture0 = new Texture(Gdx.files.internal("icons/diff0.png"));
+        diffTexture1 = new Texture(Gdx.files.internal("icons/diff1.png"));
+        diffTexture2 = new Texture(Gdx.files.internal("icons/diff2.png"));
+        diffTexture3 = new Texture(Gdx.files.internal("icons/diff3.png"));
+        diffTexture4 = new Texture(Gdx.files.internal("icons/diff4.png"));
     }
 
 

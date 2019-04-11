@@ -1,16 +1,27 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.brashmonkey.spriter.Data;
+import com.brashmonkey.spriter.Drawer;
+import com.brashmonkey.spriter.LibGdxDrawer;
+import com.brashmonkey.spriter.LibGdxLoader;
+import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.CharacterAnimatedActor;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.listener.PlayerListenerImpl;
 import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
@@ -61,6 +72,13 @@ public class GameManager {
 
     public int nbMandatoryFight;
 
+    private LibGdxLoader loader;
+
+    private ShapeRenderer renderer;
+
+    public Player player;
+
+
 
     public GameManager(PlayScreen playScreen) {
         currentState = GameState.IN_GAME;
@@ -85,8 +103,28 @@ public class GameManager {
         currentEnemyActor = enemyActorQueue.get(GameInformation.INSTANCE.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
         nbMandatoryFight=5;
+        playScreen.getHud().postInitMenu();
     }
 
+    public Player loadPlayer(){
+        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
+        Data data = new SCMLReader(handle.read()).getData();
+        renderer = new ShapeRenderer();
+        loader = new LibGdxLoader(data);
+        loader.load(handle.file());
+        player = new Player(data.getEntity(0));
+        player.setPosition(85,220);
+        player.setScale(0.4f);
+        player.speed=15;
+        player.setAnimation("idle_1");
+        player.addListener(new PlayerListenerImpl(player,playScreen));
+        return player;
+    }
+
+    public Drawer loadDrawer(SpriteBatch batch){
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+        return drawer;
+    }
     public CharacterAnimatedActor initializeCharacter(){
         if (null==characterActor) {
             characterActor = new CharacterAnimatedActor(270,200);

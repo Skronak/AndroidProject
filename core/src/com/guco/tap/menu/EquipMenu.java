@@ -1,5 +1,8 @@
 package com.guco.tap.menu;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -7,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.brashmonkey.spriter.Drawer;
+import com.brashmonkey.spriter.Player;
 import com.guco.tap.actor.CharacterAnimatedActor;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
@@ -20,12 +25,21 @@ public class EquipMenu extends AbstractMenu {
 
     private CharacterAnimatedActor characterActor;
     private Table equipTable;
+    private Player player;
+    private Drawer drawer;
+    private SpriteBatch spriteBatch;
 
     public EquipMenu(GameManager gameManager) {
         super(gameManager);
-        characterActor = new CharacterAnimatedActor(200,160);
 
         customizeMenuTable();
+    }
+
+    public void postInit(){
+        player = gameManager.player;
+        characterActor = new CharacterAnimatedActor(200,160);
+        spriteBatch = new SpriteBatch();
+        drawer = gameManager.loadDrawer(spriteBatch);
     }
 
     public void customizeMenuTable() {
@@ -126,8 +140,7 @@ public class EquipMenu extends AbstractMenu {
         buttonTable.add(body2Button).width(80).pad(1);
 
         equipTable.top();
-        characterActor.setPosition(-10,100);
-        equipTable.addActor(characterActor);
+        //player.setPosition(-10,100);
         equipTable.add().width(200);
         equipTable.add(new Container<CharacterAnimatedActor>());
         equipTable.add(buttonTable);
@@ -137,5 +150,14 @@ public class EquipMenu extends AbstractMenu {
 
     @Override
     public void update() {
+        if (null == player){
+            postInit();
+        } else {
+            player.update();
+        }
+        spriteBatch.begin();
+        drawer.draw(player);
+        spriteBatch.end();
+
     }
 }

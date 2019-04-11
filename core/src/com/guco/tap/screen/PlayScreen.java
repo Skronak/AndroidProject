@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -22,13 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.LibGdxDrawer;
-import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.Player;
-import com.guco.tap.listener.PlayerListenerImpl;
-import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.Animation.AnimatedActor;
 import com.guco.tap.Animation.TapActor;
 import com.guco.tap.actor.EnemyActor;
@@ -69,17 +62,15 @@ public class PlayScreen implements Screen {
     private Group layer0GraphicObject = new Group(); // Background
     public Group layer1GraphicObject = new Group(); // Objects
     private Group layer2GraphicObject = new Group(); // Foreground
-    private Label goldLabel;
-    private int[] goldLabelPosition = {100,80,120,70,130};
+    private Label damageLabel;
+    private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
     private TapActor tapActor;
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
     Drawer<Sprite> drawer;
-    LibGdxLoader loader;
     Player player;
-    ShapeRenderer renderer;
 
     public CharacterAnimatedActor characterActor;
     // Enemy present on screen
@@ -104,7 +95,6 @@ public class PlayScreen implements Screen {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         hud = new Hud(spriteBatch, gameManager, this);
-
         gameManager.initialiseGame();
 
         //tapActor
@@ -171,18 +161,8 @@ public class PlayScreen implements Screen {
         flamEffectActor.start();
         stage.addActor(flamEffectActor);
 
-        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
-        Data data = new SCMLReader(handle.read()).getData();
-        renderer = new ShapeRenderer();
-        loader = new LibGdxLoader(data);
-        loader.load(handle.file());
-        drawer = new LibGdxDrawer(loader, spriteBatch, renderer);
-        player = new Player(data.getEntity(0));
-        player.setPosition(85,220);
-        player.setScale(0.4f);
-        player.speed=15;
-        player.setAnimation("idle_1");
-        player.addListener(new PlayerListenerImpl(player,this));
+        player=gameManager.loadPlayer();
+        drawer=gameManager.loadDrawer(spriteBatch);
     }
 
     // member variables:
@@ -272,21 +252,23 @@ public class PlayScreen implements Screen {
         player.setAnimation("atk");
         gameManager.hurtEnemy();
 
-        goldLabel = new Label(gameManager.largeMath.getDisplayValue(GameInformation.INSTANCE.getGenGoldActive(), GameInformation.INSTANCE.getGenCurrencyActive()),new Label.LabelStyle(AssetManager.INSTANCE.getFont(), Constants.NORMAL_LABEL_COLOR));
-        goldLabel.setPosition(150,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
-
-        if (gLPPointer<goldLabelPosition.length-1){
+        damageLabel = new Label(gameManager.largeMath.getDisplayValue(GameInformation.INSTANCE.getGenGoldActive(), GameInformation.INSTANCE.getGenCurrencyActive()),new Label.LabelStyle(AssetManager.INSTANCE.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
+        if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
         } else {
             gLPPointer=0;
         }
-        layer2GraphicObject.addActor(goldLabel);
-        goldLabel.addAction(Actions.sequence(
-                Actions.fadeIn(1f),
+        layer2GraphicObject.addActor(damageLabel);
+        damageLabel.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.parallel(
+                    Actions.fadeIn(1f)
+                ),
                 Actions.fadeOut(2f),
-                Actions.removeActor(goldLabel)
+                Actions.removeActor(damageLabel)
         ));
-        goldLabel.addAction(Actions.moveTo(150+random.nextInt(100+textAnimMinX)-textAnimMinX,Constants.V_HEIGHT,3f));
+        damageLabel.addAction(Actions.moveTo(150+random.nextInt(100+textAnimMinX)-textAnimMinX,Constants.V_HEIGHT,3f));
 
         // Augmente vitesse en fonction delai avec derniere touche
         if (System.currentTimeMillis()-lastTouch >= 500f) {
@@ -308,8 +290,8 @@ public class PlayScreen implements Screen {
     public void processCriticalHit(float value) {
         hud.animateCritical();
 
-        goldLabel.setText("CRITICAL "+String.valueOf(value));
-        goldLabel.setColor(Constants.CRITICAL_LABEL_COLOR);
+        damageLabel.setText("CRITICAL "+String.valueOf(value));
+        damageLabel.setColor(Constants.CRITICAL_LABEL_COLOR);
     }
 
     /**

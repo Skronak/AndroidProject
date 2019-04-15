@@ -155,6 +155,7 @@ public class EquipMenu extends AbstractMenu {
         } else {
             player.update();
         }
+        spriteBatch.setProjectionMatrix(gameManager.playScreen.getHud().getStage().getCamera().combined);
         spriteBatch.begin();
         drawer.draw(player);
         spriteBatch.end();

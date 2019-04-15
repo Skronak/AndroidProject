@@ -184,7 +184,7 @@ public class PlayScreen implements Screen {
         stage.act();
         stage.draw();
         player.update();
-        spriteBatch.setProjectionMatrix(hud.getStage().getCamera().combined);
+        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         drawer.draw(player);
         spriteBatch.end();

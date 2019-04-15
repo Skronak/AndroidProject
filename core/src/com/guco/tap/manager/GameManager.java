@@ -78,8 +78,6 @@ public class GameManager {
 
     public Player player;
 
-
-
     public GameManager(PlayScreen playScreen) {
         currentState = GameState.IN_GAME;
         this.playScreen = playScreen;

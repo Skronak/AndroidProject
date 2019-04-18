@@ -119,10 +119,29 @@ public class GameManager {
         return player;
     }
 
+    public Player loadBoss(){
+        FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
+        Data data = new SCMLReader(handle.read()).getData();
+        LibGdxLoader loader = new LibGdxLoader(data);
+        loader.load(handle.file());
+        Player boss = new Player(data.getEntity(0));
+        boss.setPosition(150,220);
+        boss.setScale(0.4f);
+        boss.speed=15;
+        boss.setAnimation("idle");
+        return boss;
+    }
+
     public Drawer loadDrawer(SpriteBatch batch){
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
         return drawer;
     }
+
+    public Drawer loadBossDrawer(SpriteBatch batch){
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+        return drawer;
+    }
+
     public CharacterAnimatedActor initializeCharacter(){
         if (null==characterActor) {
             characterActor = new CharacterAnimatedActor(270,200);

@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.input.BuyUpgradeButtonListener;
+import com.guco.tap.input.SkillSelectButtonListener;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.SkillMenu;
 
 import static com.guco.tap.manager.AssetManager.INSTANCE;
 
@@ -30,9 +32,11 @@ public class SkillMenuElement extends Table {
     public TextButton skill3Button;
     private Image skillIcon;
     private ModuleElement moduleElementSource;
+    private SkillMenu skillMenu;
 
-    public SkillMenuElement(GameManager gameManager){
+    public SkillMenuElement(GameManager gameManager, SkillMenu skillMenu){
         this.gameManager = gameManager;
+        this.skillMenu = skillMenu;
     }
 
     /**
@@ -45,35 +49,27 @@ public class SkillMenuElement extends Table {
         int currentLevel = GameInformation.INSTANCE.getUpgradeLevelList().get(i);
 
         skill1Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
-        skill1Button.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
+        skill1Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
         skill2Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
-        skill2Button.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
+        skill2Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
         skill3Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
-        skill3Button.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
+        skill3Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
-        if (currentLevel==0) {
-//            Texture skillTexture = AssetManager.INSTANCE.getDisabledIcon();
-            Texture skillTexture = new Texture(Gdx.files.internal("icons/skillLevel.png"));
-            skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            skillIcon = new Image(skillTexture);
-        } else {
-//            Texture skillTexture = AssetManager.INSTANCE.getModuleDrawableUpList().get(i);
-            Texture skillTexture = new Texture(Gdx.files.internal("icons/skillLevel.png"));
-            skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            skillIcon = new Image(skillTexture);
-        }
+        Texture skillTexture = new Texture(Gdx.files.internal("icons/skillLevel"+i+".png"));
+        skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        skillIcon = new Image(skillTexture);
 
         this.add(skillIcon).height(45).width(80).padLeft(5).padRight(10);
         this.add(skill1Button).height(45).width(45).padRight(10).padLeft(10);
         this.add(skill2Button).height(45).width(45).padRight(10);
         this.add(skill3Button).height(45).width(45).padRight(10);
         update();
-        this.debug();
     }
 
     public void update() {
+
         //skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(INSTANCE.getModuleDrawableUpList().get(moduleElementSource.getId()))));
         //skillIcon.setSize(60,60);
     }

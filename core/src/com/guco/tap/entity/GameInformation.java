@@ -53,6 +53,7 @@ public enum GameInformation {
     private boolean optionWeather, optionSound, optionFps;
     private int skillPoint;
     public int currentEnemyIdx;
+    public int weap1Lv,weap2Lv,weap3Lv,weap4Lv,weap5Lv;
     // Character current equipement/ 0: head 1: body 2: weapon
     public List<Integer> characterEquipedList;
 
@@ -104,6 +105,11 @@ public enum GameInformation {
         prefs.putBoolean("optionWeather", optionWeather);
         prefs.putBoolean("optionFps", optionFps);
         prefs.putInteger("skillPoint",skillPoint);
+        prefs.putInteger("weap1Lv", weap1Lv);
+        prefs.putInteger("weap2Lv", weap2Lv);
+        prefs.putInteger("weap3Lv", weap3Lv);
+        prefs.putInteger("weap4Lv", weap4Lv);
+        prefs.putInteger("weap5Lv", weap5Lv);
         prefs.flush();
     }
 
@@ -176,6 +182,11 @@ public enum GameInformation {
         optionSound=prefs.getBoolean("optionSound");
         optionWeather=prefs.getBoolean("optionWeather");
         optionFps=prefs.getBoolean("optionFps");
+        weap1Lv=prefs.getInteger("weap1");
+        weap2Lv=prefs.getInteger("weap2");
+        weap3Lv=prefs.getInteger("weap3");
+        weap4Lv=prefs.getInteger("weap4");
+        weap5Lv=prefs.getInteger("weap4");
     }
 //*****************************************************
 //                  GETTER & SETTER

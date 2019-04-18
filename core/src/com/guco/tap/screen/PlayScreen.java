@@ -71,6 +71,7 @@ public class PlayScreen implements Screen {
     public TorchParticleSEffect torchParticleSEffect;
     Drawer<Sprite> drawer;
     Player player;
+    Player boss;
 
     public CharacterAnimatedActor characterActor;
     // Enemy present on screen
@@ -162,6 +163,8 @@ public class PlayScreen implements Screen {
         stage.addActor(flamEffectActor);
 
         player=gameManager.loadPlayer();
+        boss=gameManager.loadBoss();
+
         drawer=gameManager.loadDrawer(spriteBatch);
     }
 
@@ -184,9 +187,11 @@ public class PlayScreen implements Screen {
         stage.act();
         stage.draw();
         player.update();
+        boss.update();
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         drawer.draw(player);
+        drawer.draw(boss);
         spriteBatch.end();
 
         hud.draw();

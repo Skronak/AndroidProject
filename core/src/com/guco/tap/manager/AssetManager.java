@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.guco.tap.achievement.AchievementElement;
 import com.guco.tap.entity.Enemy;
+import com.guco.tap.entity.ItemEntity;
 import com.guco.tap.entity.ModuleElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
@@ -27,7 +28,7 @@ public enum AssetManager {
 
     private Json json;
     private ArrayList<ModuleElement> moduleElementList;
-    private TextButton.TextButtonStyle moduleMenuBuyTxtBtnStyle;
+    public TextButton.TextButtonStyle moduleMenuBuyTxtBtnStyle,moduleMenuUpgradeTxtBtnStyle;
     private TextureRegionDrawable menuBackgroundTexture;
     private BitmapFont font;
 
@@ -39,6 +40,7 @@ public enum AssetManager {
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
     public ArrayList<Enemy> enemyList;
+    public ArrayList<ItemEntity> itemList;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4;
     private int loadValue;
@@ -65,6 +67,12 @@ public enum AssetManager {
         TextureRegionDrawable buyDrawableDown = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal("ui/button/goldButtonDown.png"))) );
         TextureRegionDrawable buyDrawableChecked = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal("ui/button/goldButtonUp.png"))) );
         moduleMenuBuyTxtBtnStyle = new TextButton.TextButtonStyle(buyDrawableUp, buyDrawableDown,buyDrawableChecked, font);
+
+        TextureRegionDrawable upgradeDrawableUp = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal("icons/hud_b5.png"))) );
+        TextureRegionDrawable upgradeDrawableDown = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal("icons/hud_b5_r.png"))) );
+        TextureRegionDrawable upgradeDrawableChecked = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal("icons/hud_b5_r.png"))) );
+        moduleMenuUpgradeTxtBtnStyle = new TextButton.TextButtonStyle(upgradeDrawableUp, upgradeDrawableDown,upgradeDrawableChecked, font);
+
         loadValue+=1;
     }
 
@@ -77,6 +85,9 @@ public enum AssetManager {
 
         enemyList = new ArrayList<Enemy>();
         enemyList = json.fromJson(ArrayList.class, Enemy.class, Gdx.files.internal("json/enemyJSON.json"));
+
+        itemList= new ArrayList<ItemEntity>();
+        itemList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/item.json"));
 
         loadValue+=1;
         Gdx.app.log("AssetManager","Chargement asset termine");
@@ -183,5 +194,17 @@ public enum AssetManager {
 
     public ArrayList<AchievementElement> getAchievementElementList() {
         return achievementElementList;
+    }
+
+    public TextButton.TextButtonStyle getModuleMenuUpgradeTxtBtnStyle() {
+        return moduleMenuUpgradeTxtBtnStyle;
+    }
+
+    public ArrayList<ItemEntity> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(ArrayList<ItemEntity> itemList) {
+        this.itemList = itemList;
     }
 }

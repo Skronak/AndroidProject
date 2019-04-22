@@ -72,9 +72,7 @@ public class GameManager {
 
     public int nbMandatoryFight;
 
-    private LibGdxLoader loader;
-
-    private ShapeRenderer renderer;
+    private Data data;
 
     public Player player;
 
@@ -105,11 +103,6 @@ public class GameManager {
     }
 
     public Player loadPlayer(){
-        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
-        Data data = new SCMLReader(handle.read()).getData();
-        renderer = new ShapeRenderer();
-        loader = new LibGdxLoader(data);
-        loader.load(handle.file());
         player = new Player(data.getEntity(0));
         player.setPosition(85,220);
         player.setScale(0.4f);
@@ -125,19 +118,35 @@ public class GameManager {
         LibGdxLoader loader = new LibGdxLoader(data);
         loader.load(handle.file());
         Player boss = new Player(data.getEntity(0));
-        boss.setPosition(150,220);
+        boss.setPosition(240,300);
         boss.setScale(0.4f);
         boss.speed=15;
         boss.setAnimation("idle");
         return boss;
     }
 
-    public Drawer loadDrawer(SpriteBatch batch){
+    public Drawer loadDrawer(SpriteBatch batch) {
+        ShapeRenderer renderer = new ShapeRenderer();
+
+        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
+        data = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(data);
+        loader.load(handle.file());
+
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
         return drawer;
     }
 
-    public Drawer loadBossDrawer(SpriteBatch batch){
+    public Drawer loadBossDrawer(SpriteBatch batch) {
+        ShapeRenderer renderer = new ShapeRenderer();
+
+        FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
+        data = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(data);
+        loader.load(handle.file());
+
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
         return drawer;
     }
@@ -191,7 +200,7 @@ public class GameManager {
             autoSaveTimer=0f;
         }
 
-        // Increase Gold
+        // Increase Gold passivly
         if(increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
             ressourceManager.increaseGoldPassive();
             Gdx.app.debug("PlayScreen","Increasing Gold by "+GameInformation.INSTANCE.getGenGoldPassive()+" val "+GameInformation.INSTANCE.getGenCurrencyPassive());
@@ -244,7 +253,6 @@ public class GameManager {
             playScreen.enemyActorList.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220,235)));
             playScreen.enemyActorList.get(1).addAction(Actions.parallel(Actions.moveTo(130,220,1f), Actions.color(Color.WHITE,1f)));
             playScreen.enemyActorList.get(2).addAction(Actions.parallel(Actions.moveTo(190,235,1f),fadeIn(3f), Actions.color(Color.BLACK)));
-
 
             // Change order of enemy on screen (0: current, 1: visible, 2: swap
             Collections.swap(playScreen.enemyActorList,0,1);

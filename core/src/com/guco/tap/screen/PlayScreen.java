@@ -24,6 +24,8 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
 import com.guco.tap.Animation.AnimatedActor;
 import com.guco.tap.Animation.TapActor;
+import com.guco.tap.action.RescaleLabelAction;
+import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.CharacterAnimatedActor;
 import com.guco.tap.effect.TorchParticleSEffect;
@@ -50,8 +52,6 @@ public class PlayScreen implements Screen {
     private GameManager gameManager;
     private Random random;
     public Stage stage;
-    private long lastTouch;
-    private int consecutivTouch; // touche consecutives
     public OrthographicCamera camera;
     private Viewport viewport;
     private Hud hud;
@@ -69,11 +69,10 @@ public class PlayScreen implements Screen {
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
-    Drawer<Sprite> drawer;
-    Player player;
+    Drawer<Sprite> drawer,enemyDrawer;
+    public Player player;
     Player boss;
 
-    public CharacterAnimatedActor characterActor;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
     ShaderProgram blurShader;
@@ -81,9 +80,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-        lastTouch = 0l;
         textAnimMinX =100;
-        consecutivTouch=0;
 
         spriteBatch = new SpriteBatch();
         random = new Random();
@@ -104,6 +101,7 @@ public class PlayScreen implements Screen {
         backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
+
         backgroundImage.setSize(410,Constants.V_HEIGHT+15);
         backgroundImage.setPosition(-90,-20);
 
@@ -129,9 +127,6 @@ public class PlayScreen implements Screen {
         enemyActorList.add(nextEnemyActor);
         enemyActorList.add(hiddenEnemyActor);
 
-        characterActor = gameManager.initializeCharacter();
-        characterActor.setPosition(-25,220);
-
         // Gestion des calques
         stage.addActor(layer0GraphicObject);
         stage.addActor(layer1GraphicObject);
@@ -143,7 +138,6 @@ public class PlayScreen implements Screen {
         layer1GraphicObject.addActor(enemyActorList.get(2));
         layer1GraphicObject.addActor(enemyActorList.get(1));
         layer1GraphicObject.addActor(enemyActorList.get(0));
-        //layer2GraphicObject.addActor(characterActor);
         layer2GraphicObject.addActor(doorImage);
         hud.update();
 
@@ -166,6 +160,7 @@ public class PlayScreen implements Screen {
         boss=gameManager.loadBoss();
 
         drawer=gameManager.loadDrawer(spriteBatch);
+        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
     }
 
     // member variables:
@@ -187,15 +182,41 @@ public class PlayScreen implements Screen {
         stage.act();
         stage.draw();
         player.update();
-        boss.update();
+        //boss.update();
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         drawer.draw(player);
-        drawer.draw(boss);
+        //enemyDrawer.draw(boss);
+//        torchParticleSEffect.update();
+//        torchParticleSEffect.render(spriteBatch);
         spriteBatch.end();
 
         hud.draw();
 
+        debugCong(delta);
+
+    }
+
+    /**
+     * Affiche image la ou lecran est touche
+     * @param positionX
+     * @param positionY
+     */
+    public void processPointerHitAnimation(int positionX, int positionY) {
+        tapActor.clearActions();
+        tapActor.setDeltatime(0);
+        Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
+        tapActor.setColor(Color.WHITE);
+        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
+        tapActor.addAction(Actions.sequence(
+                Actions.show(),
+                Actions.fadeIn(0.5f),
+                Actions.fadeOut(0.2f),
+                Actions.hide()
+        ));
+    }
+
+    public void debugCong(float delta){
         //DEBUG
         //todo bloquer rezoom si deja zoom max, pareil max dezoom
         if (timeToCameraZoomTarget > 0) {
@@ -224,32 +245,7 @@ public class PlayScreen implements Screen {
             camera.translate(1f,0f);
         }
 
-        spriteBatch.begin();
-//        torchParticleSEffect.update();
-//        torchParticleSEffect.render(spriteBatch);
-        spriteBatch.end();
-
     }
-
-    /**
-     * Affiche image la ou lecran est touche
-     * @param positionX
-     * @param positionY
-     */
-    public void processPointerHitAnimation(int positionX, int positionY) {
-        tapActor.clearActions();
-        tapActor.setDeltatime(0);
-        Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
-        tapActor.setColor(Color.WHITE);
-        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
-        tapActor.addAction(Actions.sequence(
-                Actions.show(),
-                Actions.fadeIn(0.5f),
-                Actions.fadeOut(0.2f),
-                Actions.hide()
-        ));
-    }
-
     /**
      * Animation du jeu au touche
      */
@@ -273,19 +269,10 @@ public class PlayScreen implements Screen {
                 Actions.fadeOut(2f),
                 Actions.removeActor(damageLabel)
         ));
-        damageLabel.addAction(Actions.moveTo(150+random.nextInt(100+textAnimMinX)-textAnimMinX,Constants.V_HEIGHT,3f));
-
-        // Augmente vitesse en fonction delai avec derniere touche
-        if (System.currentTimeMillis()-lastTouch >= 500f) {
-            //stationEntity.beamActor.decreaseSpeed(0.08f);
-            consecutivTouch=0;
-        } else {
-            consecutivTouch++;
-        }
-        lastTouch=System.currentTimeMillis();
-
-        if (consecutivTouch >= 10) {
-        }
+        damageLabel.addAction(Actions.parallel(
+                Actions.moveTo(150+random.nextInt(100+textAnimMinX)-textAnimMinX,Constants.V_HEIGHT,4f),
+                ScaleLabelAction.action(damageLabel,5f,2f,Interpolation.linear)
+        ));
     }
 
     /**

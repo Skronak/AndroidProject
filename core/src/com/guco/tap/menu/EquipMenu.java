@@ -52,7 +52,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchWeapon(1);
-                gameManager.playScreen.characterActor.switchWeapon(1);
+                //gameManager.playScreen.characterActor.switchWeapon(1);
                 return false;
             }
         };
@@ -62,7 +62,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener2 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchWeapon(2);
-                gameManager.playScreen.characterActor.switchWeapon(2);
+                //gameManager.playScreen.characterActor.switchWeapon(2);
                 return false;
             }
         };
@@ -72,7 +72,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener3 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchWeapon(3);
-                gameManager.playScreen.characterActor.switchWeapon(3);
+                //gameManager.playScreen.characterActor.switchWeapon(3);
                 return false;
             }
         };
@@ -82,7 +82,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener4 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchHead(1);
-                gameManager.playScreen.characterActor.switchHead(1);
+                //gameManager.playScreen.characterActor.switchHead(1);
 
                 return false;
             }
@@ -93,7 +93,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener5 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchHead(2);
-                gameManager.playScreen.characterActor.switchHead(2);
+                //gameManager.playScreen.characterActor.switchHead(2);
                 return false;
             }
         };
@@ -103,7 +103,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener6 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchBody(1);
-                gameManager.playScreen.characterActor.switchBody(1);
+                //gameManager.playScreen.characterActor.switchBody(1);
                 return false;
             }
         };
@@ -113,7 +113,7 @@ public class EquipMenu extends AbstractMenu {
         InputListener buttonListener7 = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterActor.switchBody(2);
-                gameManager.playScreen.characterActor.switchBody(2);
+                //gameManager.playScreen.characterActor.switchBody(2);
                 return false;
             }
         };

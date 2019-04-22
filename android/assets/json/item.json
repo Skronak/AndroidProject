@@ -1,0 +1,56 @@
+[
+  {
+    "id": "0",
+    "name": "wood stick",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 0,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "1",
+    "name": "Rusty sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 1,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "2",
+    "name": "Steel sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 2,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "3",
+    "name": "Epic sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 3,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "4",
+    "name": "Steel sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 2,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "5",
+    "name": "Steel sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 2,
+    "icon": "icon1.png"
+  }
+]

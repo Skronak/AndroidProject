@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
@@ -34,6 +32,7 @@ import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.menu.AchievementMenu;
 import com.guco.tap.menu.EquipMenu;
 import com.guco.tap.menu.GameInformationMenu;
+import com.guco.tap.menu.ItemMenu;
 import com.guco.tap.menu.OptionMenu;
 import com.guco.tap.menu.ModuleMenu;
 import com.guco.tap.menu.SkillMenu;
@@ -61,6 +60,7 @@ public class Hud implements Disposable {
     private AchievementMenu achievementMenu;
     private GameInformationMenu gameInformationMenu;
     private SkillMenu skillMenu;
+    private ItemMenu itemMenu;
     private Label versionLabel;
     public Label scoreLabel;
     private Label goldDecreaseLabel;
@@ -68,17 +68,10 @@ public class Hud implements Disposable {
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private GameManager gameManager;
     private Table mainTable;
-    private Button skillButton;
-    private Button upgradeButton;
-    private Button mapButton;
-    private Button achievButton;
-    private Button optionButton;
-    private Button passiveButton;
+    private Button button_1, button_0, button_3, button_2, button_4, button_5;
     private LargeMath largeMath;
     private AbstractMenu currentMenu;
-    // Liste de tous les menus du jeu
     private ArrayList<AbstractMenu> activeMenuList;
-    private PlayScreen playScreen;
     private Label floorLabel;
     public FpsActor fpsActor;
     private EnemyInformation enemyInformation;
@@ -95,7 +88,6 @@ public class Hud implements Disposable {
         font = AssetManager.INSTANCE.getFont();
         generator.dispose();
         font.setColor(Color.WHITE);
-        this.playScreen = playscreen;
         initMenu();
         initButton();
         initHud();
@@ -107,18 +99,19 @@ public class Hud implements Disposable {
     private void initMenu() {
         moduleMenu = new ModuleMenu(gameManager);
         equipMenu = new EquipMenu(gameManager);
+        itemMenu = new ItemMenu(gameManager);
         gameInformationMenu = new GameInformationMenu(gameManager);
         optionMenu = new OptionMenu(gameManager);
         achievementMenu = new AchievementMenu(gameManager);
         skillMenu = new SkillMenu(gameManager);
 
         activeMenuList = new ArrayList<AbstractMenu>();
-        activeMenuList.add(moduleMenu);
-        activeMenuList.add(achievementMenu);
-        activeMenuList.add(equipMenu);
         activeMenuList.add(gameInformationMenu);
+        activeMenuList.add(moduleMenu);
+        activeMenuList.add(itemMenu);
+        activeMenuList.add(equipMenu);
+        activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
-        activeMenuList.add(skillMenu);
     }
 
     public void postInitMenu(){
@@ -159,27 +152,27 @@ public class Hud implements Disposable {
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new TextureRegionDrawable(new TextureRegion(skillButtonTextureUp));
         style.down = new TextureRegionDrawable(new TextureRegion(skillButtonTextureDown));
-        upgradeButton = new ImageButton(style);
+        button_0 = new ImageButton(style);
         ImageButton.ImageButtonStyle style2 = new ImageButton.ImageButtonStyle();
         style2.up = new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureUp));
         style2.down =  new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureDown));
-        skillButton = new ImageButton(style2);
+        button_1 = new ImageButton(style2);
         ImageButton.ImageButtonStyle style3 = new ImageButton.ImageButtonStyle();
         style3.up = new TextureRegionDrawable(new TextureRegion(achievButtonTextureUp));
         style3.down = new TextureRegionDrawable(new TextureRegion(achievButtonTextureDown));
-        mapButton = new ImageButton(style3);
+        button_3 = new ImageButton(style3);
         ImageButton.ImageButtonStyle style4 = new ImageButton.ImageButtonStyle();
         style4.up = new TextureRegionDrawable(new TextureRegion(mapButtonTextureUp));
         style4.down =  new TextureRegionDrawable(new TextureRegion(mapButtonTextureDown));
-        achievButton = new ImageButton(style4);
+        button_2 = new ImageButton(style4);
         ImageButton.ImageButtonStyle style5 = new ImageButton.ImageButtonStyle();
         style5.up = new TextureRegionDrawable(new TextureRegion(button6TextureUp));
         style5.down =  new TextureRegionDrawable(new TextureRegion(button6TextureDown));
-        passiveButton = new ImageButton(style5);
+        button_4 = new ImageButton(style5);
         ImageButton.ImageButtonStyle style6 = new ImageButton.ImageButtonStyle();
         style6.up = new TextureRegionDrawable(new TextureRegion(passivButtonTextureDown));
         style6.down = new TextureRegionDrawable(new TextureRegion(passivButtonTextureup));
-        optionButton = new ImageButton(style6);
+        button_5 = new ImageButton(style6);
         ImageButton.ImageButtonStyle style7 = new ImageButton.ImageButtonStyle();
         style7.up = new TextureRegionDrawable(new TextureRegion(ascendButtonTextureUp));
         style7.down = new TextureRegionDrawable(new TextureRegion(ascendButtonTextureDown));
@@ -192,7 +185,7 @@ public class Hud implements Disposable {
                 return true;
             }
         };
-        upgradeButton.addListener(buttonListener);
+        button_0.addListener(buttonListener);
 
         InputListener achievementListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -200,7 +193,7 @@ public class Hud implements Disposable {
                 return true;
             }
         };
-        skillButton.addListener(achievementListener);
+        button_1.addListener(achievementListener);
 
         InputListener buttonListenerCredit = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -208,7 +201,7 @@ public class Hud implements Disposable {
                 return true;
             }
         };
-        mapButton.addListener(buttonListenerCredit);
+        button_2.addListener(buttonListenerCredit);
 
         InputListener equipListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -216,7 +209,7 @@ public class Hud implements Disposable {
                 return true;
             }
         };
-        achievButton.addListener(equipListener);
+        button_3.addListener(equipListener);
 
         InputListener buttonListenerOption = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -224,7 +217,15 @@ public class Hud implements Disposable {
                 return true;
             }
         };
-        optionButton.addListener(buttonListenerOption);
+        button_4.addListener(buttonListenerOption);
+
+        InputListener buttonListenerSkill = new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                toggleMenu(activeMenuList.get(5));
+                return true;
+            }
+        };
+        button_5.addListener(buttonListenerSkill);
 
         InputListener buttonListenerAscend = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -233,14 +234,6 @@ public class Hud implements Disposable {
             }
         };
         ascendButton.addListener(buttonListenerAscend);
-
-        InputListener buttonListenerSkill = new ClickListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                toggleMenu(activeMenuList.get(5));
-                return true;
-            }
-        };
-        passiveButton.addListener(buttonListenerSkill);
     }
 
     /**
@@ -266,9 +259,7 @@ public class Hud implements Disposable {
         stack.add(goldDecreaseLabel);
 
         Table tableTop = new Table();
-        tableTop.add(optionButton).height(40).width(40).left();
-        //tableTop.add(stack);
-        //tableTop.row();
+        tableTop.add(button_5).height(40).width(40).left();
         VerticalGroup verticalGroup = new VerticalGroup();
         verticalGroup.addActor(floorLabel);
         verticalGroup.addActor(battleNbLabel);
@@ -302,16 +293,16 @@ public class Hud implements Disposable {
 
         // Add buttons to the stage
         Table menuButtonTable = new Table();
-        menuButtonTable.addActor(upgradeButton);
-        menuButtonTable.addActor(skillButton);
-        menuButtonTable.addActor(mapButton);
-        menuButtonTable.addActor(achievButton);
+        menuButtonTable.addActor(button_0);
+        menuButtonTable.addActor(button_1);
+        menuButtonTable.addActor(button_2);
+        menuButtonTable.addActor(button_3);
 
-        menuButtonTable.add(upgradeButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(skillButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(achievButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(mapButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(passiveButton).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menuButtonTable.add(button_0).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menuButtonTable.add(button_1).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menuButtonTable.add(button_2).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menuButtonTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
+        menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
 
         // Assemble hud
         mainTable.add(tableTop).top();
@@ -374,13 +365,6 @@ public class Hud implements Disposable {
         }
 
         // Affiche le menu concerné si non visible sinon le ferme
-        //if (menu.equals(currentMenu)) {
-        //    gameManager.currentState=GameState.IN_GAME;
-        //    menu.getParentTable().setVisible(false);
-        //    currentMenu = null;
-        //} else {
-
-        // Affiche le menu concerné si non visible sinon le ferme
         if (!menu.equals(currentMenu)) {
             menu.getParentTable().setPosition(menu.getParentTable().getX(), -menu.getParentTable().getHeight()); //Menu Animation
             gameManager.currentState=GameState.MENU;
@@ -391,6 +375,10 @@ public class Hud implements Disposable {
         } else {
             currentMenu = null;
         }
+    }
+
+    public void showUpgradeMenu(){
+        toggleMenu(skillMenu);
     }
 
     /**

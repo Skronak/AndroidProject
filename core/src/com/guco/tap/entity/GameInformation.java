@@ -53,13 +53,14 @@ public enum GameInformation {
     private boolean optionWeather, optionSound, optionFps;
     private int skillPoint;
     public int currentEnemyIdx;
-    public int weap1Lv,weap2Lv,weap3Lv,weap4Lv,weap5Lv;
     // Character current equipement/ 0: head 1: body 2: weapon
     public List<Integer> characterEquipedList;
+    public List<Integer> itemLevellist;
 
     GameInformation() {
         upgradeLevelList = new ArrayList<Integer>();
         achievList = new ArrayList<Integer>();
+        itemLevellist = new ArrayList<Integer>();
         characterEquipedList = new ArrayList<Integer>();
         prefs = Gdx.app.getPreferences(Constants.APP_NAME);
 
@@ -96,20 +97,18 @@ public enum GameInformation {
         prefs.putInteger("factionId", factionId);
         prefs.putInteger("factionLvl", factionLvl);
         for (int i=0;i<characterEquipedList.size();i++){
-            prefs.putInteger("characterEquiped"+i, characterEquipedList.get(i));
+            prefs.putInteger("equip_"+i, characterEquipedList.get(i));
         }
         for (int i=0;i<achievList.size();i++){
-            prefs.putInteger("achiev"+i, achievList.get(i));
+            prefs.putInteger("achiev_"+i, achievList.get(i));
+        }
+        for (int i=0;i<itemLevellist.size();i++){
+            prefs.putInteger("item_"+i, achievList.get(i));
         }
         prefs.putBoolean("optionSound", optionSound);
         prefs.putBoolean("optionWeather", optionWeather);
         prefs.putBoolean("optionFps", optionFps);
         prefs.putInteger("skillPoint",skillPoint);
-        prefs.putInteger("weap1Lv", weap1Lv);
-        prefs.putInteger("weap2Lv", weap2Lv);
-        prefs.putInteger("weap3Lv", weap3Lv);
-        prefs.putInteger("weap4Lv", weap4Lv);
-        prefs.putInteger("weap5Lv", weap5Lv);
         prefs.flush();
     }
 
@@ -137,6 +136,9 @@ public enum GameInformation {
         }
         for (int i=0;i<3;i++) {
             characterEquipedList.add(1);
+        }
+        for (int i=0;i<AssetManager.INSTANCE.getItemList().size();i++){
+            itemLevellist.add(0);
         }
 
         lastLogin = System.currentTimeMillis();
@@ -174,19 +176,17 @@ public enum GameInformation {
         factionId = prefs.getInteger("factionId");
         factionLvl = prefs.getInteger("factionLvl");
         for (int i=0;i<AssetManager.INSTANCE.getAchievementElementList().size();i++){
-            achievList.add(prefs.getInteger("achiev"+i));
+            achievList.add(prefs.getInteger("achiev_"+i));
         }
         for (int i=0;i<5;i++) {
-            characterEquipedList.add(prefs.getInteger("characterEquiped"+i));
+            characterEquipedList.add(prefs.getInteger("equip_"+i));
+        }
+        for (int i=0;i<AssetManager.INSTANCE.getItemList().size();i++){
+            itemLevellist.add(prefs.getInteger("item"+i));
         }
         optionSound=prefs.getBoolean("optionSound");
         optionWeather=prefs.getBoolean("optionWeather");
         optionFps=prefs.getBoolean("optionFps");
-        weap1Lv=prefs.getInteger("weap1");
-        weap2Lv=prefs.getInteger("weap2");
-        weap3Lv=prefs.getInteger("weap3");
-        weap4Lv=prefs.getInteger("weap4");
-        weap5Lv=prefs.getInteger("weap4");
     }
 //*****************************************************
 //                  GETTER & SETTER

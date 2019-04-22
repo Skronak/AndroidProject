@@ -41,6 +41,7 @@ public class SkillMenu extends AbstractMenu {
     private Table detailTable;
     private Table buyTable;
     private Stack tableStack;
+    private SkillMenuElement currentElement;//a set dans les listener
 
     public SkillMenu(GameManager gameManager) {
         super(gameManager);
@@ -122,7 +123,6 @@ public class SkillMenu extends AbstractMenu {
         // Add SkillMenuElement element to menu
 //        for (int i = 0; i < AssetManager.INSTANCE.getModuleElementList().size(); i++) {
         for (int i = 1; i < 6; i++) {
-
             SkillMenuElement moduleMenuElement = new SkillMenuElement(gameManager, this);
             moduleMenuElement.initModuleMenuElement(i);
             scrollContainerVG.addActor(moduleMenuElement);
@@ -147,7 +147,6 @@ public class SkillMenu extends AbstractMenu {
     }
 
     public void updateDetailLabel(){
-        levelLabel.setText("Lv "+GameInformation.INSTANCE.weap1Lv);
     }
 
     @Override

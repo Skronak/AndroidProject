@@ -1,0 +1,42 @@
+[
+  {
+    "id": "0",
+    "type": 1,
+    "name": "wood helmet",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 0,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "1",
+    "type": 1,
+    "name": "Rusty helmet",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 1,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "2",
+    "type": 1,
+    "name": "Steel helmet",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 2,
+    "icon": "icon1.png"
+  },
+  {
+    "id": "3",
+    "type": 1,
+    "name": "Epic helmet",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "id_map": 3,
+    "icon": "icon1.png"
+  }
+]

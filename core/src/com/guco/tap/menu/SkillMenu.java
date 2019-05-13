@@ -50,7 +50,7 @@ public class SkillMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        TextButton buyButton = new TextButton("10 A",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
+        TextButton buyButton = new TextButton("10 A",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         InputListener buyButtonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 updateDetailLabel();
@@ -58,16 +58,16 @@ public class SkillMenu extends AbstractMenu {
             }
         };
         buyButton.addListener(buyButtonListener);
-        TextButton equipButton = new TextButton("Equip",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
+        TextButton equipButton = new TextButton("Equip",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         InputListener equipButtonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
         };
         equipButton.addListener(equipButtonListener);
-        levelLabel = new Label("Lv 5",AssetManager.INSTANCE.getSkin());
-        titleLabel = new Label("Skill 1",AssetManager.INSTANCE.getSkin());
-        descriptionLabel = new Label("+10% Attk",AssetManager.INSTANCE.getSkin());
+        levelLabel = new Label("Lv 5",gameManager.assetManager.getSkin());
+        titleLabel = new Label("Skill 1",gameManager.assetManager.getSkin());
+        descriptionLabel = new Label("+10% Attk",gameManager.assetManager.getSkin());
 
         parentTable.add(new Label("UPGRADE", skin)).bottom().padTop(20);
         parentTable.row();
@@ -112,7 +112,7 @@ public class SkillMenu extends AbstractMenu {
         scrollContainerVG.padTop(20);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(AssetManager.INSTANCE.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
@@ -121,7 +121,7 @@ public class SkillMenu extends AbstractMenu {
         moduleButtonList = new ArrayList<ImageButton>();
 
         // Add SkillMenuElement element to menu
-//        for (int i = 0; i < AssetManager.INSTANCE.getModuleElementList().size(); i++) {
+//        for (int i = 0; i < gameManager.assetManager.getModuleElementList().size(); i++) {
         for (int i = 1; i < 6; i++) {
             SkillMenuElement moduleMenuElement = new SkillMenuElement(gameManager, this);
             moduleMenuElement.initModuleMenuElement(i);
@@ -142,7 +142,7 @@ public class SkillMenu extends AbstractMenu {
      * Update all module buybutton to check if player can click them
      */
     public void updateBuyButton () {
-        for (int i=0;i<AssetManager.INSTANCE.getModuleElementList().size();i++) {
+        for (int i=0;i<gameManager.assetManager.getModuleElementList().size();i++) {
         }
     }
 

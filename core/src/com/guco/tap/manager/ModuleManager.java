@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -22,11 +23,14 @@ public class ModuleManager {
     private GameManager gameManager;
     private ModuleMenu moduleMenu;
     private List<ModuleElement> moduleEntityList;
+    
 
     public ModuleManager(GameManager gameManager) {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
         this.moduleMenu = moduleMenu;
         this.gameManager = gameManager;
-        this.moduleEntityList = AssetManager.INSTANCE.getModuleElementList();
+        this.moduleEntityList = gameManager.assetManager.getModuleElementList();
     }
 
     public void initialize(ModuleMenu moduleMenu){
@@ -51,9 +55,9 @@ public class ModuleManager {
         int upgradeLevel=0;
 
         // Parcours la liste upgrades du joueur
-        for (int i=0;i<GameInformation.INSTANCE.getUpgradeLevelList().size();i++) {
-            if (GameInformation.INSTANCE.getUpgradeLevelList().get(i) > 0) {
-                upgradeLevel = GameInformation.INSTANCE.getUpgradeLevelList().get(i);
+        for (int i=0;i<gameManager.gameInformation.getUpgradeLevelList().size();i++) {
+            if (gameManager.gameInformation.getUpgradeLevelList().get(i) > 0) {
+                upgradeLevel = gameManager.gameInformation.getUpgradeLevelList().get(i);
 
                 //Passive generation
                 passGoldGen = passGenSum.getValue();
@@ -72,10 +76,10 @@ public class ModuleManager {
 
             }
         }
-        GameInformation.INSTANCE.setGenGoldPassive(passGenSum.getValue());
-        GameInformation.INSTANCE.setGenCurrencyPassive(passGenSum.getCurrency());
-        GameInformation.INSTANCE.setGenGoldActive(actGenSum.getValue());
-        GameInformation.INSTANCE.setGenCurrencyActive(actGenSum.getCurrency());
+        gameManager.gameInformation.setGenGoldPassive(passGenSum.getValue());
+        gameManager.gameInformation.setGenCurrencyPassive(passGenSum.getCurrency());
+        gameManager.gameInformation.setGenGoldActive(actGenSum.getValue());
+        gameManager.gameInformation.setGenCurrencyActive(actGenSum.getCurrency());
     }
 
     /**
@@ -86,13 +90,13 @@ public class ModuleManager {
      * @return false if current gold < module cost
      */
     public boolean isAvailableUpgrade (int idSelect) {
-        int currentlevel = GameInformation.INSTANCE.getUpgradeLevelList().get(idSelect);
+        int currentlevel = gameManager.gameInformation.getUpgradeLevelList().get(idSelect);
         ModuleElementLevel moduleLevelCurrent = moduleEntityList.get(idSelect).getLevel().get(currentlevel);
 
         if ( (moduleEntityList.get(idSelect).getLevel().size() > currentlevel + 1)
-                && ( (GameInformation.INSTANCE.getCurrency() > moduleLevelCurrent.getCost().getCurrency()
-                    || (GameInformation.INSTANCE.getCurrency() == moduleLevelCurrent.getCost().getCurrency()
-                        && (GameInformation.INSTANCE.getCurrentGold() >= moduleLevelCurrent.getCost().getValue())
+                && ( (gameManager.gameInformation.getCurrency() > moduleLevelCurrent.getCost().getCurrency()
+                    || (gameManager.gameInformation.getCurrency() == moduleLevelCurrent.getCost().getCurrency()
+                        && (gameManager.gameInformation.getCurrentGold() >= moduleLevelCurrent.getCost().getValue())
                         ))))
         {
             return true;
@@ -110,9 +114,9 @@ public class ModuleManager {
      * @return
      */
     public Texture getLevelTextureByLevel(int level) {
-        Texture levelTexture = AssetManager.INSTANCE.getUpgradeLvlImageList().get(GameInformation.INSTANCE.getUpgradeLevelList().get(level));
+        Texture levelTexture = gameManager.assetManager.getUpgradeLvlImageList().get(gameManager.gameInformation.getUpgradeLevelList().get(level));
         if (null==levelTexture) {
-            levelTexture = AssetManager.INSTANCE.getUpgradeLvlImageList().get(0);
+            levelTexture = gameManager.assetManager.getUpgradeLvlImageList().get(0);
         }
         return levelTexture;
     }
@@ -127,20 +131,20 @@ public class ModuleManager {
      */
     public void increaseModuleLevel(int idSelect) {
         // Calcul et Affichage de la soustraction
-        ValueDTO decreaseValue = moduleEntityList.get(idSelect).getLevel().get(GameInformation.INSTANCE.getUpgradeLevelList().get(idSelect)).getCost();
+        ValueDTO decreaseValue = moduleEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.getUpgradeLevelList().get(idSelect)).getCost();
         gameManager.playScreen.getHud().animateDecreaseGold(decreaseValue);
 
         // Mise a jour du montant des golds du joueur
-        ValueDTO gameInformationValue = gameManager.largeMath.decreaseValue(GameInformation.INSTANCE.getCurrentGold(),GameInformation.INSTANCE.getCurrency(),decreaseValue.getValue(), decreaseValue.getCurrency());
-        GameInformation.INSTANCE.setCurrentGold(gameInformationValue .getValue());
-        GameInformation.INSTANCE.setCurrency(gameInformationValue .getCurrency());
+        ValueDTO gameInformationValue = gameManager.largeMath.decreaseValue(gameManager.gameInformation.getCurrentGold(),gameManager.gameInformation.getCurrency(),decreaseValue.getValue(), decreaseValue.getCurrency());
+        gameManager.gameInformation.setCurrentGold(gameInformationValue .getValue());
+        gameManager.gameInformation.setCurrency(gameInformationValue .getCurrency());
 
         // Met a jour le gameInformation
-        GameInformation.INSTANCE.getUpgradeLevelList().set(idSelect, GameInformation.INSTANCE.getUpgradeLevelList().get(idSelect) + 1);
+        gameManager.gameInformation.getUpgradeLevelList().set(idSelect, gameManager.gameInformation.getUpgradeLevelList().get(idSelect) + 1);
         this.evaluateModuleGeneration();
 
         // Ajoute l'element dans la station
-        if (GameInformation.INSTANCE.getUpgradeLevelList().get(idSelect)==1){
+        if (gameManager.gameInformation.getUpgradeLevelList().get(idSelect)==1){
             gameManager.newModuleIdList.add(idSelect);
         }
      }

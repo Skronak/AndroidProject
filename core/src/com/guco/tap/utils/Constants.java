@@ -48,7 +48,7 @@ public class Constants {
 
     public static int UPDATE_MENU_PAD_INTERNAL = 5;
 
-    public static int PLAYSCREEN_MENU_BUTTON_HEIGHT = 55;
+    public static int PLAYSCREEN_MENU_BUTTON_HEIGHT = 52;
 
     // Nombre d'heure minimum pour toucher la recompense de repos
     public static int DELAY_HOURS_REWARD = 1;

@@ -45,15 +45,15 @@ public class AchievementMenu extends AbstractMenu {
         descriptionLabel.setWrap(true);
         descriptionLabel.setScale(0.8f);
         skillPointLabel = new Label(String.valueOf(gameManager.achievementManager.achievementElementList.get(0).skillPoint)+"SP",skin);
-        claimButton = new TextButton("claim",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
-        claimAchievementButtonListener = new ClaimAchievementButtonListener(this);
+        claimButton = new TextButton("claim",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
+        claimAchievementButtonListener = new ClaimAchievementButtonListener(gameManager, this);
         claimButton.addListener(claimAchievementButtonListener);
 
         VerticalGroup scrollContainerVG = new VerticalGroup();
         scrollContainerVG.space(5f);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(AssetManager.INSTANCE.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
         achievementTable = new Table();
@@ -105,17 +105,20 @@ public class AchievementMenu extends AbstractMenu {
 
                 // Animate elements to claim
                 if (!gameManager.achievementManager.achievementElementList.get(i).isClaimed) {
-                    GameInformation.INSTANCE.getAchievList().set(i,1);
-                    achievementTable.getCells().get(i).getActor().addAction(
-                            Actions.sequence(Actions.parallel(
-                                    Actions.scaleBy(0.2f,0.2f,0.5f),
+                    gameManager.gameInformation.getAchievList().set(i,1);
+                    if (gameManager.achievementManager.achievementElementList.get(i).isNew) {
+                        achievementTable.getCells().get(i).getActor().addAction(
+                                Actions.sequence(Actions.parallel(
+                                        Actions.scaleBy(0.2f, 0.2f, 0.5f),
                                         Actions.repeat(2,
-                                            Actions.sequence(Actions.rotateBy(-20, 0.2f),
-                                                Actions.rotateBy(20, 0.2f))
-                                            )),
-                            Actions.sequence(Actions.scaleBy(-0.2f,-0.2f,0.2f))));
+                                                Actions.sequence(Actions.rotateBy(-20, 0.2f),
+                                                        Actions.rotateBy(20, 0.2f))
+                                        )),
+                                        Actions.sequence(Actions.scaleBy(-0.2f, -0.2f, 0.2f))));
+                        gameManager.achievementManager.achievementElementList.get(i).isNew=false;
+                    }
                 } else {
-                    GameInformation.INSTANCE.getAchievList().set(i,2);
+                    gameManager.gameInformation.getAchievList().set(i,2);
                 }
             }
         }

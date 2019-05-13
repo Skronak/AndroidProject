@@ -5,8 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.entity.Enemy;
-import com.guco.tap.manager.AssetManager;
+import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 
 /**
@@ -26,17 +25,17 @@ public class EnemyInformation extends Group {
     float percent;
     EnemyActor targetActor;
 
-    public EnemyInformation() {
-        nameLabel = new Label("default", AssetManager.INSTANCE.getSkin());
-        healthLabel = new Label("", AssetManager.INSTANCE.getSkin());
+    public EnemyInformation(GameManager gameManager) {
+        nameLabel = new Label("default", gameManager.assetManager.getSkin());
+        healthLabel = new Label("", gameManager.assetManager.getSkin());
 
-        redImage = new Image(AssetManager.INSTANCE.redTexture);
-        orangeImage = new Image(AssetManager.INSTANCE.orangeTexture);
-        greyImage = new Image(AssetManager.INSTANCE.greyTexture);
-        crossImage = new Image(AssetManager.INSTANCE.crossTexture);
-        difficulty = new Image(AssetManager.INSTANCE.diffTexture3);
+        redImage = new Image(gameManager.assetManager.redTexture);
+        orangeImage = new Image(gameManager.assetManager.orangeTexture);
+        greyImage = new Image(gameManager.assetManager.greyTexture);
+        //crossImage = new Image(gameManager.assetManager.crossTexture);
+        difficulty = new Image(gameManager.assetManager.diffTexture3);
         nameLabel.setPosition(0,BAR_HEIGHT);
-        crossImage.setSize(10, BAR_HEIGHT);
+        //crossImage.setSize(10, BAR_HEIGHT);
         orangeImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         redImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         greyImage.setSize(BAR_WIDTH+6, redImage.getHeight()+6);
@@ -48,12 +47,12 @@ public class EnemyInformation extends Group {
         this.addActor(nameLabel);
         this.addActor(greyImage);
         this.addActor(orangeImage);
-        this.addActor(crossImage);
+        //this.addActor(crossImage);
         this.addActor(redImage);
         this.addActor(healthLabel);
         this.addActor(difficulty);
 
-        this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 450);
+        this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 470);
     }
 
     public void reinitialise(EnemyActor enemyActor) {
@@ -73,6 +72,6 @@ public class EnemyInformation extends Group {
         redImage.setWidth(redImage.getWidth()-percent);
         orangeImage.addAction(Actions.fadeOut(1f));
         healthLabel.setText(String.valueOf(targetActor.hp+"/"+maxHp));
-        crossImage.setPosition(redImage.getX()+redImage.getWidth(),redImage.getY());
+        //crossImage.setPosition(redImage.getX()+redImage.getWidth(),redImage.getY());
     }
 }

@@ -2,19 +2,15 @@ package com.guco.tap.achievement;
 
 import com.guco.tap.entity.GameInformation;
 
-public class GoldCondition implements Condition {
-    private int conditionValue;
-    private int conditionCurrency;
-
-    public GoldCondition(){}
+public class GoldCondition extends AbstractCondition {
 
     @Override
     public boolean isAchieved() {
         boolean val = false;
-        if (GameInformation.INSTANCE.getCurrency()>=conditionCurrency) {
+        if (gameInformation.getCurrency()>=conditionCurrency) {
             val=true;
-        } else if (GameInformation.INSTANCE.getCurrency()==conditionCurrency
-                &&GameInformation.INSTANCE.getCurrentGold()>conditionValue){
+        } else if (gameInformation.getCurrency()==conditionCurrency
+                &&gameInformation.getCurrentGold()>conditionValue){
             val=true;
         } else {
             val=false;
@@ -23,7 +19,7 @@ public class GoldCondition implements Condition {
     }
     @Override
     public int getConditionProgression(){
-        float progression = (GameInformation.INSTANCE.getCurrency()/conditionCurrency)*100;
+        float progression = (gameInformation.getCurrency()/conditionCurrency)*100;
         return (int) progression;
     }
 

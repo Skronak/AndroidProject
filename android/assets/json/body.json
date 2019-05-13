@@ -1,7 +1,8 @@
 [
   {
     "id": "0",
-    "name": "wood stick",
+    "type": 1,
+    "name": "wood body",
     "description": "",
     "width": 30,
     "height": 25,
@@ -10,7 +11,8 @@
   },
   {
     "id": "1",
-    "name": "Rusty sword",
+    "type": 1,
+    "name": "Rusty body",
     "description": "",
     "width": 30,
     "height": 25,
@@ -19,7 +21,8 @@
   },
   {
     "id": "2",
-    "name": "Steel sword",
+    "type": 1,
+    "name": "Steel body",
     "description": "",
     "width": 30,
     "height": 25,
@@ -28,29 +31,12 @@
   },
   {
     "id": "3",
-    "name": "Epic sword",
+    "type": 1,
+    "name": "Epic body",
     "description": "",
     "width": 30,
     "height": 25,
     "id_map": 3,
-    "icon": "icon1.png"
-  },
-  {
-    "id": "4",
-    "name": "Steel sword",
-    "description": "",
-    "width": 30,
-    "height": 25,
-    "id_map": 2,
-    "icon": "icon1.png"
-  },
-  {
-    "id": "5",
-    "name": "Steel sword",
-    "description": "",
-    "width": 30,
-    "height": 25,
-    "id_map": 2,
     "icon": "icon1.png"
   }
 ]

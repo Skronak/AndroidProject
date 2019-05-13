@@ -3,9 +3,9 @@ package com.guco.tap.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -16,11 +16,12 @@ import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.SCMLReader;
+import com.guco.tap.action.ArcToAction;
 import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.actor.CharacterAnimatedActor;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.listener.PlayerListenerImpl;
 import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
@@ -56,8 +57,6 @@ public class GameManager {
 
     public float autoSaveTimer,weatherTimer, increaseGoldTimer, logicTimer;
 
-    public CharacterAnimatedActor characterActor;
-
     public ArrayList<Integer> newModuleIdList;
 
     // Enemy present on this floor
@@ -76,10 +75,19 @@ public class GameManager {
 
     public Player player;
 
-    public GameManager(PlayScreen playScreen) {
+    TapDungeonGame game;
+
+    public AssetManager assetManager;
+    
+    public GameInformation gameInformation;
+
+    public GameManager(TapDungeonGame game) {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
         currentState = GameState.IN_GAME;
-        this.playScreen = playScreen;
-        largeMath = new LargeMath();
+        this.assetManager=game.assetManager;
+        this.gameInformation = game.gameInformation;
+        largeMath = new LargeMath(gameInformation);
         newModuleIdList = new ArrayList<Integer>();
         //weatherManager = new WeatherManager(playScreen);
         moduleManager = new ModuleManager(this);
@@ -93,19 +101,19 @@ public class GameManager {
     }
 
     public void initialiseGame() {
-        GameInformation.INSTANCE.currentEnemyIdx=0;
-        moduleManager.initialize(playScreen.getHud().getModuleMenu());
+        gameInformation.currentEnemyIdx=0;
+        //moduleManager.initialize(playScreen.getHud().getModuleMenu());
         initEnemyQueue();
-        currentEnemyActor = enemyActorQueue.get(GameInformation.INSTANCE.currentEnemyIdx);
+        currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
-        nbMandatoryFight=5;
+        nbMandatoryFight=5; // from floor information
         playScreen.getHud().postInitMenu();
     }
 
     public Player loadPlayer(){
         player = new Player(data.getEntity(0));
         player.setPosition(85,220);
-        player.setScale(0.4f);
+        player.setScale(0.37f);
         player.speed=15;
         player.setAnimation("idle_1");
         player.addListener(new PlayerListenerImpl(player,playScreen));
@@ -151,12 +159,6 @@ public class GameManager {
         return drawer;
     }
 
-    public CharacterAnimatedActor initializeCharacter(){
-        if (null==characterActor) {
-            characterActor = new CharacterAnimatedActor(270,200);
-        }
-        return characterActor;
-    }
     /**
      * Modification de l'etat du jeu en fonction
      * du temps passe
@@ -196,20 +198,20 @@ public class GameManager {
         // Autosave
         if(autoSaveTimer >= Constants.DELAY_AUTOSAVE){
             Gdx.app.debug("PlayScreen","Saving");
-            GameInformation.INSTANCE.saveInformation();
+            gameInformation.saveInformation();
             autoSaveTimer=0f;
         }
 
         // Increase Gold passivly
         if(increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
             ressourceManager.increaseGoldPassive();
-            Gdx.app.debug("PlayScreen","Increasing Gold by "+GameInformation.INSTANCE.getGenGoldPassive()+" val "+GameInformation.INSTANCE.getGenCurrencyPassive());
+            Gdx.app.debug("PlayScreen","Increasing Gold by "+gameInformation.getGenGoldPassive()+" val "+gameInformation.getGenCurrencyPassive());
             ressourceManager.increaseGoldPassive();
             playScreen.getHud().updateGoldLabel();
             increaseGoldTimer=0f;
         }
 
-     //   if (GameInformation.INSTANCE.isOptionWeather()) {
+     //   if (gameInformation.isOptionWeather()) {
      //       if (weatherTimer >= Constants.DELAY_WEATHER_CHANGE) {
      //           Gdx.app.debug("PlayScreen", "Changing weather");
      //           weatherManager.addRandomWeather();
@@ -223,19 +225,19 @@ public class GameManager {
      */
     public void initEnemyQueue() {
         enemyActorQueue.clear();
-        GameInformation.INSTANCE.currentEnemyIdx=0;
+        gameInformation.currentEnemyIdx=0;
         int randomNum=0;
        for (int i=0;i<10;i++) {
-           randomNum = rand.nextInt((AssetManager.INSTANCE.enemyList.size()-1) + 1);
-           enemyActorQueue.add(new EnemyActor(AssetManager.INSTANCE.enemyList.get(randomNum)));
+           randomNum = rand.nextInt((assetManager.enemyList.size()-1) + 1);
+           enemyActorQueue.add(new EnemyActor(assetManager.enemyList.get(randomNum)));
         }
     }
 
     public void switchEnemy() {
         currentState = GameState.PAUSE;
-        if (GameInformation.INSTANCE.currentEnemyIdx+1<enemyActorQueue.size()) {
-            GameInformation.INSTANCE.currentEnemyIdx+=1;
-            playScreen.getHud().battleNbLabel.setText(GameInformation.INSTANCE.currentEnemyIdx+"/10");
+        if (gameInformation.currentEnemyIdx+1<enemyActorQueue.size()) {
+            gameInformation.currentEnemyIdx+=1;
+            playScreen.getHud().battleNbLabel.setText(gameInformation.currentEnemyIdx+"/10");
 
             // Initialize position before moving
             playScreen.enemyActorList.get(0).clearActions();
@@ -259,8 +261,8 @@ public class GameManager {
             Collections.swap(playScreen.enemyActorList,1,2);
 
             // TODO faire disparaitre les mobs  & corriger numero du combat
-            if (GameInformation.INSTANCE.currentEnemyIdx+3 < enemyActorQueue.size()) {
-                playScreen.enemyActorList.set(2, enemyActorQueue.get(GameInformation.INSTANCE.currentEnemyIdx + 2));
+            if (gameInformation.currentEnemyIdx+3 < enemyActorQueue.size()) {
+                playScreen.enemyActorList.set(2, enemyActorQueue.get(gameInformation.currentEnemyIdx + 2));
                 playScreen.layer1GraphicObject.addActor(playScreen.enemyActorList.get(2));
                 playScreen.enemyActorList.get(2).setPosition(220, 235);
                 playScreen.enemyActorList.get(2).getColor().a = 0f;
@@ -289,7 +291,7 @@ public class GameManager {
      * @return
      */
     public float getCriticalValue(){
-        return (GameInformation.INSTANCE.getGenGoldActive() * GameInformation.INSTANCE.getCriticalRate());
+        return (gameInformation.getGenGoldActive() * gameInformation.getCriticalRate());
     }
 
     /**
@@ -297,36 +299,47 @@ public class GameManager {
      */
     public void hurtEnemy() {
         //currentEnemyActor.hurt();
-        currentEnemyActor.hp -= GameInformation.INSTANCE.getGenGoldActive();
+        currentEnemyActor.hp -= gameInformation.getGenGoldActive();
         // Case of enemy death
         if (currentEnemyActor.hp <= 0) {
             handleEnemyDeath();
         }
-        playScreen.getHud().updateEnemyInformation(GameInformation.INSTANCE.getGenGoldActive());
+        playScreen.getHud().updateEnemyInformation(gameInformation.getGenGoldActive());
     }
 
     public void handleEnemyDeath(){
         currentEnemyActor.hp=0;
         currentEnemyActor.death();
+
         // if enemy generate gold (reward Manager || ScreenAnimationManager)
+        Runnable incGold = new Runnable() {
+            @Override
+            public void run() {
+                ressourceManager.increaseGoldActive();
+            }
+        };
+        float speed=1f;
+        float fadeOut=0.75f;
         GoldActor goldActor = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight());
-        goldActor.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH/2-20, Constants.V_HEIGHT, 2f), Actions.fadeOut(1.5f)), Actions.removeActor()));
+        goldActor.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-50, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
         GoldActor goldActor2 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()-30);
-        goldActor2.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH/2-30, Constants.V_HEIGHT, 2f), Actions.fadeOut(1.5f)), Actions.removeActor()));
+        goldActor2.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-30, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
         GoldActor goldActor3 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()+15);
-        goldActor3.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH/2-50, Constants.V_HEIGHT, 2f), Actions.fadeOut(1.5f)), Actions.removeActor()));
+        goldActor3.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-50, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
         GoldActor goldActor4 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()+7);
-        goldActor4.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH/2, Constants.V_HEIGHT, 2f), Actions.fadeOut(1.5f)), Actions.removeActor()));
+        goldActor4.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH, Constants.V_HEIGHT, speed), Actions.sequence(Actions.fadeOut(fadeOut), Actions.run(incGold))),Actions.removeActor()));
 
         playScreen.stage.addActor(goldActor);
         playScreen.stage.addActor(goldActor2);
         playScreen.stage.addActor(goldActor3);
         playScreen.stage.addActor(goldActor4);
-        if (GameInformation.INSTANCE.currentEnemyIdx+1 < nbMandatoryFight) {
+
+        // go upstair or stay
+        if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
             switchEnemy();
         } else {
-            playScreen.getHud().ascendButton.setVisible(true);
-            playScreen.getHud().ascendButton.addAction(new BlinkAction(1f,2));
+            //playScreen.getHud().ascendButton.setVisible(true);
+            //playScreen.getHud().ascendButton.addAction(new BlinkAction(1f,2));
             initEnemyQueue();
             switchEnemy();
         }

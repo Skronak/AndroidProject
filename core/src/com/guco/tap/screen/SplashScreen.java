@@ -28,7 +28,9 @@ public class SplashScreen implements Screen {
     private FitViewport viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
     private Stage stage = new Stage(viewport);
 
-    public SplashScreen(TapDungeonGame game){
+    public SplashScreen(TapDungeonGame game)
+    {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.game=game;
     }
 
@@ -57,14 +59,13 @@ public class SplashScreen implements Screen {
      * loadLoadingScreen if animation is finished
      */
     private void loadLoadingScreen() {
-//        loadingScreen = new LoadingScreen(game);
-/*        splashImage.addAction(Actions.sequence(Actions.fadeOut(2.0f), Actions.run(new Runnable() {
+        splashImage.addAction(Actions.sequence(Actions.fadeOut(2.0f), Actions.run(new Runnable() {
             @Override
             public void run() {
-                game.setScreen(loadingScreen);
+                game.setScreen(game.loadingScreen);
             }
         })));
- */   }
+   }
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);

@@ -15,7 +15,7 @@ public class AchievementElement {
 
     public String icon;
 
-    public Condition condition;
+    public AbstractCondition condition;
 
     public String rewardType;
 
@@ -24,6 +24,8 @@ public class AchievementElement {
     public int skillPoint;
 
     public boolean isClaimed;
+
+    public boolean isNew;
 
     public boolean isAchieved;
 

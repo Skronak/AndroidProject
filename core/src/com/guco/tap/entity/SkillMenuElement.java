@@ -1,23 +1,15 @@
 package com.guco.tap.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.input.BuyUpgradeButtonListener;
 import com.guco.tap.input.SkillSelectButtonListener;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.SkillMenu;
-
-import static com.guco.tap.manager.AssetManager.INSTANCE;
 
 /**
  * Represente un module dans le menu deroulant des modules
@@ -45,16 +37,16 @@ public class SkillMenuElement extends Table {
      * @param i
      */
     public void initModuleMenuElement(int i) {
-        moduleElementSource = AssetManager.INSTANCE.getModuleElementList().get(i);
-        int currentLevel = GameInformation.INSTANCE.getUpgradeLevelList().get(i);
+        moduleElementSource = gameManager.assetManager.getModuleElementList().get(i);
+        int currentLevel = gameManager.gameInformation.getUpgradeLevelList().get(i);
 
-        skill1Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
+        skill1Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         skill1Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
-        skill2Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
+        skill2Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         skill2Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
-        skill3Button = new TextButton("",AssetManager.INSTANCE.getModuleMenuBuyTxtBtnStyle());
+        skill3Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         skill3Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
         Texture skillTexture = new Texture(Gdx.files.internal("icons/skillLevel"+i+".png"));

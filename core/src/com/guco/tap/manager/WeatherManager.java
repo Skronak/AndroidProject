@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.badlogic.gdx.Gdx;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.FogEffectActor;
 import com.guco.tap.utils.RainEffectActor;
@@ -16,6 +17,8 @@ public class WeatherManager {
     private Random random;
 
     public WeatherManager(PlayScreen screen){
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
         this.screen = screen;
         random = new Random();
         rainEffectActor = new RainEffectActor(screen);

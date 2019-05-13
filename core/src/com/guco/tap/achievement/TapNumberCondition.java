@@ -2,18 +2,15 @@ package com.guco.tap.achievement;
 
 import com.guco.tap.entity.GameInformation;
 
-public class TapNumberCondition implements Condition {
-    private int conditionValue;
-
-    public TapNumberCondition(){}
+public class TapNumberCondition extends AbstractCondition {
 
     @Override
     public boolean isAchieved() {
-        return GameInformation.INSTANCE.getTotalTapNumber()>=conditionValue;
+        return gameInformation.getTotalTapNumber()>=conditionValue;
     }
     @Override
     public int getConditionProgression(){
-        float progression = (GameInformation.INSTANCE.getTotalTapNumber()/conditionValue)*100;
+        float progression = (gameInformation.getTotalTapNumber()/conditionValue)*100;
         return (int) progression;
     }
 

@@ -23,8 +23,7 @@ import java.util.ArrayList;
  * Classe de chargement des assets du jeu
  * TODO Utiliser atlas
  */
-public enum AssetManager {
-    INSTANCE;
+public class AssetManager {
 
     private Json json;
     private ArrayList<ModuleElement> moduleElementList;
@@ -40,15 +39,20 @@ public enum AssetManager {
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
     public ArrayList<Enemy> enemyList;
-    public ArrayList<ItemEntity> itemList;
+    private ArrayList<ItemEntity> itemList;
+    public ArrayList<ItemEntity> weaponList,helmList, bodyList;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4;
     private int loadValue;
 
-    AssetManager() {
-        this.json = new Json();
+    public AssetManager() {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
+        this.json = new Json();
         loadValue=0;
+    }
+
+    public void loadAsset(){
         loadFile();
         loadIcons();
         loadImage();
@@ -86,8 +90,34 @@ public enum AssetManager {
         enemyList = new ArrayList<Enemy>();
         enemyList = json.fromJson(ArrayList.class, Enemy.class, Gdx.files.internal("json/enemyJSON.json"));
 
-        itemList= new ArrayList<ItemEntity>();
-        itemList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/item.json"));
+        //itemList= new ArrayList<ItemEntity>();
+        //itemList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/item.json"));
+
+        weaponList= new ArrayList<ItemEntity>();
+        weaponList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/weapon.json"));
+
+        helmList= new ArrayList<ItemEntity>();
+        helmList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/helm.json"));
+
+        bodyList= new ArrayList<ItemEntity>();
+        bodyList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal("json/body.json"));
+
+        //for (int i=0;i<itemList.size();i++){
+        //    switch (itemList.get(i).type) {
+        //        case 0:
+        //            weaponList.add(itemList.get(i));
+        //            break;
+        //        case 1:
+        //            helmList.add(itemList.get(i));
+        //            break;
+        //        case 2:
+        //            bodyList.add(itemList.get(i));
+        //            break;
+        //        default:
+        //            Gdx.app.error("AssetManager", "ItemList: unable to find type "+itemList.get(i).type);
+        //            break;
+        //    }
+        //}
 
         loadValue+=1;
         Gdx.app.log("AssetManager","Chargement asset termine");

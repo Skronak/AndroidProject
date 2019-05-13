@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.utils.ValueDTO;
 
@@ -7,17 +8,19 @@ public class RessourceManager {
 
     private GameManager gameManager;
 
-    public RessourceManager(GameManager gameManager) {
+    public RessourceManager(GameManager gameManager){
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
         this.gameManager = gameManager;
     }
 
     /**
-     * methode d'ajout d'or au tap
+     * Methode d'ajout d'or
      */
     public void increaseGoldActive(){
-        ValueDTO newValue = gameManager.largeMath.increaseValue(GameInformation.INSTANCE.getCurrentGold(), GameInformation.INSTANCE.getCurrency(), GameInformation.INSTANCE.getGenGoldActive(), GameInformation.INSTANCE.getGenCurrencyActive());
-        GameInformation.INSTANCE.setCurrentGold(newValue.getValue());
-        GameInformation.INSTANCE.setCurrency(newValue.getCurrency());
+        ValueDTO newValue = gameManager.largeMath.increaseValue(gameManager.gameInformation.getCurrentGold(), gameManager.gameInformation.getCurrency(), gameManager.gameInformation.getGenGoldActive(), gameManager.gameInformation.getGenCurrencyActive());
+        gameManager.gameInformation.setCurrentGold(newValue.getValue());
+        gameManager.gameInformation.setCurrency(newValue.getCurrency());
         gameManager.largeMath.formatGameInformation();
     }
 
@@ -25,15 +28,15 @@ public class RessourceManager {
      * Ajout d'or passif
      */
     public void increaseGoldPassive(){
-        ValueDTO newValue = gameManager.largeMath.increaseValue(GameInformation.INSTANCE.getCurrentGold(), GameInformation.INSTANCE.getCurrency(), GameInformation.INSTANCE.getGenGoldPassive(), GameInformation.INSTANCE.getGenCurrencyPassive());
-        GameInformation.INSTANCE.setCurrentGold(newValue.getValue());
-        GameInformation.INSTANCE.setCurrency(newValue.getCurrency());
+        ValueDTO newValue = gameManager.largeMath.increaseValue(gameManager.gameInformation.getCurrentGold(), gameManager.gameInformation.getCurrency(), gameManager.gameInformation.getGenGoldPassive(), gameManager.gameInformation.getGenCurrencyPassive());
+        gameManager.gameInformation.setCurrentGold(newValue.getValue());
+        gameManager.gameInformation.setCurrency(newValue.getCurrency());
         gameManager.largeMath.formatGameInformation();
     }
 
     // Methode d'ajout d'or lors d'un critique
     public void increaseGoldCritical() {
-//        GameInformation.INSTANCE.setCurrentGold(GameInformation.INSTANCE.getCurrentGold() + getCriticalValue());
+//        gameManager.gameInformation.setCurrentGold(gameManager.gameInformation.getCurrentGold() + getCriticalValue());
     }
 
     public void calculateGold(){

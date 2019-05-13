@@ -13,8 +13,8 @@ public class FpsActor extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     private long lastTimeCounted;
     private float sinceChange;
 
-    public FpsActor(){
-        super("", AssetManager.INSTANCE.getSkin());
+    public FpsActor(AssetManager assetManager){
+        super("", assetManager.getSkin());
         lastTimeCounted = TimeUtils.millis();
         sinceChange = 0;
     }

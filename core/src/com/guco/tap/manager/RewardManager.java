@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,13 +19,17 @@ public class RewardManager {
     PlayScreen playScreen;
     AnimatedBaseActor restRewardActor;
     boolean rewardToCollect;
+    GameManager gameManager;
 
-    public RewardManager(PlayScreen playScreen){
+    public RewardManager(PlayScreen playScreen, GameManager gameManager){
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
         this.playScreen = playScreen;
+        this.gameManager = gameManager;
     }
 
     public void calculateRestReward() {
-        long diff = System.currentTimeMillis() - GameInformation.INSTANCE.getLastLogin();
+        long diff = System.currentTimeMillis() - gameManager.gameInformation.getLastLogin();
         float hours = (diff / (1000 * 60 * 60));
 
         if (hours >= Constants.DELAY_HOURS_REWARD) {

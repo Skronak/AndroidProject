@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -26,7 +27,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.menu.AchievementMenu;
@@ -62,13 +62,13 @@ public class Hud implements Disposable {
     private SkillMenu skillMenu;
     private ItemMenu itemMenu;
     private Label versionLabel;
-    public Label scoreLabel;
+    public Label goldLabel;
     private Label goldDecreaseLabel;
     private BitmapFont font;
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private GameManager gameManager;
     private Table mainTable;
-    private Button button_1, button_0, button_3, button_2, button_4, button_5;
+    private Button button_1, button_0, button_3, button_2, button_4, button_5, button_6;
     private LargeMath largeMath;
     private AbstractMenu currentMenu;
     private ArrayList<AbstractMenu> activeMenuList;
@@ -77,15 +77,19 @@ public class Hud implements Disposable {
     private EnemyInformation enemyInformation;
     public Label battleNbLabel;
     public ImageButton ascendButton;
+    private GameInformation gameInformation;
+    
+    public Hud(SpriteBatch sb, GameManager gameManager) {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
-    public Hud(SpriteBatch sb, GameManager gameManager, PlayScreen playscreen) {
         largeMath = gameManager.largeMath;
         this.gameManager = gameManager;
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
         stage = new Stage(viewport, sb);
         generator = new com.guco.tap.utils.BitmapFontGenerator();
-        font = AssetManager.INSTANCE.getFont();
+        font = gameManager.assetManager.getFont();
+        gameInformation = gameManager.gameInformation;
         generator.dispose();
         font.setColor(Color.WHITE);
         initMenu();
@@ -148,34 +152,46 @@ public class Hud implements Disposable {
         Texture button6TextureDown = new Texture(Gdx.files.internal("icons/hud_b6_r.png"));
         Texture ascendButtonTextureUp = new Texture(Gdx.files.internal("icons/ascend.png"));
         Texture ascendButtonTextureDown = new Texture(Gdx.files.internal("icons/ascend_r.png"));
+        Texture lockedButton = new Texture(Gdx.files.internal("icons/locked_button.png"));
 
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new TextureRegionDrawable(new TextureRegion(skillButtonTextureUp));
-        style.down = new TextureRegionDrawable(new TextureRegion(skillButtonTextureDown));
-        button_0 = new ImageButton(style);
+        ImageButton.ImageButtonStyle style0 = new ImageButton.ImageButtonStyle();
+        style0.up = new TextureRegionDrawable(new TextureRegion(skillButtonTextureUp));
+        style0.down = new TextureRegionDrawable(new TextureRegion(skillButtonTextureDown));
+        button_0 = new ImageButton(style0);
+
+        ImageButton.ImageButtonStyle style1 = new ImageButton.ImageButtonStyle();
+        style1.up = new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureUp));
+        style1.down =  new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureDown));
+        button_1 = new ImageButton(style1);
+
         ImageButton.ImageButtonStyle style2 = new ImageButton.ImageButtonStyle();
-        style2.up = new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureUp));
-        style2.down =  new TextureRegionDrawable(new TextureRegion(upgradeButtonTextureDown));
-        button_1 = new ImageButton(style2);
+        style2.up = new TextureRegionDrawable(new TextureRegion(achievButtonTextureUp));
+        style2.down = new TextureRegionDrawable(new TextureRegion(achievButtonTextureDown));
+        button_3 = new ImageButton(style2);
+
         ImageButton.ImageButtonStyle style3 = new ImageButton.ImageButtonStyle();
-        style3.up = new TextureRegionDrawable(new TextureRegion(achievButtonTextureUp));
-        style3.down = new TextureRegionDrawable(new TextureRegion(achievButtonTextureDown));
-        button_3 = new ImageButton(style3);
+        style3.up = new TextureRegionDrawable(new TextureRegion(mapButtonTextureUp));
+        style3.down =  new TextureRegionDrawable(new TextureRegion(mapButtonTextureDown));
+        button_2 = new ImageButton(style3);
+
         ImageButton.ImageButtonStyle style4 = new ImageButton.ImageButtonStyle();
-        style4.up = new TextureRegionDrawable(new TextureRegion(mapButtonTextureUp));
-        style4.down =  new TextureRegionDrawable(new TextureRegion(mapButtonTextureDown));
-        button_2 = new ImageButton(style4);
+        style4.up = new TextureRegionDrawable(new TextureRegion(button6TextureUp));
+        style4.down =  new TextureRegionDrawable(new TextureRegion(button6TextureDown));
+        button_4 = new ImageButton(style4);
+
         ImageButton.ImageButtonStyle style5 = new ImageButton.ImageButtonStyle();
-        style5.up = new TextureRegionDrawable(new TextureRegion(button6TextureUp));
-        style5.down =  new TextureRegionDrawable(new TextureRegion(button6TextureDown));
-        button_4 = new ImageButton(style5);
+        style5.up = new TextureRegionDrawable(new TextureRegion(passivButtonTextureDown));
+        style5.down = new TextureRegionDrawable(new TextureRegion(passivButtonTextureup));
+        button_5 = new ImageButton(style5);
+
         ImageButton.ImageButtonStyle style6 = new ImageButton.ImageButtonStyle();
-        style6.up = new TextureRegionDrawable(new TextureRegion(passivButtonTextureDown));
-        style6.down = new TextureRegionDrawable(new TextureRegion(passivButtonTextureup));
-        button_5 = new ImageButton(style6);
+        style6.up = new TextureRegionDrawable(new TextureRegion(lockedButton));
+        style6.down = new TextureRegionDrawable(new TextureRegion(lockedButton));
+        button_6 = new ImageButton(style6);
+
         ImageButton.ImageButtonStyle style7 = new ImageButton.ImageButtonStyle();
-        style7.up = new TextureRegionDrawable(new TextureRegion(ascendButtonTextureUp));
-        style7.down = new TextureRegionDrawable(new TextureRegion(ascendButtonTextureDown));
+        style7.up = new TextureRegionDrawable(new TextureRegion(passivButtonTextureDown));
+        style7.down = new TextureRegionDrawable(new TextureRegion(passivButtonTextureup));
         ascendButton = new ImageButton(style7);
 
         // Declaration des listener
@@ -244,18 +260,21 @@ public class Hud implements Disposable {
         versionLabel = new Label(Constants.CURRENT_VERSION, new Label.LabelStyle(font, Color.WHITE));
         versionLabel.setFontScale(0.5f);
         versionLabel.setWrap(true);
-        scoreLabel = new Label(largeMath.getDisplayValue(GameInformation.INSTANCE.getCurrentGold(), GameInformation.INSTANCE.getCurrency()), new Label.LabelStyle(font, Color.WHITE));
-        scoreLabel.setAlignment(Align.center);
-        scoreLabel.setFontScale(2);
-        floorLabel = new Label(String.valueOf(""+GameInformation.INSTANCE.getDepth()), new Label.LabelStyle(font, Color.WHITE));
-        battleNbLabel = new Label(GameInformation.INSTANCE.currentEnemyIdx+"/10", AssetManager.INSTANCE.getSkin());
+        goldLabel = new Label(largeMath.getDisplayValue(gameInformation.getCurrentGold(), gameInformation.getCurrency()), new Label.LabelStyle(font, Color.WHITE));
+        goldLabel.setAlignment(Align.center);
+//        goldLabel.setFontScale(2);
+        floorLabel = new Label(String.valueOf(""+gameInformation.getDepth()), gameManager.assetManager.getSkin());
+        battleNbLabel = new Label(gameInformation.currentEnemyIdx+"/10", gameManager.assetManager.getSkin());
+        battleNbLabel.setFontScale(0.9f,0.9f);
         goldDecreaseLabel = new Label("", new Label.LabelStyle(font, Color.RED));
         goldDecreaseLabel.setVisible(false);
         goldDecreaseLabel.setFontScale(2);
         goldDecreaseLabel.setAlignment(1);
+
+        Image goldIcon = new Image(gameManager.assetManager.getGoldIcon());
         // Add an animated label when gold is decreased
         Stack stack = new Stack();
-        stack.add(scoreLabel);
+        stack.add(goldLabel);
         stack.add(goldDecreaseLabel);
 
         Table tableTop = new Table();
@@ -263,7 +282,10 @@ public class Hud implements Disposable {
         VerticalGroup verticalGroup = new VerticalGroup();
         verticalGroup.addActor(floorLabel);
         verticalGroup.addActor(battleNbLabel);
+        tableTop.debug();
         tableTop.add(verticalGroup).expandX().left().padLeft(90);
+        tableTop.add(goldIcon).size(30,30).right();
+        tableTop.add(stack).right();
 
         TextureRegionDrawable backgroundImg = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/ui/brown.png")));
         backgroundImg.setMinWidth(Constants.V_WIDTH);
@@ -279,10 +301,11 @@ public class Hud implements Disposable {
         for(int i=0;i<activeMenuList.size();i++) {
             mainTable.addActor(activeMenuList.get(i).getParentTable());
         }
+        mainTable.addActor(skillMenu.getParentTable());
 
         // ***** OTHER *****
         // Hp bar & name
-        enemyInformation = new EnemyInformation();
+        enemyInformation = new EnemyInformation(gameManager);
         stage.addActor(enemyInformation);
 
         // Visual button to go upstairs
@@ -298,12 +321,13 @@ public class Hud implements Disposable {
         menuButtonTable.addActor(button_2);
         menuButtonTable.addActor(button_3);
 
-        menuButtonTable.add(button_0).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(button_1).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(button_2).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-        menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).padLeft(3);
-
+        menuButtonTable.add(button_0).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        menuButtonTable.add(button_1).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        menuButtonTable.add(button_2).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        menuButtonTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        menuButtonTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+;//
         // Assemble hud
         mainTable.add(tableTop).top();
         mainTable.row();
@@ -315,8 +339,8 @@ public class Hud implements Disposable {
        stage.addActor(mainTable);
 
         // Optionnal element
-        fpsActor = new FpsActor();
-        fpsActor.setVisible(GameInformation.INSTANCE.isOptionFps());
+        fpsActor = new FpsActor(gameManager.assetManager);
+        fpsActor.setVisible(gameInformation.isOptionFps());
         fpsActor.setPosition(Constants.V_WIDTH-fpsActor.getWidth(), Constants.V_HEIGHT-fpsActor.getHeight());
         fpsActor.setFontScale(1.5f);
         stage.addActor(fpsActor);
@@ -332,7 +356,7 @@ public class Hud implements Disposable {
     }
 
     public void animateCritical() {
-        scoreLabel.addAction(Actions.sequence(
+        goldLabel.addAction(Actions.sequence(
                 Actions.color(Constants.CRITICAL_LABEL_COLOR),
                 Actions.color(Color.WHITE,0.5f)
         ));
@@ -355,25 +379,27 @@ public class Hud implements Disposable {
     }
 
     /**
-     * Modification du listener d'input en fonction de l'etat
+     * Show or hide menu table and play
+     * animation
      */
     private void toggleMenu(AbstractMenu menu) {
-        // Masque tous les menu
-        for (int i = 0; i < activeMenuList.size(); i++) {
-            activeMenuList.get(i).getParentTable().setVisible(false);
-            gameManager.currentState=GameState.IN_GAME;
-        }
-
-        // Affiche le menu concerné si non visible sinon le ferme
-        if (!menu.equals(currentMenu)) {
+        menu.getParentTable().clearActions();
+        if (currentMenu == null) {
             menu.getParentTable().setPosition(menu.getParentTable().getX(), -menu.getParentTable().getHeight()); //Menu Animation
-            gameManager.currentState=GameState.MENU;
+            menu.getParentTable().setVisible(true);
             menu.getParentTable().addAction(Actions.moveTo(menu.getParentTable().getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
+            currentMenu = menu;
+            gameManager.currentState=GameState.MENU;
+        } else if (menu.equals(currentMenu)) {
+            menu.getParentTable().addAction(Actions.sequence(Actions.moveTo(menu.getParentTable().getX(), -menu.getParentTable().getHeight(),0.2f),Actions.visible(false)));
+            currentMenu = null;
+            gameManager.currentState=GameState.IN_GAME;
+        } else {
+            currentMenu.getParentTable().setVisible(false);
             menu.updateOnShow();
             menu.getParentTable().setVisible(true);
             currentMenu = menu;
-        } else {
-            currentMenu = null;
+            gameManager.currentState=GameState.MENU;
         }
     }
 
@@ -390,7 +416,7 @@ public class Hud implements Disposable {
     }
 
     public void initEnemyInformation(EnemyActor enemyActor){
-        floorLabel.setText("Floor "+GameInformation.INSTANCE.getDepth());
+        floorLabel.setText("Floor "+gameInformation.getDepth());
         enemyInformation.reinitialise(enemyActor);
     }
 
@@ -401,8 +427,8 @@ public class Hud implements Disposable {
 
     // Met a jour l'affichage de l'or
     public void updateGoldLabel(){
-        String scoreAffichage = largeMath.getDisplayValue(GameInformation.INSTANCE.getCurrentGold(), GameInformation.INSTANCE.getCurrency());
-        scoreLabel.setText(scoreAffichage);
+        String scoreAffichage = largeMath.getDisplayValue(gameInformation.getCurrentGold(), gameInformation.getCurrency());
+        goldLabel.setText(scoreAffichage);
     }
 
     // Met a jour l'affichage du menu actif

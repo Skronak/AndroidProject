@@ -31,8 +31,8 @@ public abstract class AbstractMenu {
     public void initMenu() {
         menu_width = Constants.V_WIDTH - Constants.UPDATE_MENU_PAD_EXTERNAL_WIDTH;
         menu_height = Constants.V_HEIGHT - Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT - (Constants.UPDATE_MENU_PAD_EXTERNAL_HEIGHT);
-        menuBackground = AssetManager.INSTANCE.getMenuBackgroundTexture();
-        skin = AssetManager.INSTANCE.getSkin();
+        menuBackground = gameManager.assetManager.getMenuBackgroundTexture();
+        skin = gameManager.assetManager.getSkin();
 
         // Definition du menu
         parentTable = new Table();

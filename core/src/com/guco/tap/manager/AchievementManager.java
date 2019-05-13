@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.badlogic.gdx.Gdx;
 import com.guco.tap.achievement.AchievementElement;
 import com.guco.tap.entity.GameInformation;
 
@@ -13,10 +14,11 @@ public class AchievementManager {
     public List<AchievementElement> achievementElementList;
 
     public AchievementManager(GameManager gameManager) {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameManager = gameManager;
 
         // Retrieve Achievement from AssetManager
-        this.achievementElementList = AssetManager.INSTANCE.getAchievementElementList();
+        this.achievementElementList = gameManager.assetManager.getAchievementElementList();
 
         // Init all achievement status with information from current GameInformation
         updateAchivementElementStatus();
@@ -28,14 +30,16 @@ public class AchievementManager {
      */
     public void updateAchivementElementStatus() {
         for (int i = 0; i < achievementElementList.size(); i++) {
-            switch (GameInformation.INSTANCE.getAchievList().get(i)) {
+            achievementElementList.get(i).condition.gameInformation = gameManager.gameInformation;
+            switch (gameManager.gameInformation.getAchievList().get(i)) {
                 case 0:
                     achievementElementList.get(i).isAchieved = achievementElementList.get(i).condition.isAchieved();
                     achievementElementList.get(i).isClaimed = false;
+                    achievementElementList.get(i).isNew = true;
                     if (achievementElementList.get(i).isAchieved){
-                        GameInformation.INSTANCE.getAchievList().set(i,0);
+                        gameManager.gameInformation.getAchievList().set(i,0);
                     } else {
-                        GameInformation.INSTANCE.getAchievList().set(i, 0);
+                        gameManager.gameInformation.getAchievList().set(i, 0);
                     }
                     break;
                 case 1:

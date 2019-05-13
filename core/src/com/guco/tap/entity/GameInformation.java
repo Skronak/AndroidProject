@@ -2,6 +2,7 @@ package com.guco.tap.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.utils.Constants;
 
@@ -14,8 +15,7 @@ import java.util.List;
  * Classe de stat & information sur le compte du jeu
  * // TODO store all current ModuleElement
  */
-public enum GameInformation {
-    INSTANCE;
+public class GameInformation {
 
     // dernier login
     private Long lastLogin;
@@ -56,13 +56,15 @@ public enum GameInformation {
     // Character current equipement/ 0: head 1: body 2: weapon
     public List<Integer> characterEquipedList;
     public List<Integer> itemLevellist;
+    public TapDungeonGame game;
 
-    GameInformation() {
+    public GameInformation(TapDungeonGame game) {
         upgradeLevelList = new ArrayList<Integer>();
         achievList = new ArrayList<Integer>();
         itemLevellist = new ArrayList<Integer>();
         characterEquipedList = new ArrayList<Integer>();
         prefs = Gdx.app.getPreferences(Constants.APP_NAME);
+        this.game=game;
 
         if (!prefs.contains("lastLogin")) {
             Gdx.app.debug("GameInformation", "Initialisation du compte par defaut");
@@ -87,7 +89,7 @@ public enum GameInformation {
         prefs.putInteger("genCurrencyPassive", genCurrencyPassive);
         prefs.putInteger("criticalRate", criticalRate);
         prefs.putInteger("stationId", stationId);
-        for (int i=0;i<AssetManager.INSTANCE.getModuleElementList().size();i++){
+        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
             prefs.putInteger("upgradeLevel"+i, upgradeLevelList.get(i));
         }
         prefs.putLong("lastLogin", System.currentTimeMillis());
@@ -128,16 +130,16 @@ public enum GameInformation {
         stationId = 0;
         skillPoint = 0;
 
-        for (int i=0;i<AssetManager.INSTANCE.getModuleElementList().size();i++){
+        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
             upgradeLevelList.add(0);
         }
-        for (int i=0;i<AssetManager.INSTANCE.getAchievementElementList().size();i++){
+        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
             achievList.add(0);
         }
         for (int i=0;i<3;i++) {
             characterEquipedList.add(1);
         }
-        for (int i=0;i<AssetManager.INSTANCE.getItemList().size();i++){
+        for (int i=0;i<game.assetManager.getItemList().size();i++){
             itemLevellist.add(0);
         }
 
@@ -166,7 +168,7 @@ public enum GameInformation {
         criticalRate = prefs.getInteger("criticalRate");
         stationId = prefs.getInteger("stationId");
         skillPoint = prefs.getInteger("skillPoint");
-        for (int i=0;i<AssetManager.INSTANCE.getModuleElementList().size();i++){
+        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
             upgradeLevelList.add(prefs.getInteger("upgradeLevel"+i));
         }
         lastLogin = prefs.getLong("lastLogin");
@@ -175,13 +177,13 @@ public enum GameInformation {
         factionExp = prefs.getInteger("factionExp");
         factionId = prefs.getInteger("factionId");
         factionLvl = prefs.getInteger("factionLvl");
-        for (int i=0;i<AssetManager.INSTANCE.getAchievementElementList().size();i++){
+        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
             achievList.add(prefs.getInteger("achiev_"+i));
         }
         for (int i=0;i<5;i++) {
             characterEquipedList.add(prefs.getInteger("equip_"+i));
         }
-        for (int i=0;i<AssetManager.INSTANCE.getItemList().size();i++){
+        for (int i=0;i<game.assetManager.weaponList.size();i++){
             itemLevellist.add(prefs.getInteger("item"+i));
         }
         optionSound=prefs.getBoolean("optionSound");

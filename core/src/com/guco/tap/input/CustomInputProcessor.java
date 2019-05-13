@@ -3,6 +3,7 @@ package com.guco.tap.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.screen.PlayScreen;
@@ -30,7 +31,7 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) )
-            GameInformation.INSTANCE.saveInformation();
+            gameManager.gameInformation.saveInformation();
             Gdx.app.debug("Closing application", "close");
         return false;
     }
@@ -47,14 +48,16 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Gdx.app.debug("touch",String.valueOf(playScreen.getMousePosInGameWorld().x + " // "+playScreen.getMousePosInGameWorld().y));
+
         if (gameManager.currentState.equals(GameState.IN_GAME)) {
             int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
             playScreen.processHit();
             if (randCritical == 1) {
-                gameManager.ressourceManager.increaseGoldCritical();
+//                gameManager.ressourceManager.increaseGoldCritical();
                 playScreen.processCriticalHit(gameManager.getCriticalValue());
             } else {
-                gameManager.ressourceManager.increaseGoldActive();
+//                gameManager.ressourceManager.increaseGoldActive();
                 playScreen.processNormalHit();
             }
             playScreen.processPointerHitAnimation(screenX, screenY);
@@ -64,7 +67,7 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        GameInformation.INSTANCE.setTotalTapNumber(GameInformation.INSTANCE.getTotalTapNumber()+1);
+        gameManager.gameInformation.setTotalTapNumber(gameManager.gameInformation.getTotalTapNumber()+1);
 
         return false;
     }

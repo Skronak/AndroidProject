@@ -22,7 +22,7 @@ public class OptionMenu extends AbstractMenu {
     public OptionMenu(GameManager gameManager) {
         super(gameManager);
 
-        resetButton = new TextButton("reset account",AssetManager.INSTANCE.getSkin());
+        resetButton = new TextButton("reset account",gameManager.assetManager.getSkin());
         resetButton.setDisabled(true);
         resetButton.addListener(new InputListener(){
             @Override
@@ -32,7 +32,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        weatherButton = new TextButton("disable weather",AssetManager.INSTANCE.getSkin());
+        weatherButton = new TextButton("disable weather",gameManager.assetManager.getSkin());
         weatherButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -41,7 +41,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        soundButton = new TextButton("disable sound", AssetManager.INSTANCE.getSkin());
+        soundButton = new TextButton("disable sound", gameManager.assetManager.getSkin());
         soundButton.setDisabled(true);
         soundButton.addListener(new InputListener(){
             @Override
@@ -51,7 +51,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        fpsButton = new TextButton("Show FPS",AssetManager.INSTANCE.getSkin());
+        fpsButton = new TextButton("Show FPS",gameManager.assetManager.getSkin());
         fpsButton.setDisabled(true);
         fpsButton.addListener(new InputListener(){
             @Override
@@ -61,7 +61,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        goldButton = new TextButton("Max Gold",AssetManager.INSTANCE.getSkin());
+        goldButton = new TextButton("Max Gold",gameManager.assetManager.getSkin());
         goldButton.setDisabled(true);
         goldButton.addListener(new InputListener(){
             @Override
@@ -76,32 +76,32 @@ public class OptionMenu extends AbstractMenu {
 
 
     public void switchSoundMode(){
-        GameInformation.INSTANCE.setOptionSound(!GameInformation.INSTANCE.isOptionSound());
+        gameManager.gameInformation.setOptionSound(!gameManager.gameInformation.isOptionSound());
         update();
     }
 
     public void switchFpsMode(){
-        GameInformation.INSTANCE.setOptionFps(!GameInformation.INSTANCE.isOptionFps());
-        gameManager.playScreen.getHud().fpsActor.setVisible(GameInformation.INSTANCE.isOptionFps());
+        gameManager.gameInformation.setOptionFps(!gameManager.gameInformation.isOptionFps());
+        gameManager.playScreen.getHud().fpsActor.setVisible(gameManager.gameInformation.isOptionFps());
         update();
     }
 
     public void switchWeatherMode(){
-        GameInformation.INSTANCE.setOptionWeather(!GameInformation.INSTANCE.isOptionWeather());
+        gameManager.gameInformation.setOptionWeather(!gameManager.gameInformation.isOptionWeather());
         //gameManager.weatherManager.stopAll();
         update();
     }
 
     public void triggerReset(){
-        GameInformation.INSTANCE.reset();
+        gameManager.gameInformation.reset();
         gameManager.moduleManager.evaluateModuleGeneration();
         gameManager.playScreen.getHud().updateCurrentMenu();
 //        gameManager.stationEntity.initModules();
     }
 
     public void addGoldMode(){
-        GameInformation.INSTANCE.setCurrentGold(999);
-        GameInformation.INSTANCE.setCurrency(99);
+        gameManager.gameInformation.setCurrentGold(999);
+        gameManager.gameInformation.setCurrency(99);
     }
 
     public void customizeMenuTable() {
@@ -113,7 +113,7 @@ public class OptionMenu extends AbstractMenu {
         parentTable.row();
         parentTable.add(fpsButton).left().pad(20);
         parentTable.row();
-        parentTable.add(new Label("***DEBUG***", AssetManager.INSTANCE.getSkin()));
+        parentTable.add(new Label("***DEBUG***", gameManager.assetManager.getSkin()));
         parentTable.row();
         parentTable.add(resetButton).expandX().left().pad(20);
         parentTable.row();
@@ -122,17 +122,17 @@ public class OptionMenu extends AbstractMenu {
 
     @Override
     public void updateOnShow(){
-        if (GameInformation.INSTANCE.isOptionWeather()){
+        if (gameManager.gameInformation.isOptionWeather()){
             weatherButton.setText("Disable Weather");
         } else {
             weatherButton.setText("Enable Weather");
         }
-        if (GameInformation.INSTANCE.isOptionSound()){
+        if (gameManager.gameInformation.isOptionSound()){
             soundButton.setText("Disable Sound");
         } else {
             soundButton.setText("Enable Sound");
         }
-        if (GameInformation.INSTANCE.isOptionFps()){
+        if (gameManager.gameInformation.isOptionFps()){
             fpsButton.setText("Hide Fps");
         } else {
             fpsButton.setText("Show Fps");

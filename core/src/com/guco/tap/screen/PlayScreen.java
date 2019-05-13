@@ -11,7 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,14 +27,10 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
 import com.guco.tap.Animation.AnimatedActor;
 import com.guco.tap.Animation.TapActor;
-import com.guco.tap.action.RescaleLabelAction;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.actor.CharacterAnimatedActor;
 import com.guco.tap.effect.TorchParticleSEffect;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.input.CustomInputProcessor;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.FlamEffectActor;
@@ -49,7 +48,6 @@ public class PlayScreen implements Screen {
 
     // common batch for screen/hud
     private SpriteBatch spriteBatch;
-    private GameManager gameManager;
     private Random random;
     public Stage stage;
     public OrthographicCamera camera;
@@ -72,19 +70,27 @@ public class PlayScreen implements Screen {
     Drawer<Sprite> drawer,enemyDrawer;
     public Player player;
     Player boss;
-
+    GameManager gameManager;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
     ShaderProgram blurShader;
-    Texture backgroundTexture;
+
+
+    /**
+     * Constructor
+     * @param gameManager
+     */
+    public PlayScreen(GameManager gameManager) {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+
+        this.gameManager=gameManager;
+    }
 
     @Override
     public void show() {
         textAnimMinX =100;
-
         spriteBatch = new SpriteBatch();
         random = new Random();
-        gameManager = new GameManager(this);
         camera = new OrthographicCamera(Constants.V_WIDTH, Constants.V_HEIGHT);
         viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
         stage = new Stage(viewport, spriteBatch);
@@ -92,13 +98,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        hud = new Hud(spriteBatch, gameManager, this);
+        hud = new Hud(spriteBatch, gameManager);
         gameManager.initialiseGame();
 
         //tapActor
         tapActor = new TapActor();
 
-        backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
 
@@ -134,16 +140,15 @@ public class PlayScreen implements Screen {
 
         // Ajout des objets dans les calques
         layer0GraphicObject.addActor(backgroundImage);
-        layer0GraphicObject.addActor(doorImage);
         layer1GraphicObject.addActor(enemyActorList.get(2));
         layer1GraphicObject.addActor(enemyActorList.get(1));
         layer1GraphicObject.addActor(enemyActorList.get(0));
         layer2GraphicObject.addActor(doorImage);
         hud.update();
 
-        if (GameInformation.INSTANCE.isFirstPlay()) {
-            displayTutorial();
-        }
+        //if (gameManager.isFirstPlay()) {
+        //    displayTutorial();
+        //}
 
         CustomInputProcessor inputProcessor = new CustomInputProcessor(this);
         inputMultiplexer = new InputMultiplexer();
@@ -253,7 +258,7 @@ public class PlayScreen implements Screen {
         player.setAnimation("atk");
         gameManager.hurtEnemy();
 
-        damageLabel = new Label(gameManager.largeMath.getDisplayValue(GameInformation.INSTANCE.getGenGoldActive(), GameInformation.INSTANCE.getGenCurrencyActive()),new Label.LabelStyle(AssetManager.INSTANCE.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.getGenGoldActive(), gameManager.gameInformation.getGenCurrencyActive()),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
@@ -323,7 +328,11 @@ public class PlayScreen implements Screen {
         hud.dispose();
         Gdx.app.debug("PlayScreen","saveInformation");
         gameManager.largeMath.formatGameInformation();
-        GameInformation.INSTANCE.saveInformation();
+        gameManager.gameInformation.saveInformation();
+    }
+
+    public Vector3 getMousePosInGameWorld() {
+        return camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     }
 
 //*****************************************************
@@ -341,10 +350,6 @@ public class PlayScreen implements Screen {
     public Group getLayer1GraphicObject() {
         return layer1GraphicObject;
     }
-
-   // public StationEntity getStationEntity() {
-   //     return stationEntity;
-   // }
 
     public Image getBackgroundImage() {
         return backgroundImage;

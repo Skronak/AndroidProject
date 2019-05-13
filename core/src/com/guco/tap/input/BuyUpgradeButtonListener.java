@@ -3,6 +3,7 @@ package com.guco.tap.input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.manager.GameManager;
 import com.guco.tap.manager.ModuleManager;
 
 /**
@@ -14,11 +15,12 @@ public class BuyUpgradeButtonListener extends ClickListener {
     // Identifiant du module rattaché au listener
     private ModuleManager moduleManager;
     private int idModule;
+    private GameInformation gameInformation;
 
-
-    public BuyUpgradeButtonListener(ModuleManager moduleManager, int id) {
+    public BuyUpgradeButtonListener(GameInformation gameInformation, ModuleManager moduleManager, int id) {
         this.moduleManager = moduleManager;
         this.idModule = id;
+        this.gameInformation = gameInformation;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class BuyUpgradeButtonListener extends ClickListener {
         if (moduleManager.isAvailableUpgrade(idModule)) {
             moduleManager.increaseModuleLevel(idModule);
             moduleManager.updateModuleMenuInformation(idModule);
-            GameInformation.INSTANCE.saveInformation();
+            gameInformation.saveInformation(); // TODO not here
         }
         return false;
     }

@@ -19,6 +19,11 @@
         <file id="15" name="Legs 23.png" width="59" height="71" pivot_x="0.423729" pivot_y="0.859155"/>
         <file id="16" name="Left Arm1.png" width="62" height="98" pivot_x="0.516129" pivot_y="0.785714"/>
         <file id="17" name="jump.png" width="570" height="382" pivot_x="0" pivot_y="1"/>
+        <file id="18" name="sword_4.png" width="106" height="328" pivot_x="0.509434" pivot_y="0.0762195"/>
+        <file id="19" name="sword_5.png" width="106" height="328" pivot_x="0.301887" pivot_y="0.0609756"/>
+        <file id="20" name="sword_6.png" width="102" height="301" pivot_x="0.392157" pivot_y="0.13289"/>
+        <file id="21" name="sword_7.png" width="95" height="430" pivot_x="0.347368" pivot_y="0.172093"/>
+        <file id="22" name="ps4007.tmp" width="102" height="463" pivot_x="0.382353" pivot_y="0.172786"/>
     </folder>
     <tag_list>
         <i id="0" name="hit"/>
@@ -31,31 +36,39 @@
         <obj_info name="bone_002" type="bone" w="137.153" h="10"/>
         <obj_info name="bone_001" type="bone" w="31.6105" h="10"/>
         <obj_info name="bone_000" type="bone" w="67" h="10"/>
-        <character_map id="0" name="sword3">
-            <map folder="0" file="6" target_folder="0" target_file="11"/>
-        </character_map>
-        <character_map id="1" name="sword2">
-            <map folder="0" file="6" target_folder="0" target_file="10"/>
-        </character_map>
-        <character_map id="2" name="sword4">
-            <map folder="0" file="6" target_folder="0" target_file="9"/>
-        </character_map>
-        <character_map id="3" name="head2">
+        <character_map id="0" name="head1">
             <map folder="0" file="2" target_folder="0" target_file="12"/>
         </character_map>
-        <character_map id="4" name="body1">
+        <character_map id="1" name="body1">
             <map folder="0" file="0" target_folder="0" target_file="13"/>
             <map folder="0" file="3" target_folder="0" target_file="16"/>
             <map folder="0" file="4" target_folder="0" target_file="14"/>
             <map folder="0" file="5" target_folder="0" target_file="15"/>
         </character_map>
-        <character_map id="5" name="leg3">
-            <map folder="0" file="4" target_folder="0" target_file="14"/>
-            <map folder="0" file="5" target_folder="0" target_file="15"/>
+        <character_map id="2" name="sword0"/>
+        <character_map id="3" name="sword1">
+            <map folder="0" file="6" target_folder="0" target_file="9"/>
         </character_map>
-        <character_map id="6" name="arms3">
-            <map folder="0" file="3" target_folder="0" target_file="16"/>
+        <character_map id="4" name="sword2">
+            <map folder="0" file="6" target_folder="0" target_file="10"/>
         </character_map>
+        <character_map id="5" name="sword3">
+            <map folder="0" file="6" target_folder="0" target_file="11"/>
+        </character_map>
+        <character_map id="6" name="sword4">
+            <map folder="0" file="6" target_folder="0" target_file="18"/>
+        </character_map>
+        <character_map id="7" name="sword5">
+            <map folder="0" file="6" target_folder="0" target_file="19"/>
+        </character_map>
+        <character_map id="8" name="sword6">
+            <map folder="0" file="6" target_folder="0" target_file="20"/>
+        </character_map>
+        <character_map id="9" name="sword7">
+            <map folder="0" file="6" target_folder="0" target_file="21"/>
+        </character_map>
+        <character_map id="10" name="head0"/>
+        <character_map id="11" name="body0"/>
         <animation id="0" name="idle" length="600" interval="100">
             <mainline>
                 <key id="0">

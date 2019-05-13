@@ -282,7 +282,6 @@ public class Hud implements Disposable {
         VerticalGroup verticalGroup = new VerticalGroup();
         verticalGroup.addActor(floorLabel);
         verticalGroup.addActor(battleNbLabel);
-        tableTop.debug();
         tableTop.add(verticalGroup).expandX().left().padLeft(90);
         tableTop.add(goldIcon).size(30,30).right();
         tableTop.add(stack).right();
@@ -291,7 +290,6 @@ public class Hud implements Disposable {
         backgroundImg.setMinWidth(Constants.V_WIDTH);
         backgroundImg.setMinHeight(40);
         tableTop.setBackground(backgroundImg);
-//        tableTop.debug();
 
         mainTable = new Table();
         mainTable.top();

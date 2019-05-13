@@ -41,8 +41,9 @@ public class AssetManager {
     public ArrayList<Enemy> enemyList;
     private ArrayList<ItemEntity> itemList;
     public ArrayList<ItemEntity> weaponList,helmList, bodyList;
-    public Texture redTexture, orangeTexture, crossTexture, greyTexture;
-    public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4;
+    public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture;
+    public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
+    public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4, torchTexture;
     private int loadValue;
 
     public AssetManager() {
@@ -131,7 +132,9 @@ public class AssetManager {
     public void loadTexture() {
         scrollTexture = new Texture(Gdx.files.internal("sprites/menu/bar.png"));
         menuBackgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("sprites/menu/menuBackground.png"))));
+        torchTexture = new Texture(Gdx.files.internal("sprites/object/torch.png"));
     }
+
     public void loadImage() {
         moduleDrawableUpList = new ArrayList<Texture>();
         upgradeLvlImageList = new ArrayList<Texture>();
@@ -161,12 +164,20 @@ public class AssetManager {
         orangeTexture = new Texture(Gdx.files.internal("sprites/ui/orange.png"));
         greyTexture = new Texture(Gdx.files.internal("sprites/ui/grey.png"));
         crossTexture = new Texture(Gdx.files.internal("sprites/ui/red_orange.png"));
+        lightGreyTexture = new Texture(Gdx.files.internal("sprites/ui/lightGrey.png"));
 
         diffTexture0 = new Texture(Gdx.files.internal("icons/diff0.png"));
         diffTexture1 = new Texture(Gdx.files.internal("icons/diff1.png"));
         diffTexture2 = new Texture(Gdx.files.internal("icons/diff2.png"));
         diffTexture3 = new Texture(Gdx.files.internal("icons/diff3.png"));
         diffTexture4 = new Texture(Gdx.files.internal("icons/diff4.png"));
+
+        bodyHTexture = new Texture(Gdx.files.internal("icons/icon_header_body.png"));
+        headHTexture = new Texture(Gdx.files.internal("icons/icon_header_head.png"));
+        weapHTexture = new Texture(Gdx.files.internal("icons/icon_header_sword.png"));
+        bodyHTextureR = new Texture(Gdx.files.internal("icons/icon_header_body_r.png"));
+        headHTextureR = new Texture(Gdx.files.internal("icons/icon_header_head_r.png"));
+        weapHTextureR = new Texture(Gdx.files.internal("icons/icon_header_sword_r.png"));
     }
 
 

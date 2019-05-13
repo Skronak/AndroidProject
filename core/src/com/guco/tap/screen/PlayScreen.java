@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
     private int textAnimMinX;
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage;
-    private Image doorImage;
+    private Image doorImage, torchImage;
     private Group layer0GraphicObject = new Group(); // Background
     public Group layer1GraphicObject = new Group(); // Objects
     private Group layer2GraphicObject = new Group(); // Foreground
@@ -116,7 +116,6 @@ public class PlayScreen implements Screen {
         doorImage.setSize(backgroundImage.getWidth(),backgroundImage.getHeight());
         doorImage.setPosition(backgroundImage.getX(),backgroundImage.getY());
 
-
         EnemyActor enemyActor = gameManager.enemyActorQueue.get(0);
         enemyActor.setPosition(130,220);
 
@@ -138,8 +137,18 @@ public class PlayScreen implements Screen {
         stage.addActor(layer1GraphicObject);
         stage.addActor(layer2GraphicObject);
 
+        // Init torch
+        torchImage = new Image(gameManager.assetManager.torchTexture);
+        torchImage.setSize(20,50);
+        torchImage.setPosition(140,290);
+        torchParticleSEffect=new TorchParticleSEffect(200,200);
+        FlamEffectActor flamEffectActor = new FlamEffectActor(150,350);
+        flamEffectActor.start();
+
         // Ajout des objets dans les calques
         layer0GraphicObject.addActor(backgroundImage);
+        layer0GraphicObject.addActor(torchImage);
+        layer0GraphicObject.addActor(flamEffectActor);
         layer1GraphicObject.addActor(enemyActorList.get(2));
         layer1GraphicObject.addActor(enemyActorList.get(1));
         layer1GraphicObject.addActor(enemyActorList.get(0));
@@ -155,11 +164,6 @@ public class PlayScreen implements Screen {
         inputMultiplexer.addProcessor(hud.getStage());
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-        torchParticleSEffect=new TorchParticleSEffect(200,200);
-        FlamEffectActor flamEffectActor = new FlamEffectActor(150,350);
-        flamEffectActor.start();
-        stage.addActor(flamEffectActor);
 
         player=gameManager.loadPlayer();
         boss=gameManager.loadBoss();

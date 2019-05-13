@@ -1,16 +1,20 @@
 package com.guco.tap.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.ItemMenu;
 
 /**
  * Represente un module dans le menu deroulant des modules
@@ -31,10 +35,14 @@ public class ItemMenuElement extends Table {
     private GameInformation gameInformation;
     private TextButton buyButton;
     private TextButton equipButton;
+    private String ICON_PATH = "icons/";
+    private ItemMenu itemMenu;
 
-    public ItemMenuElement(GameManager gameManager){
+    public ItemMenuElement(GameManager gameManager, ItemMenu itemMenu){
         this.gameInformation = gameManager.gameInformation;
         this.gameManager = gameManager;
+        this.itemMenu = itemMenu;
+        this.debug();
     }
 
     /**
@@ -42,11 +50,14 @@ public class ItemMenuElement extends Table {
      * dans la liste de tous les modules.
      * @param source
      */
-    public void initModuleMenuElement(ItemEntity source) {
+    public void initModuleMenuElement(final ItemEntity source) {
         itemEntitySource = source;
 //        int currentLevel = gameInformation.getUpgradeLevelList().get(i);
         int currentLevel = itemEntitySource.level;
+        skillIcon = new Image(new Texture(ICON_PATH+source.icon));
         itemNameLabel = new Label("", gameManager.assetManager.getSkin());
+        itemNameLabel.setWrap(true);
+        itemNameLabel.setFontScale(0.7f);
         activeGoldLabel = new Label("Damage +0%", gameManager.assetManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
         passiveGoldLabel = new Label("", gameManager.assetManager.getSkin());
@@ -62,32 +73,38 @@ public class ItemMenuElement extends Table {
             }});
 
         equipButton = new TextButton("EQUIP", gameManager.assetManager.getSkin());
+        equipButton.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            setSelected();
+            return true;
+            }
+        });
 
         // Icon enable/disabled
         if (currentLevel==0) {
-            Texture skillTexture = gameManager.assetManager.getDisabledIcon();
-            skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            skillIcon = new Image(skillTexture);
-        } else {
-            //Texture skillTexture = gameManager.assetManager.getModuleDrawableUpList().get(i);
+            //Texture skillTexture = gameManager.assetManager.getDisabledIcon();
             //skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             //skillIcon = new Image(skillTexture);
         }
 
         // Liste level actuel du module
-        //this.add(skillIcon).width(60).height(60);
         Table moduleLevelGroup = new Table();
-        moduleLevelGroup.add(itemNameLabel).expandX().top();
-        moduleLevelGroup.add(levelLabel);
+        moduleLevelGroup.add(itemNameLabel).expandX().left();
+        moduleLevelGroup.add(levelLabel).width(50).right();
         moduleLevelGroup.row();
         moduleLevelGroup.add(activeGoldLabel).left();
         moduleLevelGroup.row();
-        moduleLevelGroup.add(equipButton).fill();
+        moduleLevelGroup.add(equipButton).fill().width(50);
         moduleLevelGroup.add(upgradeButton).height(40).width(40).right();
-        this.add(skillIcon).width(50).height(50);
+        this.add(skillIcon).width(50).height(75);
         this.add(moduleLevelGroup).left();
-
+        moduleLevelGroup.debug();
         update();
+    }
+
+    public void setSelected(){
+        gameManager.playScreen.player.characterMaps[itemEntitySource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemEntitySource.mapName);
+        itemMenu.setSelectedItem(this);
     }
 
     public void update() {

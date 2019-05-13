@@ -105,7 +105,7 @@ public class OptionMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        parentTable.add(new Label("OPTION", skin)).top();
+        parentTable.add(new Label("OPTION", skin)).bottom().padTop(20).colspan(2);
         parentTable.row();
         parentTable.add(weatherButton).expandX().left().pad(20);
         parentTable.row();

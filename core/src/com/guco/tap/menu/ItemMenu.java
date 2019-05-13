@@ -1,28 +1,27 @@
 package com.guco.tap.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.Player;
-import com.guco.tap.entity.GameInformation;
+import com.badlogic.gdx.utils.Align;
 import com.guco.tap.entity.ItemMenuElement;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.control.Tab;
 
 /**
  * Created by Skronak on 01/02/2017.
@@ -33,78 +32,83 @@ public class ItemMenu extends AbstractMenu {
     private Label detailDescription;
     private Label detailLevel;
     private Label detailTitre;
-    private Stack stack;
     // indique le skill actuellement selectionne
-    private int currentSelection;
-    private List<ImageButton> moduleButtonList;
-    private VerticalGroup scrollContainerVG;
-    private TextButton headButton,bodyButton,weapButton;
-    private ScrollPane weaponPane, bodyPane, helmPane;
+    private VerticalGroup weaponVG, bodyVG, headVG, currentVG;
+    private ImageButton headButton,bodyButton,weapButton;
+    private ScrollPane menuPane;
+    private TextureRegionDrawable selectedRegionDrawable, backgroundRegionDrawable;
 
     public ItemMenu(GameManager gameManager) {
         super(gameManager);
-        initHeaderButton();
         customizeMenuTable();
-        currentSelection = 1;
     }
 
     public void customizeMenuTable() {
         parentTable.add(new Label("INVENTORY", skin)).bottom().padTop(20).colspan(2);
         parentTable.row();
-        parentTable.add(new Label("canvas         ", gameManager.assetManager.getSkin())).padTop(10);
-        parentTable.add(initHeaderButton());
+        Image image = new Image(new Texture(Gdx.files.internal("sprites/test/body1_idle_1.png")));
+        parentTable.add(image).top().width(100).fill().padTop(5).height(200);
+        parentTable.add(initMenuContent()).expandX().top().padTop(5);
     }
 
-    public Table initHeaderButton() {
+    public Table initMenuContent() {
         final Table table = new Table();
+        selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.greyTexture));
+        selectedRegionDrawable.setMinHeight(1);
+        selectedRegionDrawable.setMinWidth(1);
 
-        headButton = new TextButton("head", gameManager.assetManager.getSkin());
+        backgroundRegionDrawable= new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.lightGreyTexture));
+        backgroundRegionDrawable.setMinHeight(1);
+        backgroundRegionDrawable.setMinWidth(1);
+
+        ImageButton.ImageButtonStyle styleHead = new ImageButton.ImageButtonStyle();
+        styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.headHTexture));
+        styleHead.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.headHTextureR));
+        headButton = new ImageButton(styleHead);
         headButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                weaponPane.setVisible(false);
-                bodyPane.setVisible(false);
-                helmPane.setVisible(true);
-                table.getCells().get(3).setActor(helmPane);
+                currentVG = headVG;
+                menuPane.setActor(currentVG);
                 return true;
             }
         });
-        bodyButton = new TextButton("body",gameManager.assetManager.getSkin());
-        bodyButton.addListener(new InputListener(){
+
+        ImageButton.ImageButtonStyle styleBody = new ImageButton.ImageButtonStyle();
+        styleBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.bodyHTexture));
+        styleBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.bodyHTextureR));
+        bodyButton = new ImageButton(styleBody);
+        bodyButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                weaponPane.setVisible(false);
-                bodyPane.setVisible(true);
-                helmPane.setVisible(false);
-                table.getCells().get(3).setActor(bodyPane);
+                currentVG = bodyVG;
+                menuPane.setActor(currentVG);
                 return true;
             }
         });
-        weapButton = new TextButton("weap",gameManager.assetManager.getSkin());
-        weapButton.addListener(new InputListener(){
+
+        ImageButton.ImageButtonStyle weapBody = new ImageButton.ImageButtonStyle();
+        weapBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.weapHTexture));
+        weapBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.weapHTextureR));
+        weapButton = new ImageButton(weapBody);
+        weapButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                weaponPane.setVisible(true);
-                bodyPane.setVisible(false);
-                helmPane.setVisible(false);
-                table.getCells().get(3).setActor(weaponPane);
+                currentVG = weaponVG;
+                menuPane.setActor(currentVG);
                 return true;
             }
         });
 
-        weaponPane = initWeaponPane();
-        bodyPane = initBodyPane();
-        helmPane = initHelmPane();
+        initVG();
+        menuPane = initPane(weaponVG);
 
-        weaponPane.setVisible(false);
-        bodyPane.setVisible(false);
-        helmPane.setVisible(false);
-
-        table.add(headButton).right().expandX();
-        table.add(bodyButton).right();
-        table.add(weapButton).right().padRight(5);
+        table.add(headButton).right().expandX().size(35,30);
+        table.add(bodyButton).right().size(35,30);
+        table.add(weapButton).right().size(35,30);
         table.row();
-        table.add(weaponPane).padTop(5).colspan(3).padRight(5);
+        table.add(menuPane).colspan(3);
+
         return table;
     }
 
@@ -114,98 +118,54 @@ public class ItemMenu extends AbstractMenu {
      *
      * @return
      */
-    public ScrollPane initWeaponPane() {
-        scrollContainerVG = new VerticalGroup();
-
-        scrollContainerVG.space(10f);
+    public ScrollPane initPane(VerticalGroup defaultVG) {
+        currentVG = defaultVG;
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
 
-        ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
+        ScrollPane pane = new ScrollPane(currentVG, paneStyle);
         pane.setScrollingDisabled(true, false);
 
-        // Definition drawables possibles pour les boutons
-        moduleButtonList = new ArrayList<ImageButton>();
-
-        for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
-            final int val = i;
-            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager);
-            itemMenuElement.initModuleMenuElement(gameManager.assetManager.weaponList.get(i));
-            itemMenuElement.addListener(new ClickListener(){
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    gameManager.playScreen.player.characterMaps[0] = gameManager.playScreen.player.getEntity().getCharacterMap("sword"+val);
-                    return true;
-                }
-            });
-            scrollContainerVG.addActor(itemMenuElement);
-
-            scrollContainerVG.debugAll();
-        }
         return pane;
     }
 
-    public ScrollPane initBodyPane() {
-        scrollContainerVG = new VerticalGroup();
-
-        scrollContainerVG.space(10f);
-        ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
-        paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
-
-        ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
-        pane.setScrollingDisabled(true, false);
-
-        // Definition drawables possibles pour les boutons
-        moduleButtonList = new ArrayList<ImageButton>();
-
+    public void initVG() {
+        bodyVG = new VerticalGroup();
+        //bodyVG.space(5f);
         for (int i = 0; i < gameManager.assetManager.bodyList.size(); i++) {
-            final int val = i;
-            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager);
+            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
             itemMenuElement.initModuleMenuElement(gameManager.assetManager.bodyList.get(i));
-            itemMenuElement.addListener(new ClickListener(){
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    gameManager.playScreen.player.characterMaps[1] = gameManager.playScreen.player.getEntity().getCharacterMap("body"+val);
-                    return true;
-                }
-            });
-            scrollContainerVG.addActor(itemMenuElement);
-
-            scrollContainerVG.debugAll();
+            itemMenuElement.setBackground(backgroundRegionDrawable);
+            bodyVG.addActor(itemMenuElement);
         }
-        return pane;
-    }
 
-    public ScrollPane initHelmPane() {
-        scrollContainerVG = new VerticalGroup();
+        weaponVG = new VerticalGroup();
+        //weaponVG.space(10f);
+        for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
+            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
+            itemMenuElement.initModuleMenuElement(gameManager.assetManager.weaponList.get(i));
+            itemMenuElement.setBackground(backgroundRegionDrawable);
+            weaponVG.addActor(itemMenuElement);
+        }
 
-        scrollContainerVG.space(10f);
-        ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
-        paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
-
-        ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
-        pane.setScrollingDisabled(true, false);
-
-        // Definition drawables possibles pour les boutons
-        moduleButtonList = new ArrayList<ImageButton>();
-
+        headVG = new VerticalGroup();
+        //headVG.space(10f);
         for (int i = 0; i < gameManager.assetManager.helmList.size(); i++) {
-            final int val = i;
-            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager);
+            ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
             itemMenuElement.initModuleMenuElement(gameManager.assetManager.helmList.get(i));
-            itemMenuElement.addListener(new ClickListener(){
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    gameManager.playScreen.player.characterMaps[2] = gameManager.playScreen.player.getEntity().getCharacterMap("head"+val);
-                    return true;
-                }
-            });
-            scrollContainerVG.addActor(itemMenuElement);
-
-            scrollContainerVG.debugAll();
+            itemMenuElement.setBackground(backgroundRegionDrawable);
+            headVG.addActor(itemMenuElement);
         }
-        return pane;
     }
+
+    public void setSelectedItem(ItemMenuElement itemMenuElement){
+        for( int i=0; i<currentVG.getChildren().size;i++) {
+            ((ItemMenuElement) currentVG.getChildren().get(i)).setBackground(backgroundRegionDrawable);
+        }
+        itemMenuElement.setBackground(selectedRegionDrawable);
+    }
+
     /**
      * Update all module buybutton to check if player can click them
      */
@@ -220,56 +180,4 @@ public class ItemMenu extends AbstractMenu {
 //*****************************************************
 //                  GETTER & SETTER
 // ****************************************************
-
-    public Label getDetailGold() {
-        return detailGold;
-    }
-
-    public void setDetailGold(Label detailGold) {
-        this.detailGold = detailGold;
-    }
-
-    public Label getDetailDescription() {
-        return detailDescription;
-    }
-
-    public void setDetailDescription(Label detailDescription) {
-        this.detailDescription = detailDescription;
-    }
-
-    public Label getDetailLevel() {
-        return detailLevel;
-    }
-
-    public void setDetailLevel(Label detailLevel) {
-        this.detailLevel = detailLevel;
-    }
-
-    public Label getDetailTitre() {
-        return detailTitre;
-    }
-
-    public void setDetailTitre(Label detailTitre) {
-        this.detailTitre = detailTitre;
-    }
-
-    public int getCurrentSelection() {
-        return currentSelection;
-    }
-
-    public void setCurrentSelection(int currentSelection) {
-        this.currentSelection = currentSelection;
-    }
-
-    public List<ImageButton> getModuleButtonList() {
-        return moduleButtonList;
-    }
-
-    public void setModuleButtonList(List<ImageButton> moduleButtonList) {
-        this.moduleButtonList = moduleButtonList;
-    }
-
-    public VerticalGroup getScrollContainerVG() {
-        return scrollContainerVG;
-    }
 }

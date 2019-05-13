@@ -6,8 +6,9 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 0,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword0",
+    "icon": "icon_sword_0.png"
   },
   {
     "id": "1",
@@ -16,8 +17,9 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 1,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword1",
+    "icon": "icon_sword_1.png"
   },
   {
     "id": "2",
@@ -26,8 +28,9 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 2,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword2",
+    "icon": "icon_sword_2.png"
   },
   {
     "id": "3",
@@ -36,8 +39,9 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 3,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword3",
+    "icon": "icon_sword_3.png"
   },
   {
     "id": "4",
@@ -46,8 +50,9 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 2,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword4",
+    "icon": "icon_sword_4.png"
   },
   {
     "id": "5",
@@ -56,7 +61,30 @@
     "description": "",
     "width": 30,
     "height": 25,
-    "id_map": 2,
-    "icon": "icon1.png"
+    "mapId": 0,
+    "mapName": "sword5",
+    "icon": "icon_sword_5.png"
+  },
+  {
+    "id": "6",
+    "type": 0,
+    "name": "Mithril sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "mapId": 0,
+    "mapName": "sword6",
+    "icon": "icon_sword_6.png"
+  },
+  {
+    "id": "7",
+    "type": 0,
+    "name": "Mithril sword",
+    "description": "",
+    "width": 30,
+    "height": 25,
+    "mapId": 0,
+    "mapName": "sword7",
+    "icon": "icon_sword_7.png"
   }
 ]

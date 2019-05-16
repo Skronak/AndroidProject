@@ -9,7 +9,7 @@ public class Constants {
 
     public static final String CURRENT_VERSION = "build pre-alpha v1.0.1";
 
-    public static final String APP_NAME = "TapTapDungeon";
+    public static final String APP_NAME = "TapDungeon";
     // Taille virtuelle verticale de l'application
     public static final int V_WIDTH = 320; //320
 

@@ -42,7 +42,6 @@ public class ItemMenuElement extends Table {
         this.gameInformation = gameManager.gameInformation;
         this.gameManager = gameManager;
         this.itemMenu = itemMenu;
-        this.debug();
     }
 
     /**
@@ -75,7 +74,7 @@ public class ItemMenuElement extends Table {
         equipButton = new TextButton("EQUIP", gameManager.assetManager.getSkin());
         equipButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            setSelected();
+                setEquiped();
             return true;
             }
         });
@@ -98,13 +97,12 @@ public class ItemMenuElement extends Table {
         moduleLevelGroup.add(upgradeButton).height(40).width(40).right();
         this.add(skillIcon).width(50).height(75);
         this.add(moduleLevelGroup).left();
-        moduleLevelGroup.debug();
         update();
     }
 
-    public void setSelected(){
+    public void setEquiped(){
         gameManager.playScreen.player.characterMaps[itemEntitySource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemEntitySource.mapName);
-        itemMenu.setSelectedItem(this);
+        itemMenu.setEquipedItem(this);
     }
 
     public void update() {

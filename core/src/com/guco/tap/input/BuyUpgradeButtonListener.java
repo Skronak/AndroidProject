@@ -15,12 +15,10 @@ public class BuyUpgradeButtonListener extends ClickListener {
     // Identifiant du module rattaché au listener
     private ModuleManager moduleManager;
     private int idModule;
-    private GameInformation gameInformation;
 
-    public BuyUpgradeButtonListener(GameInformation gameInformation, ModuleManager moduleManager, int id) {
+    public BuyUpgradeButtonListener(ModuleManager moduleManager, int id) {
         this.moduleManager = moduleManager;
         this.idModule = id;
-        this.gameInformation = gameInformation;
     }
 
     @Override
@@ -28,7 +26,6 @@ public class BuyUpgradeButtonListener extends ClickListener {
         if (moduleManager.isAvailableUpgrade(idModule)) {
             moduleManager.increaseModuleLevel(idModule);
             moduleManager.updateModuleMenuInformation(idModule);
-            gameInformation.saveInformation(); // TODO not here
         }
         return false;
     }

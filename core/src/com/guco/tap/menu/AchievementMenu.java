@@ -96,8 +96,7 @@ public class AchievementMenu extends AbstractMenu {
     }
 
     @Override
-    public void updateOnShow(){
-        Gdx.app.log("r","rr");
+    public void show(){
         for (int i = 0; i<gameManager.achievementManager.achievementElementList.size(); i++) {
             if (gameManager.achievementManager.achievementElementList.get(i).isAchieved || gameManager.achievementManager.achievementElementList.get(i).condition.isAchieved()) {
                 ((Image) achievementTable.getCells().get(i).getActor()).setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/achievment2.png"))));
@@ -122,5 +121,6 @@ public class AchievementMenu extends AbstractMenu {
                 }
             }
         }
+        super.show();
     }
 }

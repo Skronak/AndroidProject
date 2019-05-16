@@ -1,12 +1,7 @@
 package com.guco.tap.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.guco.tap.game.TapDungeonGame;
-import com.guco.tap.manager.AssetManager;
-import com.guco.tap.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,181 +13,47 @@ import java.util.List;
 public class GameInformation {
 
     // dernier login
-    private Long lastLogin;
+    public Long lastLogin;
     // Total d'or
-    private float currentGold;
+    public float currentGold;
     // generation pasive d'or
-    private float genGoldPassive;
+    public float genGoldPassive;
     // generation active d'or
-    private float genGoldActive;
+    public float tapDamage;
     // Currency (A=1, B=2, ... jusqua 9, AA=9+1
-    private int currency;
+    public int currency;
     // currency de gengoldPassive
-    private int genCurrencyPassive;
+    public int genCurrencyPassive;
     // currency de gengoldActive
-    private int genCurrencyActive;
+    public int genCurrencyActive;
     // multiplicateur d'or lors de critique
-    private int criticalRate;
+    public int criticalRate;
     // fichier de preference Android
-    private Preferences prefs;
+    public transient Preferences prefs;
     // indicateur de premier lancment du jeu
-    private boolean firstPlay;
-    // id de station utilise
-    private int stationId;
+    public boolean firstPlay;
     // liste des niveau d'upgrade du joueur pour faciliter son acces
-    private List<Integer> upgradeLevelList;
+    public List<Integer> upgradeLevelList;
     // Total gameTime
-    private Long totalGameTime;
+    public Long totalGameTime;
     // Tap number
-    private int totalTapNumber;
-    private int factionId;
-    private int factionLvl;
-    private int factionExp;
-    private int depth;
-    private List<Integer> achievList; //0: locked 1: unlocked,2: claimed
-    private boolean optionWeather, optionSound, optionFps;
-    private int skillPoint;
+    public int totalTapNumber;
+    public int depth;
+    public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
+    public boolean optionWeather, optionSound, optionFps;
+    public int skillPoint;
     public int currentEnemyIdx;
     // Character current equipement/ 0: head 1: body 2: weapon
     public List<Integer> characterEquipedList;
     public List<Integer> itemLevellist;
-    public TapDungeonGame game;
 
-    public GameInformation(TapDungeonGame game) {
-        upgradeLevelList = new ArrayList<Integer>();
-        achievList = new ArrayList<Integer>();
-        itemLevellist = new ArrayList<Integer>();
-        characterEquipedList = new ArrayList<Integer>();
-        prefs = Gdx.app.getPreferences(Constants.APP_NAME);
-        this.game=game;
-
-        if (!prefs.contains("lastLogin")) {
-            Gdx.app.debug("GameInformation", "Initialisation du compte par defaut");
-            initGameInformation();
-            initGamePreference();
-        } else {
-            retrieveAllGameInformation();
-        }
+    public GameInformation() {
     }
 
-    /**
-     * Sauvegarde les informations courantes
-     * dans le fichier de pref
-     * TODO : ne pas tt sauvegarder chaque fois
-     */
-    public void saveInformation() {
-        prefs.putFloat("currentGold", currentGold);
-        prefs.putInteger("currentCurrency", currency);
-        prefs.putFloat("genGoldActive", genGoldActive);
-        prefs.putInteger("genCurrencyActive", genCurrencyActive);
-        prefs.putFloat("genGoldPassive", genGoldPassive);
-        prefs.putInteger("genCurrencyPassive", genCurrencyPassive);
-        prefs.putInteger("criticalRate", criticalRate);
-        prefs.putInteger("stationId", stationId);
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
-            prefs.putInteger("upgradeLevel"+i, upgradeLevelList.get(i));
-        }
-        prefs.putLong("lastLogin", System.currentTimeMillis());
-        prefs.putLong("totalGameTime", totalGameTime + (System.currentTimeMillis() - lastLogin));
-        prefs.putInteger("totalTapNumber", totalTapNumber);
-        prefs.putInteger("factionExp", factionExp);
-        prefs.putInteger("factionId", factionId);
-        prefs.putInteger("factionLvl", factionLvl);
-        for (int i=0;i<characterEquipedList.size();i++){
-            prefs.putInteger("equip_"+i, characterEquipedList.get(i));
-        }
-        for (int i=0;i<achievList.size();i++){
-            prefs.putInteger("achiev_"+i, achievList.get(i));
-        }
-        for (int i=0;i<itemLevellist.size();i++){
-            prefs.putInteger("item_"+i, achievList.get(i));
-        }
-        prefs.putBoolean("optionSound", optionSound);
-        prefs.putBoolean("optionWeather", optionWeather);
-        prefs.putBoolean("optionFps", optionFps);
-        prefs.putInteger("skillPoint",skillPoint);
-        prefs.flush();
-    }
-
-    public void reset(){
-        initGameInformation();
-        saveInformation();
-    }
-
-    public void initGameInformation(){
-        currentGold = 0;
-        currency = 0;
-        genGoldPassive = 2;
-        genGoldActive = 2;
-        genCurrencyPassive = 0;
-        genCurrencyActive = 0;
-        criticalRate = 5;
-        stationId = 0;
-        skillPoint = 0;
-
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
-            upgradeLevelList.add(0);
-        }
-        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
-            achievList.add(0);
-        }
-        for (int i=0;i<3;i++) {
-            characterEquipedList.add(1);
-        }
-        for (int i=0;i<game.assetManager.getItemList().size();i++){
-            itemLevellist.add(0);
-        }
-
-        lastLogin = System.currentTimeMillis();
-        totalTapNumber=0;
-        totalGameTime=0l;
-        factionLvl=0;
-        factionId=0;
-        factionExp=0;
-    }
-
-    public void initGamePreference(){
-        firstPlay = true;
-        optionSound=true;
-        optionWeather=true;
-        optionFps=false;
-    }
-
-    private void retrieveAllGameInformation() {
-        currentGold = prefs.getFloat("currentGold");
-        currency = prefs.getInteger("currentCurrency");
-        genGoldActive = prefs.getFloat("genGoldActive");
-        genGoldPassive = prefs.getFloat("genGoldPassive");
-        genCurrencyPassive = prefs.getInteger("genCurrencyPassive");
-        genCurrencyActive = prefs.getInteger("genCurrencyActive");
-        criticalRate = prefs.getInteger("criticalRate");
-        stationId = prefs.getInteger("stationId");
-        skillPoint = prefs.getInteger("skillPoint");
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
-            upgradeLevelList.add(prefs.getInteger("upgradeLevel"+i));
-        }
-        lastLogin = prefs.getLong("lastLogin");
-        totalGameTime = prefs.getLong("totalGameTime");
-        totalTapNumber = prefs.getInteger("totalTapNumber");
-        factionExp = prefs.getInteger("factionExp");
-        factionId = prefs.getInteger("factionId");
-        factionLvl = prefs.getInteger("factionLvl");
-        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
-            achievList.add(prefs.getInteger("achiev_"+i));
-        }
-        for (int i=0;i<5;i++) {
-            characterEquipedList.add(prefs.getInteger("equip_"+i));
-        }
-        for (int i=0;i<game.assetManager.weaponList.size();i++){
-            itemLevellist.add(prefs.getInteger("item"+i));
-        }
-        optionSound=prefs.getBoolean("optionSound");
-        optionWeather=prefs.getBoolean("optionWeather");
-        optionFps=prefs.getBoolean("optionFps");
-    }
 //*****************************************************
 //                  GETTER & SETTER
 // ****************************************************
+
 
     public Long getLastLogin() {
         return lastLogin;
@@ -218,12 +79,12 @@ public class GameInformation {
         this.genGoldPassive = genGoldPassive;
     }
 
-    public float getGenGoldActive() {
-        return genGoldActive;
+    public float getTapDamage() {
+        return tapDamage;
     }
 
-    public void setGenGoldActive(float genGoldActive) {
-        this.genGoldActive = genGoldActive;
+    public void setTapDamage(float tapDamage) {
+        this.tapDamage = tapDamage;
     }
 
     public int getCurrency() {
@@ -258,28 +119,12 @@ public class GameInformation {
         this.criticalRate = criticalRate;
     }
 
-    public Preferences getPrefs() {
-        return prefs;
-    }
-
-    public void setPrefs(Preferences prefs) {
-        this.prefs = prefs;
-    }
-
     public boolean isFirstPlay() {
         return firstPlay;
     }
 
     public void setFirstPlay(boolean firstPlay) {
         this.firstPlay = firstPlay;
-    }
-
-    public int getStationId() {
-        return stationId;
-    }
-
-    public void setStationId(int stationId) {
-        this.stationId = stationId;
     }
 
     public List<Integer> getUpgradeLevelList() {
@@ -353,4 +198,5 @@ public class GameInformation {
     public void setSkillPoint(int skillPoint) {
         this.skillPoint = skillPoint;
     }
+
 }

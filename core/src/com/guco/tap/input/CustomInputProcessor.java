@@ -31,7 +31,7 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) )
-            gameManager.gameInformation.saveInformation();
+            gameManager.gameInformationManager.saveInformation();
             Gdx.app.debug("Closing application", "close");
         return false;
     }

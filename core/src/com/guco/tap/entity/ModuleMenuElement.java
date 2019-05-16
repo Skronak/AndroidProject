@@ -65,7 +65,7 @@ public class ModuleMenuElement extends Table {
         nextPassiveGoldLabel.setFontScale(0.9f);
 
         buyButton = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
-        buyButton.addListener(new BuyUpgradeButtonListener(gameManager.gameInformation,gameManager.moduleManager, i));
+        buyButton.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
 
         if (currentLevel==0) {
             Texture skillTexture = gameManager.assetManager.getDisabledIcon();

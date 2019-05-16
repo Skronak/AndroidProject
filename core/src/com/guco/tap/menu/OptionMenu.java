@@ -93,10 +93,9 @@ public class OptionMenu extends AbstractMenu {
     }
 
     public void triggerReset(){
-        gameManager.gameInformation.reset();
+        gameManager.gameInformationManager.reset();
         gameManager.moduleManager.evaluateModuleGeneration();
         gameManager.playScreen.getHud().updateCurrentMenu();
-//        gameManager.stationEntity.initModules();
     }
 
     public void addGoldMode(){
@@ -121,7 +120,7 @@ public class OptionMenu extends AbstractMenu {
     }
 
     @Override
-    public void updateOnShow(){
+    public void show(){
         if (gameManager.gameInformation.isOptionWeather()){
             weatherButton.setText("Disable Weather");
         } else {
@@ -137,5 +136,7 @@ public class OptionMenu extends AbstractMenu {
         } else {
             fpsButton.setText("Show Fps");
         }
+
+        super.show();
     }
 }

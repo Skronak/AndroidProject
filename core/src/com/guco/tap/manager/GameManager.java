@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -16,8 +15,6 @@ import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.SCMLReader;
-import com.guco.tap.action.ArcToAction;
-import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
@@ -71,19 +68,22 @@ public class GameManager {
 
     public int nbMandatoryFight;
 
-    private Data data;
+    public Data data;
 
     public Player player;
 
     TapDungeonGame game;
 
     public AssetManager assetManager;
-    
+
+    public GameInformationManager gameInformationManager;
+
     public GameInformation gameInformation;
+
 
     public GameManager(TapDungeonGame game) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
-
+        this.gameInformationManager = game.gameInformationManager;
         currentState = GameState.IN_GAME;
         this.assetManager=game.assetManager;
         this.gameInformation = game.gameInformation;
@@ -104,6 +104,8 @@ public class GameManager {
         gameInformation.currentEnemyIdx=0;
         //moduleManager.initialize(playScreen.getHud().getModuleMenu());
         initEnemyQueue();
+        moduleManager.initialize(playScreen.getHud().getModuleMenu());
+
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
         nbMandatoryFight=5; // from floor information
@@ -115,7 +117,7 @@ public class GameManager {
         player.setPosition(85,220);
         player.setScale(0.37f);
         player.speed=15;
-        player.setAnimation("idle_1");
+        player.setAnimation("idle");
         player.addListener(new PlayerListenerImpl(player,playScreen));
         return player;
     }
@@ -198,7 +200,7 @@ public class GameManager {
         // Autosave
         if(autoSaveTimer >= Constants.DELAY_AUTOSAVE){
             Gdx.app.debug("PlayScreen","Saving");
-            gameInformation.saveInformation();
+            gameInformationManager.saveInformation();
             autoSaveTimer=0f;
         }
 
@@ -291,7 +293,7 @@ public class GameManager {
      * @return
      */
     public float getCriticalValue(){
-        return (gameInformation.getGenGoldActive() * gameInformation.getCriticalRate());
+        return (gameInformation.getTapDamage() * gameInformation.getCriticalRate());
     }
 
     /**
@@ -299,12 +301,12 @@ public class GameManager {
      */
     public void hurtEnemy() {
         //currentEnemyActor.hurt();
-        currentEnemyActor.hp -= gameInformation.getGenGoldActive();
+        currentEnemyActor.hp -= gameInformation.getTapDamage();
         // Case of enemy death
         if (currentEnemyActor.hp <= 0) {
             handleEnemyDeath();
         }
-        playScreen.getHud().updateEnemyInformation(gameInformation.getGenGoldActive());
+        playScreen.getHud().updateEnemyInformation(gameInformation.getTapDamage());
     }
 
     public void handleEnemyDeath(){

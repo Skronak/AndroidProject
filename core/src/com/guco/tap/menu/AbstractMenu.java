@@ -45,18 +45,19 @@ public abstract class AbstractMenu {
     }
 
     /**
-     * Update Menu baed on logic timer
+     * Called when menu is shown
+     */
+    public void show(){
+        this.getParentTable().setVisible(true);
+    }
+
+    /**
+     * Update Menu
      */
     public void update(){
 
     }
 
-    /**
-     * Update menu only on menu show
-     */
-    public void updateOnShow(){
-
-    }
     /**
      * Definition du fond du menu
      * @param fname

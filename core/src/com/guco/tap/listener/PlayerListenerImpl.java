@@ -19,7 +19,7 @@ public class PlayerListenerImpl implements Player.PlayerListener {
 
     @Override
     public void animationFinished(Animation animation) {
-        playerParent.setAnimation("idle_1");
+        playerParent.setAnimation("idle");
         playerParent.animationFinished = true;
     }
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.ModuleElement;
 import com.guco.tap.entity.ModuleElementLevel;
 import com.guco.tap.menu.ModuleMenu;
@@ -27,13 +26,11 @@ public class ModuleManager {
 
     public ModuleManager(GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
-
-        this.moduleMenu = moduleMenu;
         this.gameManager = gameManager;
         this.moduleEntityList = gameManager.assetManager.getModuleElementList();
     }
 
-    public void initialize(ModuleMenu moduleMenu){
+    public void initialize(ModuleMenu moduleMenu) {
         this.moduleMenu=moduleMenu;
         evaluateModuleGeneration();
     }
@@ -78,7 +75,7 @@ public class ModuleManager {
         }
         gameManager.gameInformation.setGenGoldPassive(passGenSum.getValue());
         gameManager.gameInformation.setGenCurrencyPassive(passGenSum.getCurrency());
-        gameManager.gameInformation.setGenGoldActive(actGenSum.getValue());
+        gameManager.gameInformation.setTapDamage(actGenSum.getValue());
         gameManager.gameInformation.setGenCurrencyActive(actGenSum.getCurrency());
     }
 

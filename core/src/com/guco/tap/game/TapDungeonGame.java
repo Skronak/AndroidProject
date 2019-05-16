@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.screen.Hud;
@@ -18,8 +19,9 @@ public class TapDungeonGame extends Game {
 	public GameManager gameManager;
 	public Hud hud;
 	public AssetManager assetManager;
+	public GameInformationManager gameInformationManager;
 	private boolean devMode;
-	public GameInformation gameInformation;
+    public GameInformation gameInformation;
 
     public TapDungeonGame(boolean devMode){
         this.devMode=devMode;
@@ -28,14 +30,18 @@ public class TapDungeonGame extends Game {
 	@Override
 	public void create () {
         assetManager = new AssetManager();
-    	loadingScreen = new LoadingScreen(this);
-    	loadingScreen.loadAsset();
-		if(devMode) {
+		gameInformationManager = new GameInformationManager(this);
+
+		loadingScreen = new LoadingScreen(this);
+		loadingScreen.loadAsset();
+        gameInformationManager.loadGameInformation();
+        gameInformation = gameInformationManager.gameInformation;
+
+        if(devMode) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 			gameManager = new GameManager(this);
 			playScreen = new PlayScreen(gameManager);
 			gameManager.playScreen=playScreen;
-            gameInformation = new GameInformation(this);
 			setScreen(playScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
@@ -51,6 +57,7 @@ public class TapDungeonGame extends Game {
 
 	@Override
 	public void dispose () {
+		gameInformationManager.saveInformation();
 		playScreen.dispose();
 	}
 }

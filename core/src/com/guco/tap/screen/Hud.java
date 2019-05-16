@@ -349,8 +349,13 @@ public class Hud implements Disposable {
      * Methode draw specifique
      */
     public void draw () {
-        stage.draw();
         stage.act();
+        stage.draw();
+
+        // FOR TEST ONLY
+        if (currentMenu instanceof ItemMenu ) {
+            ((ItemMenu) currentMenu).draw();
+        }
     }
 
     public void animateCritical() {
@@ -384,7 +389,7 @@ public class Hud implements Disposable {
         menu.getParentTable().clearActions();
         if (currentMenu == null) {
             menu.getParentTable().setPosition(menu.getParentTable().getX(), -menu.getParentTable().getHeight()); //Menu Animation
-            menu.getParentTable().setVisible(true);
+            menu.show();
             menu.getParentTable().addAction(Actions.moveTo(menu.getParentTable().getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
             currentMenu = menu;
             gameManager.currentState=GameState.MENU;
@@ -394,8 +399,7 @@ public class Hud implements Disposable {
             gameManager.currentState=GameState.IN_GAME;
         } else {
             currentMenu.getParentTable().setVisible(false);
-            menu.updateOnShow();
-            menu.getParentTable().setVisible(true);
+            menu.show();
             currentMenu = menu;
             gameManager.currentState=GameState.MENU;
         }

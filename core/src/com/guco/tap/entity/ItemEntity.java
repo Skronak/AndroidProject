@@ -7,6 +7,9 @@ public class ItemEntity {
     public int type;
     public String name;
     public String description;
+    public float damageRate;
+    public float baseDamage;
+    public int reqLvl;
     public int level;
     public int mapId;
     public String mapName;

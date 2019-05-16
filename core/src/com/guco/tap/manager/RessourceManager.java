@@ -1,7 +1,6 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.utils.ValueDTO;
 
 public class RessourceManager {
@@ -18,7 +17,7 @@ public class RessourceManager {
      * Methode d'ajout d'or
      */
     public void increaseGoldActive(){
-        ValueDTO newValue = gameManager.largeMath.increaseValue(gameManager.gameInformation.getCurrentGold(), gameManager.gameInformation.getCurrency(), gameManager.gameInformation.getGenGoldActive(), gameManager.gameInformation.getGenCurrencyActive());
+        ValueDTO newValue = gameManager.largeMath.increaseValue(gameManager.gameInformation.getCurrentGold(), gameManager.gameInformation.getCurrency(), gameManager.gameInformation.getTapDamage(), gameManager.gameInformation.getGenCurrencyActive());
         gameManager.gameInformation.setCurrentGold(newValue.getValue());
         gameManager.gameInformation.setCurrency(newValue.getCurrency());
         gameManager.largeMath.formatGameInformation();

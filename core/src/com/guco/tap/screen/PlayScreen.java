@@ -11,10 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -199,7 +196,6 @@ public class PlayScreen implements Screen {
 //        torchParticleSEffect.update();
 //        torchParticleSEffect.render(spriteBatch);
         spriteBatch.end();
-
         hud.draw();
 
         debugCong(delta);
@@ -262,7 +258,7 @@ public class PlayScreen implements Screen {
         player.setAnimation("atk");
         gameManager.hurtEnemy();
 
-        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.getGenGoldActive(), gameManager.gameInformation.getGenCurrencyActive()),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.getTapDamage(), gameManager.gameInformation.getGenCurrencyActive()),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
@@ -332,7 +328,6 @@ public class PlayScreen implements Screen {
         hud.dispose();
         Gdx.app.debug("PlayScreen","saveInformation");
         gameManager.largeMath.formatGameInformation();
-        gameManager.gameInformation.saveInformation();
     }
 
     public Vector3 getMousePosInGameWorld() {

@@ -39,7 +39,7 @@ public class EquipMenu extends AbstractMenu {
 
     public void customizeMenuTable() {
         equipTable = new Table();
-        parentTable.add(new Label("Equip gear", skin)).pad(60);
+        parentTable.add(new Label("Equip gear", skin)).padTop(10).padBottom(40);
         parentTable.row();
 
         parentTable.add(equipTable);

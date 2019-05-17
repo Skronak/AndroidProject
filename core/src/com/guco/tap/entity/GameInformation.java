@@ -43,9 +43,12 @@ public class GameInformation {
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;
     public int currentEnemyIdx;
-    // Character current equipement/ 0: head 1: body 2: weapon
-    public List<Integer> characterEquipedList;
-    public List<Integer> itemLevellist;
+    public int equipedWeapon;
+    public int equipedHead;
+    public int equipedBody;
+    public List<Integer> weaponLevellist;
+    public List<Integer> headLevellist;
+    public List<Integer> bodyLevellist;
 
     public GameInformation() {
     }
@@ -199,4 +202,27 @@ public class GameInformation {
         this.skillPoint = skillPoint;
     }
 
+    public List<Integer> getWeaponLevellist() {
+        return weaponLevellist;
+    }
+
+    public void setWeaponLevellist(List<Integer> weaponLevellist) {
+        this.weaponLevellist = weaponLevellist;
+    }
+
+    public List<Integer> getHeadLevellist() {
+        return headLevellist;
+    }
+
+    public void setHeadLevellist(List<Integer> headLevellist) {
+        this.headLevellist = headLevellist;
+    }
+
+    public List<Integer> getBodyLevellist() {
+        return bodyLevellist;
+    }
+
+    public void setBodyLevellist(List<Integer> bodyLevellist) {
+        this.bodyLevellist = bodyLevellist;
+    }
 }

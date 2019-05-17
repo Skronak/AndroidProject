@@ -138,21 +138,21 @@ public class Hud implements Disposable {
      * Initialisation des bouton du hud
      */
     private void initButton() {
-        Texture upgradeButtonTextureUp = new Texture(Gdx.files.internal("icons/hud_b2.png"));
-        Texture skillButtonTextureUp = new Texture(Gdx.files.internal("icons/hud_b1.png"));
-        Texture achievButtonTextureUp = new Texture(Gdx.files.internal("icons/hud_b3.png"));
-        Texture mapButtonTextureUp = new Texture(Gdx.files.internal("icons/hud_b4.png"));
-        Texture upgradeButtonTextureDown = new Texture(Gdx.files.internal("icons/hud_b2_r.png"));
-        Texture skillButtonTextureDown = new Texture(Gdx.files.internal("icons/hud_b1_r.png"));
-        Texture achievButtonTextureDown = new Texture(Gdx.files.internal("icons/hud_b3_r.png"));
-        Texture mapButtonTextureDown = new Texture(Gdx.files.internal("icons/hud_b4_r.png"));
-        Texture passivButtonTextureup = new Texture(Gdx.files.internal("icons/hud_b5_r.png"));
-        Texture passivButtonTextureDown = new Texture(Gdx.files.internal("icons/hud_b5.png"));
-        Texture button6TextureUp = new Texture(Gdx.files.internal("icons/hud_b6.png"));
-        Texture button6TextureDown = new Texture(Gdx.files.internal("icons/hud_b6_r.png"));
-        Texture ascendButtonTextureUp = new Texture(Gdx.files.internal("icons/ascend.png"));
-        Texture ascendButtonTextureDown = new Texture(Gdx.files.internal("icons/ascend_r.png"));
-        Texture lockedButton = new Texture(Gdx.files.internal("icons/locked_button.png"));
+        Texture upgradeButtonTextureUp = gameManager.assetManager.upgradeButtonTextureUp;
+        Texture skillButtonTextureUp =  gameManager.assetManager.skillButtonTextureUp;
+        Texture achievButtonTextureUp = gameManager.assetManager.achievButtonTextureUp;
+        Texture mapButtonTextureUp = gameManager.assetManager.mapButtonTextureUp;
+        Texture upgradeButtonTextureDown = gameManager.assetManager.upgradeButtonTextureDown;
+        Texture skillButtonTextureDown =gameManager.assetManager.skillButtonTextureDown;
+        Texture achievButtonTextureDown = gameManager.assetManager.achievButtonTextureDown;
+        Texture mapButtonTextureDown = gameManager.assetManager.mapButtonTextureDown;
+        Texture passivButtonTextureup = gameManager.assetManager.passivButtonTextureup;
+        Texture passivButtonTextureDown = gameManager.assetManager.passivButtonTextureDown;
+        Texture button6TextureUp = gameManager.assetManager.button6TextureUp;
+        Texture button6TextureDown = gameManager.assetManager.button6TextureDown;
+        Texture ascendButtonTextureUp = gameManager.assetManager.ascendButtonTextureUp;
+        Texture ascendButtonTextureDown = gameManager.assetManager.ascendButtonTextureDown;
+        Texture lockedButton = gameManager.assetManager.lockedButton;
 
         ImageButton.ImageButtonStyle style0 = new ImageButton.ImageButtonStyle();
         style0.up = new TextureRegionDrawable(new TextureRegion(skillButtonTextureUp));
@@ -286,7 +286,7 @@ public class Hud implements Disposable {
         tableTop.add(goldIcon).size(30,30).right();
         tableTop.add(stack).right();
 
-        TextureRegionDrawable backgroundImg = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/ui/brown.png")));
+        TextureRegionDrawable backgroundImg = new TextureRegionDrawable(gameManager.assetManager.brownTexture);
         backgroundImg.setMinWidth(Constants.V_WIDTH);
         backgroundImg.setMinHeight(40);
         tableTop.setBackground(backgroundImg);
@@ -327,7 +327,7 @@ public class Hud implements Disposable {
         menuButtonTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
 ;//
         // Assemble hud
-        mainTable.add(tableTop).top();
+        mainTable.add(tableTop).top().height(45);
         mainTable.row();
         //mainTable.add(versionLabel).align(Align.right).bottom();
         //mainTable.row();
@@ -389,15 +389,17 @@ public class Hud implements Disposable {
         menu.getParentTable().clearActions();
         if (currentMenu == null) {
             menu.getParentTable().setPosition(menu.getParentTable().getX(), -menu.getParentTable().getHeight()); //Menu Animation
-            menu.show();
             menu.getParentTable().addAction(Actions.moveTo(menu.getParentTable().getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
+            menu.show();
             currentMenu = menu;
             gameManager.currentState=GameState.MENU;
         } else if (menu.equals(currentMenu)) {
+            currentMenu.getParentTable().clearActions();
             menu.getParentTable().addAction(Actions.sequence(Actions.moveTo(menu.getParentTable().getX(), -menu.getParentTable().getHeight(),0.2f),Actions.visible(false)));
             currentMenu = null;
             gameManager.currentState=GameState.IN_GAME;
         } else {
+            currentMenu.getParentTable().clearActions();
             currentMenu.getParentTable().setVisible(false);
             menu.show();
             currentMenu = menu;

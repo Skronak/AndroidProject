@@ -49,7 +49,7 @@ public class SkillMenuElement extends Table {
         skill3Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
         skill3Button.addListener(new SkillSelectButtonListener(this, skillMenu));
 
-        Texture skillTexture = new Texture(Gdx.files.internal("icons/skillLevel"+i+".png"));
+        Texture skillTexture = new Texture(Gdx.files.internal("sprites/icon/skillLevel"+i+".png"));
         skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         skillIcon = new Image(skillTexture);
 

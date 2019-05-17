@@ -13,6 +13,7 @@ public class RessourceManager {
         this.gameManager = gameManager;
     }
 
+
     /**
      * Methode d'ajout d'or
      */

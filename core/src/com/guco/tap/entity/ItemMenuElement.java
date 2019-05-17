@@ -31,11 +31,11 @@ public class ItemMenuElement extends Table {
     private Label passiveGoldLabel;
     private Label nextPassiveGoldLabel;
     private Image skillIcon;
-    private ItemEntity itemEntitySource;
+    public ItemEntity itemEntitySource;
     private GameInformation gameInformation;
     private TextButton buyButton;
     private TextButton equipButton;
-    private String ICON_PATH = "icons/";
+    private String ICON_PATH = "sprites/icon/";
     private ItemMenu itemMenu;
 
     public ItemMenuElement(GameManager gameManager, ItemMenu itemMenu){

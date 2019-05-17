@@ -80,7 +80,6 @@ public class GameManager {
 
     public GameInformation gameInformation;
 
-
     public GameManager(TapDungeonGame game) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
@@ -113,12 +112,19 @@ public class GameManager {
     }
 
     public Player loadPlayer(){
+        int weaponMap=0;
+        int headMap=1;
+        int bodyMap=2;
         player = new Player(data.getEntity(0));
         player.setPosition(85,220);
         player.setScale(0.37f);
         player.speed=15;
         player.setAnimation("idle");
         player.addListener(new PlayerListenerImpl(player,playScreen));
+        ;
+        player.characterMaps[weaponMap]= player.getEntity().getCharacterMap(assetManager.weaponList.get(gameInformation.equipedWeapon).mapName);
+        player.characterMaps[headMap]= player.getEntity().getCharacterMap(assetManager.helmList.get(gameInformation.equipedHead).mapName);
+        player.characterMaps[bodyMap]= player.getEntity().getCharacterMap(assetManager.bodyList.get(gameInformation.equipedBody).mapName);
         return player;
     }
 

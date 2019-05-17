@@ -42,9 +42,11 @@ public class Constants {
 
     public static Color NORMAL_LABEL_COLOR = Color.WHITE;
 
-    public static float UPDATE_MENU_PAD_EXTERNAL_HEIGHT = 40;
+    public static float UPDATE_MENU_PAD_EXTERNAL_HEIGHT = 45;
 
     public static float UPDATE_MENU_PAD_EXTERNAL_WIDTH = 20;
+
+    public static float MENU_PAD_INTERNAL = 5;
 
     public static int UPDATE_MENU_PAD_INTERNAL = 5;
 

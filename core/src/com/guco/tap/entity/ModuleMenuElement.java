@@ -53,7 +53,7 @@ public class ModuleMenuElement extends Table {
         ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.getUpgradeLevelList().get(i));
 
         moduleLevelLabel = new Label("Level "+currentLevel, gameManager.assetManager.getSkin());
-        moduleLevelImage = new Image(gameManager.moduleManager.getLevelTextureByLevel(i));
+        //moduleLevelImage = new Image(gameManager.moduleManager.getLevelTextureByLevel(i));
         elementTitle = new Label(moduleElementSource.getTitle(), gameManager.assetManager.getSkin());
         activeGoldLabel = new Label("", gameManager.assetManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
@@ -111,7 +111,7 @@ public class ModuleMenuElement extends Table {
             buyButton.setColor(Color.GRAY);
         }
         moduleLevelLabel.setText("Level "+gameManager.gameInformation.getUpgradeLevelList().get(moduleElementSource.getId()));
-        moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getUpgradeLvlImageList().get(gameManager.gameInformation.getUpgradeLevelList().get(moduleElementSource.getId())))));
+        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getUpgradeLvlImageList().get(gameManager.gameInformation.getUpgradeLevelList().get(moduleElementSource.getId())))));
         skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getModuleDrawableUpList().get(moduleElementSource.getId()))));
         skillIcon.setSize(60,60);
         activeGoldLabel.setText(ACTIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getActGen().getValue(), moduleLevel.getActGen().getCurrency()));

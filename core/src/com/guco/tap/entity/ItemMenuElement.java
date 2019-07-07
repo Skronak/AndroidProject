@@ -31,12 +31,13 @@ public class ItemMenuElement extends Table {
     private Label passiveGoldLabel;
     private Label nextPassiveGoldLabel;
     private Image skillIcon;
-    public ItemEntity itemEntitySource;
     private GameInformation gameInformation;
     private TextButton buyButton;
     private TextButton equipButton;
     private String ICON_PATH = "sprites/icon/";
     private ItemMenu itemMenu;
+
+    public ItemEntity itemEntitySource;
 
     public ItemMenuElement(GameManager gameManager, ItemMenu itemMenu){
         this.gameInformation = gameManager.gameInformation;
@@ -49,7 +50,7 @@ public class ItemMenuElement extends Table {
      * dans la liste de tous les modules.
      * @param source
      */
-    public void initModuleMenuElement(final ItemEntity source) {
+    public void initItemMenuElement(final ItemEntity source) {
         itemEntitySource = source;
 //        int currentLevel = gameInformation.getUpgradeLevelList().get(i);
         int currentLevel = itemEntitySource.level;

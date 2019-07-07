@@ -29,7 +29,7 @@ public class RewardManager {
     }
 
     public void calculateRestReward() {
-        long diff = System.currentTimeMillis() - gameManager.gameInformation.getLastLogin();
+        long diff = System.currentTimeMillis() - gameManager.gameInformation.lastLogin;
         float hours = (diff / (1000 * 60 * 60));
 
         if (hours >= Constants.DELAY_HOURS_REWARD) {

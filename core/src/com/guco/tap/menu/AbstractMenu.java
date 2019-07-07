@@ -11,12 +11,15 @@ import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 
+import lombok.Getter;
+
 /**
  * Created by Skronak on 04/08/2017.
  * Default Menu layout used by all menu
  */
 public abstract class AbstractMenu {
     protected GameManager gameManager;
+    @Getter
     protected Table parentTable;
     protected Skin skin;
     protected float menu_width;
@@ -47,10 +50,13 @@ public abstract class AbstractMenu {
     /**
      * Called when menu is shown
      */
-    public void show(){
+    public void show() {
         this.getParentTable().setVisible(true);
     }
 
+    public void draw() {
+
+    }
     /**
      * Update Menu
      */
@@ -72,16 +78,4 @@ public abstract class AbstractMenu {
 //*****************************************************
 //                  GETTER & SETTER
 // ****************************************************
-
-    public GameManager getGameManager() {
-        return gameManager;
-    }
-
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
-
-    public Table getParentTable() {
-        return parentTable;
-    }
 }

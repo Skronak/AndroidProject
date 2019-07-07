@@ -56,6 +56,8 @@ public class GameManager {
 
     public ArrayList<Integer> newModuleIdList;
 
+    public ItemManager itemManager;
+
     // Enemy present on this floor
     public ArrayList<EnemyActor> enemyActorQueue;
 
@@ -92,6 +94,7 @@ public class GameManager {
         moduleManager = new ModuleManager(this);
         achievementManager = new AchievementManager(this);
         ressourceManager = new RessourceManager(this);
+        itemManager = new ItemManager(this);
         autoSaveTimer = 0f;
         increaseGoldTimer = 0f;
         weatherTimer = 0f;
@@ -213,7 +216,7 @@ public class GameManager {
         // Increase Gold passivly
         if(increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
             ressourceManager.increaseGoldPassive();
-            Gdx.app.debug("PlayScreen","Increasing Gold by "+gameInformation.getGenGoldPassive()+" val "+gameInformation.getGenCurrencyPassive());
+//            Gdx.app.debug("PlayScreen","Increasing Gold by "+gameInformation.getGenGoldPassive()+" val "+gameInformation.getGenCurrencyPassive());
             ressourceManager.increaseGoldPassive();
             playScreen.getHud().updateGoldLabel();
             increaseGoldTimer=0f;
@@ -299,7 +302,7 @@ public class GameManager {
      * @return
      */
     public float getCriticalValue(){
-        return (gameInformation.getTapDamage() * gameInformation.getCriticalRate());
+        return (gameInformation.tapDamage * gameInformation.criticalRate);
     }
 
     /**
@@ -307,23 +310,21 @@ public class GameManager {
      */
     public void hurtEnemy() {
         //currentEnemyActor.hurt();
-        currentEnemyActor.hp -= gameInformation.getTapDamage();
+        currentEnemyActor.hp -= gameInformation.tapDamage;
         // Case of enemy death
         if (currentEnemyActor.hp <= 0) {
             handleEnemyDeath();
         }
-        playScreen.getHud().updateEnemyInformation(gameInformation.getTapDamage());
+        playScreen.getHud().updateEnemyInformation(gameInformation.tapDamage);
     }
 
     public void handleEnemyDeath(){
         currentEnemyActor.hp=0;
         currentEnemyActor.death();
-
-        // if enemy generate gold (reward Manager || ScreenAnimationManager)
         Runnable incGold = new Runnable() {
             @Override
             public void run() {
-                ressourceManager.increaseGoldActive();
+                ressourceManager.increaseGold();
             }
         };
         float speed=1f;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.utils.Json;
 import com.guco.tap.achievement.AchievementElement;
 import com.guco.tap.entity.Enemy;
 import com.guco.tap.entity.ItemEntity;
+import com.guco.tap.entity.TiersUpgrades;
 import com.guco.tap.entity.ModuleElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
@@ -41,6 +41,7 @@ public class AssetManager {
     public ArrayList<Enemy> enemyList;
     private ArrayList<ItemEntity> itemList;
     public ArrayList<ItemEntity> weaponList,helmList, bodyList;
+    public ArrayList<TiersUpgrades> weaponUpgradeList;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture,brownTexture, upTexture, grey9Texture;
     public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4, torchTexture, achievementTexture,achievementAvaibleTexture;
@@ -111,22 +112,8 @@ public class AssetManager {
         bodyList= new ArrayList<ItemEntity>();
         bodyList = json.fromJson(ArrayList.class, ItemEntity.class, Gdx.files.internal(JSON_PATH+"body.json"));
 
-        //for (int i=0;i<itemList.size();i++){
-        //    switch (itemList.get(i).type) {
-        //        case 0:
-        //            weaponList.add(itemList.get(i));
-        //            break;
-        //        case 1:
-        //            helmList.add(itemList.get(i));
-        //            break;
-        //        case 2:
-        //            bodyList.add(itemList.get(i));
-        //            break;
-        //        default:
-        //            Gdx.app.error("AssetManager", "ItemList: unable to find type "+itemList.get(i).type);
-        //            break;
-        //    }
-        //}
+        weaponUpgradeList= new ArrayList<TiersUpgrades>();
+        weaponUpgradeList = json.fromJson(ArrayList.class, TiersUpgrades.class, Gdx.files.internal(JSON_PATH+"itemUpgrade.json"));
 
         loadValue+=1;
         Gdx.app.log("AssetManager","Chargement asset termine");

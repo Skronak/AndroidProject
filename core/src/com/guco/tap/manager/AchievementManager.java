@@ -2,7 +2,6 @@ package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.achievement.AchievementElement;
-import com.guco.tap.entity.GameInformation;
 
 import java.util.List;
 
@@ -31,15 +30,15 @@ public class AchievementManager {
     public void updateAchivementElementStatus() {
         for (int i = 0; i < achievementElementList.size(); i++) {
             achievementElementList.get(i).condition.gameInformation = gameManager.gameInformation;
-            switch (gameManager.gameInformation.getAchievList().get(i)) {
+            switch (gameManager.gameInformation.achievList.get(i)) {
                 case 0:
                     achievementElementList.get(i).isAchieved = achievementElementList.get(i).condition.isAchieved();
                     achievementElementList.get(i).isClaimed = false;
                     achievementElementList.get(i).isNew = true;
                     if (achievementElementList.get(i).isAchieved){
-                        gameManager.gameInformation.getAchievList().set(i,0);
+                        gameManager.gameInformation.achievList.set(i,0);
                     } else {
-                        gameManager.gameInformation.getAchievList().set(i, 0);
+                        gameManager.gameInformation.achievList.set(i, 0);
                     }
                     break;
                 case 1:

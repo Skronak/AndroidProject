@@ -35,7 +35,7 @@ import com.guco.tap.menu.GameInformationMenu;
 import com.guco.tap.menu.ItemMenu;
 import com.guco.tap.menu.OptionMenu;
 import com.guco.tap.menu.ModuleMenu;
-import com.guco.tap.menu.SkillMenu;
+import com.guco.tap.menu.ItemUpgradeMenu;
 import com.guco.tap.object.FpsActor;
 import com.guco.tap.object.EnemyInformation;
 import com.guco.tap.utils.Constants;
@@ -45,6 +45,8 @@ import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
+
 /**
  * Created by Skronak on 11/12/2016.
  *
@@ -52,14 +54,18 @@ import java.util.ArrayList;
  * du jeu
  */
 public class Hud implements Disposable {
-    public Stage stage;
-    private Viewport viewport;
+    @Getter
+    private Stage stage;
+
+    @Getter
     private ModuleMenu moduleMenu;
+
+    private Viewport viewport;
     private EquipMenu equipMenu;
     private OptionMenu optionMenu;
     private AchievementMenu achievementMenu;
     private GameInformationMenu gameInformationMenu;
-    private SkillMenu skillMenu;
+    private ItemUpgradeMenu itemUpgradeMenu;
     private ItemMenu itemMenu;
     private Label versionLabel;
     public Label goldLabel;
@@ -107,7 +113,7 @@ public class Hud implements Disposable {
         gameInformationMenu = new GameInformationMenu(gameManager);
         optionMenu = new OptionMenu(gameManager);
         achievementMenu = new AchievementMenu(gameManager);
-        skillMenu = new SkillMenu(gameManager);
+        itemUpgradeMenu = new ItemUpgradeMenu(gameManager);
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
@@ -260,10 +266,10 @@ public class Hud implements Disposable {
         versionLabel = new Label(Constants.CURRENT_VERSION, new Label.LabelStyle(font, Color.WHITE));
         versionLabel.setFontScale(0.5f);
         versionLabel.setWrap(true);
-        goldLabel = new Label(largeMath.getDisplayValue(gameInformation.getCurrentGold(), gameInformation.getCurrency()), new Label.LabelStyle(font, Color.WHITE));
+        goldLabel = new Label(largeMath.getDisplayValue(gameInformation.currentGold, gameInformation.currentCurrency), new Label.LabelStyle(font, Color.WHITE));
         goldLabel.setAlignment(Align.center);
 //        goldLabel.setFontScale(2);
-        floorLabel = new Label(String.valueOf(""+gameInformation.getDepth()), gameManager.assetManager.getSkin());
+        floorLabel = new Label(String.valueOf(""+gameInformation.depth), gameManager.assetManager.getSkin());
         battleNbLabel = new Label(gameInformation.currentEnemyIdx+"/10", gameManager.assetManager.getSkin());
         battleNbLabel.setFontScale(0.9f,0.9f);
         goldDecreaseLabel = new Label("", new Label.LabelStyle(font, Color.RED));
@@ -299,7 +305,7 @@ public class Hud implements Disposable {
         for(int i=0;i<activeMenuList.size();i++) {
             mainTable.addActor(activeMenuList.get(i).getParentTable());
         }
-        mainTable.addActor(skillMenu.getParentTable());
+        mainTable.addActor(itemUpgradeMenu.getParentTable());
 
         // ***** OTHER *****
         // Hp bar & name
@@ -325,7 +331,7 @@ public class Hud implements Disposable {
         menuButtonTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
         menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
         menuButtonTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-;//
+
         // Assemble hud
         mainTable.add(tableTop).top().height(45);
         mainTable.row();
@@ -338,7 +344,7 @@ public class Hud implements Disposable {
 
         // Optionnal element
         fpsActor = new FpsActor(gameManager.assetManager);
-        fpsActor.setVisible(gameInformation.isOptionFps());
+        fpsActor.setVisible(gameInformation.optionFps);
         fpsActor.setPosition(Constants.V_WIDTH-fpsActor.getWidth(), Constants.V_HEIGHT-fpsActor.getHeight());
         fpsActor.setFontScale(1.5f);
         stage.addActor(fpsActor);
@@ -348,13 +354,12 @@ public class Hud implements Disposable {
     /**
      * Methode draw specifique
      */
-    public void draw () {
+    public void draw() {
         stage.act();
         stage.draw();
 
-        // FOR TEST ONLY
-        if (currentMenu instanceof ItemMenu ) {
-            ((ItemMenu) currentMenu).draw();
+        if (currentMenu instanceof ItemMenu && currentMenu.getParentTable().getActions().size==0) {
+            currentMenu.draw();
         }
     }
 
@@ -366,7 +371,7 @@ public class Hud implements Disposable {
     }
 
     public void animateDecreaseGold(ValueDTO valueDto) {
-        String text = gameManager.largeMath.getDisplayValue(valueDto.getValue(), valueDto.getCurrency());
+        String text = gameManager.largeMath.getDisplayValue(valueDto.value, valueDto.currency);
         goldDecreaseLabel.setText("- " + text);
         goldDecreaseLabel.clearActions();
         goldDecreaseLabel.addAction(Actions.sequence(
@@ -401,14 +406,15 @@ public class Hud implements Disposable {
         } else {
             currentMenu.getParentTable().clearActions();
             currentMenu.getParentTable().setVisible(false);
-            menu.show();
             currentMenu = menu;
+            menu.getParentTable().setPosition(menu.getParentTable().getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT); //Menu Animation
+            menu.show();
             gameManager.currentState=GameState.MENU;
         }
     }
 
     public void showUpgradeMenu(){
-        toggleMenu(skillMenu);
+        toggleMenu(itemUpgradeMenu);
     }
 
     /**
@@ -420,7 +426,7 @@ public class Hud implements Disposable {
     }
 
     public void initEnemyInformation(EnemyActor enemyActor){
-        floorLabel.setText("Floor "+gameInformation.getDepth());
+        floorLabel.setText("Floor "+gameInformation.depth);
         enemyInformation.reinitialise(enemyActor);
     }
 
@@ -431,7 +437,7 @@ public class Hud implements Disposable {
 
     // Met a jour l'affichage de l'or
     public void updateGoldLabel(){
-        String scoreAffichage = largeMath.getDisplayValue(gameInformation.getCurrentGold(), gameInformation.getCurrency());
+        String scoreAffichage = largeMath.getDisplayValue(gameInformation.currentGold, gameInformation.currentCurrency);
         goldLabel.setText(scoreAffichage);
     }
 
@@ -440,9 +446,6 @@ public class Hud implements Disposable {
         if (null != currentMenu) {
             currentMenu.update();
         }
-    }
-    public Stage getStage() {
-        return stage;
     }
 
     @Override
@@ -453,9 +456,4 @@ public class Hud implements Disposable {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
-
-    public ModuleMenu getModuleMenu() {
-        return moduleMenu;
-    }
-
 }

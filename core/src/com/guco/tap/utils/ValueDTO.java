@@ -7,10 +7,10 @@ package com.guco.tap.utils;
  */
 public class ValueDTO {
     // value
-    private float value;
+    public float value;
 
     // currency
-    private int currency;
+    public int currency;
 
     public ValueDTO(){}
 
@@ -18,21 +18,4 @@ public class ValueDTO {
         this.value = value;
         this.currency = currency;
     }
-
-    public float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
-
-    public int getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(int currency) {
-        this.currency = currency;
-    }
-
 }

@@ -3,7 +3,6 @@ package com.guco.tap.input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.achievement.AchievementElement;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AchievementMenu;
 
@@ -24,7 +23,7 @@ public class ClaimAchievementButtonListener extends ClickListener {
 
     @Override
     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        gameManager.gameInformation.setSkillPoint(gameManager.gameInformation.getSkillPoint()+ achievementElement.skillPoint); // TODO pas ici
+        gameManager.gameInformation.skillPoint=(gameManager.gameInformation.skillPoint+ achievementElement.skillPoint); // TODO pas ici
         achievementMenu.animateClaim();
         achievementMenu.descriptionLabel.setText(achievementElement.description);
         return false;

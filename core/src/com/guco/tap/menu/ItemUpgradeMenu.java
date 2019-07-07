@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.entity.ItemEntity;
 import com.guco.tap.entity.ModuleMenuElement;
 import com.guco.tap.entity.SkillMenuElement;
 import com.guco.tap.input.BuyUpgradeButtonListener;
@@ -29,7 +30,7 @@ import java.util.List;
  * Created by Skronak on 01/02/2017.
  * Menu d'update
  */
-public class SkillMenu extends AbstractMenu {
+public class ItemUpgradeMenu extends AbstractMenu {
     private Label costLabel;
     private Label descriptionLabel;
     private Label levelLabel;
@@ -43,7 +44,7 @@ public class SkillMenu extends AbstractMenu {
     private Stack tableStack;
     private SkillMenuElement currentElement;//a set dans les listener
 
-    public SkillMenu(GameManager gameManager) {
+    public ItemUpgradeMenu(GameManager gameManager) {
         super(gameManager);
         customizeMenuTable();
         currentSelection = 1;         // selection 1 module par defaut
@@ -120,13 +121,13 @@ public class SkillMenu extends AbstractMenu {
         // Definition drawables possibles pour les boutons
         moduleButtonList = new ArrayList<ImageButton>();
 
-        // Add SkillMenuElement element to menu
-//        for (int i = 0; i < gameManager.assetManager.getModuleElementList().size(); i++) {
-        for (int i = 1; i < 6; i++) {
-            SkillMenuElement moduleMenuElement = new SkillMenuElement(gameManager, this);
-            moduleMenuElement.initModuleMenuElement(i);
-            scrollContainerVG.addActor(moduleMenuElement);
-        }
+        //for (int i = 1; i < gameManager.assetManager.weaponUpgradeList.size(); i++) {
+        //    for (int y = 1; y < gameManager.assetManager.weaponUpgradeList.get(i).firstTier.size(); y++) {
+        //        SkillMenuElement skillMenuElement = new SkillMenuElement(gameManager,this, gameManager.assetManager.weaponList.get(i));
+        //        skillMenuElement.initSkillMenuElement(i);
+        //        scrollContainerVG.addActor(skillMenuElement);
+        //    }
+        //}
         Gdx.app.log("ModuleMenu", "Generation des boutons de Module terminee");
 
         return pane;

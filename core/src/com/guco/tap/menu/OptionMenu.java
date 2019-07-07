@@ -76,18 +76,18 @@ public class OptionMenu extends AbstractMenu {
 
 
     public void switchSoundMode(){
-        gameManager.gameInformation.setOptionSound(!gameManager.gameInformation.isOptionSound());
+        gameManager.gameInformation.optionSound=(!gameManager.gameInformation.optionSound);
         update();
     }
 
     public void switchFpsMode(){
-        gameManager.gameInformation.setOptionFps(!gameManager.gameInformation.isOptionFps());
-        gameManager.playScreen.getHud().fpsActor.setVisible(gameManager.gameInformation.isOptionFps());
+        gameManager.gameInformation.optionFps=(!gameManager.gameInformation.optionFps);
+        gameManager.playScreen.getHud().fpsActor.setVisible(gameManager.gameInformation.optionFps);
         update();
     }
 
     public void switchWeatherMode(){
-        gameManager.gameInformation.setOptionWeather(!gameManager.gameInformation.isOptionWeather());
+        gameManager.gameInformation.optionWeather=(!gameManager.gameInformation.optionWeather);
         //gameManager.weatherManager.stopAll();
         update();
     }
@@ -99,8 +99,8 @@ public class OptionMenu extends AbstractMenu {
     }
 
     public void addGoldMode(){
-        gameManager.gameInformation.setCurrentGold(999);
-        gameManager.gameInformation.setCurrency(99);
+        gameManager.gameInformation.currentGold=999;
+        gameManager.gameInformation.currentCurrency=99;
     }
 
     public void customizeMenuTable() {
@@ -121,17 +121,17 @@ public class OptionMenu extends AbstractMenu {
 
     @Override
     public void show(){
-        if (gameManager.gameInformation.isOptionWeather()){
+        if (gameManager.gameInformation.optionWeather){
             weatherButton.setText("Disable Weather");
         } else {
             weatherButton.setText("Enable Weather");
         }
-        if (gameManager.gameInformation.isOptionSound()){
+        if (gameManager.gameInformation.optionSound){
             soundButton.setText("Disable Sound");
         } else {
             soundButton.setText("Enable Sound");
         }
-        if (gameManager.gameInformation.isOptionFps()){
+        if (gameManager.gameInformation.optionFps){
             fpsButton.setText("Hide Fps");
         } else {
             fpsButton.setText("Show Fps");

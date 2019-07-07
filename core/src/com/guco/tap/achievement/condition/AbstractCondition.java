@@ -1,4 +1,4 @@
-package com.guco.tap.achievement;
+package com.guco.tap.achievement.condition;
 
 import com.guco.tap.entity.GameInformation;
 

@@ -4,7 +4,7 @@
     "title": "Crazy taper 1",
     "description": "Tap 100 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":100},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":100},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -12,7 +12,7 @@
     "title": "Crazy taper 2",
     "description": "Tap 500 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":500},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":500},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -20,7 +20,7 @@
     "title": "Crazy taper 3",
     "description": "Tap 1 000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":1000},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":1000},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -28,7 +28,7 @@
     "title": "Crazy taper 4",
     "description": "Tap 1000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":250},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":250},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -36,7 +36,7 @@
     "title": "Crazy taper 5",
     "description": "Tap 2 500 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":2500},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":2500},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -44,7 +44,7 @@
     "title": "Crazy taper 6",
     "description": "Tap 5 000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":5000},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":5000},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -52,7 +52,7 @@
     "title": "Crazy taper 7",
     "description": "Tap 10 000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":10000},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":10000},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -60,7 +60,7 @@
     "title": "Crazy taper 8",
     "description": "Tap 50 000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":50000},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":50000},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -68,7 +68,7 @@
     "title": "Crazy taper 9",
     "description": "Tap 100 000 times",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":100000},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":100000},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -76,7 +76,7 @@
     "title": "Mechanic 1",
     "description": "Unlock 1 module for the station",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleNumberCondition", "conditionValue":1},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleNumberCondition", "conditionValue":1},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -84,7 +84,7 @@
     "title": "Mechanic 2",
     "description": "Unlock 4 modules for the station",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleNumberCondition", "conditionValue":4},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleNumberCondition", "conditionValue":4},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -92,7 +92,7 @@
     "title": "Shiny 1",
     "description": "Upgrade 1 module to lvl 5",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":1,"conditionValue":5},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":1,"conditionValue":5},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -100,7 +100,7 @@
     "title": "Shiny 2",
     "description": "Upgrade 4 module to lvl 5",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":4,"conditionValue":5},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":4,"conditionValue":5},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -108,7 +108,7 @@
     "title": "Shiny 3",
     "description": "Upgrade 1 module to lvl 10",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":1,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":1,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -116,7 +116,7 @@
     "title": "Shiny 4",
     "description": "Upgrade 5 module to lvl 10",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":5,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":5,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -124,7 +124,7 @@
     "title": "Shiny 5",
     "description": "Upgrade 10 module to lvl 10",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":5,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":5,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -132,7 +132,7 @@
     "title": "Shiny 6",
     "description": "Upgrade all module to lvl 10",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.ModuleLevelCondition", "conditionNumber":10,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.ModuleLevelCondition", "conditionNumber":10,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -140,7 +140,7 @@
     "title": "Pimp my station 1",
     "description": "Unlock a new station",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":999999},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":999999},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -148,7 +148,7 @@
     "title": "Pimp my station 2",
     "description": "Unlock 5 new station",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.TapNumberCondition", "conditionValue":999999},
+    "condition":{"class": "com.guco.tap.achievement.condition.TapNumberCondition", "conditionValue":999999},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -156,7 +156,7 @@
     "title": "Uncle Scrooge 1",
     "description": "Reach 10A Gold",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.GoldCondition", "conditionCurrency":1,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.GoldCondition", "conditionCurrency":1,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -164,7 +164,7 @@
     "title": "Uncle Scrooge 2",
     "description": "Reach 10AA Gold",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.GoldCondition", "conditionCurrency":26,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.GoldCondition", "conditionCurrency":26,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   },
   {
@@ -172,6 +172,6 @@
     "title": "Uncle Scrooge 3",
     "description": "Reach 10AAA Gold",
     "icon": "mod0.png",
-    "condition":{"class": "com.guco.tap.achievement.GoldCondition", "conditionCurrency":53,"conditionValue":10},
+    "condition":{"class": "com.guco.tap.achievement.condition.GoldCondition", "conditionCurrency":53,"conditionValue":10},
     "rewardValue":{"value":200,"currency":3}
   }]

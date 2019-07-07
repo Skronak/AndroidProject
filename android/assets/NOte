@@ -60,3 +60,5 @@ render:
 //            shapeRenderer.line(points[i], points[i+1]);
 //        }
 //        shapeRenderer.end();
+
+GameData qui store tout?

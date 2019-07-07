@@ -104,7 +104,7 @@ public class AchievementMenu extends AbstractMenu {
 
                 // Animate elements to claim
                 if (!gameManager.achievementManager.achievementElementList.get(i).isClaimed) {
-                    gameManager.gameInformation.getAchievList().set(i,1);
+                    gameManager.gameInformation.achievList.set(i,1);
                     if (gameManager.achievementManager.achievementElementList.get(i).isNew) {
                         achievementTable.getCells().get(i).getActor().addAction(
                                 Actions.sequence(Actions.parallel(
@@ -117,7 +117,7 @@ public class AchievementMenu extends AbstractMenu {
                         gameManager.achievementManager.achievementElementList.get(i).isNew=false;
                     }
                 } else {
-                    gameManager.gameInformation.getAchievList().set(i,2);
+                    gameManager.gameInformation.achievList.set(i,2);
                 }
             }
         }

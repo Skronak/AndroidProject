@@ -67,7 +67,7 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        gameManager.gameInformation.setTotalTapNumber(gameManager.gameInformation.getTotalTapNumber()+1);
+        gameManager.gameInformation.totalTapNumber=(gameManager.gameInformation.totalTapNumber+1);
 
         return false;
     }

@@ -1,4 +1,4 @@
-package com.guco.tap.achievement;
+package com.guco.tap.achievement.condition;
 
 /**
  * Condition sur le nombre d'upgrade debloquee
@@ -8,8 +8,8 @@ public class ModuleNumberCondition extends AbstractCondition {
     @Override
     public boolean isAchieved() {
         currentValue=0;
-        for (int i=0;i<gameInformation.getUpgradeLevelList().size();i++) {
-            if (gameInformation.getUpgradeLevelList().get(i)>0){
+        for (int i = 0; i<gameInformation.moduleLevelList.size(); i++) {
+            if (gameInformation.moduleLevelList.get(i)>0){
                 currentValue+=1;
             }
         }

@@ -1,7 +1,6 @@
 package com.guco.tap.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -173,6 +172,7 @@ public class ItemMenu extends AbstractMenu {
     /**
      * FOR TEST ONLY
      */
+    @Override
     public void draw(){
         batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
         batch.begin();
@@ -187,7 +187,7 @@ public class ItemMenu extends AbstractMenu {
         for (int i = 0; i < gameManager.assetManager.bodyList.size(); i++) {
             final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
             final ItemEntity itemEntity = gameManager.assetManager.bodyList.get(i);
-            itemMenuElement.initModuleMenuElement(itemEntity);
+            itemMenuElement.initItemMenuElement(itemEntity);
             itemMenuElement.setBackground(backgroundRegionDrawable);
             itemMenuElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -202,7 +202,7 @@ public class ItemMenu extends AbstractMenu {
         for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
             ItemEntity itemEntity = gameManager.assetManager.weaponList.get(i);
             final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
-            itemMenuElement.initModuleMenuElement(itemEntity);
+            itemMenuElement.initItemMenuElement(itemEntity);
             itemMenuElement.setBackground(backgroundRegionDrawable);
             itemMenuElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -217,7 +217,7 @@ public class ItemMenu extends AbstractMenu {
         for (int i = 0; i < gameManager.assetManager.helmList.size(); i++) {
             final ItemEntity itemEntity = gameManager.assetManager.helmList.get(i);
             final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
-            itemMenuElement.initModuleMenuElement(gameManager.assetManager.helmList.get(i));
+            itemMenuElement.initItemMenuElement(gameManager.assetManager.helmList.get(i));
             itemMenuElement.setBackground(backgroundRegionDrawable);
             itemMenuElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -239,7 +239,7 @@ public class ItemMenu extends AbstractMenu {
         for( int i=0; i<currentVG.getChildren().size;i++) {
             ItemEntity itemEntity = itemMenuElement.itemEntitySource;
             itemPlayer.characterMaps[0]= itemPlayer.getEntity().getCharacterMap(itemEntity.mapName); // charactermap 0 wrong
-            damageLabel.setText("Total atk " + (gameManager.gameInformation.getTapDamage() + itemEntity.baseDamage));
+            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamage + itemEntity.baseDamage));
             weaponDamageLabel.setText("Weapon atk " + itemEntity.baseDamage);
 
             switch( menuState){
@@ -290,7 +290,7 @@ public class ItemMenu extends AbstractMenu {
         }
         setEquipedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
         setSelectedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
-        super.show();
+        getParentTable().setVisible(true);
     }
 
     @Override

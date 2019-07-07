@@ -55,6 +55,16 @@ public class LargeMath {
     }
 
     /**
+     * @param firstValueDTO
+     * @param secondValueDTO
+     * @return
+     */
+    public ValueDTO increaseValue(ValueDTO firstValueDTO, ValueDTO secondValueDTO) {
+        ValueDTO newValueDTO = increaseValue(firstValueDTO.value, firstValueDTO.currency, secondValueDTO.value, secondValueDTO.currency);
+        return newValueDTO;
+    }
+
+    /**
      * @param firstValue
      * @param firstCurrency
      * @param secValue
@@ -132,14 +142,14 @@ public class LargeMath {
      * Similaire a adjustCurrency
      */
     public void formatGameInformation(){
-        float value= gameInformation.getCurrentGold();
-        int currency=gameInformation.getCurrency();
+        float value= gameInformation.currentGold;
+        int currency=gameInformation.currentCurrency;
         while(value>=1000) {
             value=value/1000;
             currency+=1;
         }
-        gameInformation.setCurrentGold(value);
-        gameInformation.setCurrency(currency);
+        gameInformation.currentGold=value;
+        gameInformation.currentCurrency=currency;
         //TODO formater pour que virgule ne passe pas la limite du systeme
     }
 
@@ -160,7 +170,7 @@ public class LargeMath {
     // Retourne la valeur afficher
     public String getDisplayValue(Float value, int currency) {
         ValueDTO valueDto = adjustCurrency(value, currency);
-        return (decimalFormat.format(valueDto.getValue()) + printLetter(valueDto.getCurrency()));
+        return (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     }
 
     /// TODO : PERF TO ANALYSE REAL PLAYTIME: perf2 better than perf& atm///
@@ -173,7 +183,7 @@ public class LargeMath {
     //public void testPerf1(Float value, int currency){
     //    long startTime = System.nanoTime();
     //    ValueDTO valueDto = adjustCurrency(value, currency);
-    //    String r = (decimalFormat.format(valueDto.getValue()) + printLetter(valueDto.getCurrency()));
+    //    String r = (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     //    long endTime = System.nanoTime();
     //    long duration = (endTime - startTime);
     //    Gdx.app.log("Test1",String.valueOf(duration));
@@ -182,10 +192,10 @@ public class LargeMath {
     //public void testPerf2(Float value, int currency){
     //    long startTime = System.nanoTime();
     //    ValueDTO valueDto = adjustCurrency(value, currency);
-    //    if(value==valueDto.getCurrency()) {
-    //        String r = (decimalFormat.format(valueDto.getValue()) + getLetter(valueDto.getCurrency()));
+    //    if(value==valueDto.currency) {
+    //        String r = (decimalFormat.format(valueDto.value) + getLetter(valueDto.currency));
     //    } else {
-    //        String r = (decimalFormat.format(valueDto.getValue()) + printLetter(valueDto.getCurrency()));
+    //        String r = (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     //    }
     //    long endTime = System.nanoTime();
     //    long duration = (endTime - startTime);
@@ -193,8 +203,8 @@ public class LargeMath {
     //}
 
     public String getDisplayValue(ValueDTO valueDTO) {
-        ValueDTO valueDto = adjustCurrency(valueDTO.getValue(), valueDTO.getCurrency());
-        return (decimalFormat.format(valueDto.getValue()) + printLetter(valueDto.getCurrency()));
+        ValueDTO valueDto = adjustCurrency(valueDTO.value, valueDTO.currency);
+        return (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     }
 
     //    formatgameInformation();

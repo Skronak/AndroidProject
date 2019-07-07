@@ -1,6 +1,6 @@
 package com.guco.tap.achievement;
 
-import com.guco.tap.achievement.Condition;
+import com.guco.tap.achievement.condition.AbstractCondition;
 import com.guco.tap.utils.ValueDTO;
 
 import java.util.Date;

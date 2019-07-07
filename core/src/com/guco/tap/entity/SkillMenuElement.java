@@ -7,9 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.guco.tap.input.SkillSelectButtonListener;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.menu.SkillMenu;
+import com.guco.tap.menu.ItemUpgradeMenu;
 
 /**
  * Represente un module dans le menu deroulant des modules
@@ -24,11 +23,13 @@ public class SkillMenuElement extends Table {
     public TextButton skill3Button;
     private Image skillIcon;
     private ModuleElement moduleElementSource;
-    private SkillMenu skillMenu;
+    private ItemUpgradeMenu itemUpgradeMenu;
+    private ItemEntity itemSource;
 
-    public SkillMenuElement(GameManager gameManager, SkillMenu skillMenu){
+    public SkillMenuElement(GameManager gameManager, ItemUpgradeMenu itemUpgradeMenu, ItemEntity itemEntity){
         this.gameManager = gameManager;
-        this.skillMenu = skillMenu;
+        this.itemUpgradeMenu = itemUpgradeMenu;
+        this.itemSource = itemEntity;
     }
 
     /**
@@ -36,27 +37,27 @@ public class SkillMenuElement extends Table {
      * dans la liste de tous les modules.
      * @param i
      */
-    public void initModuleMenuElement(int i) {
+    public void initSkillMenuElement(int i) {
         moduleElementSource = gameManager.assetManager.getModuleElementList().get(i);
-        int currentLevel = gameManager.gameInformation.getUpgradeLevelList().get(i);
+        int currentLevel = gameManager.gameInformation.moduleLevelList.get(i);
 
         skill1Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
-        skill1Button.addListener(new SkillSelectButtonListener(this, skillMenu));
+        skill1Button.addListener(new SkillSelectButtonListener(this, itemUpgradeMenu, itemSource, itemSource.upgrades.firstTier.get(i)));
 
-        skill2Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
-        skill2Button.addListener(new SkillSelectButtonListener(this, skillMenu));
+       /* skill2Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
+        skill2Button.addListener(new SkillSelectButtonListener(this, itemUpgradeMenu, itemSource, itemSource.upgrades.get(i)));
 
         skill3Button = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
-        skill3Button.addListener(new SkillSelectButtonListener(this, skillMenu));
-
+        skill3Button.addListener(new SkillSelectButtonListener(this, itemUpgradeMenu, itemSource, itemSource.upgrades.get(i)));
+*/
         Texture skillTexture = new Texture(Gdx.files.internal("sprites/icon/skillLevel"+i+".png"));
         skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         skillIcon = new Image(skillTexture);
 
         this.add(skillIcon).height(45).width(80).padLeft(5).padRight(10);
         this.add(skill1Button).height(45).width(45).padRight(10).padLeft(10);
-        this.add(skill2Button).height(45).width(45).padRight(10);
-        this.add(skill3Button).height(45).width(45).padRight(10);
+        //this.add(skill2Button).height(45).width(45).padRight(10);
+        //this.add(skill3Button).height(45).width(45).padRight(10);
         update();
     }
 

@@ -70,7 +70,6 @@ public class PlayScreen implements Screen {
     GameManager gameManager;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
-    ShaderProgram blurShader;
 
 
     /**
@@ -81,6 +80,10 @@ public class PlayScreen implements Screen {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
         this.gameManager=gameManager;
+
+        //blurShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
+        //ShaderProgram.pedantic = false;
+//        blurShader = new ShaderProgram(Gdx.files.internal("shaders/fragment.glsl").readString(), Gdx.files.internal("shaders/vertex.glsl").readString());
     }
 
     @Override
@@ -263,7 +266,7 @@ public class PlayScreen implements Screen {
         player.setAnimation("atk");
         gameManager.hurtEnemy();
 
-        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.getTapDamage(), gameManager.gameInformation.getGenCurrencyActive()),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamage, gameManager.gameInformation.genCurrencyActive),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;

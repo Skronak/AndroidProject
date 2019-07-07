@@ -46,34 +46,37 @@ public class GameInformationManager {
     public void initGameInformation() {
         gameInformation = new GameInformation();
 
-        gameInformation.setCurrentGold(0);
-        gameInformation.setCurrency(0);
-        gameInformation.setGenGoldPassive(2);
-        gameInformation.setTapDamage(2);
-        gameInformation.setGenCurrencyPassive(0);
-        gameInformation.setGenCurrencyActive(0);
-        gameInformation.setCriticalRate(5);
-        gameInformation.setSkillPoint(0);
-        gameInformation.setLastLogin(System.currentTimeMillis());
-        gameInformation.setTotalTapNumber(0);
-        gameInformation.setTotalGameTime(0L);
+        gameInformation.currentGold=0;
+        gameInformation.currentCurrency=0;
+        gameInformation.genGoldPassive=2;
+        gameInformation.tapDamage=2;
+        gameInformation.genCurrencyPassive = 0;
+        gameInformation.genCurrencyActive=0;
+        gameInformation.criticalRate=5;
+        gameInformation.skillPoint=0;
+        gameInformation.lastLogin=System.currentTimeMillis();
+        gameInformation.totalTapNumber=0;
+        gameInformation.totalGameTime=0L;
+        gameInformation.levelBaseGold=5;
+        gameInformation.levelBaseCurrency=1;
+        gameInformation.depth=1;
         ArrayList upgradeLevelList = new ArrayList();
         for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
             upgradeLevelList.add(0);
         }
-        gameInformation.setUpgradeLevelList(upgradeLevelList);
+        gameInformation.moduleLevelList =upgradeLevelList;
         ArrayList achievList = new ArrayList();
         for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
             achievList.add(0);
         }
-        gameInformation.setAchievList(achievList);
+        gameInformation.achievList=achievList;
     }
 
     public void initGamePreference(){
-        gameInformation.setFirstPlay(true);
-        gameInformation.setOptionSound(true);
-        gameInformation.setOptionWeather(true);
-        gameInformation.setOptionFps(false);
+        gameInformation.firstPlay=true;
+        gameInformation.optionSound=true;
+        gameInformation.optionWeather=true;
+        gameInformation.optionFps=false;
     }
 
     public void loadGameInformation() {

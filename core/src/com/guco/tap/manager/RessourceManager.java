@@ -43,18 +43,18 @@ public class RessourceManager {
         gameInformation.currentGold=newValue.value;
         gameInformation.currentCurrency=newValue.currency;
         largeMath.formatGameInformation();
-        calculateTapDamage();
     }
 
     public void decreaseGold(){
 
     }
 
+    // TODO
+
     public void calculateTapDamage(){
-        int currency=0;
-        int damage=0;
         ItemEntity weapon = assetManager.weaponList.get(gameInformation.equipedWeapon);
-        float weaponDamage = weapon.currentDamage;
+        gameInformation.tapDamageValue = weapon.baseDamage;
+        gameInformation.tapDamageCurrency = weapon.baseCurrency;
 
         assetManager.helmList.get(gameInformation.equipedBody);
         assetManager.bodyList.get(gameInformation.equipedBody);

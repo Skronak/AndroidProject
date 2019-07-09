@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.guco.tap.Animation.AnimatedBaseActor;
 import com.guco.tap.entity.Enemy;
 
 public class EnemyActor extends AnimatedBaseActor {

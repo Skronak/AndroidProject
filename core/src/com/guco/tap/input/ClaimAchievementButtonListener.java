@@ -2,9 +2,9 @@ package com.guco.tap.input;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.guco.tap.achievement.AchievementElement;
+import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.menu.AchievementMenu;
+import com.guco.tap.menu.achievement.AchievementMenu;
 
 /**
  *

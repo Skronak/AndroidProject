@@ -19,7 +19,7 @@ import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
-import com.guco.tap.listener.PlayerListenerImpl;
+import com.guco.tap.input.PlayerListenerImpl;
 import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
@@ -104,9 +104,9 @@ public class GameManager {
 
     public void initialiseGame() {
         gameInformation.currentEnemyIdx=0;
-        //moduleManager.initialize(playScreen.getHud().getModuleMenu());
+        //moduleManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
         initEnemyQueue();
-        moduleManager.initialize(playScreen.getHud().getModuleMenu());
+        moduleManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
 
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
@@ -302,7 +302,7 @@ public class GameManager {
      * @return
      */
     public float getCriticalValue(){
-        return (gameInformation.tapDamage * gameInformation.criticalRate);
+        return (gameInformation.tapDamageValue * gameInformation.criticalRate);
     }
 
     /**
@@ -310,12 +310,12 @@ public class GameManager {
      */
     public void hurtEnemy() {
         //currentEnemyActor.hurt();
-        currentEnemyActor.hp -= gameInformation.tapDamage;
+        currentEnemyActor.hp -= gameInformation.tapDamageValue;
         // Case of enemy death
         if (currentEnemyActor.hp <= 0) {
             handleEnemyDeath();
         }
-        playScreen.getHud().updateEnemyInformation(gameInformation.tapDamage);
+        playScreen.getHud().updateEnemyInformation(gameInformation.tapDamageValue);
     }
 
     public void handleEnemyDeath(){

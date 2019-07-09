@@ -1,4 +1,4 @@
-package com.guco.tap.menu;
+package com.guco.tap.menu.achievement;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +19,7 @@ import com.guco.tap.input.AchievementButtonListener;
 import com.guco.tap.input.ClaimAchievementButtonListener;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.AbstractMenu;
 
 /**
  * Created by Skronak on 11/02/2017.

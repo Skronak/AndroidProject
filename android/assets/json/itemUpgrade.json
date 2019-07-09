@@ -4,11 +4,12 @@
       {
         "weaponId": 0,
         "name": "test",
-        "description": "description",
+        "description": "Upgrade gold per kill by 10%",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
-          "value": 0,
+          "value": 1.1,
           "currency": 0,
           "originValue": 0,
           "originCurrency": 0
@@ -17,11 +18,12 @@
       {
         "weaponId": 0,
         "name": "test1",
-        "description": "description1",
+        "description": "Increase weapon damage by 5%",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
-          "class": "com.guco.tap.entity.UpgradeGoldEffect",
-          "value": 0,
+          "class": "com.guco.tap.entity.UpgradeDamageEffect",
+          "value": 1.05,
           "currency": 0,
           "originValue": 0,
           "originCurrency": 0
@@ -29,9 +31,10 @@
       },
       {
         "weaponId": 0,
-        "name": "test1",
-        "description": "description1",
+        "name": "test2",
+        "description": "Add 50 gold each second",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -44,9 +47,10 @@
     "secondTier": [
       {
         "weaponId": 0,
-        "name": "test",
+        "name": "test3",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -57,9 +61,10 @@
       },
       {
         "weaponId": 0,
-        "name": "test1",
+        "name": "test4",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -70,9 +75,10 @@
       },
       {
         "weaponId": 0,
-        "name": "test1",
+        "name": "test5",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -85,9 +91,10 @@
     "thirdTier": [
       {
         "weaponId": 0,
-        "name": "test",
+        "name": "test6",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -98,9 +105,10 @@
       },
       {
         "weaponId": 0,
-        "name": "test1",
+        "name": "test7",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -111,9 +119,10 @@
       },
       {
         "weaponId": 0,
-        "name": "test1",
+        "name": "test8",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -127,10 +136,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 1,
+        "name": "test9",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -140,10 +150,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test10",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -153,10 +164,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test11",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -168,10 +180,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 1,
+        "name": "test12",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -181,10 +194,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test13",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -194,10 +208,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test14",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -209,10 +224,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 1,
+        "name": "test15",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -222,10 +238,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test16",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -235,10 +252,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 1,
+        "name": "test17",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -252,10 +270,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 2,
+        "name": "test18",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -265,10 +284,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test19",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -278,10 +298,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test20",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -293,10 +314,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 2,
+        "name": "test21",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -306,10 +328,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test22",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -319,10 +342,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test23",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -334,10 +358,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 2,
+        "name": "test24",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -347,10 +372,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test25",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -360,10 +386,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 2,
+        "name": "test26",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -377,10 +404,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 3,
+        "name": "test27",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -390,10 +418,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test28",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -403,10 +432,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test29",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -418,10 +448,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 3,
+        "name": "test30",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -431,10 +462,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test31",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -444,10 +476,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test32",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -459,10 +492,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 3,
+        "name": "test33",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -472,10 +506,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test34",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -485,10 +520,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 3,
+        "name": "test35",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -502,10 +538,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 4,
+        "name": "test36",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -515,10 +552,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test37",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -528,10 +566,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test38",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -543,10 +582,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 4,
+        "name": "test39",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -556,10 +596,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test40",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -569,10 +610,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test41",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -584,10 +626,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 4,
+        "name": "test42",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -597,10 +640,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test43",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -610,10 +654,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 4,
+        "name": "test44",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -627,10 +672,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 5,
+        "name": "test45",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -640,10 +686,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test46",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -653,10 +700,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test47",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -668,10 +716,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 5,
+        "name": "test48",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -681,10 +730,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test49",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -694,10 +744,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test50",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -709,10 +760,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 5,
+        "name": "test51",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -722,10 +774,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test52",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -735,10 +788,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 5,
+        "name": "test53",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -752,10 +806,11 @@
   {
     "firstTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 6,
+        "name": "test54",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -765,10 +820,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test55",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -778,10 +834,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test56",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -793,10 +850,11 @@
     ],
     "secondTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 6,
+        "name": "test57",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -806,10 +864,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test58",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -819,10 +878,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test59",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -834,10 +894,11 @@
     ],
     "thirdTier": [
       {
-        "weaponId": 0,
-        "name": "test",
+        "weaponId": 6,
+        "name": "test60",
         "description": "description",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -847,10 +908,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test61",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,
@@ -860,10 +922,11 @@
         }
       },
       {
-        "weaponId": 0,
-        "name": "test1",
+        "weaponId": 6,
+        "name": "test62",
         "description": "description1",
         "reqLevel": 0,
+        "iconSprite":"skillLevel1.png",
         "upgradeEffect": {
           "class": "com.guco.tap.entity.UpgradeGoldEffect",
           "value": 0,

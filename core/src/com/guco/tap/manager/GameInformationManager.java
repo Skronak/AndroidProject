@@ -49,9 +49,9 @@ public class GameInformationManager {
         gameInformation.currentGold=0;
         gameInformation.currentCurrency=0;
         gameInformation.genGoldPassive=2;
-        gameInformation.tapDamage=2;
+        gameInformation.tapDamageValue =2;
         gameInformation.genCurrencyPassive = 0;
-        gameInformation.genCurrencyActive=0;
+        gameInformation.tapDamageCurrency =0;
         gameInformation.criticalRate=5;
         gameInformation.skillPoint=0;
         gameInformation.lastLogin=System.currentTimeMillis();

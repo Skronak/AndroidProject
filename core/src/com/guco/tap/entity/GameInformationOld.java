@@ -83,8 +83,8 @@ public class GameInformationOld {
     public void saveInformation() {
         prefs.putFloat("currentGold", currentGold);
         prefs.putInteger("currentCurrency", currency);
-        prefs.putFloat("tapDamage", genGoldActive);
-        prefs.putInteger("genCurrencyActive", genCurrencyActive);
+        prefs.putFloat("tapDamageValue", genGoldActive);
+        prefs.putInteger("tapDamageCurrency", genCurrencyActive);
         prefs.putFloat("genGoldPassive", genGoldPassive);
         prefs.putInteger("genCurrencyPassive", genCurrencyPassive);
         prefs.putInteger("criticalRate", criticalRate);
@@ -161,10 +161,10 @@ public class GameInformationOld {
     private void loadGameInformation() {
         currentGold = prefs.getFloat("currentGold");
         currency = prefs.getInteger("currentCurrency");
-        genGoldActive = prefs.getFloat("tapDamage");
+        genGoldActive = prefs.getFloat("tapDamageValue");
         genGoldPassive = prefs.getFloat("genGoldPassive");
         genCurrencyPassive = prefs.getInteger("genCurrencyPassive");
-        genCurrencyActive = prefs.getInteger("genCurrencyActive");
+        genCurrencyActive = prefs.getInteger("tapDamageCurrency");
         criticalRate = prefs.getInteger("criticalRate");
         stationId = prefs.getInteger("stationId");
         skillPoint = prefs.getInteger("skillPoint");

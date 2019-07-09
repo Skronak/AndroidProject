@@ -1,7 +1,8 @@
-package com.guco.tap.menu;
+package com.guco.tap.menu.gameInformation;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.AbstractMenu;
 
 /**
  * Created by Skronak on 21/08/2017.
@@ -19,7 +20,7 @@ public class GameInformationMenu extends AbstractMenu {
     public GameInformationMenu(GameManager gameManager) {
         super(gameManager);
         goldLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.currentGold, gameManager.gameInformation.currentCurrency), skin);
-        activGoldGenLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamage, gameManager.gameInformation.genCurrencyActive), skin);
+        activGoldGenLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency), skin);
         passivGoldGenLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.genGoldPassive, gameManager.gameInformation.genCurrencyPassive), skin);
         criticalHitLabel = new Label(String.valueOf("x "+gameManager.gameInformation.criticalRate), skin);
         gameTimeLabel = new Label(String.valueOf((gameManager.gameInformation.totalGameTime/ (1000*60*60)) + " hours"), skin);
@@ -63,7 +64,7 @@ public class GameInformationMenu extends AbstractMenu {
     @Override
     public void update() {
         goldLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.currentGold, gameManager.gameInformation.currentCurrency));
-        activGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamage, gameManager.gameInformation.genCurrencyActive));
+        activGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency));
         passivGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.genGoldPassive, gameManager.gameInformation.genCurrencyPassive));
         criticalHitLabel.setText("x "+gameManager.gameInformation.criticalRate);
         gameTimeLabel.setText(String.valueOf((gameManager.gameInformation.totalGameTime/ (1000*60*60)) + " hours"));

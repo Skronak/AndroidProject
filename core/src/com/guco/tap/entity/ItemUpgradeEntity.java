@@ -6,6 +6,7 @@ public class ItemUpgradeEntity {
     public String description;
     public int reqLevel;
     public AbstractUpgradeEffect upgradeEffect;
+    public String iconSprite;
 
     public ItemUpgradeEntity(){
 

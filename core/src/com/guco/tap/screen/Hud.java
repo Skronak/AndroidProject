@@ -29,13 +29,13 @@ import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
-import com.guco.tap.menu.AchievementMenu;
-import com.guco.tap.menu.EquipMenu;
-import com.guco.tap.menu.GameInformationMenu;
-import com.guco.tap.menu.ItemMenu;
-import com.guco.tap.menu.OptionMenu;
-import com.guco.tap.menu.ModuleMenu;
-import com.guco.tap.menu.ItemUpgradeMenu;
+import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
+import com.guco.tap.menu.achievement.AchievementMenu;
+import com.guco.tap.menu.shop.ShopMenu;
+import com.guco.tap.menu.gameInformation.GameInformationMenu;
+import com.guco.tap.menu.inventory.InventoryMenu;
+import com.guco.tap.menu.option.OptionMenu;
+import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.object.FpsActor;
 import com.guco.tap.object.EnemyInformation;
 import com.guco.tap.utils.Constants;
@@ -58,15 +58,15 @@ public class Hud implements Disposable {
     private Stage stage;
 
     @Getter
-    private ModuleMenu moduleMenu;
+    private CharacterAttributeMenu characterAttributeMenu;
 
     private Viewport viewport;
-    private EquipMenu equipMenu;
+    private ShopMenu shopMenu;
     private OptionMenu optionMenu;
     private AchievementMenu achievementMenu;
     private GameInformationMenu gameInformationMenu;
-    private ItemUpgradeMenu itemUpgradeMenu;
-    private ItemMenu itemMenu;
+    private ItemAttributeMenu itemAttributeMenu;
+    private InventoryMenu inventoryMenu;
     private Label versionLabel;
     public Label goldLabel;
     private Label goldDecreaseLabel;
@@ -107,25 +107,25 @@ public class Hud implements Disposable {
      * Initialise les menu
      */
     private void initMenu() {
-        moduleMenu = new ModuleMenu(gameManager);
-        equipMenu = new EquipMenu(gameManager);
-        itemMenu = new ItemMenu(gameManager);
+        characterAttributeMenu = new CharacterAttributeMenu(gameManager);
+        shopMenu = new ShopMenu(gameManager);
+        inventoryMenu = new InventoryMenu(gameManager);
         gameInformationMenu = new GameInformationMenu(gameManager);
         optionMenu = new OptionMenu(gameManager);
         achievementMenu = new AchievementMenu(gameManager);
-        itemUpgradeMenu = new ItemUpgradeMenu(gameManager);
+        itemAttributeMenu = new ItemAttributeMenu(gameManager);
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
-        activeMenuList.add(moduleMenu);
-        activeMenuList.add(itemMenu);
-        activeMenuList.add(equipMenu);
+        activeMenuList.add(characterAttributeMenu);
+        activeMenuList.add(inventoryMenu);
+        activeMenuList.add(shopMenu);
         activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
     }
 
     public void postInitMenu(){
-        equipMenu.postInit();
+        shopMenu.postInit();
     }
 
     private void initTop(){
@@ -305,7 +305,7 @@ public class Hud implements Disposable {
         for(int i=0;i<activeMenuList.size();i++) {
             mainTable.addActor(activeMenuList.get(i).getParentTable());
         }
-        mainTable.addActor(itemUpgradeMenu.getParentTable());
+        mainTable.addActor(itemAttributeMenu.getParentTable());
 
         // ***** OTHER *****
         // Hp bar & name
@@ -358,7 +358,7 @@ public class Hud implements Disposable {
         stage.act();
         stage.draw();
 
-        if (currentMenu instanceof ItemMenu && currentMenu.getParentTable().getActions().size==0) {
+        if (currentMenu instanceof InventoryMenu && currentMenu.getParentTable().getActions().size==0) {
             currentMenu.draw();
         }
     }
@@ -413,8 +413,9 @@ public class Hud implements Disposable {
         }
     }
 
-    public void showUpgradeMenu(){
-        toggleMenu(itemUpgradeMenu);
+    public void showUpgradeMenu(int id){
+        itemAttributeMenu.switchWeaponAttribute(id);
+        toggleMenu(itemAttributeMenu);
     }
 
     /**

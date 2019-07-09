@@ -1,4 +1,4 @@
-package com.guco.tap.entity;
+package com.guco.tap.menu.characterAttribute.element;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.guco.tap.entity.ModuleElement;
+import com.guco.tap.entity.ModuleElementLevel;
 import com.guco.tap.input.BuyUpgradeButtonListener;
 import com.guco.tap.manager.GameManager;
 
@@ -20,7 +22,7 @@ import com.guco.tap.manager.GameManager;
  *
  */
 
-public class ModuleMenuElement extends Table {
+public class CharacterAttributeElement extends Table {
     private GameManager gameManager;
     private Label moduleLevelLabel;
     private String PASSIVE_GOLD_LABEL = "Passive Gold: ";
@@ -37,7 +39,7 @@ public class ModuleMenuElement extends Table {
     private Image goldIcon;
     private ModuleElement moduleElementSource;
 
-    public ModuleMenuElement(GameManager gameManager){
+    public CharacterAttributeElement(GameManager gameManager){
         this.gameManager = gameManager;
     }
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.guco.tap.Animation.AnimatedActor;
+import com.guco.tap.actor.AnimatedActor;
 
 public class GoldActor extends AnimatedActor {
 

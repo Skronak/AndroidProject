@@ -1140,7 +1140,7 @@
             </timeline>
         </animation>
     </entity>
-    <entity id="1" name="itemMenu">
+    <entity id="1" name="inventoryMenu">
         <character_map id="0" name="body0"/>
         <character_map id="1" name="body1">
             <map folder="0" file="0" target_folder="0" target_file="13"/>

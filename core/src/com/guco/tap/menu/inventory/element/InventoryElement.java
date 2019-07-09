@@ -1,20 +1,17 @@
-package com.guco.tap.entity;
+package com.guco.tap.menu.inventory.element;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.manager.AssetManager;
+import com.guco.tap.entity.GameInformation;
+import com.guco.tap.entity.ItemEntity;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.menu.ItemMenu;
+import com.guco.tap.menu.inventory.InventoryMenu;
 
 /**
  * Represente un module dans le menu deroulant des modules
@@ -22,7 +19,7 @@ import com.guco.tap.menu.ItemMenu;
  *
  */
 
-public class ItemMenuElement extends Table {
+public class InventoryElement extends Table {
     private GameManager gameManager;
     private Label itemNameLabel;
     private TextButton upgradeButton;
@@ -35,14 +32,14 @@ public class ItemMenuElement extends Table {
     private TextButton buyButton;
     private TextButton equipButton;
     private String ICON_PATH = "sprites/icon/";
-    private ItemMenu itemMenu;
+    private InventoryMenu inventoryMenu;
 
     public ItemEntity itemEntitySource;
 
-    public ItemMenuElement(GameManager gameManager, ItemMenu itemMenu){
+    public InventoryElement(GameManager gameManager, InventoryMenu inventoryMenu){
         this.gameInformation = gameManager.gameInformation;
         this.gameManager = gameManager;
-        this.itemMenu = itemMenu;
+        this.inventoryMenu = inventoryMenu;
     }
 
     /**
@@ -68,7 +65,7 @@ public class ItemMenuElement extends Table {
         upgradeButton = new TextButton("",gameManager.assetManager.getModuleMenuUpgradeTxtBtnStyle());
         upgradeButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.getHud().showUpgradeMenu();
+                gameManager.playScreen.getHud().showUpgradeMenu(source.id);
                 return true;
             }});
 
@@ -103,7 +100,7 @@ public class ItemMenuElement extends Table {
 
     public void setEquiped(){
         gameManager.playScreen.player.characterMaps[itemEntitySource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemEntitySource.mapName);
-        itemMenu.setEquipedItem(this);
+        inventoryMenu.setEquipedItem(this);
     }
 
     public void update() {

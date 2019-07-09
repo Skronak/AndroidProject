@@ -4,10 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.ItemEntity;
 import com.guco.tap.entity.ItemUpgradeEntity;
-import com.guco.tap.entity.SkillMenuElement;
-import com.guco.tap.entity.UpgradeEffect;
-import com.guco.tap.manager.ItemManager;
-import com.guco.tap.menu.ItemUpgradeMenu;
+import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 
 /**
  * Created by Skronak on 29/01/2017.
@@ -15,22 +12,19 @@ import com.guco.tap.menu.ItemUpgradeMenu;
  */
 public class SkillSelectButtonListener extends ClickListener {
 
-    private ItemUpgradeMenu itemUpgradeMenu;
-    private SkillMenuElement skillMenuElement;
+    private ItemAttributeMenu itemAttributeMenu;
     private ItemEntity itemEntity;
     private ItemUpgradeEntity itemUpgradeEntity;
 
-    public SkillSelectButtonListener(SkillMenuElement skillMenuElement, ItemUpgradeMenu itemUpgradeMenu, ItemEntity itemEntity, ItemUpgradeEntity itemUpgradeEntity) {
-        this.itemUpgradeMenu = itemUpgradeMenu;
-        this.skillMenuElement= skillMenuElement;
-        this.itemEntity = itemEntity;
+    public SkillSelectButtonListener(ItemAttributeMenu itemAttributeMenu, ItemUpgradeEntity itemUpgradeEntity, ItemEntity itemEntity) {
+        this.itemAttributeMenu = itemAttributeMenu;
         this.itemUpgradeEntity = itemUpgradeEntity;
+        this.itemEntity = itemEntity;
     }
 
     @Override
     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        itemUpgradeMenu.showDetailTable(skillMenuElement);
-        itemUpgradeEntity.upgradeEffect.apply(itemEntity);
+        itemAttributeMenu.showSkillDetail(itemUpgradeEntity, itemEntity);
         event.cancel();
         return true;
     }

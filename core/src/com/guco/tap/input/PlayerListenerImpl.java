@@ -1,4 +1,4 @@
-package com.guco.tap.listener;
+package com.guco.tap.input;
 
 import com.badlogic.gdx.Gdx;
 import com.brashmonkey.spriter.Animation;

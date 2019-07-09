@@ -48,7 +48,7 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Gdx.app.debug("touch",String.valueOf(playScreen.getMousePosInGameWorld().x + " // "+playScreen.getMousePosInGameWorld().y));
+//        Gdx.app.debug("touch",String.valueOf(playScreen.getMousePosInGameWorld().x + " // "+playScreen.getMousePosInGameWorld().y));
 
         if (gameManager.currentState.equals(GameState.IN_GAME)) {
             int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;

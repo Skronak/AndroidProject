@@ -1,8 +1,6 @@
 package com.guco.tap.manager;
 
 import com.guco.tap.entity.ItemEntity;
-import com.guco.tap.entity.ItemUpgradeEntity;
-import com.guco.tap.entity.UpgradeEffect;
 
 public class ItemManager {
     private GameManager gameManager;
@@ -37,7 +35,7 @@ public class ItemManager {
     }
 
     public void calculateCurrentDamage(ItemEntity itemEntity){
-        itemEntity.currentDamage = itemEntity.level * (itemEntity.currentDamage * itemEntity.damageRate);
+        itemEntity.currentDamageValue = itemEntity.level * (itemEntity.currentDamageValue * itemEntity.damageRate);
     }
 
 }

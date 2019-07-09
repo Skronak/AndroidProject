@@ -1,4 +1,4 @@
-package com.guco.tap.Animation;
+package com.guco.tap.actor;
 
 /**
  * Created by Skronak on 29/04/2018.

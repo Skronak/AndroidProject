@@ -1,4 +1,4 @@
-package com.guco.tap.menu;
+package com.guco.tap.menu.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,15 +17,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
 import com.guco.tap.entity.ItemEntity;
-import com.guco.tap.entity.ItemMenuElement;
+import com.guco.tap.menu.inventory.element.InventoryElement;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.MenuState;
 
 /**
  * Created by Skronak on 01/02/2017.
  * Menu d'update
  */
-public class ItemMenu extends AbstractMenu {
+public class InventoryMenu extends AbstractMenu {
     private VerticalGroup weaponVG, bodyVG, headVG, currentVG;
     private ImageButton headButton,bodyButton,weapButton;
     private ScrollPane menuPane;
@@ -41,7 +42,7 @@ public class ItemMenu extends AbstractMenu {
     private SpriteBatch batch;
     public Player itemPlayer;
 
-    public ItemMenu(GameManager gameManager) {
+    public InventoryMenu(GameManager gameManager) {
         super(gameManager);
         customizeMenuTable();
 
@@ -52,7 +53,7 @@ public class ItemMenu extends AbstractMenu {
         float width = Gdx.graphics.getWidth() / ppu;
         itemPlayer = gameManager.loadPlayer();
         itemPlayer.setScale(0.5f);
-        itemPlayer.setEntity(gameManager.data.getEntity("itemMenu"));
+        itemPlayer.setEntity(gameManager.data.getEntity("inventoryMenu"));
         itemPlayer.setPosition(70, 350);
         itemPlayer.speed=5;
 
@@ -69,11 +70,11 @@ public class ItemMenu extends AbstractMenu {
         Image upImage = new Image(gameManager.assetManager.upTexture);
 
         upgradeButton = new TextButton("UPGRADE",skin);
+
         parentTable.add(new Label("INVENTORY", skin)).bottom().padTop(10).padBottom(20).colspan(2);
         parentTable.row();
         Table leftTable = new Table();
         leftTable.top().left();
-//        Image image = new Image(new Texture(Gdx.files.internal("sprites/test/body1_idle_1.png")));
         Image image = new Image();
         leftTable.add(image).height(250);
         leftTable.row();
@@ -87,7 +88,6 @@ public class ItemMenu extends AbstractMenu {
         parentTable.add(leftTable).top().width(100).expand().top().height(200).padTop(5);
         parentTable.add(initMenuContent()).expandX().top().padTop(5);
 
-        parentTable.setDebug(true);
     }
 
     public Table initMenuContent() {
@@ -142,9 +142,9 @@ public class ItemMenu extends AbstractMenu {
         initVG();
         menuPane = initPane(weaponVG);
 
-        table.add(headButton).right().expandX().size(35,30);
-        table.add(bodyButton).right().size(35,30);
-        table.add(weapButton).right().size(35,30);
+        table.add(headButton).right().expandX().size(45,40);
+        table.add(bodyButton).right().size(45,40);
+        table.add(weapButton).right().size(45,40);
         table.row();
         table.add(menuPane).colspan(3);
 
@@ -185,75 +185,74 @@ public class ItemMenu extends AbstractMenu {
         bodyVG = new VerticalGroup();
         //bodyVG.space(5f);
         for (int i = 0; i < gameManager.assetManager.bodyList.size(); i++) {
-            final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
+            final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
             final ItemEntity itemEntity = gameManager.assetManager.bodyList.get(i);
-            itemMenuElement.initItemMenuElement(itemEntity);
-            itemMenuElement.setBackground(backgroundRegionDrawable);
-            itemMenuElement.addListener(new ClickListener(){
+            inventoryElement.initItemMenuElement(itemEntity);
+            inventoryElement.setBackground(backgroundRegionDrawable);
+            inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    setSelectedItem(itemMenuElement);
+                    setSelectedItem(inventoryElement);
                     return true;
             }});
-            bodyVG.addActor(itemMenuElement);
+            bodyVG.addActor(inventoryElement);
         }
 
         weaponVG = new VerticalGroup();
         //weaponVG.space(10f);
         for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
             ItemEntity itemEntity = gameManager.assetManager.weaponList.get(i);
-            final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
-            itemMenuElement.initItemMenuElement(itemEntity);
-            itemMenuElement.setBackground(backgroundRegionDrawable);
-            itemMenuElement.addListener(new ClickListener(){
+            final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
+            inventoryElement.initItemMenuElement(itemEntity);
+            inventoryElement.setBackground(backgroundRegionDrawable);
+            inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    setSelectedItem(itemMenuElement);
+                    setSelectedItem(inventoryElement);
                     return true;
                 }});
-            weaponVG.addActor(itemMenuElement);
+            weaponVG.addActor(inventoryElement);
         }
 
         headVG = new VerticalGroup();
         //headVG.space(10f);
         for (int i = 0; i < gameManager.assetManager.helmList.size(); i++) {
             final ItemEntity itemEntity = gameManager.assetManager.helmList.get(i);
-            final ItemMenuElement itemMenuElement = new ItemMenuElement(gameManager, this);
-            itemMenuElement.initItemMenuElement(gameManager.assetManager.helmList.get(i));
-            itemMenuElement.setBackground(backgroundRegionDrawable);
-            itemMenuElement.addListener(new ClickListener(){
+            final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
+            inventoryElement.initItemMenuElement(gameManager.assetManager.helmList.get(i));
+            inventoryElement.setBackground(backgroundRegionDrawable);
+            inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    setSelectedItem(itemMenuElement);
+                    setSelectedItem(inventoryElement);
                     return true;
                 }});
-            headVG.addActor(itemMenuElement);
+            headVG.addActor(inventoryElement);
         }
     }
 
-    public void setEquipedItem(ItemMenuElement itemMenuElement){
-        for( int i=0; i<currentVG.getChildren().size;i++) {
-            ((ItemMenuElement) currentVG.getChildren().get(i)).setBackground(backgroundRegionDrawable);
+    public void setEquipedItem(InventoryElement inventoryElement){
+        switch( menuState){
+            case WEAPON:
+                gameManager.gameInformation.equipedWeapon= inventoryElement.itemEntitySource.id;
+                break;
+            case BODY:
+                gameManager.gameInformation.equipedBody= inventoryElement.itemEntitySource.id;
+                break;
+            case HEAD:
+                gameManager.gameInformation.equipedHead= inventoryElement.itemEntitySource.id;
+                break;
         }
-        itemMenuElement.setBackground(selectedRegionDrawable);
+
+        for( int i=0; i<currentVG.getChildren().size;i++) {
+            ((InventoryElement) currentVG.getChildren().get(i)).setBackground(backgroundRegionDrawable);
+        }
+        inventoryElement.setBackground(selectedRegionDrawable);
+        gameManager.ressourceManager.calculateTapDamage();
     }
 
-    public void setSelectedItem(ItemMenuElement itemMenuElement){
-        for( int i=0; i<currentVG.getChildren().size;i++) {
-            ItemEntity itemEntity = itemMenuElement.itemEntitySource;
+    public void setSelectedItem(InventoryElement inventoryElement){
+            ItemEntity itemEntity = inventoryElement.itemEntitySource;
             itemPlayer.characterMaps[0]= itemPlayer.getEntity().getCharacterMap(itemEntity.mapName); // charactermap 0 wrong
-            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamage + itemEntity.baseDamage));
+            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + itemEntity.baseDamage));
             weaponDamageLabel.setText("Weapon atk " + itemEntity.baseDamage);
-
-            switch( menuState){
-                case WEAPON:
-                    gameManager.gameInformation.equipedWeapon=itemMenuElement.itemEntitySource.id;
-                    break;
-                case BODY:
-                    gameManager.gameInformation.equipedBody=itemMenuElement.itemEntitySource.id;
-                    break;
-                case HEAD:
-                    gameManager.gameInformation.equipedHead=itemMenuElement.itemEntitySource.id;
-                    break;
-            }
-        }
     }
 
     public void updateBuyButton () {
@@ -275,8 +274,8 @@ public class ItemMenu extends AbstractMenu {
             currentVG = headVG;
         }
         menuPane.setActor(currentVG);
-        setEquipedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
-        setSelectedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
+        setEquipedItem((InventoryElement) currentVG.getChildren().get(itemId));
+        setSelectedItem((InventoryElement) currentVG.getChildren().get(itemId));
     }
 
     public void show(){
@@ -288,8 +287,8 @@ public class ItemMenu extends AbstractMenu {
         } else {
             itemId = gameManager.gameInformation.equipedHead;
         }
-        setEquipedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
-        setSelectedItem((ItemMenuElement) currentVG.getChildren().get(itemId));
+        setEquipedItem((InventoryElement) currentVG.getChildren().get(itemId));
+        setSelectedItem((InventoryElement) currentVG.getChildren().get(itemId));
         getParentTable().setVisible(true);
     }
 

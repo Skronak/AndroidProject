@@ -1,4 +1,4 @@
-package com.guco.tap.menu;
+package com.guco.tap.menu.shop;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,20 +12,21 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.AbstractMenu;
 
 /**
  * Created by Skronak on 01/02/2017.
  * Menu d'update
  * // TODO: super menu desactivant l'input listener, gerer un state?
  */
-public class EquipMenu extends AbstractMenu {
+public class ShopMenu extends AbstractMenu {
 
     private Table equipTable;
     private Player player;
     private Drawer drawer;
     private SpriteBatch spriteBatch;
 
-    public EquipMenu(GameManager gameManager) {
+    public ShopMenu(GameManager gameManager) {
         super(gameManager);
 
         customizeMenuTable();
@@ -39,7 +40,7 @@ public class EquipMenu extends AbstractMenu {
 
     public void customizeMenuTable() {
         equipTable = new Table();
-        parentTable.add(new Label("Equip gear", skin)).padTop(10).padBottom(40);
+        parentTable.add(new Label("SHOP", skin)).padTop(10).padBottom(40);
         parentTable.row();
 
         parentTable.add(equipTable);

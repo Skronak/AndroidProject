@@ -1,4 +1,4 @@
-package com.guco.tap.menu;
+package com.guco.tap.menu.option;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.menu.AbstractMenu;
 
 /**
  * Menu to change game settings

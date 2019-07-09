@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.guco.tap.entity.ModuleElement;
 import com.guco.tap.entity.ModuleElementLevel;
-import com.guco.tap.menu.ModuleMenu;
-import com.guco.tap.entity.ModuleMenuElement;
+import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
+import com.guco.tap.menu.characterAttribute.element.CharacterAttributeElement;
 import com.guco.tap.utils.ValueDTO;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ModuleManager {
 
     private GameManager gameManager;
-    private ModuleMenu moduleMenu;
+    private CharacterAttributeMenu characterAttributeMenu;
     private List<ModuleElement> moduleEntityList;
     
 
@@ -30,8 +30,8 @@ public class ModuleManager {
         this.moduleEntityList = gameManager.assetManager.getModuleElementList();
     }
 
-    public void initialize(ModuleMenu moduleMenu) {
-        this.moduleMenu=moduleMenu;
+    public void initialize(CharacterAttributeMenu characterAttributeMenu) {
+        this.characterAttributeMenu = characterAttributeMenu;
         evaluateModuleGeneration();
     }
 
@@ -75,8 +75,8 @@ public class ModuleManager {
         }
         gameManager.gameInformation.genGoldPassive=passGenSum.value;
         gameManager.gameInformation.genCurrencyPassive=passGenSum.currency;
-        gameManager.gameInformation.tapDamage=actGenSum.value;
-        gameManager.gameInformation.genCurrencyActive=actGenSum.currency;
+        gameManager.gameInformation.tapDamageValue =actGenSum.value;
+        gameManager.gameInformation.tapDamageCurrency =actGenSum.currency;
     }
 
     /**
@@ -155,10 +155,10 @@ public class ModuleManager {
      * @param id
      */
     public void updateModuleMenuInformation(int id) {
-        ModuleMenuElement moduleMenuElement = (ModuleMenuElement) moduleMenu.getScrollContainerVG().getChildren().get(id);
-        moduleMenuElement.update();
-        animateLabel(moduleMenuElement.getActiveGoldLabel());
-        animateLabel(moduleMenuElement.getPassiveGoldLabel());
+        CharacterAttributeElement characterAttributeElement = (CharacterAttributeElement) characterAttributeMenu.getScrollContainerVG().getChildren().get(id);
+        characterAttributeElement.update();
+        animateLabel(characterAttributeElement.getActiveGoldLabel());
+        animateLabel(characterAttributeElement.getPassiveGoldLabel());
     }
 
     public void animateLabel(Label label) {

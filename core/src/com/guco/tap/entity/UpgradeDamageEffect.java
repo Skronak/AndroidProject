@@ -5,11 +5,11 @@ public class UpgradeDamageEffect extends AbstractUpgradeEffect {
     @Override
     public void apply(ItemEntity itemEntity) {
         originValue = itemEntity.baseDamage;
-        itemEntity.currentDamage = itemEntity.currentDamage + (itemEntity.baseDamage * value);
+        itemEntity.currentDamageValue = itemEntity.currentDamageValue + (itemEntity.baseDamage * value);
     }
 
     @Override
     public void unapply(ItemEntity itemEntity) {
-        itemEntity.currentDamage = originValue;
+        itemEntity.currentDamageValue = originValue;
     }
 }

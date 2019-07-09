@@ -1,4 +1,4 @@
-package com.guco.tap.Animation;
+package com.guco.tap.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

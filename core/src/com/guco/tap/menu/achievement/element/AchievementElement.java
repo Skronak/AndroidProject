@@ -1,4 +1,4 @@
-package com.guco.tap.achievement;
+package com.guco.tap.menu.achievement.element;
 
 import com.guco.tap.achievement.condition.AbstractCondition;
 import com.guco.tap.utils.ValueDTO;

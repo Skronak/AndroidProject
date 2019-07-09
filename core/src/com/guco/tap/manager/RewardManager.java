@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.guco.tap.Animation.AnimatedBaseActor;
-import com.guco.tap.entity.GameInformation;
+import com.guco.tap.actor.AnimatedBaseActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 

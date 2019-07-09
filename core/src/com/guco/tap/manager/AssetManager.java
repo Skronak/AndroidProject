@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
-import com.guco.tap.achievement.AchievementElement;
+import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.entity.Enemy;
 import com.guco.tap.entity.ItemEntity;
 import com.guco.tap.entity.TiersUpgrades;

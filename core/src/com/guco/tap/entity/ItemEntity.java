@@ -11,7 +11,9 @@ public class ItemEntity {
     public String description;
     public float damageRate;
     public float baseDamage;
-    public float currentDamage;
+    public int baseCurrency;
+    public float currentDamageValue;
+    public int currentDamageCurrency;
     public float criticalRate;
     public int reqLvl;
     public int level;

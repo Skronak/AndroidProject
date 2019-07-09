@@ -25,11 +25,11 @@ public class GameInformation {
     public int currentCurrency;
     public float genGoldPassive;
     // generation active d'or
-    public float tapDamage;
+    public float tapDamageValue;
     // currency de gengoldPassive
     public int genCurrencyPassive;
     // currency de gengoldActive
-    public int genCurrencyActive;
+    public int tapDamageCurrency;
     public float criticalRate;
     // indicateur de premier lancment du jeu
     public boolean firstPlay;

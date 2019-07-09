@@ -61,6 +61,10 @@ render:
 //        }
 //        shapeRenderer.end();
 
+http://www.codinginsights.blog/libgdx-assetmanager/
+http://www.codinginsights.blog/design-patterns-decorator/
+
+
 GameData qui store tout?
 
 EquipedWeapon

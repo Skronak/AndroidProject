@@ -3,7 +3,7 @@ package com.guco.tap.entity;
 public class UpgradePassDmgEffect extends AbstractUpgradeEffect {
 
     @Override
-    public void apply(ItemEntity itemEntity) {
+    public void apply(Item item) {
         originValue = gameInformation.passivDamageValue;
         originCurrency= gameInformation.passivDamageCurrency;
 
@@ -11,7 +11,7 @@ public class UpgradePassDmgEffect extends AbstractUpgradeEffect {
     }
 
     @Override
-    public void unapply(ItemEntity itemEntity) {
+    public void unapply(Item item) {
         gameInformation.passivDamageValue = (int) originValue;
     }
 }

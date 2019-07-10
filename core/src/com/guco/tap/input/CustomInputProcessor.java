@@ -54,10 +54,10 @@ public class CustomInputProcessor implements InputProcessor {
             int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
             playScreen.processHit();
             if (randCritical == 1) {
-//                gameManager.ressourceManager.increaseGoldCritical();
+//                gameManager.dataManager.increaseGoldCritical();
                 playScreen.processCriticalHit(gameManager.getCriticalValue());
             } else {
-//                gameManager.ressourceManager.increaseGoldActive();
+//                gameManager.dataManager.increaseGoldActive();
                 playScreen.processNormalHit();
             }
             playScreen.processPointerHitAnimation(screenX, screenY);

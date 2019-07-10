@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 
-import lombok.Getter;
 
 /**
  * Created by Skronak on 04/08/2017.
@@ -19,8 +17,7 @@ import lombok.Getter;
  */
 public abstract class AbstractMenu {
     protected GameManager gameManager;
-    @Getter
-    protected Table parentTable;
+    public Table parentTable;
     protected Skin skin;
     protected float menu_width;
     protected float menu_height;
@@ -34,8 +31,8 @@ public abstract class AbstractMenu {
     public void initMenu() {
         menu_width = Constants.V_WIDTH - Constants.UPDATE_MENU_PAD_EXTERNAL_WIDTH;
         menu_height = Constants.V_HEIGHT - Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT - (Constants.UPDATE_MENU_PAD_EXTERNAL_HEIGHT);
-        menuBackground = gameManager.assetManager.getMenuBackgroundTexture();
-        skin = gameManager.assetManager.getSkin();
+        menuBackground = gameManager.ressourceManager.getMenuBackgroundTexture();
+        skin = gameManager.ressourceManager.getSkin();
 
         // Definition du menu
         parentTable = new Table();
@@ -51,7 +48,7 @@ public abstract class AbstractMenu {
      * Called when menu is shown
      */
     public void show() {
-        this.getParentTable().setVisible(true);
+        this.parentTable.setVisible(true);
     }
 
     public void draw() {

@@ -1,16 +1,10 @@
 package com.guco.tap.menu.shop;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
@@ -53,7 +47,7 @@ public class ShopMenu extends AbstractMenu {
         } else {
             player.update();
         }
-        spriteBatch.setProjectionMatrix(gameManager.playScreen.getHud().getStage().getCamera().combined);
+        spriteBatch.setProjectionMatrix(gameManager.playScreen.getHud().stage.getCamera().combined);
         spriteBatch.begin();
         drawer.draw(player);
         spriteBatch.end();

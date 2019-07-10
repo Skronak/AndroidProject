@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.utils.Constants;
 
@@ -56,14 +55,14 @@ public class LoadingScreen implements Screen {
                 }
             })));
         }
-        Gdx.app.debug("Loading",String.valueOf(game.assetManager.getLoadValue()));
+        Gdx.app.debug("Loading",String.valueOf(game.ressourceManager.getLoadValue()));
     }
 
     /**
      * loadLoadingScreen if animation is finished
      */
     public void loadAsset() {
-        game.assetManager.loadAsset();
+        game.ressourceManager.loadAsset();
     }
 
     @Override

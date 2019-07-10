@@ -1,11 +1,6 @@
 package com.guco.tap.entity;
 
-import com.badlogic.gdx.Preferences;
-
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Skronak on 30/01/2017.
@@ -15,29 +10,20 @@ import lombok.Setter;
  */
 public class GameInformation {
 
-    // dernier login
     public Long lastLogin;
-    // Total d'or
-    public float currentGold;
-    // generation pasive d'or
-
-    // Currency (A=1, B=2, ... jusqua 9, AA=9+1
-    public int currentCurrency;
-    public float genGoldPassive;
-    // generation active d'or
+    public float currentGoldValue;
+    public int currentGoldCurrency;
+    public float passivGoldValue;
+    public int passivGoldCurrency;
     public float tapDamageValue;
-    // currency de gengoldPassive
-    public int genCurrencyPassive;
-    // currency de gengoldActive
     public int tapDamageCurrency;
+    public int passivDamageValue;
+    public int passivDamageCurrency;
+
     public float criticalRate;
-    // indicateur de premier lancment du jeu
     public boolean firstPlay;
-    // liste des niveau d'upgrade du joueur pour faciliter son acces
-    public List<Integer> moduleLevelList;
-    // Total gameTime
+    public List<Integer> attributeLevel;
     public Long totalGameTime;
-    // Tap number
     public int totalTapNumber;
     public int depth;
     public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
@@ -47,13 +33,13 @@ public class GameInformation {
     public int equipedWeapon;
     public int equipedHead;
     public int equipedBody;
-    public List<Integer> weaponLevellist;
-    public List<Integer> headLevellist;
-    public List<Integer> bodyLevellist;
+    public List<UpgradedItem> currentEquipement;
+    public List<Item> weaponItemList;
+    public List<Item> headItemList;
+    public List<Item> bodyItemList;
+    public List<ItemUpgrade> currentUpgradeList;
     public int levelBaseCurrency;
     public int levelBaseGold;
-    public int passivDamageValue;
-    public int passivDamageCurrency;
 
     public GameInformation() {
     }

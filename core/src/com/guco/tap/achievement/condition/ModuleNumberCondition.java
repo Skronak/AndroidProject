@@ -8,8 +8,8 @@ public class ModuleNumberCondition extends AbstractCondition {
     @Override
     public boolean isAchieved() {
         currentValue=0;
-        for (int i = 0; i<gameInformation.moduleLevelList.size(); i++) {
-            if (gameInformation.moduleLevelList.get(i)>0){
+        for (int i = 0; i<gameInformation.attributeLevel.size(); i++) {
+            if (gameInformation.attributeLevel.get(i)>0){
                 currentValue+=1;
             }
         }

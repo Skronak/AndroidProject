@@ -44,12 +44,12 @@ public class CharacterAttributeMenu extends AbstractMenu {
         scrollContainerVG.space(10f);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
 
-        for (int i = 0; i < gameManager.assetManager.getModuleElementList().size(); i++) {
+        for (int i = 0; i < gameManager.ressourceManager.getModuleElementList().size(); i++) {
             CharacterAttributeElement characterAttributeElement = new CharacterAttributeElement(gameManager);
             characterAttributeElement.initModuleMenuElement(i);
             scrollContainerVG.addActor(characterAttributeElement);
@@ -63,7 +63,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if player can click them
      */
     public void updateBuyButton () {
-        for (int i=0;i<gameManager.assetManager.getModuleElementList().size();i++) {
+        for (int i = 0; i<gameManager.ressourceManager.getModuleElementList().size(); i++) {
             if (gameManager.moduleManager.isAvailableUpgrade(i)){
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setTouchable(Touchable.enabled);
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setColor(Color.YELLOW);

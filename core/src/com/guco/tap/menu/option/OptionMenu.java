@@ -4,8 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.guco.tap.entity.GameInformation;
-import com.guco.tap.manager.AssetManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
@@ -23,7 +21,7 @@ public class OptionMenu extends AbstractMenu {
     public OptionMenu(GameManager gameManager) {
         super(gameManager);
 
-        resetButton = new TextButton("reset account",gameManager.assetManager.getSkin());
+        resetButton = new TextButton("reset account",gameManager.ressourceManager.getSkin());
         resetButton.setDisabled(true);
         resetButton.addListener(new InputListener(){
             @Override
@@ -33,7 +31,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        weatherButton = new TextButton("disable weather",gameManager.assetManager.getSkin());
+        weatherButton = new TextButton("disable weather",gameManager.ressourceManager.getSkin());
         weatherButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -42,7 +40,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        soundButton = new TextButton("disable sound", gameManager.assetManager.getSkin());
+        soundButton = new TextButton("disable sound", gameManager.ressourceManager.getSkin());
         soundButton.setDisabled(true);
         soundButton.addListener(new InputListener(){
             @Override
@@ -52,7 +50,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        fpsButton = new TextButton("Show FPS",gameManager.assetManager.getSkin());
+        fpsButton = new TextButton("Show FPS",gameManager.ressourceManager.getSkin());
         fpsButton.setDisabled(true);
         fpsButton.addListener(new InputListener(){
             @Override
@@ -62,7 +60,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        goldButton = new TextButton("Max Gold",gameManager.assetManager.getSkin());
+        goldButton = new TextButton("Max Gold",gameManager.ressourceManager.getSkin());
         goldButton.setDisabled(true);
         goldButton.addListener(new InputListener(){
             @Override
@@ -100,8 +98,8 @@ public class OptionMenu extends AbstractMenu {
     }
 
     public void addGoldMode(){
-        gameManager.gameInformation.currentGold=999;
-        gameManager.gameInformation.currentCurrency=99;
+        gameManager.gameInformation.currentGoldValue =999;
+        gameManager.gameInformation.currentGoldCurrency =99;
     }
 
     public void customizeMenuTable() {
@@ -113,7 +111,7 @@ public class OptionMenu extends AbstractMenu {
         parentTable.row();
         parentTable.add(fpsButton).left().pad(20);
         parentTable.row();
-        parentTable.add(new Label("***DEBUG***", gameManager.assetManager.getSkin()));
+        parentTable.add(new Label("***DEBUG***", gameManager.ressourceManager.getSkin()));
         parentTable.row();
         parentTable.add(resetButton).expandX().left().pad(20);
         parentTable.row();

@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.GameInformation;
-import com.guco.tap.entity.ItemEntity;
+import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.inventory.InventoryMenu;
 
@@ -34,7 +34,7 @@ public class InventoryElement extends Table {
     private String ICON_PATH = "sprites/icon/";
     private InventoryMenu inventoryMenu;
 
-    public ItemEntity itemEntitySource;
+    public Item itemSource;
 
     public InventoryElement(GameManager gameManager, InventoryMenu inventoryMenu){
         this.gameInformation = gameManager.gameInformation;
@@ -47,29 +47,29 @@ public class InventoryElement extends Table {
      * dans la liste de tous les modules.
      * @param source
      */
-    public void initItemMenuElement(final ItemEntity source) {
-        itemEntitySource = source;
+    public void initItemMenuElement(final Item source) {
+        itemSource = source;
 //        int currentLevel = gameInformation.getUpgradeLevelList().get(i);
-        int currentLevel = itemEntitySource.level;
+        int currentLevel = itemSource.level;
         skillIcon = new Image(new Texture(ICON_PATH+source.icon));
-        itemNameLabel = new Label("", gameManager.assetManager.getSkin());
+        itemNameLabel = new Label("", gameManager.ressourceManager.getSkin());
         itemNameLabel.setWrap(true);
         itemNameLabel.setFontScale(0.7f);
-        activeGoldLabel = new Label("Damage +0%", gameManager.assetManager.getSkin());
+        activeGoldLabel = new Label("Damage +0%", gameManager.ressourceManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
-        passiveGoldLabel = new Label("", gameManager.assetManager.getSkin());
+        passiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         passiveGoldLabel.setFontScale(0.7f);
-        nextPassiveGoldLabel= new Label("", gameManager.assetManager.getSkin());
+        nextPassiveGoldLabel= new Label("", gameManager.ressourceManager.getSkin());
         nextPassiveGoldLabel.setFontScale(0.9f);
-        levelLabel = new Label("Lv "+currentLevel, gameManager.assetManager.getSkin());
-        upgradeButton = new TextButton("",gameManager.assetManager.getModuleMenuUpgradeTxtBtnStyle());
+        levelLabel = new Label("Lv "+currentLevel, gameManager.ressourceManager.getSkin());
+        upgradeButton = new TextButton("",gameManager.ressourceManager.getModuleMenuUpgradeTxtBtnStyle());
         upgradeButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameManager.playScreen.getHud().showUpgradeMenu(source.id);
                 return true;
             }});
 
-        equipButton = new TextButton("EQUIP", gameManager.assetManager.getSkin());
+        equipButton = new TextButton("EQUIP", gameManager.ressourceManager.getSkin());
         equipButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 setEquiped();
@@ -79,7 +79,7 @@ public class InventoryElement extends Table {
 
         // Icon enable/disabled
         if (currentLevel==0) {
-            //Texture skillTexture = gameManager.assetManager.getDisabledIcon();
+            //Texture skillTexture = gameManager.ressourceManager.getDisabledIcon();
             //skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             //skillIcon = new Image(skillTexture);
         }
@@ -99,12 +99,12 @@ public class InventoryElement extends Table {
     }
 
     public void setEquiped(){
-        gameManager.playScreen.player.characterMaps[itemEntitySource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemEntitySource.mapName);
+        gameManager.playScreen.player.characterMaps[itemSource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemSource.mapName);
         inventoryMenu.setEquipedItem(this);
     }
 
     public void update() {
-        itemNameLabel.setText(itemEntitySource.name);
+        itemNameLabel.setText(itemSource.name);
     }
 
     @Override

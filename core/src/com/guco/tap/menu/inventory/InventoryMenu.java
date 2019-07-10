@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Player;
-import com.guco.tap.entity.ItemEntity;
+import com.guco.tap.entity.Item;
 import com.guco.tap.menu.inventory.element.InventoryElement;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
@@ -67,7 +67,7 @@ public class InventoryMenu extends AbstractMenu {
         weaponDamageLabel.setFontScale(0.7f);
         damageLabel.setFontScale(0.7f);
         passiveLabel = new Label("",skin);
-        Image upImage = new Image(gameManager.assetManager.upTexture);
+        Image upImage = new Image(gameManager.ressourceManager.upTexture);
 
         upgradeButton = new TextButton("UPGRADE",skin);
 
@@ -92,17 +92,17 @@ public class InventoryMenu extends AbstractMenu {
 
     public Table initMenuContent() {
         final Table table = new Table();
-        selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.greyTexture));
+        selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.greyTexture));
         selectedRegionDrawable.setMinHeight(1);
         selectedRegionDrawable.setMinWidth(1);
 
-        backgroundRegionDrawable= new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.lightGreyTexture));
+        backgroundRegionDrawable= new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.lightGreyTexture));
         backgroundRegionDrawable.setMinHeight(1);
         backgroundRegionDrawable.setMinWidth(1);
 
         ImageButton.ImageButtonStyle styleHead = new ImageButton.ImageButtonStyle();
-        styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.headHTexture));
-        styleHead.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.headHTextureR));
+        styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.headHTexture));
+        styleHead.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.headHTextureR));
         headButton = new ImageButton(styleHead);
         headButton.addListener(new InputListener() {
             @Override
@@ -114,8 +114,8 @@ public class InventoryMenu extends AbstractMenu {
         });
 
         ImageButton.ImageButtonStyle styleBody = new ImageButton.ImageButtonStyle();
-        styleBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.bodyHTexture));
-        styleBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.bodyHTextureR));
+        styleBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.bodyHTexture));
+        styleBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.bodyHTextureR));
         bodyButton = new ImageButton(styleBody);
         bodyButton.addListener(new InputListener() {
             @Override
@@ -127,8 +127,8 @@ public class InventoryMenu extends AbstractMenu {
         });
 
         ImageButton.ImageButtonStyle weapBody = new ImageButton.ImageButtonStyle();
-        weapBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.weapHTexture));
-        weapBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.weapHTextureR));
+        weapBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.weapHTexture));
+        weapBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.weapHTextureR));
         weapButton = new ImageButton(weapBody);
         weapButton.addListener(new InputListener() {
             @Override
@@ -161,7 +161,7 @@ public class InventoryMenu extends AbstractMenu {
         currentVG = defaultVG;
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(currentVG, paneStyle);
         pane.setScrollingDisabled(true, false);
@@ -184,10 +184,10 @@ public class InventoryMenu extends AbstractMenu {
     public void initVG() {
         bodyVG = new VerticalGroup();
         //bodyVG.space(5f);
-        for (int i = 0; i < gameManager.assetManager.bodyList.size(); i++) {
+        for (int i = 0; i < gameManager.ressourceManager.bodyList.size(); i++) {
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
-            final ItemEntity itemEntity = gameManager.assetManager.bodyList.get(i);
-            inventoryElement.initItemMenuElement(itemEntity);
+            final Item item = gameManager.ressourceManager.bodyList.get(i);
+            inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);
             inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -199,10 +199,10 @@ public class InventoryMenu extends AbstractMenu {
 
         weaponVG = new VerticalGroup();
         //weaponVG.space(10f);
-        for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
-            ItemEntity itemEntity = gameManager.assetManager.weaponList.get(i);
+        for (int i = 0; i < gameManager.ressourceManager.weaponList.size(); i++) {
+            Item item = gameManager.ressourceManager.weaponList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
-            inventoryElement.initItemMenuElement(itemEntity);
+            inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);
             inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -214,10 +214,10 @@ public class InventoryMenu extends AbstractMenu {
 
         headVG = new VerticalGroup();
         //headVG.space(10f);
-        for (int i = 0; i < gameManager.assetManager.helmList.size(); i++) {
-            final ItemEntity itemEntity = gameManager.assetManager.helmList.get(i);
+        for (int i = 0; i < gameManager.ressourceManager.helmList.size(); i++) {
+            final Item item = gameManager.ressourceManager.helmList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
-            inventoryElement.initItemMenuElement(gameManager.assetManager.helmList.get(i));
+            inventoryElement.initItemMenuElement(gameManager.ressourceManager.helmList.get(i));
             inventoryElement.setBackground(backgroundRegionDrawable);
             inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -231,13 +231,13 @@ public class InventoryMenu extends AbstractMenu {
     public void setEquipedItem(InventoryElement inventoryElement){
         switch( menuState){
             case WEAPON:
-                gameManager.gameInformation.equipedWeapon= inventoryElement.itemEntitySource.id;
+                gameManager.gameInformation.equipedWeapon= inventoryElement.itemSource.id;
                 break;
             case BODY:
-                gameManager.gameInformation.equipedBody= inventoryElement.itemEntitySource.id;
+                gameManager.gameInformation.equipedBody= inventoryElement.itemSource.id;
                 break;
             case HEAD:
-                gameManager.gameInformation.equipedHead= inventoryElement.itemEntitySource.id;
+                gameManager.gameInformation.equipedHead= inventoryElement.itemSource.id;
                 break;
         }
 
@@ -245,14 +245,14 @@ public class InventoryMenu extends AbstractMenu {
             ((InventoryElement) currentVG.getChildren().get(i)).setBackground(backgroundRegionDrawable);
         }
         inventoryElement.setBackground(selectedRegionDrawable);
-        gameManager.ressourceManager.calculateTapDamage();
+        gameManager.dataManager.calculateTapDamage();
     }
 
     public void setSelectedItem(InventoryElement inventoryElement){
-            ItemEntity itemEntity = inventoryElement.itemEntitySource;
-            itemPlayer.characterMaps[0]= itemPlayer.getEntity().getCharacterMap(itemEntity.mapName); // charactermap 0 wrong
-            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + itemEntity.baseDamage));
-            weaponDamageLabel.setText("Weapon atk " + itemEntity.baseDamage);
+            Item item = inventoryElement.itemSource;
+            itemPlayer.characterMaps[0]= itemPlayer.getEntity().getCharacterMap(item.mapName); // charactermap 0 wrong
+            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + item.damageValue));
+            weaponDamageLabel.setText("Weapon atk " + item.damageValue);
     }
 
     public void updateBuyButton () {
@@ -289,7 +289,7 @@ public class InventoryMenu extends AbstractMenu {
         }
         setEquipedItem((InventoryElement) currentVG.getChildren().get(itemId));
         setSelectedItem((InventoryElement) currentVG.getChildren().get(itemId));
-        getParentTable().setVisible(true);
+        parentTable.setVisible(true);
     }
 
     @Override

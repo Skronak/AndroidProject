@@ -2,8 +2,8 @@ package com.guco.tap.input;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.guco.tap.entity.ItemEntity;
-import com.guco.tap.entity.ItemUpgradeEntity;
+import com.guco.tap.entity.Item;
+import com.guco.tap.entity.ItemUpgrade;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 
 /**
@@ -13,18 +13,18 @@ import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 public class SkillSelectButtonListener extends ClickListener {
 
     private ItemAttributeMenu itemAttributeMenu;
-    private ItemEntity itemEntity;
-    private ItemUpgradeEntity itemUpgradeEntity;
+    private Item item;
+    private ItemUpgrade itemUpgrade;
 
-    public SkillSelectButtonListener(ItemAttributeMenu itemAttributeMenu, ItemUpgradeEntity itemUpgradeEntity, ItemEntity itemEntity) {
+    public SkillSelectButtonListener(ItemAttributeMenu itemAttributeMenu, ItemUpgrade itemUpgrade, Item item) {
         this.itemAttributeMenu = itemAttributeMenu;
-        this.itemUpgradeEntity = itemUpgradeEntity;
-        this.itemEntity = itemEntity;
+        this.itemUpgrade = itemUpgrade;
+        this.item = item;
     }
 
     @Override
     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        itemAttributeMenu.showSkillDetail(itemUpgradeEntity, itemEntity);
+        itemAttributeMenu.showSkillDetail(itemUpgrade, item);
         event.cancel();
         return true;
     }

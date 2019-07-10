@@ -50,7 +50,7 @@ public class GameManager {
 
     public AchievementManager achievementManager;
 
-    public RessourceManager ressourceManager;
+    public DataManager dataManager;
 
     public float autoSaveTimer,weatherTimer, increaseGoldTimer, logicTimer;
 
@@ -76,7 +76,7 @@ public class GameManager {
 
     TapDungeonGame game;
 
-    public AssetManager assetManager;
+    public RessourceManager ressourceManager;
 
     public GameInformationManager gameInformationManager;
 
@@ -86,14 +86,14 @@ public class GameManager {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
         currentState = GameState.IN_GAME;
-        this.assetManager=game.assetManager;
+        this.ressourceManager =game.ressourceManager;
         this.gameInformation = game.gameInformation;
         largeMath = new LargeMath(gameInformation);
         newModuleIdList = new ArrayList<Integer>();
         //weatherManager = new WeatherManager(playScreen);
         moduleManager = new ModuleManager(this);
         achievementManager = new AchievementManager(this);
-        ressourceManager = new RessourceManager(this);
+        dataManager = new DataManager(this);
         itemManager = new ItemManager(this);
         autoSaveTimer = 0f;
         increaseGoldTimer = 0f;
@@ -106,7 +106,7 @@ public class GameManager {
         gameInformation.currentEnemyIdx=0;
         //moduleManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
         initEnemyQueue();
-        moduleManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
+        moduleManager.initialize(playScreen.getHud().characterAttributeMenu);
 
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
@@ -125,9 +125,9 @@ public class GameManager {
         player.setAnimation("idle");
         player.addListener(new PlayerListenerImpl(player,playScreen));
         ;
-        player.characterMaps[weaponMap]= player.getEntity().getCharacterMap(assetManager.weaponList.get(gameInformation.equipedWeapon).mapName);
-        player.characterMaps[headMap]= player.getEntity().getCharacterMap(assetManager.helmList.get(gameInformation.equipedHead).mapName);
-        player.characterMaps[bodyMap]= player.getEntity().getCharacterMap(assetManager.bodyList.get(gameInformation.equipedBody).mapName);
+        player.characterMaps[weaponMap]= player.getEntity().getCharacterMap(ressourceManager.weaponList.get(gameInformation.equipedWeapon).mapName);
+        player.characterMaps[headMap]= player.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
+        player.characterMaps[bodyMap]= player.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
         return player;
     }
 
@@ -215,9 +215,9 @@ public class GameManager {
 
         // Increase Gold passivly
         if(increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
-            ressourceManager.increaseGoldPassive();
+            dataManager.increaseGoldPassive();
 //            Gdx.app.debug("PlayScreen","Increasing Gold by "+gameInformation.getGenGoldPassive()+" val "+gameInformation.getGenCurrencyPassive());
-            ressourceManager.increaseGoldPassive();
+            dataManager.increaseGoldPassive();
             playScreen.getHud().updateGoldLabel();
             increaseGoldTimer=0f;
         }
@@ -239,8 +239,8 @@ public class GameManager {
         gameInformation.currentEnemyIdx=0;
         int randomNum=0;
        for (int i=0;i<10;i++) {
-           randomNum = rand.nextInt((assetManager.enemyList.size()-1) + 1);
-           enemyActorQueue.add(new EnemyActor(assetManager.enemyList.get(randomNum)));
+           randomNum = rand.nextInt((ressourceManager.enemyList.size()-1) + 1);
+           enemyActorQueue.add(new EnemyActor(ressourceManager.enemyList.get(randomNum)));
         }
     }
 
@@ -324,7 +324,7 @@ public class GameManager {
         Runnable incGold = new Runnable() {
             @Override
             public void run() {
-                ressourceManager.increaseGold();
+                dataManager.increaseGold();
             }
         };
         float speed=1f;

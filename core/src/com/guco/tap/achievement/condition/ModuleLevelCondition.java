@@ -9,8 +9,8 @@ public class ModuleLevelCondition extends AbstractCondition {
     @Override
     public boolean isAchieved() {
         currentValue=0;
-        for (int i = 0; i<gameInformation.moduleLevelList.size(); i++) {
-            if (gameInformation.moduleLevelList.get(i)>conditionValue){
+        for (int i = 0; i<gameInformation.attributeLevel.size(); i++) {
+            if (gameInformation.attributeLevel.get(i)>conditionValue){
                 currentValue=+1;
             }
         }

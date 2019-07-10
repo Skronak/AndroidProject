@@ -4,8 +4,6 @@ import com.badlogic.gdx.Preferences;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Skronak on 30/01/2017.
@@ -40,22 +38,14 @@ public class SavedInformation {
     // Total gameTime
     public Long totalGameTime;
     // Tap number
-    @Getter
-    @Setter
     public int totalTapNumber;
 
     public int depth;
 
-    @Getter
-    @Setter
     public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
 
-    @Getter
-    @Setter
     public boolean optionWeather, optionSound, optionFps;
 
-    @Getter
-    @Setter
     public int skillPoint;
     public int currentEnemyIdx;
     public int equipedWeapon;

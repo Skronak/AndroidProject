@@ -5,10 +5,10 @@ public class GoldCondition extends AbstractCondition {
     @Override
     public boolean isAchieved() {
         boolean val = false;
-        if (gameInformation.currentCurrency>=conditionCurrency) {
+        if (gameInformation.currentGoldCurrency >=conditionCurrency) {
             val=true;
-        } else if (gameInformation.currentCurrency==conditionCurrency
-                &&gameInformation.currentGold>conditionValue){
+        } else if (gameInformation.currentGoldCurrency ==conditionCurrency
+                &&gameInformation.currentGoldValue >conditionValue){
             val=true;
         } else {
             val=false;
@@ -17,7 +17,7 @@ public class GoldCondition extends AbstractCondition {
     }
     @Override
     public int getConditionProgression(){
-        float progression = (gameInformation.currentCurrency/conditionCurrency)*100;
+        float progression = (gameInformation.currentGoldCurrency /conditionCurrency)*100;
         return (int) progression;
     }
 

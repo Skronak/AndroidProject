@@ -1,6 +1,6 @@
 package com.guco.tap.entity;
 
-public class ItemUpgradeEntity {
+public class ItemUpgrade {
     public int weaponId;
     public String name;
     public String description;
@@ -8,7 +8,7 @@ public class ItemUpgradeEntity {
     public AbstractUpgradeEffect upgradeEffect;
     public String iconSprite;
 
-    public ItemUpgradeEntity(){
+    public ItemUpgrade(){
 
     }
 

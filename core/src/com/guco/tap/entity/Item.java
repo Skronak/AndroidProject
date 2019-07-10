@@ -1,22 +1,15 @@
 package com.guco.tap.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-
-import java.util.ArrayList;
-
-public class ItemEntity {
+public class Item {
     public int id;
     public int type;
     public String name;
     public String description;
-    public float damageRate;
-    public float baseDamage;
-    public int baseCurrency;
-    public float currentDamageValue;
-    public int currentDamageCurrency;
-    public float criticalRate;
+    public float damageValue;
+    public int damageCurrency;
     public int reqLvl;
     public int level;
+    public int damageRate;
     public int mapId;
     public String mapName;
     public String icon;

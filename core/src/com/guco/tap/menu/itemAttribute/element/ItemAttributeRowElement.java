@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.guco.tap.entity.ItemEntity;
-import com.guco.tap.entity.ItemUpgradeEntity;
+import com.guco.tap.entity.Item;
+import com.guco.tap.entity.ItemUpgrade;
 import com.guco.tap.input.SkillSelectButtonListener;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
@@ -25,10 +25,10 @@ public class ItemAttributeRowElement extends Table {
     public TextButton button;
     private Image icon;
     private ItemAttributeMenu itemAttributeMenu;
-    private ArrayList<ItemUpgradeEntity> itemUpgradeList;
+    private ArrayList<ItemUpgrade> itemUpgradeList;
     private int tier;
 
-    public ItemAttributeRowElement(GameManager gameManager, ItemAttributeMenu itemAttributeMenu, ArrayList<ItemUpgradeEntity> itemUpgradeList, int tier){
+    public ItemAttributeRowElement(GameManager gameManager, ItemAttributeMenu itemAttributeMenu, ArrayList<ItemUpgrade> itemUpgradeList, int tier){
         this.gameManager = gameManager;
         this.itemAttributeMenu = itemAttributeMenu;
         this.itemUpgradeList = itemUpgradeList;
@@ -48,10 +48,10 @@ public class ItemAttributeRowElement extends Table {
         this.add(icon).height(45).width(80).pad(5);
 
         for (int i=0;i<itemUpgradeList.size();i++) {
-            button = new TextButton("", gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
+            button = new TextButton("", gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
             itemUpgradeList.get(i).upgradeEffect.gameInformation = gameManager.gameInformation;
-            ItemEntity itemEntity = gameManager.assetManager.weaponList.get(itemUpgradeList.get(i).weaponId);
-            button.addListener(new SkillSelectButtonListener(itemAttributeMenu, itemUpgradeList.get(i), itemEntity));
+            Item item = gameManager.ressourceManager.weaponList.get(itemUpgradeList.get(i).weaponId);
+            button.addListener(new SkillSelectButtonListener(itemAttributeMenu, itemUpgradeList.get(i), item));
 
             this.add(button).height(45).width(45).padRight(10).padLeft(10);
         }

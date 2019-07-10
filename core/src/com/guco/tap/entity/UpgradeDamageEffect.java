@@ -3,13 +3,13 @@ package com.guco.tap.entity;
 public class UpgradeDamageEffect extends AbstractUpgradeEffect {
 
     @Override
-    public void apply(ItemEntity itemEntity) {
-        originValue = itemEntity.baseDamage;
-        itemEntity.currentDamageValue = itemEntity.currentDamageValue + (itemEntity.baseDamage * value);
+    public void apply(Item item) {
+        originValue = item.damageValue;
+       // item.currentDamageValue = item.damageValue + (item.damageValue * value);
     }
 
     @Override
-    public void unapply(ItemEntity itemEntity) {
-        itemEntity.currentDamageValue = originValue;
+    public void unapply(Item item) {
+        //item.currentDamageValue = originValue;
     }
 }

@@ -26,14 +26,14 @@ public class EnemyInformation extends Group {
     EnemyActor targetActor;
 
     public EnemyInformation(GameManager gameManager) {
-        nameLabel = new Label("default", gameManager.assetManager.getSkin());
-        healthLabel = new Label("", gameManager.assetManager.getSkin());
+        nameLabel = new Label("default", gameManager.ressourceManager.getSkin());
+        healthLabel = new Label("", gameManager.ressourceManager.getSkin());
 
-        redImage = new Image(gameManager.assetManager.redTexture);
-        orangeImage = new Image(gameManager.assetManager.orangeTexture);
-        greyImage = new Image(gameManager.assetManager.greyTexture);
-        //crossImage = new Image(gameManager.assetManager.crossTexture);
-        difficulty = new Image(gameManager.assetManager.diffTexture3);
+        redImage = new Image(gameManager.ressourceManager.redTexture);
+        orangeImage = new Image(gameManager.ressourceManager.orangeTexture);
+        greyImage = new Image(gameManager.ressourceManager.greyTexture);
+        //crossImage = new Image(gameManager.ressourceManager.crossTexture);
+        difficulty = new Image(gameManager.ressourceManager.diffTexture3);
         nameLabel.setPosition(0,BAR_HEIGHT);
         //crossImage.setSize(10, BAR_HEIGHT);
         orangeImage.setSize(BAR_WIDTH,BAR_HEIGHT);

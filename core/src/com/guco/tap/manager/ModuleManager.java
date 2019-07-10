@@ -27,7 +27,7 @@ public class ModuleManager {
     public ModuleManager(GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameManager = gameManager;
-        this.moduleEntityList = gameManager.assetManager.getModuleElementList();
+        this.moduleEntityList = gameManager.ressourceManager.getModuleElementList();
     }
 
     public void initialize(CharacterAttributeMenu characterAttributeMenu) {
@@ -52,9 +52,9 @@ public class ModuleManager {
         int upgradeLevel=0;
 
         // Parcours la liste upgrades du joueur
-        for (int i = 0; i<gameManager.gameInformation.moduleLevelList.size(); i++) {
-            if (gameManager.gameInformation.moduleLevelList.get(i) > 0) {
-                upgradeLevel = gameManager.gameInformation.moduleLevelList.get(i);
+        for (int i = 0; i<gameManager.gameInformation.attributeLevel.size(); i++) {
+            if (gameManager.gameInformation.attributeLevel.get(i) > 0) {
+                upgradeLevel = gameManager.gameInformation.attributeLevel.get(i);
 
                 //Passive generation
                 passGoldGen = passGenSum.value;
@@ -73,8 +73,8 @@ public class ModuleManager {
 
             }
         }
-        gameManager.gameInformation.genGoldPassive=passGenSum.value;
-        gameManager.gameInformation.genCurrencyPassive=passGenSum.currency;
+        gameManager.gameInformation.passivGoldValue =passGenSum.value;
+        gameManager.gameInformation.passivGoldCurrency =passGenSum.currency;
         gameManager.gameInformation.tapDamageValue =actGenSum.value;
         gameManager.gameInformation.tapDamageCurrency =actGenSum.currency;
     }
@@ -87,13 +87,13 @@ public class ModuleManager {
      * @return false if current gold < module cost
      */
     public boolean isAvailableUpgrade (int idSelect) {
-        int currentlevel = gameManager.gameInformation.moduleLevelList.get(idSelect);
+        int currentlevel = gameManager.gameInformation.attributeLevel.get(idSelect);
         ModuleElementLevel moduleLevelCurrent = moduleEntityList.get(idSelect).getLevel().get(currentlevel);
 
         if ( (moduleEntityList.get(idSelect).getLevel().size() > currentlevel + 1)
-                && ( (gameManager.gameInformation.currentCurrency > moduleLevelCurrent.getCost().currency
-                    || (gameManager.gameInformation.currentCurrency == moduleLevelCurrent.getCost().currency
-                        && (gameManager.gameInformation.currentGold >= moduleLevelCurrent.getCost().value)
+                && ( (gameManager.gameInformation.currentGoldCurrency > moduleLevelCurrent.getCost().currency
+                    || (gameManager.gameInformation.currentGoldCurrency == moduleLevelCurrent.getCost().currency
+                        && (gameManager.gameInformation.currentGoldValue >= moduleLevelCurrent.getCost().value)
                         ))))
         {
             return true;
@@ -111,9 +111,9 @@ public class ModuleManager {
      * @return
      */
     public Texture getLevelTextureByLevel(int level) {
-        Texture levelTexture = gameManager.assetManager.getUpgradeLvlImageList().get(gameManager.gameInformation.moduleLevelList.get(level));
+        Texture levelTexture = gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(level));
         if (null==levelTexture) {
-            levelTexture = gameManager.assetManager.getUpgradeLvlImageList().get(0);
+            levelTexture = gameManager.ressourceManager.getUpgradeLvlImageList().get(0);
         }
         return levelTexture;
     }
@@ -128,20 +128,20 @@ public class ModuleManager {
      */
     public void increaseModuleLevel(int idSelect) {
         // Calcul et Affichage de la soustraction
-        ValueDTO decreaseValue = moduleEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.moduleLevelList.get(idSelect)).getCost();
+        ValueDTO decreaseValue = moduleEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.attributeLevel.get(idSelect)).getCost();
         gameManager.playScreen.getHud().animateDecreaseGold(decreaseValue);
 
         // Mise a jour du montant des golds du joueur
-        ValueDTO gameInformationValue = gameManager.largeMath.decreaseValue(gameManager.gameInformation.currentGold,gameManager.gameInformation.currentCurrency,decreaseValue.value, decreaseValue.currency);
-        gameManager.gameInformation.currentGold=gameInformationValue .value;
-        gameManager.gameInformation.currentCurrency=gameInformationValue .currency;
+        ValueDTO gameInformationValue = gameManager.largeMath.decreaseValue(gameManager.gameInformation.currentGoldValue,gameManager.gameInformation.currentGoldCurrency,decreaseValue.value, decreaseValue.currency);
+        gameManager.gameInformation.currentGoldValue =gameInformationValue .value;
+        gameManager.gameInformation.currentGoldCurrency =gameInformationValue .currency;
 
         // Met a jour le gameInformation
-        gameManager.gameInformation.moduleLevelList.set(idSelect, gameManager.gameInformation.moduleLevelList.get(idSelect) + 1);
+        gameManager.gameInformation.attributeLevel.set(idSelect, gameManager.gameInformation.attributeLevel.get(idSelect) + 1);
         this.evaluateModuleGeneration();
 
         // Ajoute l'element dans la station
-        if (gameManager.gameInformation.moduleLevelList.get(idSelect)==1){
+        if (gameManager.gameInformation.attributeLevel.get(idSelect)==1){
             gameManager.newModuleIdList.add(idSelect);
         }
      }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameInformationManager;
-import com.guco.tap.manager.AssetManager;
+import com.guco.tap.manager.RessourceManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.screen.Hud;
 import com.guco.tap.screen.LoadingScreen;
@@ -17,8 +17,7 @@ public class TapDungeonGame extends Game {
 	public SplashScreen splashScreen;
 	public LoadingScreen loadingScreen;
 	public GameManager gameManager;
-	public Hud hud;
-	public AssetManager assetManager;
+	public RessourceManager ressourceManager;
 	public GameInformationManager gameInformationManager;
 	private boolean devMode;
     public GameInformation gameInformation;
@@ -29,8 +28,8 @@ public class TapDungeonGame extends Game {
 
 	@Override
 	public void create () {
-        assetManager = new AssetManager();
-		gameInformationManager = new GameInformationManager(this);
+        ressourceManager = new RessourceManager();
+		gameInformationManager = new GameInformationManager(ressourceManager);
 
 		loadingScreen = new LoadingScreen(this);
 		loadingScreen.loadAsset();

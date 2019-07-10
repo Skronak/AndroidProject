@@ -1,6 +1,6 @@
 package com.guco.tap.manager;
 
-import com.guco.tap.entity.ItemEntity;
+import com.guco.tap.entity.Item;
 
 public class ItemManager {
     private GameManager gameManager;
@@ -11,15 +11,15 @@ public class ItemManager {
     }
 
     public void updateWeaponList() {
-        for (int i = 0; i < gameManager.assetManager.weaponList.size(); i++) {
-            ItemEntity itemEntity = gameManager.assetManager.weaponList.get(i);
-            if (gameManager.assetManager.weaponUpgradeList.size()>i) {
-                itemEntity.upgrades = gameManager.assetManager.weaponUpgradeList.get(i);
+        for (int i = 0; i < gameManager.ressourceManager.weaponList.size(); i++) {
+            Item item = gameManager.ressourceManager.weaponList.get(i);
+            if (gameManager.ressourceManager.weaponUpgradeList.size()>i) {
+                item.upgrades = gameManager.ressourceManager.weaponUpgradeList.get(i);
             }
         }
     }
 
-    public void increaseItemLevel(ItemEntity itemEntity){
+    public void increaseItemLevel(Item item){
 //        gameManager.gameInformation.get
     }
 
@@ -34,8 +34,8 @@ public class ItemManager {
 
     }
 
-    public void calculateCurrentDamage(ItemEntity itemEntity){
-        itemEntity.currentDamageValue = itemEntity.level * (itemEntity.currentDamageValue * itemEntity.damageRate);
+    public void calculateCurrentDamage(Item item){
+       // item.currentDamageValue = item.level * (item.damageValue * item.damageRate);
     }
 
 }

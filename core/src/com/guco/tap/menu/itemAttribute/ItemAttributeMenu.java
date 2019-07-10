@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.entity.ItemEntity;
-import com.guco.tap.entity.ItemUpgradeEntity;
+import com.guco.tap.entity.Item;
+import com.guco.tap.entity.ItemUpgrade;
 import com.guco.tap.menu.itemAttribute.element.ItemAttributeRowElement;
 import com.guco.tap.entity.TiersUpgrades;
 import com.guco.tap.manager.GameManager;
@@ -31,8 +31,8 @@ public class ItemAttributeMenu extends AbstractMenu {
     private Label titleLabel;
     private VerticalGroup scrollContainerVG;
     private Table detailTable;
-    private ItemUpgradeEntity selectedItemUpgradeEntity;
-    private ItemEntity selectedItemEntity;
+    private ItemUpgrade selectedItemUpgrade;
+    private Item selectedItem;
     private ScrollPane currentPane;
     private List<ScrollPane> weaponUpgradePanes;
 
@@ -42,26 +42,26 @@ public class ItemAttributeMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        TextButton applySkillButton = new TextButton("Apply",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
+        TextButton applySkillButton = new TextButton("Apply",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
         InputListener applyButtonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                selectedItemUpgradeEntity.upgradeEffect.apply(selectedItemEntity);
+                selectedItemUpgrade.upgradeEffect.apply(selectedItem);
                 return true;
             }
         };
         applySkillButton.addListener(applyButtonListener);
 
-        levelLabel = new Label("",gameManager.assetManager.getSkin());
-        titleLabel = new Label("",gameManager.assetManager.getSkin());
-        descriptionLabel = new Label("",gameManager.assetManager.getSkin());
+        levelLabel = new Label("",gameManager.ressourceManager.getSkin());
+        titleLabel = new Label("",gameManager.ressourceManager.getSkin());
+        descriptionLabel = new Label("",gameManager.ressourceManager.getSkin());
 
         parentTable.add(new Label("ITEM ATTRIBUTE", skin)).bottom().padTop(20);
         parentTable.row();
 
         //TODO load pane on click only
         weaponUpgradePanes = new ArrayList<ScrollPane>();
-        for (int i = 0; i < gameManager.assetManager.weaponUpgradeList.size(); i++) {
-            ScrollPane weaponUpgradePane = initUpgradePane(gameManager.assetManager.weaponUpgradeList.get(i));
+        for (int i = 0; i < gameManager.ressourceManager.weaponUpgradeList.size(); i++) {
+            ScrollPane weaponUpgradePane = initUpgradePane(gameManager.ressourceManager.weaponUpgradeList.get(i));
             weaponUpgradePanes.add(weaponUpgradePane);
         }
         currentPane = weaponUpgradePanes.get(0);
@@ -97,11 +97,11 @@ public class ItemAttributeMenu extends AbstractMenu {
         scrollContainerVG.padTop(20);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
-        ItemEntity itemEntity = gameManager.assetManager.weaponList.get(tiersUpgrades.firstTier.get(0).weaponId);
+        Item item = gameManager.ressourceManager.weaponList.get(tiersUpgrades.firstTier.get(0).weaponId);
         ItemAttributeRowElement itemAttributeRowElement = new ItemAttributeRowElement(gameManager,this, tiersUpgrades.firstTier,1);
         scrollContainerVG.addActor(itemAttributeRowElement);
         itemAttributeRowElement = new ItemAttributeRowElement(gameManager,this, tiersUpgrades.secondTier,2);
@@ -112,11 +112,11 @@ public class ItemAttributeMenu extends AbstractMenu {
         return pane;
     }
 
-    public void showSkillDetail(ItemUpgradeEntity itemUpgradeEntity, ItemEntity itemEntity) {
-        titleLabel.setText(itemUpgradeEntity.name);
-        descriptionLabel.setText(itemUpgradeEntity.description);
-        selectedItemUpgradeEntity = itemUpgradeEntity;
-        selectedItemEntity = itemEntity;
+    public void showSkillDetail(ItemUpgrade itemUpgrade, Item item) {
+        titleLabel.setText(itemUpgrade.name);
+        descriptionLabel.setText(itemUpgrade.description);
+        selectedItemUpgrade = itemUpgrade;
+        selectedItem = item;
 
     }
 
@@ -124,7 +124,7 @@ public class ItemAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if player can click them
      */
     public void updateBuyButton () {
-        for (int i=0;i<gameManager.assetManager.getModuleElementList().size();i++) {
+        for (int i = 0; i<gameManager.ressourceManager.getModuleElementList().size(); i++) {
         }
     }
 

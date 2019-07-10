@@ -4,22 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Json;
 import com.guco.tap.entity.GameInformation;
-import com.guco.tap.game.TapDungeonGame;
+import com.guco.tap.save.GameInformationDTO;
 import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
 
 public class GameInformationManager {
 
-    private TapDungeonGame game;
     private Json json;
-    private String PREF_NAME ="valJson";
+    private String PREF_NAME ="value";
     private Preferences prefs;
     public GameInformation gameInformation;
+    public RessourceManager ressourceManager;
+    private GameInformationDTO gameInformationDTO;
 
-    public GameInformationManager(TapDungeonGame game) {
+    public GameInformationManager(RessourceManager ressourceManager) {
         this.json = new Json();
-        this.game=game;
+        this.ressourceManager = ressourceManager;
         prefs = Gdx.app.getPreferences(Constants.APP_NAME);
     }
 
@@ -28,9 +29,11 @@ public class GameInformationManager {
      * dans le fichier de pref
      */
     public void saveInformation() {
+        GameInformationDTO gameInformationDTO = new GameInformationDTO();
+
         gameInformation.lastLogin = System.currentTimeMillis();
         gameInformation.totalGameTime = gameInformation.totalGameTime+(System.currentTimeMillis() - gameInformation.lastLogin);
-        String jsonVal = json.toJson(game.gameInformation);
+        String jsonVal = json.toJson(gameInformation);
 
         prefs.putString(PREF_NAME, jsonVal);
         prefs.flush();
@@ -46,11 +49,11 @@ public class GameInformationManager {
     public void initGameInformation() {
         gameInformation = new GameInformation();
 
-        gameInformation.currentGold=0;
-        gameInformation.currentCurrency=0;
-        gameInformation.genGoldPassive=2;
+        gameInformation.currentGoldValue =0;
+        gameInformation.currentGoldCurrency =0;
+        gameInformation.passivGoldValue =2;
         gameInformation.tapDamageValue =2;
-        gameInformation.genCurrencyPassive = 0;
+        gameInformation.passivGoldCurrency = 0;
         gameInformation.tapDamageCurrency =0;
         gameInformation.criticalRate=5;
         gameInformation.skillPoint=0;
@@ -61,12 +64,12 @@ public class GameInformationManager {
         gameInformation.levelBaseCurrency=1;
         gameInformation.depth=1;
         ArrayList upgradeLevelList = new ArrayList();
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
+        for (int i = 0; i<ressourceManager.getModuleElementList().size(); i++){
             upgradeLevelList.add(0);
         }
-        gameInformation.moduleLevelList =upgradeLevelList;
+        gameInformation.attributeLevel =upgradeLevelList;
         ArrayList achievList = new ArrayList();
-        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
+        for (int i = 0; i<ressourceManager.getAchievementElementList().size(); i++){
             achievList.add(0);
         }
         gameInformation.achievList=achievList;

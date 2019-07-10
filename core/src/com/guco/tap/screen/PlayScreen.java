@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -68,6 +69,7 @@ public class PlayScreen implements Screen {
     Player boss;
     GameManager gameManager;
     // Enemy present on screen
+    ShaderProgram blurShader;
     public List<EnemyActor> enemyActorList;
 
 
@@ -80,9 +82,9 @@ public class PlayScreen implements Screen {
 
         this.gameManager=gameManager;
 
-        //blurShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
-        //ShaderProgram.pedantic = false;
-//        blurShader = new ShaderProgram(Gdx.files.internal("shaders/fragment.glsl").readString(), Gdx.files.internal("shaders/vertex.glsl").readString());
+        blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vertex").readString(), Gdx.files.internal("shaders/camerablur.fragment").readString());
+
+//        ShaderProgram.pedantic = false;
     }
 
     @Override
@@ -137,7 +139,7 @@ public class PlayScreen implements Screen {
         stage.addActor(layer2GraphicObject);
 
         // Init torch
-        torchImage = new Image(gameManager.assetManager.torchTexture);
+        torchImage = new Image(gameManager.ressourceManager.torchTexture);
         torchImage.setSize(20,50);
         torchImage.setPosition(140,290);
         torchParticleSEffect=new TorchParticleSEffect(200,200);
@@ -160,7 +162,7 @@ public class PlayScreen implements Screen {
 
         CustomInputProcessor inputProcessor = new CustomInputProcessor(this);
         inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(hud.getStage());
+        inputMultiplexer.addProcessor(hud.stage);
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -198,7 +200,9 @@ public class PlayScreen implements Screen {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
+//        spriteBatch.setShader(blurShader);
         drawer.draw(player);
+
         //enemyDrawer.draw(boss);
 //        torchParticleSEffect.update();
 //        torchParticleSEffect.render(spriteBatch);
@@ -265,7 +269,7 @@ public class PlayScreen implements Screen {
         player.setAnimation("atk");
         gameManager.hurtEnemy();
 
-        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency),new Label.LabelStyle(gameManager.assetManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency),new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;

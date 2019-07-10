@@ -49,35 +49,35 @@ public class CharacterAttributeElement extends Table {
      * @param i
      */
     public void initModuleMenuElement(int i) {
-        moduleElementSource = gameManager.assetManager.getModuleElementList().get(i);
-        int currentLevel = gameManager.gameInformation.moduleLevelList.get(i);
-        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.moduleLevelList.get(i));
+        moduleElementSource = gameManager.ressourceManager.getModuleElementList().get(i);
+        int currentLevel = gameManager.gameInformation.attributeLevel.get(i);
+        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(i));
 
-        moduleLevelLabel = new Label("Level "+currentLevel, gameManager.assetManager.getSkin());
+        moduleLevelLabel = new Label("Level "+currentLevel, gameManager.ressourceManager.getSkin());
         //moduleLevelImage = new Image(gameManager.moduleManager.getLevelTextureByLevel(i));
-        elementTitle = new Label(moduleElementSource.getTitle(), gameManager.assetManager.getSkin());
-        activeGoldLabel = new Label("", gameManager.assetManager.getSkin());
+        elementTitle = new Label(moduleElementSource.getTitle(), gameManager.ressourceManager.getSkin());
+        activeGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
-        passiveGoldLabel = new Label("", gameManager.assetManager.getSkin());
+        passiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         passiveGoldLabel.setFontScale(0.7f);
-        nextActiveGoldLabel = new Label("", gameManager.assetManager.getSkin());
+        nextActiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         nextActiveGoldLabel.setFontScale(0.9f);
-        nextPassiveGoldLabel= new Label("", gameManager.assetManager.getSkin());
+        nextPassiveGoldLabel= new Label("", gameManager.ressourceManager.getSkin());
         nextPassiveGoldLabel.setFontScale(0.9f);
 
-        buyButton = new TextButton("",gameManager.assetManager.getModuleMenuBuyTxtBtnStyle());
+        buyButton = new TextButton("",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
         buyButton.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
 
         if (currentLevel==0) {
-            Texture skillTexture = gameManager.assetManager.getDisabledIcon();
+            Texture skillTexture = gameManager.ressourceManager.getDisabledIcon();
             skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             skillIcon = new Image(skillTexture);
         } else {
-            Texture skillTexture = gameManager.assetManager.getModuleDrawableUpList().get(i);
+            Texture skillTexture = gameManager.ressourceManager.getModuleDrawableUpList().get(i);
             skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             skillIcon = new Image(skillTexture);
         }
-        goldIcon = new Image(gameManager.assetManager.getGoldIcon());
+        goldIcon = new Image(gameManager.ressourceManager.getGoldIcon());
 
         // Liste level actuel du module
         Table moduleLevelGroup = new Table();
@@ -103,17 +103,17 @@ public class CharacterAttributeElement extends Table {
     }
 
     public void update() {
-        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.moduleLevelList.get(moduleElementSource.getId()));
+        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()));
         ModuleElementLevel moduleNextLevel=null;
-        if (gameManager.gameInformation.moduleLevelList.get(moduleElementSource.getId())<moduleElementSource.getLevel().size()-1) {
-            moduleNextLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.moduleLevelList.get(moduleElementSource.getId()) + 1);
+        if (gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId())<moduleElementSource.getLevel().size()-1) {
+            moduleNextLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()) + 1);
         } else {
             buyButton.setTouchable(Touchable.disabled);
             buyButton.setColor(Color.GRAY);
         }
-        moduleLevelLabel.setText("Level "+gameManager.gameInformation.moduleLevelList.get(moduleElementSource.getId()));
-        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getUpgradeLvlImageList().get(gameManager.gameInformation.moduleLevelList.get(moduleElementSource.getId())))));
-        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetManager.getModuleDrawableUpList().get(moduleElementSource.getId()))));
+        moduleLevelLabel.setText("Level "+gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()));
+        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId())))));
+        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getModuleDrawableUpList().get(moduleElementSource.getId()))));
         skillIcon.setSize(60,60);
         activeGoldLabel.setText(ACTIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getActGen().value, moduleLevel.getActGen().currency));
         passiveGoldLabel.setText(PASSIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getPassGen().value, moduleLevel.getPassGen().currency));

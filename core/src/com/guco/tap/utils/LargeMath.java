@@ -142,14 +142,14 @@ public class LargeMath {
      * Similaire a adjustCurrency
      */
     public void formatGameInformation(){
-        float value= gameInformation.currentGold;
-        int currency=gameInformation.currentCurrency;
+        float value= gameInformation.currentGoldValue;
+        int currency=gameInformation.currentGoldCurrency;
         while(value>=1000) {
             value=value/1000;
             currency+=1;
         }
-        gameInformation.currentGold=value;
-        gameInformation.currentCurrency=currency;
+        gameInformation.currentGoldValue =value;
+        gameInformation.currentGoldCurrency =currency;
         //TODO formater pour que virgule ne passe pas la limite du systeme
     }
 

@@ -2,7 +2,6 @@ package com.guco.tap.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.utils.Json;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.utils.Constants;
 
@@ -81,15 +80,15 @@ public class GameInformationOld {
      * TODO : ne pas tt sauvegarder chaque fois
      */
     public void saveInformation() {
-        prefs.putFloat("currentGold", currentGold);
-        prefs.putInteger("currentCurrency", currency);
+        prefs.putFloat("currentGoldValue", currentGold);
+        prefs.putInteger("currentGoldCurrency", currency);
         prefs.putFloat("tapDamageValue", genGoldActive);
         prefs.putInteger("tapDamageCurrency", genCurrencyActive);
-        prefs.putFloat("genGoldPassive", genGoldPassive);
-        prefs.putInteger("genCurrencyPassive", genCurrencyPassive);
+        prefs.putFloat("passivGoldValue", genGoldPassive);
+        prefs.putInteger("passivGoldCurrency", genCurrencyPassive);
         prefs.putInteger("criticalRate", criticalRate);
         prefs.putInteger("stationId", stationId);
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
             prefs.putInteger("upgradeLevel"+i, upgradeLevelList.get(i));
         }
         prefs.putLong("lastLogin", System.currentTimeMillis());
@@ -130,16 +129,16 @@ public class GameInformationOld {
         stationId = 0;
         skillPoint = 0;
 
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
             upgradeLevelList.add(0);
         }
-        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getAchievementElementList().size(); i++){
             achievList.add(0);
         }
         for (int i=0;i<3;i++) {
             characterEquipedList.add(1);
         }
-        for (int i=0;i<game.assetManager.getItemList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getItemList().size(); i++){
             itemLevellist.add(0);
         }
 
@@ -159,16 +158,16 @@ public class GameInformationOld {
     }
 
     private void loadGameInformation() {
-        currentGold = prefs.getFloat("currentGold");
-        currency = prefs.getInteger("currentCurrency");
+        currentGold = prefs.getFloat("currentGoldValue");
+        currency = prefs.getInteger("currentGoldCurrency");
         genGoldActive = prefs.getFloat("tapDamageValue");
-        genGoldPassive = prefs.getFloat("genGoldPassive");
-        genCurrencyPassive = prefs.getInteger("genCurrencyPassive");
+        genGoldPassive = prefs.getFloat("passivGoldValue");
+        genCurrencyPassive = prefs.getInteger("passivGoldCurrency");
         genCurrencyActive = prefs.getInteger("tapDamageCurrency");
         criticalRate = prefs.getInteger("criticalRate");
         stationId = prefs.getInteger("stationId");
         skillPoint = prefs.getInteger("skillPoint");
-        for (int i=0;i<game.assetManager.getModuleElementList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
             upgradeLevelList.add(prefs.getInteger("upgradeLevel"+i));
         }
         lastLogin = prefs.getLong("lastLogin");
@@ -177,13 +176,13 @@ public class GameInformationOld {
         factionExp = prefs.getInteger("factionExp");
         factionId = prefs.getInteger("factionId");
         factionLvl = prefs.getInteger("factionLvl");
-        for (int i=0;i<game.assetManager.getAchievementElementList().size();i++){
+        for (int i = 0; i<game.ressourceManager.getAchievementElementList().size(); i++){
             achievList.add(prefs.getInteger("achiev_"+i));
         }
         for (int i=0;i<5;i++) {
             characterEquipedList.add(prefs.getInteger("equip_"+i));
         }
-        for (int i=0;i<game.assetManager.weaponList.size();i++){
+        for (int i = 0; i<game.ressourceManager.weaponList.size(); i++){
             itemLevellist.add(prefs.getInteger("item"+i));
         }
         optionSound=prefs.getBoolean("optionSound");

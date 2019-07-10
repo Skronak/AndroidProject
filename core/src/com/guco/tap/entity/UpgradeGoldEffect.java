@@ -3,7 +3,7 @@ package com.guco.tap.entity;
 public class UpgradeGoldEffect extends AbstractUpgradeEffect {
 
     @Override
-    public void apply(ItemEntity itemEntity) {
+    public void apply(Item item) {
         originValue = gameInformation.levelBaseGold;
         originCurrency = gameInformation.levelBaseCurrency;
 
@@ -11,7 +11,7 @@ public class UpgradeGoldEffect extends AbstractUpgradeEffect {
     }
 
     @Override
-    public void unapply(ItemEntity itemEntity) {
+    public void unapply(Item item) {
         gameInformation.levelBaseGold = (int) originValue;
     }
 }

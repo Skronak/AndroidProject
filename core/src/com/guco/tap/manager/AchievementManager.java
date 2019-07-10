@@ -16,8 +16,8 @@ public class AchievementManager {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameManager = gameManager;
 
-        // Retrieve Achievement from AssetManager
-        this.achievementElementList = gameManager.assetManager.getAchievementElementList();
+        // Retrieve Achievement from RessourceManager
+        this.achievementElementList = gameManager.ressourceManager.getAchievementElementList();
 
         // Init all achievement status with information from current GameInformation
         updateAchivementElementStatus();

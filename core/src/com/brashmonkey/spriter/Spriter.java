@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A utility class for managing multiple {@link Loader} and {@link Player} instances.
+ * A utility class for managing multiple {@link Loader} and {@link SpriterPlayer} instances.
  * @author Trixt0r
  *
  */
@@ -26,7 +26,7 @@ public class Spriter {
 	private static Class<? extends Loader> loaderClass;
 	
 	private static final HashMap<String, Data> loadedData = new HashMap<String, Data>();
-	private static final List<Player> players = new ArrayList<Player>();
+	private static final List<SpriterPlayer> SPRITER_PLAYERS = new ArrayList<SpriterPlayer>();
 	private static final List<Loader> loaders = new ArrayList<Loader>();
 	private static Drawer<?> drawer;
 	private static final HashMap<Entity, Loader> entityToLoader = new HashMap<Entity, Loader>();
@@ -121,30 +121,30 @@ public class Spriter {
 	}
 	
 	/**
-	 * Creates a new {@link Player} instance based on the given SCML file with the given entity index
+	 * Creates a new {@link SpriterPlayer} instance based on the given SCML file with the given entity index
 	 * @param scmlFile name of the SCML file
 	 * @param entityIndex the index of the entity
-	 * @return a {@link Player} instance managed by this class
+	 * @return a {@link SpriterPlayer} instance managed by this class
 	 * @throws SpriterException if the given SCML file was not loaded yet
 	 */
-	public static Player newPlayer(String scmlFile, int entityIndex){
-		return newPlayer(scmlFile, entityIndex, Player.class);
+	public static SpriterPlayer newPlayer(String scmlFile, int entityIndex){
+		return newPlayer(scmlFile, entityIndex, SpriterPlayer.class);
 	}
 	
 	/**
-	 * Creates a new {@link Player} instance based on the given SCML file with the given entity index and the given class extending a {@link Player}
+	 * Creates a new {@link SpriterPlayer} instance based on the given SCML file with the given entity index and the given class extending a {@link SpriterPlayer}
 	 * @param scmlFile name of the SCML file
 	 * @param entityIndex the index of the entity
-	 * @param playerClass the class extending a {@link Player} class, e.g. {@link PlayerTweener}.
-	 * @return a {@link Player} instance managed by this class
+	 * @param playerClass the class extending a {@link SpriterPlayer} class, e.g. {@link SpriterPlayerTweener}.
+	 * @return a {@link SpriterPlayer} instance managed by this class
 	 * @throws SpriterException if the given SCML file was not loaded yet
 	 */
-	public static Player newPlayer(String scmlFile, int entityIndex, Class<? extends Player> playerClass){
+	public static SpriterPlayer newPlayer(String scmlFile, int entityIndex, Class<? extends SpriterPlayer> playerClass){
 		if(!loadedData.containsKey(scmlFile)) throw new SpriterException("You have to load \""+scmlFile+"\" before using it!");
 		try {
-			Player player = playerClass.getDeclaredConstructor(Entity.class).newInstance(loadedData.get(scmlFile).getEntity(entityIndex));
-			players.add(player);
-			return player;
+			SpriterPlayer spriterPlayer = playerClass.getDeclaredConstructor(Entity.class).newInstance(loadedData.get(scmlFile).getEntity(entityIndex));
+			SPRITER_PLAYERS.add(spriterPlayer);
+			return spriterPlayer;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -152,13 +152,13 @@ public class Spriter {
 	}
 	
 	/**
-	 * Creates a new {@link Player} instance based on the given SCML file with the given entity name
+	 * Creates a new {@link SpriterPlayer} instance based on the given SCML file with the given entity name
 	 * @param scmlFile name of the SCML file
 	 * @param entityName name of the entity
-	 * @return a {@link Player} instance managed by this class
+	 * @return a {@link SpriterPlayer} instance managed by this class
 	 * @throws SpriterException if the given SCML file was not loaded yet
 	 */
-	public static Player newPlayer(String scmlFile, String entityName){
+	public static SpriterPlayer newPlayer(String scmlFile, String entityName){
 		if(!loadedData.containsKey(scmlFile)) throw new SpriterException("You have to load \""+scmlFile+"\" before using it!");
 		return newPlayer(scmlFile, loadedData.get(scmlFile).getEntityIndex(entityName));
 	}
@@ -174,47 +174,47 @@ public class Spriter {
 	}
 
 	/**
-	 * Updates each created player by this class and immediately draws it.
+	 * Updates each created spriterPlayer by this class and immediately draws it.
 	 * This method should only be called if you want to update and render on the same thread.
 	 * @throws SpriterException if {@link #init(Class, Class)} was not called before
 	 */
 	@SuppressWarnings("unchecked")
 	public static void updateAndDraw(){
 		if(!initialized) throw new SpriterException("Call init() before updating!");
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).update();
-			drawer.loader = entityToLoader.get(players.get(i).getEntity());
-			drawer.draw(players.get(i));
+		for (int i = 0; i < SPRITER_PLAYERS.size(); i++) {
+			SPRITER_PLAYERS.get(i).update();
+			drawer.loader = entityToLoader.get(SPRITER_PLAYERS.get(i).getEntity());
+			drawer.draw(SPRITER_PLAYERS.get(i));
 		}
 	}
 	
 	/**
-	 * Updates each created player by this class.
+	 * Updates each created spriterPlayer by this class.
 	 * @throws SpriterException if {@link #init(Class, Class)} was not called before
 	 */
 	public static void update(){
 		if(!initialized) throw new SpriterException("Call init() before updating!");
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).update();
+		for (int i = 0; i < SPRITER_PLAYERS.size(); i++) {
+			SPRITER_PLAYERS.get(i).update();
 		}
 	}
 	
 	/**
-	 * Draws each created player by this class.
+	 * Draws each created spriterPlayer by this class.
 	 * @throws SpriterException if {@link #init(Class, Class)} was not called before
 	 */
 	@SuppressWarnings("unchecked")
 	public static void draw(){
 		if(!initialized) throw new SpriterException("Call init() before drawing!");
-		for (int i = 0; i < players.size(); i++) {
-			drawer.loader = entityToLoader.get(players.get(i).getEntity());
-			drawer.draw(players.get(i));
+		for (int i = 0; i < SPRITER_PLAYERS.size(); i++) {
+			drawer.loader = entityToLoader.get(SPRITER_PLAYERS.get(i).getEntity());
+			drawer.draw(SPRITER_PLAYERS.get(i));
 		}
 	}
 	
 	/**
 	 * Returns the drawer instance this class is using.
-	 * @return the drawer which draws all players
+	 * @return the drawer which draws all SPRITER_PLAYERS
 	 */
 	public static Drawer drawer(){
 		return drawer;
@@ -230,15 +230,15 @@ public class Spriter {
 	}
 	
 	/**
-	 * The number of players this class is managing.
-	 * @return number of players
+	 * The number of SPRITER_PLAYERS this class is managing.
+	 * @return number of SPRITER_PLAYERS
 	 */
 	public static int players(){
-		return players.size();
+		return SPRITER_PLAYERS.size();
 	}
 	
 	/**
-	 * Clears all previous created players, Spriter datas, disposes all loaders, deletes the drawer and resets all internal lists.
+	 * Clears all previous created SPRITER_PLAYERS, Spriter datas, disposes all loaders, deletes the drawer and resets all internal lists.
 	 * After this methods was called {@link #init(Class, Class)} has to be called again so that everything works again.
 	 */
 	public static void dispose(){
@@ -259,7 +259,7 @@ public class Spriter {
 		loaderTypes[0] = Data.class;
 		loaderDependencies = new Object[1];
 		
-		players.clear();
+		SPRITER_PLAYERS.clear();
 		
 		initialized = false;
 	}

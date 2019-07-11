@@ -1,39 +1,38 @@
 package com.guco.tap.input;
 
-import com.badlogic.gdx.Gdx;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.screen.PlayScreen;
 
-public class PlayerListenerImpl implements Player.PlayerListener {
+public class PlayerListenerImpl implements SpriterPlayer.PlayerListener {
 
-    Player playerParent;
+    SpriterPlayer spriterPlayerParent;
     PlayScreen playScreen;
 
-    public PlayerListenerImpl(Player playerParent, PlayScreen playScreen){
-        this.playerParent = playerParent;
+    public PlayerListenerImpl(SpriterPlayer spriterPlayerParent, PlayScreen playScreen){
+        this.spriterPlayerParent = spriterPlayerParent;
         this.playScreen=playScreen;
     }
 
 
     @Override
     public void animationFinished(Animation animation) {
-        playerParent.setAnimation("idle");
-        playerParent.animationFinished = true;
+        spriterPlayerParent.setAnimation("idle");
+        spriterPlayerParent.animationFinished = true;
     }
 
     @Override
     public void animationChanged(Animation oldAnim, Animation newAnim) {
-            playerParent.animationFinished = false;
+            spriterPlayerParent.animationFinished = false;
     }
 
     @Override
-    public void preProcess(Player player) {
+    public void preProcess(SpriterPlayer spriterPlayer) {
     }
 
     @Override
-    public void postProcess(Player player) {
+    public void postProcess(SpriterPlayer spriterPlayer) {
     }
 
     /**
@@ -44,7 +43,7 @@ public class PlayerListenerImpl implements Player.PlayerListener {
      */
     @Override
     public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
-        if (playerParent.getAnimation().name.equals("atk")&&newKey.id==5) {
+        if (spriterPlayerParent.getAnimation().name.equals("atk")&&newKey.id==5) {
             playScreen.enemyActorList.get(0).hurt();
         }
     }

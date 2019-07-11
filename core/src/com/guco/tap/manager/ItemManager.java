@@ -1,5 +1,6 @@
 package com.guco.tap.manager;
 
+import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.Item;
 
 public class ItemManager {
@@ -15,8 +16,15 @@ public class ItemManager {
             Item item = gameManager.ressourceManager.weaponList.get(i);
             if (gameManager.ressourceManager.weaponUpgradeList.size()>i) {
                 item.upgrades = gameManager.ressourceManager.weaponUpgradeList.get(i);
+                Item upgradedItem = gameManager.gameInformation.upgradedItem.get(item.id);
+                if (upgradedItem!=null) {
+                    item.calculatedStat = new CalculatedStat(upgradedItem.damageValue, upgradedItem.damageCurrency, upgradedItem.criticalRate);
+                } else {
+                    item.calculatedStat = new CalculatedStat(item.damageValue, item.damageCurrency, item.criticalRate);
+                }
             }
         }
+
     }
 
     public void increaseItemLevel(Item item){

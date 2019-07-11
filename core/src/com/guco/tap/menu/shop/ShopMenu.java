@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
@@ -16,7 +16,7 @@ import com.guco.tap.menu.AbstractMenu;
 public class ShopMenu extends AbstractMenu {
 
     private Table equipTable;
-    private Player player;
+    private SpriterPlayer spriterPlayer;
     private Drawer drawer;
     private SpriteBatch spriteBatch;
 
@@ -27,7 +27,7 @@ public class ShopMenu extends AbstractMenu {
     }
 
     public void postInit(){
-        player = gameManager.player;
+        spriterPlayer = gameManager.spriterPlayer;
         spriteBatch = new SpriteBatch();
         drawer = gameManager.loadDrawer(spriteBatch);
     }
@@ -42,14 +42,14 @@ public class ShopMenu extends AbstractMenu {
 
     @Override
     public void update() {
-        if (null == player){
+        if (null == spriterPlayer){
             postInit();
         } else {
-            player.update();
+            spriterPlayer.update();
         }
         spriteBatch.setProjectionMatrix(gameManager.playScreen.getHud().stage.getCamera().combined);
         spriteBatch.begin();
-        drawer.draw(player);
+        drawer.draw(spriterPlayer);
         spriteBatch.end();
 
     }

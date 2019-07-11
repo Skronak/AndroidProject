@@ -9,11 +9,11 @@ import com.brashmonkey.spriter.Timeline.Key.Bone;
 import com.brashmonkey.spriter.Timeline.Key.Object;
 
 /**
- * A Drawer is responsible for drawing a {@link Player}.
+ * A Drawer is responsible for drawing a {@link SpriterPlayer}.
  * Since this library is meant to be as generic as possible this class has to be abstract, because it cannot be assumed how to draw a resource.
- * Anyone who wants to draw a {@link Player} has to know how to draw a resource. A resource can be e.g. a sprite, a texture or a texture region.
- * To draw a {@link Player} call {@link #draw(Player)}. This method relies on {@link #draw(Object)}, which has to be implemented with the chosen backend.
- * To debug draw a {@link Player} call {@link #drawBones(Player)}, {@link #drawBoxes(Player)} and {@link #drawPoints(Player)},
+ * Anyone who wants to draw a {@link SpriterPlayer} has to know how to draw a resource. A resource can be e.g. a sprite, a texture or a texture region.
+ * To draw a {@link SpriterPlayer} call {@link #draw(SpriterPlayer)}. This method relies on {@link #draw(Object)}, which has to be implemented with the chosen backend.
+ * To debug draw a {@link SpriterPlayer} call {@link #drawBones(SpriterPlayer)}, {@link #drawBoxes(SpriterPlayer)} and {@link #drawPoints(SpriterPlayer)},
  * which rely on {@link #rectangle(float, float, float, float)}, {@link #circle(float, float, float)}, {@link #line(float, float, float, float)} and {@link #setColor(float, float, float, float)}.
  * @author Trixt0r
  *
@@ -46,25 +46,25 @@ public abstract class Drawer<R> {
 	}
 	
 	/**
-	 * Draws the bones of the given player composed of lines.
-	 * @param player the player to draw
+	 * Draws the bones of the given spriterPlayer composed of lines.
+	 * @param spriterPlayer the spriterPlayer to draw
 	 */
-	public void drawBones(Player player){
+	public void drawBones(SpriterPlayer spriterPlayer){
 		this.setColor(1, 0, 0, 1);
-		Iterator<Bone> it = player.boneIterator();
+		Iterator<Bone> it = spriterPlayer.boneIterator();
 		while(it.hasNext()){
 			Timeline.Key.Bone bone = it.next();
-			Timeline.Key key = player.getKeyFor(bone);
+			Timeline.Key key = spriterPlayer.getKeyFor(bone);
 			if(!key.active) continue;
-			ObjectInfo info = player.getObjectInfoFor(bone);
+			ObjectInfo info = spriterPlayer.getObjectInfoFor(bone);
 			Dimension size = info.size;
 			drawBone(bone, size);
 		}
-		/*for(Mainline.Key.BoneRef ref: player.getCurrentKey().boneRefs){
-			Timeline.Key key = player.unmappedTweenedKeys[ref.timeline];
+		/*for(Mainline.Key.BoneRef ref: spriterPlayer.getCurrentKey().boneRefs){
+			Timeline.Key key = spriterPlayer.unmappedTweenedKeys[ref.timeline];
 			Timeline.Key.Bone bone = key.object();
-			if(player.animation.getTimeline(ref.timeline).objectInfo.type != ObjectType.Bone || !key.active) continue;
-			ObjectInfo info = player.animation.getTimeline(ref.timeline).objectInfo;
+			if(spriterPlayer.animation.getTimeline(ref.timeline).objectInfo.type != ObjectType.Bone || !key.active) continue;
+			ObjectInfo info = spriterPlayer.animation.getTimeline(ref.timeline).objectInfo;
 			if(info == null) continue;
 			Dimension size = info.size;
 			drawBone(bone, size);
@@ -96,73 +96,73 @@ public abstract class Drawer<R> {
 	}
 	
 	/**
-	 * Draws the boxes of the player.
-	 * @param player the player to draw the boxes from
+	 * Draws the boxes of the spriterPlayer.
+	 * @param spriterPlayer the spriterPlayer to draw the boxes from
 	 */
-	public void drawBoxes(Player player){
+	public void drawBoxes(SpriterPlayer spriterPlayer){
 		this.setColor(0f, 1f, 0f, 1f);
-		this.drawBoneBoxes(player);
-		this.drawObjectBoxes(player);
-		this.drawPoints(player);
+		this.drawBoneBoxes(spriterPlayer);
+		this.drawObjectBoxes(spriterPlayer);
+		this.drawPoints(spriterPlayer);
 	}
 	
 	/**
-	 * Draws the boxes of all bones of the given player.
-	 * @param player the player to draw the bone boxes of
+	 * Draws the boxes of all bones of the given spriterPlayer.
+	 * @param spriterPlayer the spriterPlayer to draw the bone boxes of
 	 */
-	public void drawBoneBoxes(Player player){
-		drawBoneBoxes(player, player.boneIterator());
+	public void drawBoneBoxes(SpriterPlayer spriterPlayer){
+		drawBoneBoxes(spriterPlayer, spriterPlayer.boneIterator());
 	}
 	
 	/**
-	 * Draws the boxes of all bones of the given player based on the given iterator.
-	 * @param player the player to draw the bone boxes of
+	 * Draws the boxes of all bones of the given spriterPlayer based on the given iterator.
+	 * @param spriterPlayer the spriterPlayer to draw the bone boxes of
 	 * @param it the iterator iterating over the bones to draw
 	 */
-	public void drawBoneBoxes(Player player, Iterator<Bone> it){
+	public void drawBoneBoxes(SpriterPlayer spriterPlayer, Iterator<Bone> it){
 		while(it.hasNext()){
 			Bone bone = it.next();
-			this.drawBox(player.getBox(bone));
+			this.drawBox(spriterPlayer.getBox(bone));
 		}
 	}
 	
 	/**
-	 * Draws the boxes of the player objects, i.e. sprites and objects.
-	 * @param player the player to draw the object boxes of
+	 * Draws the boxes of the spriterPlayer objects, i.e. sprites and objects.
+	 * @param spriterPlayer the spriterPlayer to draw the object boxes of
 	 */
-	public void drawObjectBoxes(Player player){
-		drawObjectBoxes(player, player.objectIterator());
+	public void drawObjectBoxes(SpriterPlayer spriterPlayer){
+		drawObjectBoxes(spriterPlayer, spriterPlayer.objectIterator());
 	}
 	
 	/**
-	 * Draws the boxes of sprites and boxes of the given player based on the given iterator.
-	 * @param player player the player to draw the object boxes of
+	 * Draws the boxes of sprites and boxes of the given spriterPlayer based on the given iterator.
+	 * @param spriterPlayer spriterPlayer the spriterPlayer to draw the object boxes of
 	 * @param it the iterator iterating over the object to draw
 	 */
-	public void drawObjectBoxes(Player player, Iterator<Object> it){
+	public void drawObjectBoxes(SpriterPlayer spriterPlayer, Iterator<Object> it){
 		while(it.hasNext()){
 			Object bone = it.next();
-			this.drawBox(player.getBox(bone));
+			this.drawBox(spriterPlayer.getBox(bone));
 		}
 	}
 	
 	/**
-	 * Draws all points of the given player.
-	 * @param player the player to draw the points of.
+	 * Draws all points of the given spriterPlayer.
+	 * @param spriterPlayer the spriterPlayer to draw the points of.
 	 */
-	public void drawPoints(Player player){
-		drawPoints(player, player.objectIterator());
+	public void drawPoints(SpriterPlayer spriterPlayer){
+		drawPoints(spriterPlayer, spriterPlayer.objectIterator());
 	}
 	
 	/**
-	 * Draws the points of the given player based on the given iterator.
-	 * @param player player the player to draw the points of
+	 * Draws the points of the given spriterPlayer based on the given iterator.
+	 * @param spriterPlayer spriterPlayer the spriterPlayer to draw the points of
 	 * @param it the iterator iterating over the points to draw
 	 */
-	public void drawPoints(Player player, Iterator<Object> it){
+	public void drawPoints(SpriterPlayer spriterPlayer, Iterator<Object> it){
 		while(it.hasNext()){
 			Object point = it.next();
-			if(player.getObjectInfoFor(point).type == ObjectType.Point){
+			if(spriterPlayer.getObjectInfoFor(point).type == ObjectType.Point){
 				float x = point.position.x+(float)(Math.cos(Math.toRadians(point.angle))*pointRadius);
 				float y = point.position.y+(float)(Math.sin(Math.toRadians(point.angle))*pointRadius);
 				circle(point.position.x, point.position.y, pointRadius);
@@ -172,20 +172,20 @@ public abstract class Drawer<R> {
 	}
 	
 	/**
-	 * Draws the given player with its current character map.
-	 * @param player the player to draw
+	 * Draws the given spriterPlayer with its current character map.
+	 * @param spriterPlayer the spriterPlayer to draw
 	 */
-	public void draw(Player player){
-		this.draw(player, player.characterMaps);
+	public void draw(SpriterPlayer spriterPlayer){
+		this.draw(spriterPlayer, spriterPlayer.characterMaps);
 	}
 	
 	/**
-	 * Draws the given player with the given character map. 
-	 * @param player the player to draw
+	 * Draws the given spriterPlayer with the given character map.
+	 * @param spriterPlayer the spriterPlayer to draw
 	 * @param map the character map to draw
 	 */
-	public void draw(Player player, CharacterMap[] maps){
-		this.draw(player.objectIterator(), maps);
+	public void draw(SpriterPlayer spriterPlayer, CharacterMap[] maps){
+		this.draw(spriterPlayer.objectIterator(), maps);
 	}
 	
 	/**

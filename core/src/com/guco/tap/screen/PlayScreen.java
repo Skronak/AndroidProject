@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.TapActor;
 import com.guco.tap.action.ScaleLabelAction;
@@ -65,8 +65,8 @@ public class PlayScreen implements Screen {
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
     Drawer<Sprite> drawer,enemyDrawer;
-    public Player player;
-    Player boss;
+    public SpriterPlayer spriterPlayer;
+    SpriterPlayer boss;
     GameManager gameManager;
     // Enemy present on screen
     ShaderProgram blurShader;
@@ -166,7 +166,7 @@ public class PlayScreen implements Screen {
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        player=gameManager.loadPlayer();
+        spriterPlayer =gameManager.loadPlayer();
         boss=gameManager.loadBoss();
 
         drawer=gameManager.loadDrawer(spriteBatch);
@@ -192,7 +192,7 @@ public class PlayScreen implements Screen {
         gameManager.updateLogic(delta);
 
         hud.updateGoldLabel();
-        player.update();
+        spriterPlayer.update();
         //boss.update();
 
         stage.act();
@@ -201,7 +201,7 @@ public class PlayScreen implements Screen {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 //        spriteBatch.setShader(blurShader);
-        drawer.draw(player);
+        drawer.draw(spriterPlayer);
 
         //enemyDrawer.draw(boss);
 //        torchParticleSEffect.update();
@@ -266,7 +266,7 @@ public class PlayScreen implements Screen {
      * Animation du jeu au touche
      */
     public void processHit() {
-        player.setAnimation("atk");
+        spriterPlayer.setAnimation("atk");
         gameManager.hurtEnemy();
 
         damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency),new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));

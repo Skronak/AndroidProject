@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.entity.Item;
 import com.guco.tap.menu.inventory.element.InventoryElement;
 import com.guco.tap.manager.GameManager;
@@ -40,7 +40,7 @@ public class InventoryMenu extends AbstractMenu {
     // FOR TEST ONLY
     private Drawer drawer;
     private SpriteBatch batch;
-    public Player itemPlayer;
+    public SpriterPlayer itemSpriterPlayer;
 
     public InventoryMenu(GameManager gameManager) {
         super(gameManager);
@@ -51,11 +51,11 @@ public class InventoryMenu extends AbstractMenu {
         float height = 20;
         float ppu = Gdx.graphics.getHeight() / height;
         float width = Gdx.graphics.getWidth() / ppu;
-        itemPlayer = gameManager.loadPlayer();
-        itemPlayer.setScale(0.5f);
-        itemPlayer.setEntity(gameManager.data.getEntity("inventoryMenu"));
-        itemPlayer.setPosition(70, 350);
-        itemPlayer.speed=5;
+        itemSpriterPlayer = gameManager.loadPlayer();
+        itemSpriterPlayer.setScale(0.5f);
+        itemSpriterPlayer.setEntity(gameManager.data.getEntity("inventoryMenu"));
+        itemSpriterPlayer.setPosition(70, 350);
+        itemSpriterPlayer.speed=5;
 
         menuState = MenuState.WEAPON; // default menu value
     }
@@ -176,8 +176,8 @@ public class InventoryMenu extends AbstractMenu {
     public void draw(){
         batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
         batch.begin();
-        itemPlayer.update();
-        drawer.draw(itemPlayer);
+        itemSpriterPlayer.update();
+        drawer.draw(itemSpriterPlayer);
         batch.end();
     }
 
@@ -250,7 +250,7 @@ public class InventoryMenu extends AbstractMenu {
 
     public void setSelectedItem(InventoryElement inventoryElement){
             Item item = inventoryElement.itemSource;
-            itemPlayer.characterMaps[0]= itemPlayer.getEntity().getCharacterMap(item.mapName); // charactermap 0 wrong
+            itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(item.mapName); // charactermap 0 wrong
             damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + item.damageValue));
             weaponDamageLabel.setText("Weapon atk " + item.damageValue);
     }

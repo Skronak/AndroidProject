@@ -119,12 +119,6 @@ public class RessourceManager {
 
         weaponUpgradeList= new ArrayList<TiersUpgrades>();
         weaponUpgradeList = json.fromJson(ArrayList.class, TiersUpgrades.class, Gdx.files.internal(JSON_PATH+"itemUpgrade.json"));
-        for (int i = 0; i < this.weaponList.size(); i++) {
-            Item item = weaponList.get(i);
-            if (weaponUpgradeList.size()>i) {
-                item.upgrades = weaponUpgradeList.get(i);
-            }
-        }
 
         loadValue+=1;
         Gdx.app.log("RessourceManager","Chargement asset termine");

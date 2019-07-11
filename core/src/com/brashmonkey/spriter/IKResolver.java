@@ -25,38 +25,38 @@ public abstract class IKResolver {
 	
 	protected HashMap<IKObject, BoneRef> ikMap;
 	protected float tolerance;
-	protected Player player;
+	protected SpriterPlayer spriterPlayer;
 
 	/**
 	 * Creates a resolver with a default tolerance of 5f.
 	 */
-	public IKResolver(Player player) {
+	public IKResolver(SpriterPlayer spriterPlayer) {
 		this.tolerance = 5f;
 		this.ikMap = new HashMap<IKObject, BoneRef>();
-		this.setPlayer(player);
+		this.setSpriterPlayer(spriterPlayer);
 	}
 	
 	/**
-	 * Sets the player for this resolver.
-	 * @param player the player which gets affected.
-	 * @throws SpriterException if player is <code>null</code>
+	 * Sets the spriterPlayer for this resolver.
+	 * @param spriterPlayer the spriterPlayer which gets affected.
+	 * @throws SpriterException if spriterPlayer is <code>null</code>
 	 */
-	public void setPlayer(Player player){
-		if(player == null) throw new SpriterException("player cannot be null!");
-		this.player = player;
+	public void setSpriterPlayer(SpriterPlayer spriterPlayer){
+		if(spriterPlayer == null) throw new SpriterException("spriterPlayer cannot be null!");
+		this.spriterPlayer = spriterPlayer;
 	}
 	
 	/**
-	 * Returns the current set player.
-	 * @return the current player.
+	 * Returns the current set spriterPlayer.
+	 * @return the current spriterPlayer.
 	 */
-	public Player getPlayer(){
-		return this.player;
+	public SpriterPlayer getSpriterPlayer(){
+		return this.spriterPlayer;
 	}
 	
 	/**
 	 * Resolves the inverse kinematics constraints with the implemented algorithm in {@link #resolve(float, float, int, SpriterAbstractObject, SpriterAbstractPlayer)}.
-	 * @param player player to apply the resolving.
+	 * @param player spriterPlayer to apply the resolving.
 	 */
 	public void resolve(){
 		for(Entry<IKObject, BoneRef> entry: this.ikMap.entrySet()){
@@ -82,7 +82,7 @@ public abstract class IKResolver {
 	 * @param bone the bone which gets affected
 	 */
 	public void mapIKObject(IKObject ikObject, Bone bone){
-		this.ikMap.put(ikObject, player.getBoneRef(bone));
+		this.ikMap.put(ikObject, spriterPlayer.getBoneRef(bone));
 	}
 	
 	/**

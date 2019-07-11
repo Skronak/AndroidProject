@@ -1,6 +1,7 @@
 package com.guco.tap.entity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Skronak on 30/01/2017.
@@ -33,13 +34,12 @@ public class GameInformation {
     public int equipedWeapon;
     public int equipedHead;
     public int equipedBody;
-    public List<UpgradedItem> currentEquipement;
     public List<Item> weaponItemList;
     public List<Item> headItemList;
     public List<Item> bodyItemList;
-    public List<ItemUpgrade> currentUpgradeList;
     public int levelBaseCurrency;
     public int levelBaseGold;
+    public Map<Integer, Item> upgradedItem;
 
     public GameInformation() {
     }

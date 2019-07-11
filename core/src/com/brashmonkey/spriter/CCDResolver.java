@@ -13,16 +13,16 @@ import com.brashmonkey.spriter.Timeline.Key.Bone;
  */
 public class CCDResolver extends IKResolver {
 	
-	public CCDResolver(Player player) {
-		super(player);
+	public CCDResolver(SpriterPlayer spriterPlayer) {
+		super(spriterPlayer);
 	}
 
 	@Override
 	public void resolve(float x, float y, int chainLength, BoneRef effectorRef) {
-		//player.unmapObjects(null);
-		Timeline timeline = player.animation.getTimeline(effectorRef.timeline);
-		Timeline.Key key = player.tweenedKeys[effectorRef.timeline];
-		Timeline.Key unmappedKey = player.unmappedTweenedKeys[effectorRef.timeline];
+		//spriterPlayer.unmapObjects(null);
+		Timeline timeline = spriterPlayer.animation.getTimeline(effectorRef.timeline);
+		Timeline.Key key = spriterPlayer.tweenedKeys[effectorRef.timeline];
+		Timeline.Key unmappedKey = spriterPlayer.unmappedTweenedKeys[effectorRef.timeline];
 		Bone effector = key.object();
 		Bone unmappedffector = unmappedKey.object();
 		float width = (timeline.objectInfo != null) ? timeline.objectInfo.size.width: 200;
@@ -33,15 +33,15 @@ public class CCDResolver extends IKResolver {
 			return;
 		
 		effector.angle = Calculator.angleBetween(unmappedffector.position.x, unmappedffector.position.y, x, y);
-		if(Math.signum(player.root.scale.x) == -1) effector.angle += 180f;
+		if(Math.signum(spriterPlayer.root.scale.x) == -1) effector.angle += 180f;
 		BoneRef parentRef = effectorRef.parent;
 		Bone parent = null, unmappedParent = null;
 		if(parentRef != null){
-			parent = player.tweenedKeys[parentRef.timeline].object();
-			unmappedParent = player.unmappedTweenedKeys[parentRef.timeline].object();
+			parent = spriterPlayer.tweenedKeys[parentRef.timeline].object();
+			unmappedParent = spriterPlayer.unmappedTweenedKeys[parentRef.timeline].object();
 			effector.angle -= unmappedParent.angle;
 		}
-		player.unmapObjects(null);
+		spriterPlayer.unmapObjects(null);
 		for(int i = 0; i < chainLength && parentRef != null; i++){
 			if(Calculator.distanceBetween(xx, yy, x, y) <= this.tolerance)
 				return;
@@ -49,12 +49,12 @@ public class CCDResolver extends IKResolver {
 					Calculator.angleBetween(unmappedParent.position.x, unmappedParent.position.y, xx, yy));
 			parentRef = parentRef.parent;
 			if(parentRef != null && i < chainLength-1){
-				parent = player.tweenedKeys[parentRef.timeline].object();
-				unmappedParent = player.unmappedTweenedKeys[parentRef.timeline].object();
+				parent = spriterPlayer.tweenedKeys[parentRef.timeline].object();
+				unmappedParent = spriterPlayer.unmappedTweenedKeys[parentRef.timeline].object();
 				parent.angle -= unmappedParent.angle;
 			}
 			else parent = null;
-			player.unmapObjects(null);
+			spriterPlayer.unmapObjects(null);
 			xx = unmappedffector.position.x+(float)Math.cos(Math.toRadians(unmappedffector.angle))*width;
 			yy = unmappedffector.position.y+(float)Math.sin(Math.toRadians(unmappedffector.angle))*width;
 		}

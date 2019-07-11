@@ -13,7 +13,7 @@ import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
@@ -72,7 +72,7 @@ public class GameManager {
 
     public Data data;
 
-    public Player player;
+    public SpriterPlayer spriterPlayer;
 
     TapDungeonGame game;
 
@@ -114,29 +114,29 @@ public class GameManager {
         playScreen.getHud().postInitMenu();
     }
 
-    public Player loadPlayer(){
+    public SpriterPlayer loadPlayer(){
         int weaponMap=0;
         int headMap=1;
         int bodyMap=2;
-        player = new Player(data.getEntity(0));
-        player.setPosition(85,220);
-        player.setScale(0.37f);
-        player.speed=15;
-        player.setAnimation("idle");
-        player.addListener(new PlayerListenerImpl(player,playScreen));
+        spriterPlayer = new SpriterPlayer(data.getEntity(0));
+        spriterPlayer.setPosition(85,220);
+        spriterPlayer.setScale(0.37f);
+        spriterPlayer.speed=15;
+        spriterPlayer.setAnimation("idle");
+        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
         ;
-        player.characterMaps[weaponMap]= player.getEntity().getCharacterMap(ressourceManager.weaponList.get(gameInformation.equipedWeapon).mapName);
-        player.characterMaps[headMap]= player.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
-        player.characterMaps[bodyMap]= player.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
-        return player;
+        spriterPlayer.characterMaps[weaponMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.weaponList.get(gameInformation.equipedWeapon).mapName);
+        spriterPlayer.characterMaps[headMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
+        spriterPlayer.characterMaps[bodyMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
+        return spriterPlayer;
     }
 
-    public Player loadBoss(){
+    public SpriterPlayer loadBoss(){
         FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
         Data data = new SCMLReader(handle.read()).getData();
         LibGdxLoader loader = new LibGdxLoader(data);
         loader.load(handle.file());
-        Player boss = new Player(data.getEntity(0));
+        SpriterPlayer boss = new SpriterPlayer(data.getEntity(0));
         boss.setPosition(240,300);
         boss.setScale(0.4f);
         boss.speed=15;

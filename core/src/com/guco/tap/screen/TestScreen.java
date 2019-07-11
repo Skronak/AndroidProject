@@ -2,34 +2,26 @@ package com.guco.tap.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Entity;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.utils.Constants;
 
@@ -55,7 +47,7 @@ public class TestScreen implements Screen, InputProcessor {
 
     Drawer<Sprite> drawer;
     LibGdxLoader loader;
-    Player player;
+    SpriterPlayer spriterPlayer;
     ShapeRenderer renderer;
 
     int currentSwitch=0;
@@ -99,11 +91,11 @@ public class TestScreen implements Screen, InputProcessor {
         loader = new LibGdxLoader(data);
         loader.load(handle.file());
         drawer = new LibGdxDrawer(loader, spriteBatch, renderer);
-        player = new Player(data.getEntity(0));
-        player.setPosition(100,200);
-        player.setScale(0.5f);
-        player.speed = 5;
-        player.setAnimation("withtag");
+        spriterPlayer = new SpriterPlayer(data.getEntity(0));
+        spriterPlayer.setPosition(100,200);
+        spriterPlayer.setScale(0.5f);
+        spriterPlayer.speed = 5;
+        spriterPlayer.setAnimation("withtag");
 
         Gdx.input.setInputProcessor(this);
     }
@@ -118,29 +110,29 @@ public class TestScreen implements Screen, InputProcessor {
         stage.draw();
 
         // spriter
-        player.update();
+        spriterPlayer.update();
 
         spriteBatch.begin();
-        drawer.draw(player);
+        drawer.draw(spriterPlayer);
         spriteBatch.end();
         renderer.begin();
-        drawer.drawBones(player);
+        drawer.drawBones(spriterPlayer);
         renderer.end();
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player.characterMaps[1] = player.getEntity().getCharacterMap("head2");
+            spriterPlayer.characterMaps[1] = spriterPlayer.getEntity().getCharacterMap("head2");
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            Entity.CharacterMap map = player.getEntity().getCharacterMap("body2");
-            player.characterMaps[2] = map;
+            Entity.CharacterMap map = spriterPlayer.getEntity().getCharacterMap("body2");
+            spriterPlayer.characterMaps[2] = map;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            Entity.CharacterMap map = player.getEntity().getCharacterMap("arms3");
-            player.setAnimation("atk");
+            Entity.CharacterMap map = spriterPlayer.getEntity().getCharacterMap("arms3");
+            spriterPlayer.setAnimation("atk");
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            player.characterMaps[0] = null;
+            spriterPlayer.characterMaps[0] = null;
         }
     }
 
@@ -188,19 +180,19 @@ public class TestScreen implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         switch (currentSwitch){
             case 0:
-                player.characterMaps[0] = player.getEntity().getCharacterMap("sword2");
+                spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap("sword2");
                 break;
             case 1:
-                player.characterMaps[0] = player.getEntity().getCharacterMap("sword3");
+                spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap("sword3");
                 break;
             case 2:
-                player.characterMaps[0] = player.getEntity().getCharacterMap("sword4");
+                spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap("sword4");
                 break;
             case 3:
-                player.characterMaps[0] = null;
+                spriterPlayer.characterMaps[0] = null;
                 break;
             default:
-                player.characterMaps[0] = null;
+                spriterPlayer.characterMaps[0] = null;
                 break;
         }
 

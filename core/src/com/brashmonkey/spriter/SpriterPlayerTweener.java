@@ -1,18 +1,18 @@
 package com.brashmonkey.spriter;
 
 /**
- * A player tweener is responsible for tweening to {@link Player} instances.
+ * A spriterPlayer tweener is responsible for tweening to {@link SpriterPlayer} instances.
  * Such a 
  * @author Trixt0r
  *
  */
-public class PlayerTweener extends Player{
+public class SpriterPlayerTweener extends SpriterPlayer {
 	
 	private TweenedAnimation anim;
-	private Player player1, player2;
+	private SpriterPlayer spriterPlayer1, spriterPlayer2;
 	/**
-	 * Indicates whether to update the {@link Player} instances this instance is holding.
-	 * If this variable is set to <code>false</code>, you will have to call {@link Player#update()} on your own.
+	 * Indicates whether to update the {@link SpriterPlayer} instances this instance is holding.
+	 * If this variable is set to <code>false</code>, you will have to call {@link SpriterPlayer#update()} on your own.
 	 */
 	public boolean updatePlayers = true;
 	
@@ -23,22 +23,22 @@ public class PlayerTweener extends Player{
 	public String baseBoneName = null;
 	
 	/**
-	 * Creates a player tweener which will tween the given two players.
-	 * @param player1 the first player
-	 * @param player2 the second player
+	 * Creates a spriterPlayer tweener which will tween the given two players.
+	 * @param spriterPlayer1 the first spriterPlayer
+	 * @param spriterPlayer2 the second spriterPlayer
 	 */
-	public PlayerTweener(Player player1, Player player2){
-		super(player1.getEntity());
-		this.setPlayers(player1, player2);
+	public SpriterPlayerTweener(SpriterPlayer spriterPlayer1, SpriterPlayer spriterPlayer2){
+		super(spriterPlayer1.getEntity());
+		this.setPlayers(spriterPlayer1, spriterPlayer2);
 	}
 	
 	/**
-	 * Creates a player tweener based on the entity.
+	 * Creates a spriterPlayer tweener based on the entity.
 	 * The players to tween will be created by this instance.
 	 * @param entity the entity the players will animate
 	 */
-	public PlayerTweener(Entity entity){
-		this(new Player(entity), new Player(entity));
+	public SpriterPlayerTweener(Entity entity){
+		this(new SpriterPlayer(entity), new SpriterPlayer(entity));
 	}
 	
 	/**
@@ -49,13 +49,13 @@ public class PlayerTweener extends Player{
 	@Override
 	public void update(){
 		if(updatePlayers){
-			player1.update();
-			player2.update();
+			spriterPlayer1.update();
+			spriterPlayer2.update();
 		}
-		anim.setAnimations(player1.animation, player2.animation);
+		anim.setAnimations(spriterPlayer1.animation, spriterPlayer2.animation);
 		super.update();
 		if(baseBoneName != null){
-			int index = anim.onFirstMainLine()? player1.getBoneIndex(baseBoneName) : player2.getBoneIndex(baseBoneName);
+			int index = anim.onFirstMainLine()? spriterPlayer1.getBoneIndex(baseBoneName) : spriterPlayer2.getBoneIndex(baseBoneName);
 			if(index == -1) throw new SpriterException("A bone with name \""+baseBoneName+"\" does no exist!");
 			anim.base = anim.getCurrentKey().getBoneRef(index);
 			super.update();
@@ -65,35 +65,35 @@ public class PlayerTweener extends Player{
 	/**
 	 * Sets the players for this tweener.
 	 * Both players have to hold the same {@link Entity}
-	 * @param player1 the first player
-	 * @param player2 the second player
+	 * @param spriterPlayer1 the first spriterPlayer
+	 * @param spriterPlayer2 the second spriterPlayer
 	 */
-	public void setPlayers(Player player1, Player player2){
-		if(player1.entity != player2.entity)
-			throw new SpriterException("player1 and player2 have to hold the same entity!");
-		this.player1 = player1;
-		this.player2 = player2;
-		if(player1.entity == entity) return;
-		this.anim = new TweenedAnimation(player1.getEntity());
-		anim.setAnimations(player1.animation, player2.animation);
-		super.setEntity(player1.getEntity());
+	public void setPlayers(SpriterPlayer spriterPlayer1, SpriterPlayer spriterPlayer2){
+		if(spriterPlayer1.entity != spriterPlayer2.entity)
+			throw new SpriterException("spriterPlayer1 and spriterPlayer2 have to hold the same entity!");
+		this.spriterPlayer1 = spriterPlayer1;
+		this.spriterPlayer2 = spriterPlayer2;
+		if(spriterPlayer1.entity == entity) return;
+		this.anim = new TweenedAnimation(spriterPlayer1.getEntity());
+		anim.setAnimations(spriterPlayer1.animation, spriterPlayer2.animation);
+		super.setEntity(spriterPlayer1.getEntity());
 		super.setAnimation(anim);
 	}
 	
 	/**
-	 * Returns the first set player.
-	 * @return the first player
+	 * Returns the first set spriterPlayer.
+	 * @return the first spriterPlayer
 	 */
-	public Player getFirstPlayer(){
-		return this.player1;
+	public SpriterPlayer getFirstPlayer(){
+		return this.spriterPlayer1;
 	}
 	
 	/**
-	 * Returns the second set player.
-	 * @return the second player
+	 * Returns the second set spriterPlayer.
+	 * @return the second spriterPlayer
 	 */
-	public Player getSecondPlayer(){
-		return this.player2;
+	public SpriterPlayer getSecondPlayer(){
+		return this.spriterPlayer2;
 	}
 	
 	/**

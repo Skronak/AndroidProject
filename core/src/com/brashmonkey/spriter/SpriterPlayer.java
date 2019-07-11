@@ -14,19 +14,19 @@ import com.brashmonkey.spriter.Timeline.Key.Object;
 import com.guco.tap.utils.Constants;
 
 /**
- * A Player instance is responsible for updating an {@link Animation} properly.
+ * A SpriterPlayer instance is responsible for updating an {@link Animation} properly.
  * With the {@link #update()} method an instance of this class will increase its current time
  * and update the current set animation ({@link #setAnimation(Animation)}).
- * A Player can be positioned with {@link #setPivot(float, float)}, scaled with {@link #setScale(float)},
+ * A SpriterPlayer can be positioned with {@link #setPivot(float, float)}, scaled with {@link #setScale(float)},
  * flipped with {@link #flip(boolean, boolean)} and rotated {@link #setAngle(float)}.
- * A Player has various methods for runtime object manipulation such as {@link #setBone(String, Bone)} or {@link #(String, Bone)}.
+ * A SpriterPlayer has various methods for runtime object manipulation such as {@link #setBone(String, Bone)} or {@link #(String, Bone)}.
  * Events like the ending of an animation can be observed with the {@link PlayerListener} interface.
  * Character maps can be changed on the fly, just by assigning a character maps to {@link #characterMaps}, setting it to <code>null</code> will remove the current character map.
  * 
  * @author Trixt0r
  *
  */
-public class Player {
+public class SpriterPlayer {
 	
 	protected Entity entity;
 	Animation animation;
@@ -51,10 +51,10 @@ public class Player {
 	public boolean animationFinished;
 	
 	/**
-	 * Creates a {@link Player} instance with the given entity.
-	 * @param entity the entity this player will animate
+	 * Creates a {@link SpriterPlayer} instance with the given entity.
+	 * @param entity the entity this spriterPlayer will animate
 	 */
-	public Player(Entity entity){
+	public SpriterPlayer(Entity entity){
 		this.boneIterator = new BoneIterator();
 		this.objectIterator = new ObjectIterator();
 		this.speed = 15;
@@ -65,7 +65,7 @@ public class Player {
 	}
 	
 	/**
-	 * Updates this player.
+	 * Updates this spriterPlayer.
 	 * This means the current time gets increased by {@link #speed} and is applied to the current animation.
 	 */
 	public void update(){
@@ -553,7 +553,7 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the entity for this player instance.
+	 * Sets the entity for this spriterPlayer instance.
 	 * The animation will be switched to the first one of the new entity.
 	 * @param entity the new entity
 	 * @throws SpriterException if the entity is <code>null</code>
@@ -588,7 +588,7 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the animation of this player.
+	 * Sets the animation of this spriterPlayer.
 	 * @param animation the new animation
 	 * @throws SpriterException if the animation is <code>null</code> or the current animation is not a member of the current set entity
 	 */
@@ -609,7 +609,7 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the animation of this player to the one with the given name.
+	 * Sets the animation of this spriterPlayer to the one with the given name.
 	 * @param name the name of the animation
 	 * @throws SpriterException if no animation exists with the given name
 	 */
@@ -618,7 +618,7 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the animation of this player to the one with the given index.
+	 * Sets the animation of this spriterPlayer to the one with the given index.
 	 * @param index the index of the animation
 	 * @throws IndexOutOfBoundsException if the index is out of range
 	 */
@@ -635,9 +635,9 @@ public class Player {
 	}
 	
 	/**
-	 * Returns a bounding box for this player.
+	 * Returns a bounding box for this spriterPlayer.
 	 * The bounding box is calculated for all bones and object starting from the given root.
-	 * @param root the starting root. Set it to null to calculate the bounding box for the whole player
+	 * @param root the starting root. Set it to null to calculate the bounding box for the whole spriterPlayer
 	 * @return the bounding box
 	 */
 	public Rectangle getBoundingRectangle(BoneRef root){
@@ -649,9 +649,9 @@ public class Player {
 	}
 	
 	/**
-	 * Returns a bounding box for this player.
+	 * Returns a bounding box for this spriterPlayer.
 	 * The bounding box is calculated for all bones and object starting from the given root.
-	 * @param root the starting root. Set it to null to calculate the bounding box for the whole player
+	 * @param root the starting root. Set it to null to calculate the bounding box for the whole spriterPlayer
 	 * @return the bounding box
 	 */
 	public Rectangle getBoudingRectangle(Bone root){
@@ -684,7 +684,7 @@ public class Player {
 	
 	/**
 	 * Returns the current time.
-	 * The player will make sure that the current time is always between 0 and {@link Animation#length}.
+	 * The spriterPlayer will make sure that the current time is always between 0 and {@link Animation#length}.
 	 * @return the current time
 	 */
 	public int getTime() {
@@ -693,11 +693,11 @@ public class Player {
 	
 	/**
 	 * Sets the time for the current time.
-	 * The player will make sure that the new time will not exceed the time bounds of the current animation.
+	 * The spriterPlayer will make sure that the new time will not exceed the time bounds of the current animation.
 	 * @param time the new time
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setTime(int time){
+	public SpriterPlayer setTime(int time){
 		this.time = time;
 		int prevSpeed = this.speed;
 		this.speed = 0;
@@ -707,22 +707,22 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the scale of this player to the given one.
+	 * Sets the scale of this spriterPlayer to the given one.
 	 * Only uniform scaling is supported.
 	 * @param scale the new scale. 1f means 100% scale.
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setScale(float scale){
+	public SpriterPlayer setScale(float scale){
 		this.root.scale.set(scale*flippedX(), scale*flippedY());
 		return this;
 	}
 	
 	/**
-	 * Scales this player based on the current set scale.
+	 * Scales this spriterPlayer based on the current set scale.
 	 * @param scale the scaling factor. 1f means no scale.
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player scale(float scale){
+	public SpriterPlayer scale(float scale){
 		this.root.scale.scale(scale, scale);
 		return this;
 	}
@@ -736,88 +736,88 @@ public class Player {
 	}
 	
 	/**
-	 * Flips this player around the x and y axis.
-	 * @param x whether to flip the player around the x axis
-	 * @param y whether to flip the player around the y axis
-	 * @return this player to enable chained operations
+	 * Flips this spriterPlayer around the x and y axis.
+	 * @param x whether to flip the spriterPlayer around the x axis
+	 * @param y whether to flip the spriterPlayer around the y axis
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player flip(boolean x, boolean y){
+	public SpriterPlayer flip(boolean x, boolean y){
 		if(x) this.flipX();
 		if(y) this.flipY();
 		return this;
 	}
 	
 	/**
-	 * Flips the player around the x axis.
-	 * @return this player to enable chained operations
+	 * Flips the spriterPlayer around the x axis.
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player flipX(){
+	public SpriterPlayer flipX(){
 		this.root.scale.x *= -1;
 		return this;
 	}
 	
 	/**
-	 * Flips the player around the y axis.
-	 * @return this player to enable chained operations
+	 * Flips the spriterPlayer around the y axis.
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player flipY(){
+	public SpriterPlayer flipY(){
 		this.root.scale.y *= -1;
 		return this;
 	}
 	
 	/**
-	 * Returns whether this player is flipped around the x axis.
-	 * @return 1 if this player is not flipped, -1 if it is flipped
+	 * Returns whether this spriterPlayer is flipped around the x axis.
+	 * @return 1 if this spriterPlayer is not flipped, -1 if it is flipped
 	 */
 	public int flippedX(){
 		return (int) Math.signum(root.scale.x);
 	}
 	
 	/**
-	 * Returns whether this player is flipped around the y axis.
-	 * @return 1 if this player is not flipped, -1 if it is flipped
+	 * Returns whether this spriterPlayer is flipped around the y axis.
+	 * @return 1 if this spriterPlayer is not flipped, -1 if it is flipped
 	 */
 	public int flippedY(){
 		return (int) Math.signum(root.scale.y);
 	}
 	
 	/**
-	 * Sets the position of this player to the given coordinates.
+	 * Sets the position of this spriterPlayer to the given coordinates.
 	 * @param x the new position in x direction
 	 * @param y the new position in y direction
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setPosition(float x, float y){
+	public SpriterPlayer setPosition(float x, float y){
 		this.dirty = true;
 		this.position.set(x,y);
 		return this;
 	}
 	
 	/**
-	 * Sets the position of the player to the given one.
+	 * Sets the position of the spriterPlayer to the given one.
 	 * @param position the new position
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setPosition(Point position){
+	public SpriterPlayer setPosition(Point position){
 		return this.setPosition(position.x, position.y);
 	}
 	
 	/**
-	 * Adds the given coordinates to the current position of this player.
+	 * Adds the given coordinates to the current position of this spriterPlayer.
 	 * @param x the amount in x direction
 	 * @param y the amount in y direction
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player translatePosition(float x, float y){
+	public SpriterPlayer translatePosition(float x, float y){
 		return this.setPosition(position.x+x, position.y+y);
 	}
 	
 	/**
-	 * Adds the given amount to the current position of this player.
+	 * Adds the given amount to the current position of this spriterPlayer.
 	 * @param amount the amount to add
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player translate(Point amount){
+	public SpriterPlayer translate(Point amount){
 		return this.translatePosition(amount.x, amount.y);
 	}
 	
@@ -838,22 +838,22 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the angle of this player to the given angle.
+	 * Sets the angle of this spriterPlayer to the given angle.
 	 * @param angle the angle in degrees
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setAngle(float angle){
+	public SpriterPlayer setAngle(float angle){
 		this.dirty = true;
 		this.angle = angle;
 		return this;
 	}
 	
 	/**
-	 * Rotates this player by the given angle.
+	 * Rotates this spriterPlayer by the given angle.
 	 * @param angle the angle in degrees
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player rotate(float angle){
+	public SpriterPlayer rotate(float angle){
 		return this.setAngle(angle+this.angle);
 	}
 	
@@ -866,25 +866,25 @@ public class Player {
 	}
 	
 	/**
-	 * Sets the pivot, i.e. origin, of this player.
+	 * Sets the pivot, i.e. origin, of this spriterPlayer.
 	 * A pivot at (0,0) means that the origin of the played animation will have the same one as in Spriter.
 	 * @param x the new pivot in x direction
 	 * @param y the new pivot in y direction
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setPivot(float x, float y){
+	public SpriterPlayer setPivot(float x, float y){
 		this.dirty = true;
 		this.pivot.set(x, y);
 		return this;
 	}
 	
 	/**
-	 * Sets the pivot, i.e. origin, of this player.
+	 * Sets the pivot, i.e. origin, of this spriterPlayer.
 	 * A pivot at (0,0) means that the origin of the played animation will have the same one as in Spriter.
 	 * @param pivot the new pivot
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player setPivot(Point pivot){
+	public SpriterPlayer setPivot(Point pivot){
 		return this.setPivot(pivot.x, pivot.y);
 	}
 	
@@ -892,18 +892,18 @@ public class Player {
 	 * Translates the current set pivot position by the given amount.
 	 * @param x the amount in x direction
 	 * @param y the amount in y direction
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player translatePivot(float x, float y){
+	public SpriterPlayer translatePivot(float x, float y){
 		return this.setPivot(pivot.x+x, pivot.y+y);
 	}
 	
 	/**
 	 * Adds the given amount to the current set pivot position.
 	 * @param amount the amount to add
-	 * @return this player to enable chained operations
+	 * @return this spriterPlayer to enable chained operations
 	 */
-	public Player translatePivot(Point amount){
+	public SpriterPlayer translatePivot(Point amount){
 		return this.translatePivot(amount.x, amount.y);
 	}
 	
@@ -924,7 +924,7 @@ public class Player {
 	}
 	
 	/**
-	 * Appends a listener to the listeners list of this player.
+	 * Appends a listener to the listeners list of this spriterPlayer.
 	 * @param listener the listener to add
 	 */
 	public void addListener(PlayerListener listener){
@@ -932,7 +932,7 @@ public class Player {
 	}
 	
 	/**
-	 * Removes a listener from  the listeners list of this player.
+	 * Removes a listener from  the listeners list of this spriterPlayer.
 	 * @param listener the listener to remove
 	 */
 	public void removeListener(PlayerListener listener){
@@ -1021,41 +1021,41 @@ public class Player {
 	}
 
 	/**
-	 * A listener to listen for specific events which can occur during the runtime of a {@link Player} instance.
+	 * A listener to listen for specific events which can occur during the runtime of a {@link SpriterPlayer} instance.
 	 * @author Trixt0r
 	 *
 	 */
 	public static interface PlayerListener{
 		
 		/**
-		 * Gets called if the current animation has reached it's end or it's beginning (depends on the current set {@link Player#speed}).
+		 * Gets called if the current animation has reached it's end or it's beginning (depends on the current set {@link SpriterPlayer#speed}).
 		 * @param animation the animation which finished.
 		 */
 		public void animationFinished(Animation animation);
 		
 		/**
-		 * Gets called if the animation of the player gets changed.
-		 * If {@link Player#setAnimation(Animation)} gets called and the new animation is the same as the previous one, this method will not be called.
+		 * Gets called if the animation of the spriterPlayer gets changed.
+		 * If {@link SpriterPlayer#setAnimation(Animation)} gets called and the new animation is the same as the previous one, this method will not be called.
 		 * @param oldAnim the old animation
 		 * @param newAnim the new animation
 		 */
 		public void animationChanged(Animation oldAnim, Animation newAnim);
 		
 		/**
-		 * Gets called before a player updates the current animation.
-		 * @param player the player which is calling this method.
+		 * Gets called before a spriterPlayer updates the current animation.
+		 * @param spriterPlayer the spriterPlayer which is calling this method.
 		 */
-		public void preProcess(Player player);
+		public void preProcess(SpriterPlayer spriterPlayer);
 		
 		/**
-		 * Gets called after a player updated the current animation.
-		 * @param player the player which is calling this method.
+		 * Gets called after a spriterPlayer updated the current animation.
+		 * @param spriterPlayer the spriterPlayer which is calling this method.
 		 */
-		public void postProcess(Player player);
+		public void postProcess(SpriterPlayer spriterPlayer);
 		
 		/**
 		 * Gets called if the mainline key gets changed.
-		 * If {@link Player#speed} is big enough it can happen that mainline keys between the previous and the new mainline key will be ignored.
+		 * If {@link SpriterPlayer#speed} is big enough it can happen that mainline keys between the previous and the new mainline key will be ignored.
 		 * @param prevKey the previous mainline key
 		 * @param newKey the new mainline key
 		 */
@@ -1063,9 +1063,9 @@ public class Player {
 	}
 	
 	/**
-	 * An attachment is an abstract object which can be attached to a {@link Player} object.
+	 * An attachment is an abstract object which can be attached to a {@link SpriterPlayer} object.
 	 * An attachment extends a {@link Bone} which means that {@link Bone#position}, {@link Bone#scale} and {@link Bone#angle} can be set to change the relative position to its {@link Attachment#parent}
-	 * The {@link Player} object will make sure that the attachment will be transformed relative to its {@link Attachment#parent}.
+	 * The {@link SpriterPlayer} object will make sure that the attachment will be transformed relative to its {@link Attachment#parent}.
 	 * @author Trixt0r
 	 *
 	 */

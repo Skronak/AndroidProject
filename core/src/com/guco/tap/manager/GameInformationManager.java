@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Json;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.entity.Item;
 import com.guco.tap.save.GameInformationDTO;
 import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameInformationManager {
 
@@ -63,6 +65,7 @@ public class GameInformationManager {
         gameInformation.levelBaseGold=5;
         gameInformation.levelBaseCurrency=1;
         gameInformation.depth=1;
+        gameInformation.upgradedItem = new HashMap<Integer, Item>();
         ArrayList upgradeLevelList = new ArrayList();
         for (int i = 0; i<ressourceManager.getModuleElementList().size(); i++){
             upgradeLevelList.add(0);

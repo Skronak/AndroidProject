@@ -99,7 +99,7 @@ public class InventoryElement extends Table {
     }
 
     public void setEquiped(){
-        gameManager.playScreen.player.characterMaps[itemSource.mapId] = gameManager.playScreen.player.getEntity().getCharacterMap(itemSource.mapName);
+        gameManager.playScreen.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
         inventoryMenu.setEquipedItem(this);
     }
 

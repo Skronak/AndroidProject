@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Classe representant l'ensemble des modules du jeu
  *
  */
-public class ModuleElementLevel implements Serializable {
+public class AttributeElementLevel implements Serializable {
 
     // Cout du niveau suivant
     private ValueDTO cost;

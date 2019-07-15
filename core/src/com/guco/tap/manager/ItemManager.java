@@ -16,19 +16,20 @@ public class ItemManager {
             Item item = gameManager.ressourceManager.weaponList.get(i);
             if (gameManager.ressourceManager.weaponUpgradeList.size()>i) {
                 item.upgrades = gameManager.ressourceManager.weaponUpgradeList.get(i);
-                Item upgradedItem = gameManager.gameInformation.upgradedItem.get(item.id);
-                if (upgradedItem!=null) {
+                Item upgradedItem = gameManager.gameInformation.weaponItemList.get(i);
+                if (upgradedItem.level==0) {
                     item.calculatedStat = new CalculatedStat(upgradedItem.damageValue, upgradedItem.damageCurrency, upgradedItem.criticalRate);
                 } else {
-                    item.calculatedStat = new CalculatedStat(item.damageValue, item.damageCurrency, item.criticalRate);
+                    item.calculatedStat = new CalculatedStat(item.damageValue*item.damageRate, item.damageCurrency, item.criticalRate);
                 }
             }
         }
-
     }
 
     public void increaseItemLevel(Item item){
-//        gameManager.gameInformation.get
+        item.level = item.level+1;
+        item.calculatedStat.damageValue=item.calculatedStat.damageValue*1.1f;
+        gameManager.gameInformation.upgradedItem.put(item.id,item);
     }
 
     public void unlockItem(){

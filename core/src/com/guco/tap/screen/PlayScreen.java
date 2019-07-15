@@ -337,7 +337,7 @@ public class PlayScreen implements Screen {
         Gdx.app.debug("PlayScreen","dispose");
         spriteBatch.dispose();
         hud.dispose();
-        Gdx.app.debug("PlayScreen","saveInformation");
+        Gdx.app.debug("PlayScreen","saveData");
         gameManager.largeMath.formatGameInformation();
     }
 

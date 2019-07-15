@@ -10,12 +10,12 @@ import java.util.List;
  * Module element from a station
  *
  */
-public class ModuleElement implements Serializable {
+public class AttributeElement implements Serializable {
 
     private int id;
     private String title;
     private String description;
-    private List<ModuleElementLevel> level;
+    private List<AttributeElementLevel> level;
     private float posX;
     private float posY;
     private String sprite;
@@ -26,7 +26,7 @@ public class ModuleElement implements Serializable {
     private float iconPosY;
     private TextureRegion textureRegion;
 
-    public ModuleElement() {
+    public AttributeElement() {
     }
 
 //*****************************************************
@@ -57,11 +57,11 @@ public class ModuleElement implements Serializable {
         this.description = description;
     }
 
-    public List<ModuleElementLevel> getLevel() {
+    public List<AttributeElementLevel> getLevel() {
         return level;
     }
 
-    public void setLevel(List<ModuleElementLevel> level) {
+    public void setLevel(List<AttributeElementLevel> level) {
         this.level = level;
     }
 

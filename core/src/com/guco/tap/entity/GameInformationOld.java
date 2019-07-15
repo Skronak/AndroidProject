@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Skronak on 30/01/2017.
  *
  * Classe de stat & information sur le compte du jeu
- * // TODO store all current ModuleElement
+ * // TODO store all current AttributeElement
  */
 public class GameInformationOld {
 
@@ -88,7 +88,7 @@ public class GameInformationOld {
         prefs.putInteger("passivGoldCurrency", genCurrencyPassive);
         prefs.putInteger("criticalRate", criticalRate);
         prefs.putInteger("stationId", stationId);
-        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
+        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
             prefs.putInteger("upgradeLevel"+i, upgradeLevelList.get(i));
         }
         prefs.putLong("lastLogin", System.currentTimeMillis());
@@ -129,7 +129,7 @@ public class GameInformationOld {
         stationId = 0;
         skillPoint = 0;
 
-        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
+        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
             upgradeLevelList.add(0);
         }
         for (int i = 0; i<game.ressourceManager.getAchievementElementList().size(); i++){
@@ -167,7 +167,7 @@ public class GameInformationOld {
         criticalRate = prefs.getInteger("criticalRate");
         stationId = prefs.getInteger("stationId");
         skillPoint = prefs.getInteger("skillPoint");
-        for (int i = 0; i<game.ressourceManager.getModuleElementList().size(); i++){
+        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
             upgradeLevelList.add(prefs.getInteger("upgradeLevel"+i));
         }
         lastLogin = prefs.getLong("lastLogin");

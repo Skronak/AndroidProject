@@ -7,7 +7,6 @@ import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.RessourceManager;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.screen.Hud;
 import com.guco.tap.screen.LoadingScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.screen.SplashScreen;
@@ -33,7 +32,7 @@ public class TapDungeonGame extends Game {
 
 		loadingScreen = new LoadingScreen(this);
 		loadingScreen.loadAsset();
-        gameInformationManager.loadGameInformation();
+        gameInformationManager.loadData();
         gameInformation = gameInformationManager.gameInformation;
 
         if(devMode) {
@@ -56,7 +55,7 @@ public class TapDungeonGame extends Game {
 
 	@Override
 	public void dispose () {
-		gameInformationManager.saveInformation();
+		gameInformationManager.saveData();
 		playScreen.dispose();
 	}
 }

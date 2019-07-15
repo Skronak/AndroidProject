@@ -124,7 +124,7 @@ public class ItemAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if spriterPlayer can click them
      */
     public void updateBuyButton () {
-        for (int i = 0; i<gameManager.ressourceManager.getModuleElementList().size(); i++) {
+        for (int i = 0; i<gameManager.ressourceManager.getAttributeElementList().size(); i++) {
         }
     }
 

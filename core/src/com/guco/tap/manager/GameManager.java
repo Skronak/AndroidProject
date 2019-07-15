@@ -46,7 +46,7 @@ public class GameManager {
 
     //public WeatherManager weatherManager;
 
-    public ModuleManager moduleManager;
+    public AttributeManager attributeManager;
 
     public AchievementManager achievementManager;
 
@@ -91,7 +91,7 @@ public class GameManager {
         largeMath = new LargeMath(gameInformation);
         newModuleIdList = new ArrayList<Integer>();
         //weatherManager = new WeatherManager(playScreen);
-        moduleManager = new ModuleManager(this);
+        attributeManager = new AttributeManager(this);
         achievementManager = new AchievementManager(this);
         dataManager = new DataManager(this);
         itemManager = new ItemManager(this);
@@ -104,9 +104,9 @@ public class GameManager {
 
     public void initialiseGame() {
         gameInformation.currentEnemyIdx=0;
-        //moduleManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
+        //attributeManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
         initEnemyQueue();
-        moduleManager.initialize(playScreen.getHud().characterAttributeMenu);
+        attributeManager.initialize(playScreen.getHud().characterAttributeMenu);
 
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
         playScreen.getHud().initEnemyInformation(currentEnemyActor);
@@ -209,7 +209,7 @@ public class GameManager {
         // Autosave
         if(autoSaveTimer >= Constants.DELAY_AUTOSAVE){
             Gdx.app.debug("PlayScreen","Saving");
-            gameInformationManager.saveInformation();
+            gameInformationManager.saveData();
             autoSaveTimer=0f;
         }
 

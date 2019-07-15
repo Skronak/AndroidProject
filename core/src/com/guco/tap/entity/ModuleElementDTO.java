@@ -13,7 +13,7 @@ public class ModuleElementDTO extends Image {
     private int id;
     private String title;
     private String description;
-    private List<ModuleElementLevel> level;
+    private List<AttributeElementLevel> level;
     private float posX;
     private float posY;
     private String icon;
@@ -54,11 +54,11 @@ public class ModuleElementDTO extends Image {
         this.description = description;
     }
 
-    public List<ModuleElementLevel> getLevel() {
+    public List<AttributeElementLevel> getLevel() {
         return level;
     }
 
-    public void setLevel(List<ModuleElementLevel> level) {
+    public void setLevel(List<AttributeElementLevel> level) {
         this.level = level;
     }
 

@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.entity.ModuleElement;
-import com.guco.tap.entity.ModuleElementLevel;
+import com.guco.tap.entity.AttributeElement;
+import com.guco.tap.entity.AttributeElementLevel;
 import com.guco.tap.input.BuyUpgradeButtonListener;
 import com.guco.tap.manager.GameManager;
 
@@ -37,7 +37,7 @@ public class CharacterAttributeElement extends Table {
     private Label nextPassiveGoldLabel;
     private Image skillIcon;
     private Image goldIcon;
-    private ModuleElement moduleElementSource;
+    private AttributeElement attributeElementSource;
 
     public CharacterAttributeElement(GameManager gameManager){
         this.gameManager = gameManager;
@@ -49,13 +49,13 @@ public class CharacterAttributeElement extends Table {
      * @param i
      */
     public void initModuleMenuElement(int i) {
-        moduleElementSource = gameManager.ressourceManager.getModuleElementList().get(i);
+        attributeElementSource = gameManager.ressourceManager.getAttributeElementList().get(i);
         int currentLevel = gameManager.gameInformation.attributeLevel.get(i);
-        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(i));
+//        AttributeElementLevel moduleLevel = attributeElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(i));
 
         moduleLevelLabel = new Label("Level "+currentLevel, gameManager.ressourceManager.getSkin());
-        //moduleLevelImage = new Image(gameManager.moduleManager.getLevelTextureByLevel(i));
-        elementTitle = new Label(moduleElementSource.getTitle(), gameManager.ressourceManager.getSkin());
+        //moduleLevelImage = new Image(gameManager.attributeManager.getLevelTextureByLevel(i));
+        elementTitle = new Label(attributeElementSource.getTitle(), gameManager.ressourceManager.getSkin());
         activeGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
         passiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
@@ -66,7 +66,7 @@ public class CharacterAttributeElement extends Table {
         nextPassiveGoldLabel.setFontScale(0.9f);
 
         buyButton = new TextButton("",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
-        buyButton.addListener(new BuyUpgradeButtonListener(gameManager.moduleManager, i));
+        buyButton.addListener(new BuyUpgradeButtonListener(gameManager.attributeManager, i));
 
         if (currentLevel==0) {
             Texture skillTexture = gameManager.ressourceManager.getDisabledIcon();
@@ -83,7 +83,7 @@ public class CharacterAttributeElement extends Table {
         Table moduleLevelGroup = new Table();
         moduleLevelGroup.add(moduleLevelLabel).colspan(2).left().expandX().top().padBottom(10);
         moduleLevelGroup.row();
-//        moduleLevelGroup.add(moduleLevelImage).size(moduleElementSource.getWidth(), moduleElementSource .getHeight()).left().colspan(4);
+//        moduleLevelGroup.add(moduleLevelImage).size(attributeElementSource.getWidth(), attributeElementSource .getHeight()).left().colspan(4);
 //        moduleLevelGroup.row();
 //        moduleLevelGroup.add(goldIcon).size(20,20).left();
         moduleLevelGroup.add(activeGoldLabel).left();
@@ -103,17 +103,18 @@ public class CharacterAttributeElement extends Table {
     }
 
     public void update() {
-        ModuleElementLevel moduleLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()));
-        ModuleElementLevel moduleNextLevel=null;
-        if (gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId())<moduleElementSource.getLevel().size()-1) {
-            moduleNextLevel = moduleElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()) + 1);
+        int attributeLevelId = gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId());
+        AttributeElementLevel moduleLevel = attributeElementSource.getLevel().get(attributeLevelId);
+        AttributeElementLevel moduleNextLevel=null;
+        if (gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId())< attributeElementSource.getLevel().size()-1) {
+            moduleNextLevel = attributeElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId()) + 1);
         } else {
             buyButton.setTouchable(Touchable.disabled);
             buyButton.setColor(Color.GRAY);
         }
-        moduleLevelLabel.setText("Level "+gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId()));
-        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(moduleElementSource.getId())))));
-        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getModuleDrawableUpList().get(moduleElementSource.getId()))));
+        moduleLevelLabel.setText("Level "+gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId()));
+        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId())))));
+        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getModuleDrawableUpList().get(attributeElementSource.getId()))));
         skillIcon.setSize(60,60);
         activeGoldLabel.setText(ACTIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getActGen().value, moduleLevel.getActGen().currency));
         passiveGoldLabel.setText(PASSIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getPassGen().value, moduleLevel.getPassGen().currency));

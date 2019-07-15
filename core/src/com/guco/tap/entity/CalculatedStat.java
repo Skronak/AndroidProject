@@ -11,4 +11,10 @@ public class CalculatedStat {
         this.damageCurrency = damageCurrency;
         this.criticalRate = criticalRate;
     }
+
+    public CalculatedStat(Item item) {
+        this.damageValue = item.damageValue;
+        this.damageCurrency = item.damageCurrency;
+        this.criticalRate = item.criticalRate;
+    }
 }

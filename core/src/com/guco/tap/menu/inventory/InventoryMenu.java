@@ -40,6 +40,7 @@ public class InventoryMenu extends AbstractMenu {
     // FOR TEST ONLY
     private Drawer drawer;
     private SpriteBatch batch;
+    private Item selectedItem;
     public SpriterPlayer itemSpriterPlayer;
 
     public InventoryMenu(GameManager gameManager) {
@@ -70,6 +71,12 @@ public class InventoryMenu extends AbstractMenu {
         Image upImage = new Image(gameManager.ressourceManager.upTexture);
 
         upgradeButton = new TextButton("UPGRADE",skin);
+        upgradeButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.itemManager.increaseItemLevel(selectedItem);
+                return true;
+            }});
 
         parentTable.add(new Label("INVENTORY", skin)).bottom().padTop(10).padBottom(20).colspan(2);
         parentTable.row();
@@ -249,10 +256,10 @@ public class InventoryMenu extends AbstractMenu {
     }
 
     public void setSelectedItem(InventoryElement inventoryElement){
-            Item item = inventoryElement.itemSource;
-            itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(item.mapName); // charactermap 0 wrong
-            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + item.damageValue));
-            weaponDamageLabel.setText("Weapon atk " + item.damageValue);
+        selectedItem = inventoryElement.itemSource;
+            itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(selectedItem.mapName); // charactermap 0 wrong
+            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + selectedItem.calculatedStat.damageValue));
+            weaponDamageLabel.setText("Weapon atk " + selectedItem.calculatedStat.damageValue);
     }
 
     public void updateBuyButton () {

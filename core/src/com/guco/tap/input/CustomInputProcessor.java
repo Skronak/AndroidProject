@@ -3,8 +3,6 @@ package com.guco.tap.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector3;
-import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
@@ -31,7 +29,7 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) )
-            gameManager.gameInformationManager.saveInformation();
+            gameManager.gameInformationManager.saveData();
             Gdx.app.debug("Closing application", "close");
         return false;
     }

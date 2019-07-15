@@ -37,7 +37,7 @@ public class DataManager {
     }
 
     public void increaseGold(){
-        ValueDTO addedValue = new ValueDTO(gameInformation.depth*gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
+        ValueDTO addedValue = new ValueDTO(gameInformation.dungeonLevel *gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
         ValueDTO baseValue = new ValueDTO(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency);
         ValueDTO newValue = largeMath.increaseValue(baseValue, addedValue);
         gameInformation.currentGoldValue =newValue.value;

@@ -49,7 +49,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
 
-        for (int i = 0; i < gameManager.ressourceManager.getModuleElementList().size(); i++) {
+        for (int i = 0; i < gameManager.ressourceManager.getAttributeElementList().size(); i++) {
             CharacterAttributeElement characterAttributeElement = new CharacterAttributeElement(gameManager);
             characterAttributeElement.initModuleMenuElement(i);
             scrollContainerVG.addActor(characterAttributeElement);
@@ -63,8 +63,8 @@ public class CharacterAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if spriterPlayer can click them
      */
     public void updateBuyButton () {
-        for (int i = 0; i<gameManager.ressourceManager.getModuleElementList().size(); i++) {
-            if (gameManager.moduleManager.isAvailableUpgrade(i)){
+        for (int i = 0; i<gameManager.ressourceManager.getAttributeElementList().size(); i++) {
+            if (gameManager.attributeManager.isAvailableUpgrade(i)){
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setTouchable(Touchable.enabled);
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setColor(Color.YELLOW);
             } else {

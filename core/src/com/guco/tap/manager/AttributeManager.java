@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.guco.tap.entity.ModuleElement;
-import com.guco.tap.entity.ModuleElementLevel;
+import com.guco.tap.entity.AttributeElement;
+import com.guco.tap.entity.AttributeElementLevel;
 import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.characterAttribute.element.CharacterAttributeElement;
 import com.guco.tap.utils.ValueDTO;
@@ -17,29 +17,29 @@ import java.util.List;
  * Created by Skronak on 14/08/2017.
  * Classe gerant les upgrades et l'ecran d'upgrade
  */
-public class ModuleManager {
+public class AttributeManager {
 
     private GameManager gameManager;
     private CharacterAttributeMenu characterAttributeMenu;
-    private List<ModuleElement> moduleEntityList;
+    private List<AttributeElement> attributeEntityList;
     
 
-    public ModuleManager(GameManager gameManager) {
+    public AttributeManager(GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameManager = gameManager;
-        this.moduleEntityList = gameManager.ressourceManager.getModuleElementList();
+        this.attributeEntityList = gameManager.ressourceManager.getAttributeElementList();
     }
 
     public void initialize(CharacterAttributeMenu characterAttributeMenu) {
         this.characterAttributeMenu = characterAttributeMenu;
-        evaluateModuleGeneration();
+        evaluateAttributeGeneration();
     }
 
     /**
      * Calculate incomes according to unlocked upgrade
      * du niveau des updates
      */
-    public void evaluateModuleGeneration(){
+    public void evaluateAttributeGeneration(){
         float passGoldGen = 0;
         int passCurrGen = 0;
         float actGoldGen = 0;
@@ -60,15 +60,15 @@ public class ModuleManager {
                 passGoldGen = passGenSum.value;
                 passCurrGen = passGenSum.currency;
 
-                goldGenToAdd = moduleEntityList.get(i).getLevel().get(upgradeLevel).getPassGen().value;
-                currGenToAdd = moduleEntityList.get(i).getLevel().get(upgradeLevel).getPassGen().currency;
+                goldGenToAdd = attributeEntityList.get(i).getLevel().get(upgradeLevel).getPassGen().value;
+                currGenToAdd = attributeEntityList.get(i).getLevel().get(upgradeLevel).getPassGen().currency;
                 passGenSum = gameManager.largeMath.increaseValue(passGoldGen ,passCurrGen ,goldGenToAdd,currGenToAdd);
 
                 //Active generation
                 actGoldGen = actGenSum.value;
                 actCurrGen = actGenSum.currency;
-                goldGenToAdd = moduleEntityList.get(i).getLevel().get(upgradeLevel).getActGen().value;
-                currGenToAdd = moduleEntityList.get(i).getLevel().get(upgradeLevel).getActGen().currency;
+                goldGenToAdd = attributeEntityList.get(i).getLevel().get(upgradeLevel).getActGen().value;
+                currGenToAdd = attributeEntityList.get(i).getLevel().get(upgradeLevel).getActGen().currency;
                 actGenSum = gameManager.largeMath.increaseValue(actGoldGen,actCurrGen ,goldGenToAdd,currGenToAdd);
 
             }
@@ -88,12 +88,12 @@ public class ModuleManager {
      */
     public boolean isAvailableUpgrade (int idSelect) {
         int currentlevel = gameManager.gameInformation.attributeLevel.get(idSelect);
-        ModuleElementLevel moduleLevelCurrent = moduleEntityList.get(idSelect).getLevel().get(currentlevel);
+        AttributeElementLevel attributeLevelCurrent = attributeEntityList.get(idSelect).getLevel().get(currentlevel);
 
-        if ( (moduleEntityList.get(idSelect).getLevel().size() > currentlevel + 1)
-                && ( (gameManager.gameInformation.currentGoldCurrency > moduleLevelCurrent.getCost().currency
-                    || (gameManager.gameInformation.currentGoldCurrency == moduleLevelCurrent.getCost().currency
-                        && (gameManager.gameInformation.currentGoldValue >= moduleLevelCurrent.getCost().value)
+        if ( (attributeEntityList.get(idSelect).getLevel().size() > currentlevel + 1)
+                && ( (gameManager.gameInformation.currentGoldCurrency > attributeLevelCurrent.getCost().currency
+                    || (gameManager.gameInformation.currentGoldCurrency == attributeLevelCurrent.getCost().currency
+                        && (gameManager.gameInformation.currentGoldValue >= attributeLevelCurrent.getCost().value)
                         ))))
         {
             return true;
@@ -126,9 +126,9 @@ public class ModuleManager {
      * Increase a module level
      * @param idSelect
      */
-    public void increaseModuleLevel(int idSelect) {
+    public void increaseAttributeLevel(int idSelect) {
         // Calcul et Affichage de la soustraction
-        ValueDTO decreaseValue = moduleEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.attributeLevel.get(idSelect)).getCost();
+        ValueDTO decreaseValue = attributeEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.attributeLevel.get(idSelect)).getCost();
         gameManager.playScreen.getHud().animateDecreaseGold(decreaseValue);
 
         // Mise a jour du montant des golds du joueur
@@ -138,7 +138,7 @@ public class ModuleManager {
 
         // Met a jour le gameInformation
         gameManager.gameInformation.attributeLevel.set(idSelect, gameManager.gameInformation.attributeLevel.get(idSelect) + 1);
-        this.evaluateModuleGeneration();
+        this.evaluateAttributeGeneration();
 
         // Ajoute l'element dans la station
         if (gameManager.gameInformation.attributeLevel.get(idSelect)==1){
@@ -154,7 +154,7 @@ public class ModuleManager {
      * Update upgrade information from the menu
      * @param id
      */
-    public void updateModuleMenuInformation(int id) {
+    public void updateAttributeMenuInformation(int id) {
         CharacterAttributeElement characterAttributeElement = (CharacterAttributeElement) characterAttributeMenu.getScrollContainerVG().getChildren().get(id);
         characterAttributeElement.update();
         animateLabel(characterAttributeElement.getActiveGoldLabel());

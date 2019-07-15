@@ -266,7 +266,7 @@ public class Hud implements Disposable {
         goldLabel = new Label(largeMath.getDisplayValue(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency), new Label.LabelStyle(font, Color.WHITE));
         goldLabel.setAlignment(Align.center);
 //        goldLabel.setFontScale(2);
-        floorLabel = new Label(String.valueOf(""+gameInformation.depth), gameManager.ressourceManager.getSkin());
+        floorLabel = new Label(String.valueOf(""+gameInformation.dungeonLevel), gameManager.ressourceManager.getSkin());
         battleNbLabel = new Label(gameInformation.currentEnemyIdx+"/10", gameManager.ressourceManager.getSkin());
         battleNbLabel.setFontScale(0.9f,0.9f);
         goldDecreaseLabel = new Label("", new Label.LabelStyle(font, Color.RED));
@@ -424,7 +424,7 @@ public class Hud implements Disposable {
     }
 
     public void initEnemyInformation(EnemyActor enemyActor){
-        floorLabel.setText("Floor "+gameInformation.depth);
+        floorLabel.setText("Floor "+gameInformation.dungeonLevel);
         enemyInformation.reinitialise(enemyActor);
     }
 

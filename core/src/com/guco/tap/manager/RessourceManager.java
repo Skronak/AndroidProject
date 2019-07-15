@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
+import com.guco.tap.entity.AttributeElement;
 import com.guco.tap.entity.Item;
 import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.entity.Enemy;
 import com.guco.tap.entity.TiersUpgrades;
-import com.guco.tap.entity.ModuleElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class RessourceManager {
     private AssetManager assetManager;
 
     private Json json;
-    private ArrayList<ModuleElement> moduleElementList;
+    private ArrayList<AttributeElement> attributeElementList;
     public TextButton.TextButtonStyle moduleMenuBuyTxtBtnStyle,moduleMenuUpgradeTxtBtnStyle;
     private TextureRegionDrawable menuBackgroundTexture;
     private BitmapFont font;
@@ -96,8 +96,8 @@ public class RessourceManager {
     }
 
     public void loadFile() {
-        moduleElementList = new ArrayList<ModuleElement>();
-        moduleElementList = json.fromJson(ArrayList.class, ModuleElement.class, Gdx.files.internal(JSON_PATH+"moduleElement.json"));
+        attributeElementList = new ArrayList<AttributeElement>();
+        attributeElementList = json.fromJson(ArrayList.class, AttributeElement.class, Gdx.files.internal(JSON_PATH+"moduleElement.json"));
 
         achievementElementList = new ArrayList<AchievementElement>();
         achievementElementList = json.fromJson(ArrayList.class, AchievementElement.class, Gdx.files.internal(JSON_PATH+"achievementElement.json"));
@@ -161,8 +161,8 @@ public class RessourceManager {
         moduleDrawableUpList = new ArrayList<Texture>();
         upgradeLvlImageList = new ArrayList<Texture>();
 
-        for (int i = 0; i < getModuleElementList().size(); i++) {
-            moduleDrawableUpList.add(new Texture(Gdx.files.internal(ICON_PATH + getModuleElementList().get(i).getIcon())));
+        for (int i = 0; i < getAttributeElementList().size(); i++) {
+            moduleDrawableUpList.add(new Texture(Gdx.files.internal(ICON_PATH + getAttributeElementList().get(i).getIcon())));
         }
 
         // Pour chaque niveau de rarete on met dans la liste
@@ -240,8 +240,8 @@ public class RessourceManager {
         return loadValue;
     }
 
-    public ArrayList<ModuleElement> getModuleElementList() {
-        return moduleElementList;
+    public ArrayList<AttributeElement> getAttributeElementList() {
+        return attributeElementList;
     }
 
     public TextureRegionDrawable getMenuBackgroundTexture() {

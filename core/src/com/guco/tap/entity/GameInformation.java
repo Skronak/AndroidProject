@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by Skronak on 30/01/2017.
  *
  * Classe de stat & information sur le compte du jeu
- * // TODO store all current ModuleElement
+ * // TODO store all current AttributeElement
  */
 public class GameInformation {
 
@@ -26,7 +26,7 @@ public class GameInformation {
     public List<Integer> attributeLevel;
     public Long totalGameTime;
     public int totalTapNumber;
-    public int depth;
+    public int dungeonLevel;
     public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;
@@ -39,7 +39,7 @@ public class GameInformation {
     public List<Item> bodyItemList;
     public int levelBaseCurrency;
     public int levelBaseGold;
-    public Map<Integer, Item> upgradedItem;
+    public transient Map<Integer, Item> upgradedItem;
 
     public GameInformation() {
     }

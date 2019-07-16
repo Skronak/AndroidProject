@@ -1,4 +1,4 @@
-package com.guco.tap.menu.inventory;
+package com.guco.tap.menu.inventory.backup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,16 +17,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.entity.Item;
-import com.guco.tap.menu.inventory.element.InventoryElement;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
+import com.guco.tap.menu.inventory.element.InventoryElement;
 import com.guco.tap.utils.MenuState;
 
 /**
  * Created by Skronak on 01/02/2017.
  * Menu d'update
  */
-public class InventoryMenu extends AbstractMenu {
+public class InventoryMenuBackup /*extends AbstractMenu*/ {
+/*
     private VerticalGroup weaponVG, bodyVG, headVG, currentVG;
     private ImageButton headButton,bodyButton,weapButton;
     private ScrollPane menuPane;
@@ -37,21 +38,13 @@ public class InventoryMenu extends AbstractMenu {
     private TextButton unlockButton;
     private MenuState menuState;
     private TextButton upgradeButton;
-    private String TOTAL_DMG_LABEL="Total atk ";
-    private String WEAPON_DMG_LABEL="Item atk ";
-    private String WEAPON_RATE_LABEL="Atk rate ";
-    private String NEXT_LEVEL = "Next Level";
-    private String CURRENT_LEVEL="Current level";
-    private Label nextDamageLabel;
-    private Image upImage;
-
     // FOR TEST ONLY
     private Drawer drawer;
     private SpriteBatch batch;
     private Item selectedItem;
     public SpriterPlayer itemSpriterPlayer;
 
-    public InventoryMenu(GameManager gameManager) {
+    public InventoryMenuBackup(GameManager gameManager) {
         super(gameManager);
         customizeMenuTable();
 
@@ -63,7 +56,7 @@ public class InventoryMenu extends AbstractMenu {
         itemSpriterPlayer = gameManager.loadPlayer();
         itemSpriterPlayer.setScale(0.5f);
         itemSpriterPlayer.setEntity(gameManager.data.getEntity("inventoryMenu"));
-        itemSpriterPlayer.setPosition(70, 320);
+        itemSpriterPlayer.setPosition(70, 350);
         itemSpriterPlayer.speed=5;
 
         menuState = MenuState.WEAPON; // default menu value
@@ -76,15 +69,14 @@ public class InventoryMenu extends AbstractMenu {
         weaponDamageLabel.setFontScale(0.7f);
         damageLabel.setFontScale(0.7f);
         passiveLabel = new Label("",skin);
-        nextDamageLabel=new Label("99 G",skin);
-        nextDamageLabel.setFontScale(0.7f);
-        upImage = new Image(gameManager.ressourceManager.upTexture);
+        Image upImage = new Image(gameManager.ressourceManager.upTexture);
 
         upgradeButton = new TextButton("UPGRADE",skin);
         upgradeButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                increaseItemLevel();
+                gameManager.itemManager.increaseItemLevel(selectedItem);
+                ((InventoryElement) currentVG.getChildren().get(selectedItem.id)).increaseLevel(selectedItem);
                 return true;
             }});
 
@@ -95,16 +87,10 @@ public class InventoryMenu extends AbstractMenu {
         Image image = new Image();
         leftTable.add(image).height(250);
         leftTable.row();
-        leftTable.add(new Label(CURRENT_LEVEL, skin)).left();
+        leftTable.add(damageLabel).left();
+        leftTable.add(upImage).size(20,20);
         leftTable.row();
-        leftTable.add(damageLabel).left().padLeft(10);
-        leftTable.add(upImage).size(15,15);
-        leftTable.row();
-        leftTable.add(weaponDamageLabel).left().padLeft(10);
-        leftTable.row();
-        leftTable.add(new Label(NEXT_LEVEL, skin)).left();
-        leftTable.row();
-        leftTable.add(nextDamageLabel).left().padLeft(40);
+        leftTable.add(weaponDamageLabel).left();
         leftTable.row();
         leftTable.add(upgradeButton);
 
@@ -174,25 +160,31 @@ public class InventoryMenu extends AbstractMenu {
         return table;
     }
 
-    /**
+    */
+/**
      * Methode d'initialisation des modules disponibles a
      * l'upgrade
      *
      * @return
-     */
+     *//*
+
     public ScrollPane initPane(VerticalGroup defaultVG) {
         currentVG = defaultVG;
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        //InventoryPane inventoryPane = new InventoryPane(currentVG, paneStyle);
         ScrollPane pane = new ScrollPane(currentVG, paneStyle);
         pane.setScrollingDisabled(true, false);
+
         return pane;
     }
 
-    /**
+    */
+/**
      * FOR TEST ONLY
-     */
+     *//*
+
     @Override
     public void draw(){
         batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
@@ -253,7 +245,6 @@ public class InventoryMenu extends AbstractMenu {
         switch( menuState){
             case WEAPON:
                 gameManager.gameInformation.equipedWeapon= inventoryElement.itemSource.id;
-                gameManager.dataManager.calculateTapDamage();
                 break;
             case BODY:
                 gameManager.gameInformation.equipedBody= inventoryElement.itemSource.id;
@@ -272,16 +263,19 @@ public class InventoryMenu extends AbstractMenu {
 
     public void setSelectedItem(InventoryElement inventoryElement){
         selectedItem = inventoryElement.itemSource;
-        itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(selectedItem.mapName); // charactermap 0 wrong
-        updateItemInformation();
+            itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(selectedItem.mapName); // charactermap 0 wrong
+            damageLabel.setText("Total atk " + (gameManager.gameInformation.tapDamageValue + selectedItem.calculatedStat.damageValue));
+            weaponDamageLabel.setText("Weapon atk " + selectedItem.calculatedStat.damageValue);
     }
 
     public void updateBuyButton () {
     }
 
-    /**
+    */
+/**
      * Change verticalGroup shown
-     */
+     *//*
+
     public void switchVG(){
         int itemId;
         if (menuState.equals(MenuState.WEAPON)){
@@ -297,27 +291,6 @@ public class InventoryMenu extends AbstractMenu {
         menuPane.setActor(currentVG);
         setEquipedItem((InventoryElement) currentVG.getChildren().get(itemId));
         setSelectedItem((InventoryElement) currentVG.getChildren().get(itemId));
-    }
-
-    public void updateItemInformation(){
-        ((InventoryElement) currentVG.getChildren().get(selectedItem.id)).increaseLevel(selectedItem);
-        String damage = gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency);
-        damageLabel.setText(TOTAL_DMG_LABEL + damage);
-        String weap_damage = gameManager.largeMath.getDisplayValue(selectedItem.calculatedStat.damageValue, selectedItem.calculatedStat.damageCurrency);
-        weaponDamageLabel.setText(WEAPON_DMG_LABEL + weap_damage);
-        if(selectedItem.calculatedStat.damageCurrency > gameManager.gameInformation.tapDamageCurrency){
-            upImage.setVisible(true);
-        } else if (gameManager.gameInformation.tapDamageCurrency == selectedItem.calculatedStat.damageCurrency
-                && selectedItem.calculatedStat.damageCurrency > gameManager.gameInformation.tapDamageValue) {
-            upImage.setVisible(true);
-        } else {
-            upImage.setVisible(false);
-        }
-    }
-
-    public void increaseItemLevel(){
-        gameManager.itemManager.increaseItemLevel(selectedItem);
-        updateItemInformation();
     }
 
     public void show(){
@@ -338,5 +311,6 @@ public class InventoryMenu extends AbstractMenu {
     public void update() {
         updateBuyButton();
     }
+*/
 
 }

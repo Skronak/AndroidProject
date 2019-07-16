@@ -55,15 +55,15 @@ public class SavedData {
             achievList[i]=gameInformation.achievList.get(i);
         }
         for (int i=0;i<gameInformation.weaponItemList.size();i++){
-            weaponItemList[i]=gameInformation.weaponItemList.get(i).id;
+            weaponItemList[i]=gameInformation.weaponItemList.get(i).level;
         }
 
         for (int i=0;i<gameInformation.bodyItemList.size();i++){
-            bodyItemList[i]=gameInformation.bodyItemList.get(i).id;
+            bodyItemList[i]=gameInformation.bodyItemList.get(i).level;
         }
 
         for (int i=0;i<gameInformation.headItemList.size();i++){
-            headItemList[i]=gameInformation.headItemList.get(i).id;
+            headItemList[i]=gameInformation.headItemList.get(i).level;
         }
     }
 }

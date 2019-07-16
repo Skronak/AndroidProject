@@ -7,9 +7,9 @@ add animation when added
 Add an "added" animation to all element that play when element is added
 Automatically calculate next level  cost & generation (adds a lot at low level then became less interesting)
 Add Loading screen
-use the assetManager
+use the ressourceManager
 
-faire distingo achievement dans assetManager et dans achivementManager
+faire distingo achievement dans ressourceManager et dans achivementManager
 
 
 
@@ -69,3 +69,7 @@ GameData qui store tout?
 
 EquipedWeapon
 EquipedWeaponPerk[3] => prechare mon attribute menu avec ce que j'ai dans mon tableau
+
+
+Une enemiInformation par monstre, se deplace avec
+la voit apparaitre sur la derniere sec ou le monstre arrive, sinon invisible

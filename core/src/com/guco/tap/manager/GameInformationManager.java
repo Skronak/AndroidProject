@@ -124,7 +124,7 @@ public class GameInformationManager {
         gameInformation.levelBaseGold=5;
         gameInformation.levelBaseCurrency=1;
         gameInformation.dungeonLevel =1;
-        gameInformation.upgradedItem = new HashMap<Integer, Item>();
+//        gameInformation.upgradedItem = new HashMap<Integer, Item>();
         gameInformation.attributeLevel = new ArrayList();
         for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
             gameInformation.attributeLevel.add(0);

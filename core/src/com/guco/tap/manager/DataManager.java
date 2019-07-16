@@ -53,8 +53,8 @@ public class DataManager {
 
     public void calculateTapDamage(){
         Item weapon = ressourceManager.weaponList.get(gameInformation.equipedWeapon);
-        gameInformation.tapDamageValue = weapon.damageValue;
-        gameInformation.tapDamageCurrency = weapon.damageCurrency;
+        gameInformation.tapDamageValue = weapon.calculatedStat.damageValue;
+        gameInformation.tapDamageCurrency = weapon.calculatedStat.damageCurrency;
 
         ressourceManager.helmList.get(gameInformation.equipedBody);
         ressourceManager.bodyList.get(gameInformation.equipedBody);

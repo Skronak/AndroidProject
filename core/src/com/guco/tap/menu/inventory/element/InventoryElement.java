@@ -23,7 +23,7 @@ public class InventoryElement extends Table {
     private GameManager gameManager;
     private Label itemNameLabel;
     private TextButton upgradeButton;
-    private Label activeGoldLabel;
+    private Label damageLabel;
     private Label levelLabel;
     private Label passiveGoldLabel;
     private Label nextPassiveGoldLabel;
@@ -55,8 +55,8 @@ public class InventoryElement extends Table {
         itemNameLabel = new Label("", gameManager.ressourceManager.getSkin());
         itemNameLabel.setWrap(true);
         itemNameLabel.setFontScale(0.7f);
-        activeGoldLabel = new Label("Damage +0%", gameManager.ressourceManager.getSkin());
-        activeGoldLabel.setFontScale(0.7f);
+        damageLabel = new Label("Damage +0%", gameManager.ressourceManager.getSkin());
+        damageLabel.setFontScale(0.7f);
         passiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
         passiveGoldLabel.setFontScale(0.7f);
         nextPassiveGoldLabel= new Label("", gameManager.ressourceManager.getSkin());
@@ -89,7 +89,7 @@ public class InventoryElement extends Table {
         moduleLevelGroup.add(itemNameLabel).expandX().left();
         moduleLevelGroup.add(levelLabel).width(50).right();
         moduleLevelGroup.row();
-        moduleLevelGroup.add(activeGoldLabel).left();
+        moduleLevelGroup.add(damageLabel).left();
         moduleLevelGroup.row();
         moduleLevelGroup.add(equipButton).fill().width(50);
         moduleLevelGroup.add(upgradeButton).height(40).width(40).right();
@@ -103,6 +103,10 @@ public class InventoryElement extends Table {
         inventoryMenu.setEquipedItem(this);
     }
 
+    public void increaseLevel(Item item) {
+        this.levelLabel.setText(String.valueOf("Lv "+item.level));
+        this.damageLabel.setText("Damage "+item.calculatedStat.damageValue);
+    }
     public void update() {
         itemNameLabel.setText(itemSource.name);
     }

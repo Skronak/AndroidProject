@@ -28,8 +28,8 @@ public class ItemManager {
 
     public void increaseItemLevel(Item item){
         item.level = item.level+1;
-        item.calculatedStat.damageValue=item.calculatedStat.damageValue*1.1f;
-        gameManager.gameInformation.upgradedItem.put(item.id,item);
+        item.calculatedStat.damageValue=item.damageValue*(item.damageRate*item.level);
+//        gameManager.gameInformation.upgradedItem.put(item.id,item);
     }
 
     public void unlockItem(){

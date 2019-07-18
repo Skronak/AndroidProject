@@ -33,7 +33,7 @@ import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.achievement.AchievementMenu;
 import com.guco.tap.menu.shop.ShopMenu;
 import com.guco.tap.menu.gameInformation.GameInformationMenu;
-import com.guco.tap.menu.inventory.InventoryMenu;
+import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.object.FpsActor;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
+import com.guco.tap.entity.ItemUpgrade;
 import com.guco.tap.save.SavedData;
 import com.guco.tap.utils.Constants;
 
@@ -75,7 +76,6 @@ public class GameInformationManager {
             gameInformation.weaponItemList=new ArrayList<Item>();
             gameInformation.bodyItemList = new ArrayList<Item>();
             gameInformation.headItemList = new ArrayList<Item>();
-
             for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
                 gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
             }
@@ -87,18 +87,21 @@ public class GameInformationManager {
                 item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.weaponItemList[i];
                 gameInformation.weaponItemList.add(item);
+                item.selectedUpgrades = new ArrayList<ItemUpgrade>();
             }
             for (int i=0;i<ressourceManager.bodyList.size();i++){
                 Item item = ressourceManager.bodyList.get(i);
                 item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.bodyItemList[i];
                 gameInformation.bodyItemList.add(item);
+                item.selectedUpgrades = new ArrayList<ItemUpgrade>();
             }
             for (int i=0;i<ressourceManager.helmList.size();i++){
                 Item item = ressourceManager.helmList.get(i);
                 item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.headItemList[i];
                 gameInformation.headItemList.add(item);
+                item.selectedUpgrades = new ArrayList<ItemUpgrade>();
             }
         } else {
             Gdx.app.debug("GameInformation", "Initialisation du compte par defaut");

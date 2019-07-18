@@ -83,16 +83,11 @@ public class CharacterAttributeElement extends Table {
         Table moduleLevelGroup = new Table();
         moduleLevelGroup.add(moduleLevelLabel).colspan(2).left().expandX().top().padBottom(10);
         moduleLevelGroup.row();
-//        moduleLevelGroup.add(moduleLevelImage).size(attributeElementSource.getWidth(), attributeElementSource .getHeight()).left().colspan(4);
-//        moduleLevelGroup.row();
-//        moduleLevelGroup.add(goldIcon).size(20,20).left();
         moduleLevelGroup.add(activeGoldLabel).left();
         moduleLevelGroup.add(nextActiveGoldLabel);
         moduleLevelGroup.row();
-//        moduleLevelGroup.add(timeIcon).size(20,20).left();
         moduleLevelGroup.add(passiveGoldLabel).left();
         moduleLevelGroup.add(nextPassiveGoldLabel);
-        //moduleLevelGroup.add(buyButton).height(30).width(140);
 
         this.setHeight(30);
         this.add(skillIcon).width(80).height(80).padLeft(10);

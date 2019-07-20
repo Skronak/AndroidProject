@@ -2,7 +2,7 @@
   {
     "id": "0",
     "type": 0,
-    "name": "wood stick",
+    "name": "Wood stick",
     "description": "",
     "damageRate":1,
     "damageValue":1,
@@ -17,7 +17,7 @@
   {
     "id": "1",
     "type": 0,
-    "name": "Rusty sword",
+    "name": "Rusty swo",
     "description": "",
     "damageRate":1.1,
     "damageValue":10,

@@ -69,7 +69,6 @@ public class PlayScreen implements Screen {
     SpriterPlayer boss;
     GameManager gameManager;
     // Enemy present on screen
-    ShaderProgram blurShader;
     public List<EnemyActor> enemyActorList;
 
 
@@ -82,7 +81,7 @@ public class PlayScreen implements Screen {
 
         this.gameManager=gameManager;
 
-        blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vertex").readString(), Gdx.files.internal("shaders/camerablur.fragment").readString());
+//        blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vertex").readString(), Gdx.files.internal("shaders/camerablur.fragment").readString());
 
 //        ShaderProgram.pedantic = false;
     }

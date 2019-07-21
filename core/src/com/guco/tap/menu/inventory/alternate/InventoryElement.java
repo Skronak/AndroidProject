@@ -76,6 +76,11 @@ public class InventoryElement extends Table {
 
         unlockButton = new TextButton("UNLOCK", gameManager.ressourceManager.getSkin());
         unlockButton.getLabel().setFontScale(0.7f);
+        unlockButton.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
         equipButton = new TextButton("EQUIP", gameManager.ressourceManager.getSkin());
         equipButton.getLabel().setFontScale(0.7f);
         equipButton.addListener(new ClickListener(){
@@ -112,17 +117,25 @@ public class InventoryElement extends Table {
 
     public void update(Item item) {
         this.levelLabel.setText(String.valueOf("Lv "+item.level));
-
-        if (itemSource.level==0) {
-            unlockButton.setVisible(true);
+        if (gameManager.gameInformation.dungeonLevel >= item.reqLvl) {
+            if (itemSource.level > 0) {
+                unlockButton.setVisible(false);
+                equipButton.setVisible(true);
+                levelReqLabel.setVisible(false);
+                damageLabel.setVisible(true);
+            } else {
+                unlockButton.setVisible(true);
+                equipButton.setVisible(false);
+                levelReqLabel.setVisible(false);
+                damageLabel.setVisible(false);
+                inventoryPane.previewLockedItem(this);
+            }
+        } else {
+            unlockButton.setVisible(false);
             equipButton.setVisible(false);
             levelReqLabel.setVisible(true);
             damageLabel.setVisible(false);
-        } else {
-            unlockButton.setVisible(false);
-            equipButton.setVisible(true);
-            levelReqLabel.setVisible(false);
-            damageLabel.setVisible(true);
+            inventoryPane.previewLockedItem(this);
         }
 
         //        for (int i=0;i<itemSource.selectedUpgrades.size();i++){

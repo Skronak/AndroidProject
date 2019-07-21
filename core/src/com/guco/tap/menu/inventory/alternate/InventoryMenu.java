@@ -30,7 +30,7 @@ public class InventoryMenu extends AbstractMenu {
     private Label passiveLabel;
     private TextButton unlockButton;
     public MenuState menuState;
-    private TextButton upgradeButton;
+    public TextButton upgradeButton;
     private String TOTAL_DMG_LABEL="Total atk ";
     private String WEAPON_DMG_LABEL="Item atk ";
     private String WEAPON_RATE_LABEL="Atk rate ";

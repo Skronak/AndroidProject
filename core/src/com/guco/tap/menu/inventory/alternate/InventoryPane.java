@@ -117,11 +117,18 @@ public class InventoryPane extends Container {
         }
         selectedItemElement.setBackground(selectedRegionDrawable);
         inventoryMenu.setEquipedItem(selectedItemElement);
+        inventoryMenu.upgradeButton.setVisible(true);
     }
 
     public void previewItem(InventoryElement inventoryElement) {
         selectedItemElement = inventoryElement;
         inventoryMenu.previewItemDetail(inventoryElement);
+        inventoryMenu.upgradeButton.setVisible(true);
+    }
+
+    public void previewLockedItem(InventoryElement inventoryElement) {
+        selectedItemElement = inventoryElement;
+        inventoryMenu.upgradeButton.setVisible(false);
     }
 }
 

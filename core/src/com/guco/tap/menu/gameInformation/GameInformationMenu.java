@@ -62,6 +62,12 @@ public class GameInformationMenu extends AbstractMenu {
     }
 
     @Override
+    public void show(){
+        update();
+        super.show();
+    }
+
+    @Override
     public void update() {
         goldLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency));
         activGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency));

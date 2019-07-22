@@ -70,7 +70,7 @@ public class GameInformationManager {
             gameInformation.optionSound=savedData.optionSound;
             gameInformation.optionWeather=savedData.optionWeather;
             gameInformation.skillPoint=savedData.skillPoint;
-            gameInformation.equipedWeapon = savedData.currentEquipment[0];
+            gameInformation.equipedWeapon = ressourceManager.weaponList.get(savedData.currentEquipment[0]);
             gameInformation.equipedHead = savedData.currentEquipment[1];
             gameInformation.equipedBody = savedData.currentEquipment[2];
             gameInformation.weaponItemList=new ArrayList<Item>();

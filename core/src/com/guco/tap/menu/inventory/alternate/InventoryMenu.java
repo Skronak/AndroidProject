@@ -165,14 +165,15 @@ public class InventoryMenu extends AbstractMenu {
         batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
         batch.begin();
         itemSpriterPlayer.update();
+//        itemSpriterPlayer.
         drawer.draw(itemSpriterPlayer);
         batch.end();
     }
 
-    public void setEquipedItem(InventoryElement inventoryElement){
+    public void equipItem(InventoryElement inventoryElement){
         switch( menuState){
             case WEAPON:
-                gameManager.gameInformation.equipedWeapon= inventoryElement.itemSource.id;
+                gameManager.gameInformation.equipedWeapon= inventoryElement.itemSource;
                 gameManager.dataManager.calculateTapDamage();
                 break;
             case BODY:
@@ -199,7 +200,7 @@ public class InventoryMenu extends AbstractMenu {
 
     public void updateItemInformation(InventoryElement inventoryElement){
         Item selectedItem = inventoryElement.itemSource;
-        inventoryElement.update(selectedItem);
+        inventoryElement.update();
         String damage = gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency);
         damageLabel.setText(TOTAL_DMG_LABEL + damage);
         String weap_damage = gameManager.largeMath.getDisplayValue(selectedItem.calculatedStat.damageValue, selectedItem.calculatedStat.damageCurrency);
@@ -217,6 +218,10 @@ public class InventoryMenu extends AbstractMenu {
     public void increaseItemLevel(){
         gameManager.itemManager.increaseItemLevel(inventoryPane.selectedItemElement.itemSource);
         updateItemInformation(inventoryPane.selectedItemElement);
+        if (inventoryPane.selectedItemElement.itemSource.equals(gameManager.gameInformation.equipedWeapon)){
+            gameManager.dataManager.calculateTapDamage();
+        }
+
     }
 
     public void show(){

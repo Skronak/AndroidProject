@@ -51,6 +51,7 @@ public class TapDungeonGame extends Game {
 	@Override
 	public void render () {
 		super.render();
+		Gdx.graphics.setTitle("FPS: "+Gdx.graphics.getFramesPerSecond());
 	}
 
 	@Override

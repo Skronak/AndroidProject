@@ -31,7 +31,7 @@ public class GameInformation {
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;
     public int currentEnemyIdx;
-    public int equipedWeapon;
+    public Item equipedWeapon;
     public int equipedHead;
     public int equipedBody;
     public List<Item> weaponItemList;

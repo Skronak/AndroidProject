@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -96,7 +95,7 @@ public class InventoryPane extends Container {
     public void switchTab() {
         int itemId;
         if (inventoryMenu.menuState.equals(MenuState.WEAPON)){
-            itemId = gameManager.gameInformation.equipedWeapon;
+            itemId = gameManager.gameInformation.equipedWeapon.id;
             activeTab = weaponTab;
         } else if (inventoryMenu.menuState.equals(MenuState.BODY)){
             itemId = gameManager.gameInformation.equipedBody;
@@ -116,7 +115,7 @@ public class InventoryPane extends Container {
             ((InventoryElement) activeTab.getChildren().get(i)).setBackground(backgroundRegionDrawable);
         }
         selectedItemElement.setBackground(selectedRegionDrawable);
-        inventoryMenu.setEquipedItem(selectedItemElement);
+        inventoryMenu.equipItem(selectedItemElement);
         inventoryMenu.upgradeButton.setVisible(true);
     }
 

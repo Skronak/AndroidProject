@@ -41,7 +41,7 @@ public class SavedData {
         this.optionWeather=gameInformation.optionWeather;
         this.skillPoint=gameInformation.skillPoint;
         this.currentEquipment = new int[3];
-        currentEquipment[0]=gameInformation.equipedWeapon;
+        currentEquipment[0]=gameInformation.equipedWeapon.id;
         currentEquipment[1]=gameInformation.equipedHead;
         currentEquipment[2]=gameInformation.equipedBody;
         this.weaponItemList=new int[gameInformation.weaponItemList.size()];

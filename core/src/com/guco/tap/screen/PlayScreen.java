@@ -54,9 +54,9 @@ public class PlayScreen implements Screen {
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage;
     private Image doorImage, torchImage;
-    private Group layer0GraphicObject = new Group(); // Background
+    public Group layer0GraphicObject = new Group(); // Background
     public Group layer1GraphicObject = new Group(); // Objects
-    private Group layer2GraphicObject = new Group(); // Foreground
+    public Group layer2GraphicObject = new Group(); // Foreground
     private Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
@@ -104,7 +104,7 @@ public class PlayScreen implements Screen {
         //tapActor
         tapActor = new TapActor();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background2.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
 
@@ -189,7 +189,6 @@ public class PlayScreen implements Screen {
         camera.update();
 
         gameManager.updateLogic(delta);
-
         hud.updateGoldLabel();
         spriterPlayer.update();
         //boss.update();
@@ -208,7 +207,7 @@ public class PlayScreen implements Screen {
         spriteBatch.end();
         hud.draw();
 
-        debugCong(delta);
+       // debugCong(delta);
 
     }
 
@@ -232,7 +231,6 @@ public class PlayScreen implements Screen {
     }
 
     public void debugCong(float delta){
-        //DEBUG
         //todo bloquer rezoom si deja zoom max, pareil max dezoom
         if (timeToCameraZoomTarget > 0) {
             timeToCameraZoomTarget -= delta;

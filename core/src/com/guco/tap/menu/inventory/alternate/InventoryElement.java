@@ -33,6 +33,8 @@ public class InventoryElement extends Table {
     private TextButton unlockButton;
     private TextButton equipButton;
     private String ICON_PATH = "sprites/icon/";
+    private String DAMAGE_LABEL = "Damage ";
+
     private InventoryPane inventoryPane;
     private Stack overlapButtons;
     private Stack overlapLabel;
@@ -51,26 +53,27 @@ public class InventoryElement extends Table {
     public void initItemMenuElement(final Item source) {
         itemSource = source;
         int currentLevel = itemSource.level;
-        skillIcon = new Image(new Texture(ICON_PATH+source.icon));
+        skillIcon = new Image(new Texture(ICON_PATH+itemSource.icon));
+
         itemNameLabel = new Label("", gameManager.ressourceManager.getSkin());
         itemNameLabel.setText(itemSource.name);
         itemNameLabel.setWrap(true);
         itemNameLabel.setFontScale(0.7f);
-        String damage = gameManager.largeMath.getDisplayValue(source.calculatedStat.damageValue, source.calculatedStat.damageCurrency);
-        damageLabel = new Label("Damage "+damage, gameManager.ressourceManager.getSkin());
-        damageLabel.setFontScale(0.7f);
-        levelLabel = new Label("Lv "+currentLevel, gameManager.ressourceManager.getSkin());
 
+        damageLabel = new Label("", gameManager.ressourceManager.getSkin());
+        damageLabel.setFontScale(0.7f);
+
+        levelLabel = new Label("Lv "+currentLevel, gameManager.ressourceManager.getSkin());
         overlapLabel = new Stack();
-        levelReqLabel = new Label("Req Lv "+source.reqLvl, gameManager.ressourceManager.getSkin());
-        descriptionLabel = new Label(source.description, gameManager.ressourceManager.getSkin());
+        levelReqLabel = new Label("Req Lv "+itemSource.reqLvl, gameManager.ressourceManager.getSkin());
+        descriptionLabel = new Label(itemSource.description, gameManager.ressourceManager.getSkin());
         overlapLabel.add(levelReqLabel);
         overlapLabel.add(damageLabel);
 
         upgradeButton = new TextButton("",gameManager.ressourceManager.getModuleMenuUpgradeTxtBtnStyle());
         upgradeButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.getHud().showUpgradeMenu(source.id);
+                gameManager.playScreen.getHud().showUpgradeMenu(itemSource.id);
                 return true;
             }});
 
@@ -85,7 +88,7 @@ public class InventoryElement extends Table {
         equipButton.getLabel().setFontScale(0.7f);
         equipButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                setEquiped();
+                equipItem();
                 return true;
             }
         });
@@ -107,34 +110,26 @@ public class InventoryElement extends Table {
         this.add(skillIcon).width(50).height(75);
         this.add(moduleLevelGroup).left();
 
-        update(itemSource);
-
+        update();
     }
 
-    public void setEquiped(){
+    public void equipItem(){
         inventoryPane.equipItem(this);
     }
 
-    public void update(Item item) {
-        this.levelLabel.setText(String.valueOf("Lv "+item.level));
-        if (gameManager.gameInformation.dungeonLevel >= item.reqLvl) {
+    public void update() {
+        String damage = gameManager.largeMath.getDisplayValue(itemSource.calculatedStat.damageValue, itemSource.calculatedStat.damageCurrency);
+        this.levelLabel.setText(String.valueOf("Lv "+itemSource.level));
+        this.damageLabel.setText(DAMAGE_LABEL+damage);
+        if (gameManager.gameInformation.dungeonLevel >= itemSource.reqLvl) {
             if (itemSource.level > 0) {
-                unlockButton.setVisible(false);
-                equipButton.setVisible(true);
-                levelReqLabel.setVisible(false);
-                damageLabel.setVisible(true);
+                previewItem(false, true, false);
             } else {
-                unlockButton.setVisible(true);
-                equipButton.setVisible(false);
-                levelReqLabel.setVisible(false);
-                damageLabel.setVisible(false);
+                previewItem(true, false, false);
                 inventoryPane.previewLockedItem(this);
             }
         } else {
-            unlockButton.setVisible(false);
-            equipButton.setVisible(false);
-            levelReqLabel.setVisible(true);
-            damageLabel.setVisible(false);
+            previewItem(false, false, true);
             inventoryPane.previewLockedItem(this);
         }
 
@@ -142,6 +137,13 @@ public class InventoryElement extends Table {
 //            damageLabel.setText(damageLabel.getText()+itemSource.selectedUpgrades.get(i).name);
 //        }
 //        this.damageLabel.setText("Damage "+item.calculatedStat.damageValue);
+    }
+
+    private void previewItem(boolean b, boolean b2, boolean b3) {
+        unlockButton.setVisible(b);
+        equipButton.setVisible(b2);
+        levelReqLabel.setVisible(b3);
+        damageLabel.setVisible(b2);
     }
 
     @Override

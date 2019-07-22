@@ -17,6 +17,7 @@ public class OptionMenu extends AbstractMenu {
     private TextButton resetButton;
     private TextButton fpsButton;
     private TextButton goldButton;
+    private TextButton debugButton;
 
     public OptionMenu(GameManager gameManager) {
         super(gameManager);
@@ -70,6 +71,16 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
+        debugButton = new TextButton("Debug",gameManager.ressourceManager.getSkin());
+        debugButton.setDisabled(true);
+        debugButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                debugMode();
+                return true;
+            }
+        });
+
         customizeMenuTable();
     }
 
@@ -102,6 +113,13 @@ public class OptionMenu extends AbstractMenu {
         gameManager.gameInformation.currentGoldCurrency =99;
     }
 
+    public void debugMode(){
+        gameManager.gameInformation.skillPoint =999;
+        gameManager.gameInformation.levelBaseGold =99;
+        gameManager.gameInformation.levelBaseCurrency =99;
+        gameManager.gameInformation.dungeonLevel =999;
+    }
+
     public void customizeMenuTable() {
         parentTable.add(new Label("OPTION", skin)).bottom().padTop(10).padBottom(40).colspan(2);
         parentTable.row();
@@ -113,9 +131,11 @@ public class OptionMenu extends AbstractMenu {
         parentTable.row();
         parentTable.add(new Label("***DEBUG***", gameManager.ressourceManager.getSkin()));
         parentTable.row();
-        parentTable.add(resetButton).expandX().left().pad(20);
+        parentTable.add(resetButton).expandX().left().pad(10);
         parentTable.row();
-        parentTable.add(goldButton).left().pad(20);
+        parentTable.add(goldButton).left().pad(10);
+        parentTable.row();
+        parentTable.add(debugButton).left().pad(10);
     }
 
     @Override

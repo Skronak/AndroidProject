@@ -20,7 +20,6 @@ import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
-import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -82,6 +81,8 @@ public class GameManager {
 
     public GameInformation gameInformation;
 
+    public GoldManager goldManager;
+
     public GameManager(TapDungeonGame game) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
@@ -95,6 +96,7 @@ public class GameManager {
         achievementManager = new AchievementManager(this);
         dataManager = new DataManager(this);
         itemManager = new ItemManager(this);
+        goldManager = new GoldManager(this);
         autoSaveTimer = 0f;
         increaseGoldTimer = 0f;
         weatherTimer = 0f;
@@ -124,8 +126,7 @@ public class GameManager {
         spriterPlayer.speed=15;
         spriterPlayer.setAnimation("idle");
         spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
-        ;
-        spriterPlayer.characterMaps[weaponMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.weaponList.get(gameInformation.equipedWeapon).mapName);
+        spriterPlayer.characterMaps[weaponMap]= spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
         spriterPlayer.characterMaps[headMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
         spriterPlayer.characterMaps[bodyMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
         return spriterPlayer;
@@ -329,19 +330,7 @@ public class GameManager {
         };
         float speed=1f;
         float fadeOut=0.75f;
-        GoldActor goldActor = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight());
-        goldActor.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-50, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
-        GoldActor goldActor2 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()-30);
-        goldActor2.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-30, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
-        GoldActor goldActor3 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()+15);
-        goldActor3.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH-50, Constants.V_HEIGHT, speed), Actions.fadeOut(fadeOut)), Actions.removeActor()));
-        GoldActor goldActor4 = new GoldActor(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+currentEnemyActor.getHeight()+7);
-        goldActor4.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(Constants.V_WIDTH, Constants.V_HEIGHT, speed), Actions.sequence(Actions.fadeOut(fadeOut), Actions.run(incGold))),Actions.removeActor()));
-
-        playScreen.stage.addActor(goldActor);
-        playScreen.stage.addActor(goldActor2);
-        playScreen.stage.addActor(goldActor3);
-        playScreen.stage.addActor(goldActor4);
+        goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()),3);
 
         // go upstair or stay
         if (gameInformation.currentEnemyIdx < nbMandatoryFight) {

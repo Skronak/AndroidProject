@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.utils.ValueDTO;
 
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class InventoryElement extends Table {
         unlockButton.getLabel().setFontScale(0.7f);
         unlockButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                unlockItem();
                 return true;
             }
         });
@@ -111,6 +113,18 @@ public class InventoryElement extends Table {
         this.add(moduleLevelGroup).left();
 
         update();
+    }
+
+    public void unlockItem() {
+        ValueDTO cost = gameManager.largeMath.calculateCost(itemSource.baseCostValue, itemSource.costRate,0);
+        ValueDTO currentGold = new ValueDTO(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency);
+        if (currentGold.compareTo(cost)>=0) {
+            ValueDTO newGold = gameManager.largeMath.decreaseValue(currentGold.value, currentGold.currency, cost.value, cost.currency);
+            gameManager.gameInformation.currentGoldValue = newGold.value;
+            gameManager.gameInformation.currentGoldValue = newGold.currency;
+            itemSource.level = 1;
+            update();
+        }
     }
 
     public void equipItem(){

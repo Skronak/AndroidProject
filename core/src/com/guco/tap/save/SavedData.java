@@ -17,6 +17,8 @@ public class SavedData {
     public int[] achievList; //0: locked 1: unlocked,2: claimed
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;
+    public int levelBaseCurrency;
+    public int levelBaseGold;
     public int[] currentEquipment;
     public int[] weaponItemList;
     public int[] headItemList;

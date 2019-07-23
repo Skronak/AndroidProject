@@ -58,7 +58,7 @@ public class CustomInputProcessor implements InputProcessor {
 //                gameManager.dataManager.increaseGoldActive();
                 playScreen.processNormalHit();
             }
-            playScreen.processPointerHitAnimation(screenX, screenY);
+            playScreen.showTapActor(screenX, screenY);
         }
         return false;
     }

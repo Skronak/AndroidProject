@@ -27,8 +27,6 @@ public class InventoryMenu extends AbstractMenu {
     private InventoryPane inventoryPane;
     private Label damageLabel;
     private Label weaponDamageLabel;
-    private Label passiveLabel;
-    private TextButton unlockButton;
     public MenuState menuState;
     public TextButton upgradeButton;
     private String TOTAL_DMG_LABEL="Total atk ";
@@ -68,7 +66,6 @@ public class InventoryMenu extends AbstractMenu {
         weaponDamageLabel = new Label("",skin);
         weaponDamageLabel.setFontScale(0.7f);
         damageLabel.setFontScale(0.7f);
-        passiveLabel = new Label("",skin);
         nextDamageLabel=new Label("99 G",skin);
         nextDamageLabel.setFontScale(0.7f);
         upImage = new Image(gameManager.ressourceManager.upTexture);

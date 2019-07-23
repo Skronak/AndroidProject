@@ -26,6 +26,7 @@ import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.TapActor;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
+import com.guco.tap.actor.TorchActor;
 import com.guco.tap.effect.TorchParticleSEffect;
 import com.guco.tap.input.CustomInputProcessor;
 import com.guco.tap.manager.GameManager;
@@ -138,21 +139,17 @@ public class PlayScreen implements Screen {
         stage.addActor(layer2GraphicObject);
 
         // Init torch
-        torchImage = new Image(gameManager.ressourceManager.torchTexture);
-        torchImage.setSize(20,50);
-        torchImage.setPosition(140,290);
-        torchParticleSEffect=new TorchParticleSEffect(200,200);
-        FlamEffectActor flamEffectActor = new FlamEffectActor(150,350);
-        flamEffectActor.start();
+        TorchActor torchActor = new TorchActor(gameManager.ressourceManager);
+        torchActor.start();
 
         // Ajout des objets dans les calques
         layer0GraphicObject.addActor(backgroundImage);
-        layer0GraphicObject.addActor(torchImage);
-        layer0GraphicObject.addActor(flamEffectActor);
+        layer0GraphicObject.addActor(torchActor);
         layer1GraphicObject.addActor(enemyActorList.get(2));
         layer1GraphicObject.addActor(enemyActorList.get(1));
         layer1GraphicObject.addActor(enemyActorList.get(0));
         layer2GraphicObject.addActor(doorImage);
+        layer2GraphicObject.addActor(tapActor);
         hud.update();
 
         //if (gameManager.isFirstPlay()) {
@@ -206,9 +203,6 @@ public class PlayScreen implements Screen {
 //        torchParticleSEffect.render(spriteBatch);
         spriteBatch.end();
         hud.draw();
-
-       // debugCong(delta);
-
     }
 
     /**
@@ -216,18 +210,11 @@ public class PlayScreen implements Screen {
      * @param positionX
      * @param positionY
      */
-    public void processPointerHitAnimation(int positionX, int positionY) {
-        tapActor.clearActions();
-        tapActor.setDeltatime(0);
+    public void showTapActor(int positionX, int positionY) {
         Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
-        tapActor.setColor(Color.WHITE);
         tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
-        tapActor.addAction(Actions.sequence(
-                Actions.show(),
-                Actions.fadeIn(0.5f),
-                Actions.fadeOut(0.2f),
-                Actions.hide()
-        ));
+
+        tapActor.animate();
     }
 
     public void debugCong(float delta){

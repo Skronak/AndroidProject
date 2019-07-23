@@ -218,5 +218,12 @@ public class LargeMath {
     {
         return (char) (i + 64);
     }
+
+    public ValueDTO calculateCost(int baseCost, float rateCost, int lvl) {
+        double result = baseCost*(Math.pow(rateCost,lvl));
+        ValueDTO valueDTO = adjustCurrency((float) result,0);
+        return valueDTO;
+    }
+
 }
 

@@ -5,11 +5,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameInformationManager;
+import com.guco.tap.manager.ItemManager;
 import com.guco.tap.manager.RessourceManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.screen.LoadingScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.screen.SplashScreen;
+import com.guco.tap.utils.LargeMath;
 
 public class TapDungeonGame extends Game {
 	public PlayScreen playScreen;
@@ -20,15 +22,17 @@ public class TapDungeonGame extends Game {
 	public GameInformationManager gameInformationManager;
 	private boolean devMode;
     public GameInformation gameInformation;
-
-    public TapDungeonGame(boolean devMode){
+	public LargeMath largeMath;
+	public TapDungeonGame(boolean devMode){
         this.devMode=devMode;
     }
-
+	public ItemManager itemManager;
 	@Override
 	public void create () {
+		largeMath = new LargeMath();
+    	itemManager = new ItemManager(largeMath);
         ressourceManager = new RessourceManager();
-		gameInformationManager = new GameInformationManager(ressourceManager);
+		gameInformationManager = new GameInformationManager(ressourceManager, itemManager);
 
 		loadingScreen = new LoadingScreen(this);
 		loadingScreen.loadAsset();

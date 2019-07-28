@@ -11,7 +11,6 @@ import com.guco.tap.save.SavedData;
 import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameInformationManager {
 
@@ -21,10 +20,12 @@ public class GameInformationManager {
     public GameInformation gameInformation;
     public RessourceManager ressourceManager;
     private SavedData savedData;
+    private ItemManager itemManager;
 
-    public GameInformationManager(RessourceManager ressourceManager) {
+    public GameInformationManager(RessourceManager ressourceManager, ItemManager itemManager) {
         this.json = new Json();
         this.ressourceManager = ressourceManager;
+        this.itemManager = itemManager;
         prefs = Gdx.app.getPreferences(Constants.APP_NAME);
     }
 
@@ -70,10 +71,12 @@ public class GameInformationManager {
             gameInformation.optionSound=savedData.optionSound;
             gameInformation.optionWeather=savedData.optionWeather;
             gameInformation.skillPoint=savedData.skillPoint;
+            gameInformation.levelBaseGold=savedData.levelBaseGold;
+            gameInformation.levelBaseCurrency=savedData.levelBaseCurrency;
             gameInformation.equipedWeapon = ressourceManager.weaponList.get(savedData.currentEquipment[0]);
             gameInformation.equipedHead = savedData.currentEquipment[1];
             gameInformation.equipedBody = savedData.currentEquipment[2];
-            gameInformation.weaponItemList=new ArrayList<Item>();
+            gameInformation.weaponItemList = new ArrayList<Item>();
             gameInformation.bodyItemList = new ArrayList<Item>();
             gameInformation.headItemList = new ArrayList<Item>();
             for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
@@ -84,10 +87,11 @@ public class GameInformationManager {
             }
             for (int i=0;i<ressourceManager.weaponList.size();i++){
                 Item item = ressourceManager.weaponList.get(i);
-                item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.weaponItemList[i];
-                gameInformation.weaponItemList.add(item);
+                CalculatedStat calculatedStat = itemManager.calculateItemStat(item,item.level);
+                item.calculatedStat = calculatedStat;
                 item.selectedUpgrades = new ArrayList<ItemUpgrade>();
+                gameInformation.weaponItemList.add(item);
             }
             for (int i=0;i<ressourceManager.bodyList.size();i++){
                 Item item = ressourceManager.bodyList.get(i);
@@ -127,8 +131,8 @@ public class GameInformationManager {
         gameInformation.levelBaseGold=5;
         gameInformation.levelBaseCurrency=1;
         gameInformation.dungeonLevel =1;
-//        gameInformation.upgradedItem = new HashMap<Integer, Item>();
         gameInformation.attributeLevel = new ArrayList();
+        gameInformation.equipedWeapon=ressourceManager.weaponList.get(0);
         for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
             gameInformation.attributeLevel.add(0);
         }

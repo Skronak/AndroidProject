@@ -28,7 +28,6 @@ public class DataManager {
         ValueDTO newValue = largeMath.increaseValue(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency, gameInformation.passivGoldValue, gameInformation.passivGoldCurrency);
         gameInformation.currentGoldValue =newValue.value;
         gameInformation.currentGoldCurrency =newValue.currency;
-        largeMath.formatGameInformation();
     }
 
     // Methode d'ajout d'or lors d'un critique
@@ -40,9 +39,8 @@ public class DataManager {
         ValueDTO addedValue = new ValueDTO(gameInformation.dungeonLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
         ValueDTO baseValue = new ValueDTO(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency);
         ValueDTO newValue = largeMath.increaseValue(baseValue, addedValue);
-        gameInformation.currentGoldValue =newValue.value;
-        gameInformation.currentGoldCurrency =newValue.currency;
-        largeMath.formatGameInformation();
+        gameInformation.currentGoldValue = newValue.value;
+        gameInformation.currentGoldCurrency = newValue.currency;
     }
 
     public void decreaseGold(){

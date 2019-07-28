@@ -105,7 +105,7 @@ public class PlayScreen implements Screen {
         //tapActor
         tapActor = new TapActor();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background2.png"));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
 
@@ -322,7 +322,6 @@ public class PlayScreen implements Screen {
         spriteBatch.dispose();
         hud.dispose();
         Gdx.app.debug("PlayScreen","saveData");
-        gameManager.largeMath.formatGameInformation();
     }
 
     public Vector3 getMousePosInGameWorld() {

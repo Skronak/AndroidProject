@@ -26,7 +26,6 @@ public class InventoryElement extends Table {
     private Label itemNameLabel;
     private TextButton upgradeButton;
     private Label damageLabel;
-    private List<Label> uprageLabelList;
     private Label levelLabel;
     private Label levelReqLabel;
     private Label descriptionLabel;
@@ -40,6 +39,7 @@ public class InventoryElement extends Table {
     private Stack overlapButtons;
     private Stack overlapLabel;
     public Item itemSource;
+    private Table lockedItemContent;
 
     public InventoryElement(GameManager gameManager, InventoryPane inventoryPane){
         this.gameManager = gameManager;
@@ -80,6 +80,7 @@ public class InventoryElement extends Table {
 
         unlockButton = new TextButton("UNLOCK", gameManager.ressourceManager.getSkin());
         unlockButton.getLabel().setFontScale(0.7f);
+        unlockButton.setPosition(50,100);
         unlockButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 unlockItem();
@@ -109,10 +110,16 @@ public class InventoryElement extends Table {
         moduleLevelGroup.add(overlapButtons).fill().width(50);
         moduleLevelGroup.add(upgradeButton).height(40).width(40).right();
 
+        //specialize content for locked item, switch to another content if unlocked
+        lockedItemContent = new Table();
+        lockedItemContent.add();
+
         this.add(skillIcon).width(50).height(75);
         this.add(moduleLevelGroup).left();
 
         update();
+        setDebug(true,true);
+
     }
 
     public void unlockItem() {
@@ -137,13 +144,13 @@ public class InventoryElement extends Table {
         this.damageLabel.setText(DAMAGE_LABEL+damage);
         if (gameManager.gameInformation.dungeonLevel >= itemSource.reqLvl) {
             if (itemSource.level > 0) {
-                previewItem(false, true, false);
+                previewItem(false, true, false, true);
             } else {
-                previewItem(true, false, false);
+                previewItem(true, false, false, false);
                 inventoryPane.previewLockedItem(this);
             }
         } else {
-            previewItem(false, false, true);
+            previewItem(false, false, true, false);
             inventoryPane.previewLockedItem(this);
         }
 
@@ -153,11 +160,12 @@ public class InventoryElement extends Table {
 //        this.damageLabel.setText("Damage "+item.calculatedStat.damageValue);
     }
 
-    private void previewItem(boolean b, boolean b2, boolean b3) {
+    private void previewItem(boolean b, boolean b2, boolean b3, boolean b4) {
         unlockButton.setVisible(b);
         equipButton.setVisible(b2);
         levelReqLabel.setVisible(b3);
         damageLabel.setVisible(b2);
+        upgradeButton.setVisible(b4);
     }
 
     @Override

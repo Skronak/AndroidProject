@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.MenuState;
+import com.guco.tap.utils.ValueDTO;
 
 /**
  * Created by Skronak on 01/02/2017.
@@ -27,10 +29,12 @@ public class InventoryMenu extends AbstractMenu {
     private InventoryPane inventoryPane;
     private Label damageLabel;
     private Label weaponDamageLabel;
+    private Label weaponDamageNextLvlLabel;
     public MenuState menuState;
     public TextButton upgradeButton;
     private String TOTAL_DMG_LABEL="Total atk ";
     private String WEAPON_DMG_LABEL="Item atk ";
+    private String WEAPON_DMG_NEXT_LVL_LABEL="Item atk ";
     private String WEAPON_RATE_LABEL="Atk rate ";
     private String NEXT_LEVEL = "Next Level";
     private String CURRENT_LEVEL="Current level";
@@ -65,6 +69,8 @@ public class InventoryMenu extends AbstractMenu {
         damageLabel.setFontScale(0.7f);
         weaponDamageLabel = new Label("",skin);
         weaponDamageLabel.setFontScale(0.7f);
+        weaponDamageNextLvlLabel = new Label("",skin);
+        weaponDamageNextLvlLabel.setFontScale(0.7f);
         damageLabel.setFontScale(0.7f);
         nextDamageLabel=new Label("99 G",skin);
         nextDamageLabel.setFontScale(0.7f);
@@ -94,7 +100,7 @@ public class InventoryMenu extends AbstractMenu {
         leftTable.row();
         leftTable.add(new Label(NEXT_LEVEL, skin)).left();
         leftTable.row();
-        leftTable.add(nextDamageLabel).left().padLeft(40);
+        leftTable.add(weaponDamageNextLvlLabel).left().padLeft(10);
         leftTable.row();
         leftTable.add(upgradeButton);
 
@@ -192,16 +198,21 @@ public class InventoryMenu extends AbstractMenu {
     public void previewItemDetail(InventoryElement inventoryElement) {
         Item selectedItem = inventoryElement.itemSource;
         itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(selectedItem.mapName); // charactermap 0 wrong
-        updateItemInformation(inventoryElement);
+        updateItemInformation(selectedItem);
     }
 
-    public void updateItemInformation(InventoryElement inventoryElement){
-        Item selectedItem = inventoryElement.itemSource;
-        inventoryElement.update();
+    public void updateItemInformation(Item itemSource){
+        Item selectedItem = itemSource;
+        CalculatedStat calculatedStat = gameManager.itemManager.calculateItemStat(itemSource, itemSource.level+1);
+
         String damage = gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency);
         damageLabel.setText(TOTAL_DMG_LABEL + damage);
         String weap_damage = gameManager.largeMath.getDisplayValue(selectedItem.calculatedStat.damageValue, selectedItem.calculatedStat.damageCurrency);
         weaponDamageLabel.setText(WEAPON_DMG_LABEL + weap_damage);
+
+        ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(calculatedStat.damageValue, calculatedStat.damageCurrency);
+        weap_damage = gameManager.largeMath.getDisplayValue(valueDTO);
+        weaponDamageNextLvlLabel.setText(WEAPON_DMG_NEXT_LVL_LABEL + weap_damage);
         if(selectedItem.calculatedStat.damageCurrency > gameManager.gameInformation.tapDamageCurrency){
             upImage.setVisible(true);
         } else if (gameManager.gameInformation.tapDamageCurrency == selectedItem.calculatedStat.damageCurrency
@@ -214,7 +225,8 @@ public class InventoryMenu extends AbstractMenu {
 
     public void increaseItemLevel(){
         gameManager.itemManager.increaseItemLevel(inventoryPane.selectedItemElement.itemSource);
-        updateItemInformation(inventoryPane.selectedItemElement);
+        updateItemInformation(inventoryPane.selectedItemElement.itemSource);
+        inventoryPane.selectedItemElement.update();
         if (inventoryPane.selectedItemElement.itemSource.equals(gameManager.gameInformation.equipedWeapon)){
             gameManager.dataManager.calculateTapDamage();
         }

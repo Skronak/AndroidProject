@@ -13,7 +13,7 @@ public class Item {
     public int reqLvl;
     public int level;
     public int damageRate;
-    public int baseCostValue;
+    public float baseCostValue;
     public int baseCostCurrency;
     public int costRate;
     public int mapId;

@@ -1,7 +1,6 @@
 package com.guco.tap.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.entity.GameInformation;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -15,10 +14,8 @@ import java.util.Locale;
 public class LargeMath {
 
     private DecimalFormat decimalFormat;
-    private GameInformation gameInformation;
 
-    public LargeMath(GameInformation gameInformation) {
-        this.gameInformation = gameInformation;
+    public LargeMath() {
         decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.ENGLISH);
         decimalFormat.applyPattern("##.##");
     }
@@ -75,6 +72,7 @@ public class LargeMath {
         float newValue=firstValue;
         int currencyDifference = firstCurrency - secCurrency ;
         int maxCurrency = Math.max(firstCurrency, secCurrency);
+        ValueDTO valueDTO;
 
         if (currencyDifference >= Constants.UNLIMITED_CURRENCY_TRIGGER && firstValue > secValue) {
             Gdx.app.debug("LargeMath", "Non significative value " + newValue + " currencyDif " + currencyDifference);
@@ -84,7 +82,8 @@ public class LargeMath {
             return new ValueDTO(secValue, secCurrency);
         }
         if (currencyDifference == 0) {
-            return new ValueDTO(firstValue + secValue, firstCurrency);
+            valueDTO = adjustCurrency(firstValue + secValue, firstCurrency);
+            return valueDTO;
         }
 
         float valueRes=0;
@@ -96,8 +95,8 @@ public class LargeMath {
             valueRes=(float) ((firstValue) + (secValue * Math.pow(1000, Double.valueOf(currencyDifference))));
             valueRes = (float) (valueRes / Math.pow(1000, Double.valueOf(currencyDifference)));
         }
-
-        return new ValueDTO(valueRes, maxCurrency);
+        valueDTO = adjustCurrency(valueRes, maxCurrency);
+        return valueDTO;
     }
 
     /**
@@ -135,22 +134,6 @@ public class LargeMath {
         }
 
         return new ValueDTO(valueRes, maxCurrency);
-    }
-    /**
-     * Format les valeurs de gameInformation pour
-     * la sauvegarde
-     * Similaire a adjustCurrency
-     */
-    public void formatGameInformation(){
-        float value= gameInformation.currentGoldValue;
-        int currency=gameInformation.currentGoldCurrency;
-        while(value>=1000) {
-            value=value/1000;
-            currency+=1;
-        }
-        gameInformation.currentGoldValue =value;
-        gameInformation.currentGoldCurrency =currency;
-        //TODO formater pour que virgule ne passe pas la limite du systeme
     }
 
     /**
@@ -219,7 +202,7 @@ public class LargeMath {
         return (char) (i + 64);
     }
 
-    public ValueDTO calculateCost(int baseCost, float rateCost, int lvl) {
+    public ValueDTO calculateCost(float baseCost, float rateCost, int lvl) {
         double result = baseCost*(Math.pow(rateCost,lvl));
         ValueDTO valueDTO = adjustCurrency((float) result,0);
         return valueDTO;

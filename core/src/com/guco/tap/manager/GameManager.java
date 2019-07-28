@@ -89,13 +89,13 @@ public class GameManager {
         currentState = GameState.IN_GAME;
         this.ressourceManager =game.ressourceManager;
         this.gameInformation = game.gameInformation;
-        largeMath = new LargeMath(gameInformation);
+        largeMath = game.largeMath;
         newModuleIdList = new ArrayList<Integer>();
         //weatherManager = new WeatherManager(playScreen);
         attributeManager = new AttributeManager(this);
         achievementManager = new AchievementManager(this);
         dataManager = new DataManager(this);
-        itemManager = new ItemManager(this);
+        itemManager = game.itemManager;
         goldManager = new GoldManager(this);
         autoSaveTimer = 0f;
         increaseGoldTimer = 0f;

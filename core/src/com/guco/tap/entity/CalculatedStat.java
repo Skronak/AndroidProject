@@ -20,8 +20,8 @@ public class CalculatedStat {
     public CalculatedStat(ValueDTO damage, ValueDTO cost, float criticalRate){
         this.damageValue = damage.value;
         this.damageCurrency = damage.currency;
-        this.costValue = damage.value;
-        this.costCurrency = damage.currency;
+        this.costValue = cost.value;
+        this.costCurrency = cost.currency;
         this.criticalRate = criticalRate;
     }
 

@@ -189,7 +189,7 @@ public class PlayScreen implements Screen {
         hud.updateGoldLabel();
         spriterPlayer.update();
         //boss.update();
-
+        debugMode(delta);
         stage.act();
         stage.draw();
 
@@ -217,7 +217,7 @@ public class PlayScreen implements Screen {
         tapActor.animate();
     }
 
-    public void debugCong(float delta){
+    public void debugMode(float delta){
         //todo bloquer rezoom si deja zoom max, pareil max dezoom
         if (timeToCameraZoomTarget > 0) {
             timeToCameraZoomTarget -= delta;
@@ -229,6 +229,10 @@ public class PlayScreen implements Screen {
             } else {
                 camera.position.y = Interpolation.pow3Out.apply(0, 285, progress);
             }
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.B)) {
+            gameManager.spriterPlayer.setAnimation("spec_1");
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {

@@ -1,7 +1,9 @@
 package com.guco.tap.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.guco.tap.entity.Item;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -14,10 +16,12 @@ import java.util.Locale;
 public class LargeMath {
 
     private DecimalFormat decimalFormat;
+    private BigDecimal currencyDividor;
 
     public LargeMath() {
         decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.ENGLISH);
         decimalFormat.applyPattern("##.##");
+        currencyDividor =new BigDecimal(1000);
     }
 
     // Transforme index lettre en lettre
@@ -142,8 +146,16 @@ public class LargeMath {
      * @param currency
      * @return
      */
-    public ValueDTO adjustCurrency(Float value, int currency) {
-        while(value>=1000) {
+    public ValueDTO adjustCurrency(BigDecimal value, int currency) {
+        while(value.compareTo(currencyDividor) == 1) {
+            value=value.divide(currencyDividor);
+            currency+=1;
+        }
+        return new ValueDTO(value.floatValue(), currency);
+    }
+
+    public ValueDTO adjustCurrency(float value, int currency) {
+        while(value > 1000) {
             value=value/1000;
             currency+=1;
         }
@@ -203,8 +215,8 @@ public class LargeMath {
     }
 
     public ValueDTO calculateCost(float baseCost, float rateCost, int lvl) {
-        double result = baseCost*(Math.pow(rateCost,lvl));
-        ValueDTO valueDTO = adjustCurrency((float) result,0);
+        BigDecimal bigDecimal = new BigDecimal(baseCost*(Math.pow(rateCost, lvl)));
+        ValueDTO valueDTO = adjustCurrency(bigDecimal,0);
         return valueDTO;
     }
 

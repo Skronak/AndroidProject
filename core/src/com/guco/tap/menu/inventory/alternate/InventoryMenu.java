@@ -213,6 +213,9 @@ public class InventoryMenu extends AbstractMenu {
         ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(calculatedStat.damageValue, calculatedStat.damageCurrency);
         weap_damage = gameManager.largeMath.getDisplayValue(valueDTO);
         weaponDamageNextLvlLabel.setText(WEAPON_DMG_NEXT_LVL_LABEL + weap_damage);
+
+        upgradeButton.setText(gameManager.largeMath.getDisplayValue(new ValueDTO(itemSource.calculatedStat.costValue,itemSource.calculatedStat.costCurrency)));
+
         if(selectedItem.calculatedStat.damageCurrency > gameManager.gameInformation.tapDamageCurrency){
             upImage.setVisible(true);
         } else if (gameManager.gameInformation.tapDamageCurrency == selectedItem.calculatedStat.damageCurrency

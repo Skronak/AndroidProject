@@ -56,9 +56,7 @@ public class ItemManager {
     }
 
     private ValueDTO evaluateCost(Item item, int lvl) {
-        BigDecimal bigDecimal = new BigDecimal(item.baseCostValue*(Math.pow(item.baseCostValue,lvl)));
-        float result = bigDecimal.intValue();
-        ValueDTO cost= largeMath.adjustCurrency(result,0);
+        ValueDTO cost = largeMath.calculateCost(item.baseCostValue,item.baseCostRate,lvl);
         return cost;
     }
 

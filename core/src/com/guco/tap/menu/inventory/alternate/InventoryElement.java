@@ -118,12 +118,10 @@ public class InventoryElement extends Table {
         this.add(moduleLevelGroup).left();
 
         update();
-        setDebug(true,true);
-
     }
 
     public void unlockItem() {
-        ValueDTO cost = gameManager.largeMath.calculateCost(itemSource.baseCostValue, itemSource.costRate,0);
+        ValueDTO cost = gameManager.largeMath.calculateCost(itemSource.baseCostValue, itemSource.baseCostRate,0);
         ValueDTO currentGold = new ValueDTO(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency);
         if (currentGold.compareTo(cost)>=0) {
             ValueDTO newGold = gameManager.largeMath.decreaseValue(currentGold.value, currentGold.currency, cost.value, cost.currency);

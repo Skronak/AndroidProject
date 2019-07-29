@@ -13,9 +13,9 @@ public class Item {
     public int reqLvl;
     public int level;
     public int damageRate;
-    public float baseCostValue;
+    public int baseCostValue;
     public int baseCostCurrency;
-    public int costRate;
+    public float baseCostRate;
     public int mapId;
     public String mapName;
     public String icon;

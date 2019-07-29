@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.ItemManager;
 import com.guco.tap.manager.RessourceManager;
@@ -12,6 +13,9 @@ import com.guco.tap.screen.LoadingScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.screen.SplashScreen;
 import com.guco.tap.utils.LargeMath;
+import com.guco.tap.utils.ValueDTO;
+
+import java.math.BigDecimal;
 
 public class TapDungeonGame extends Game {
 	public PlayScreen playScreen;
@@ -63,4 +67,5 @@ public class TapDungeonGame extends Game {
 		gameInformationManager.saveData();
 		playScreen.dispose();
 	}
+
 }

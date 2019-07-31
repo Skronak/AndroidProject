@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.guco.tap.LevelSelect;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.GameManager;
@@ -98,6 +99,11 @@ public class Hud implements Disposable {
         initMenu();
         initButton();
         initHud();
+
+        LevelSelect levelSelect = new LevelSelect(gameManager);
+        stage.addActor(levelSelect.pane);
+
+
     }
 
     /**
@@ -345,7 +351,6 @@ public class Hud implements Disposable {
         fpsActor.setPosition(Constants.V_WIDTH-fpsActor.getWidth(), Constants.V_HEIGHT-fpsActor.getHeight());
         fpsActor.setFontScale(1.5f);
         stage.addActor(fpsActor);
-
     }
 
     /**

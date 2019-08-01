@@ -100,8 +100,8 @@ public class Hud implements Disposable {
         initButton();
         initHud();
 
-        LevelSelect levelSelect = new LevelSelect(gameManager);
-        stage.addActor(levelSelect.pane);
+//        LevelSelect levelSelect = new LevelSelect(gameManager);
+//        stage.addActor(levelSelect.pane);
 
 
     }
@@ -359,7 +359,6 @@ public class Hud implements Disposable {
     public void draw() {
         stage.act();
         stage.draw();
-
         if (currentMenu instanceof InventoryMenu && currentMenu.parentTable.getActions().size==0) {
             currentMenu.draw();
         }
@@ -395,24 +394,36 @@ public class Hud implements Disposable {
     private void toggleMenu(AbstractMenu menu) {
         menu.parentTable.clearActions();
         if (currentMenu == null) {
-            menu.parentTable.setPosition(menu.parentTable.getX(), -menu.parentTable.getHeight()); //Menu Animation
-            menu.parentTable.addAction(Actions.moveTo(menu.parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
-            menu.show();
-            currentMenu = menu;
-            gameManager.currentState=GameState.MENU;
+            openMenu(menu);
         } else if (menu.equals(currentMenu)) {
-            currentMenu.parentTable.clearActions();
-            menu.parentTable.addAction(Actions.sequence(Actions.moveTo(menu.parentTable.getX(), -menu.parentTable.getHeight(),0.2f),Actions.visible(false)));
-            currentMenu = null;
-            gameManager.currentState=GameState.IN_GAME;
+            closeCurrentMenu();
         } else {
-            currentMenu.parentTable.clearActions();
-            currentMenu.parentTable.setVisible(false);
-            currentMenu = menu;
-            menu.parentTable.setPosition(menu.parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT); //Menu Animation
-            menu.show();
-            gameManager.currentState=GameState.MENU;
+            switchMenu(menu);
         }
+    }
+
+    private void switchMenu(AbstractMenu menu) {
+        currentMenu.parentTable.clearActions();
+        currentMenu.parentTable.setVisible(false);
+        currentMenu = menu;
+        menu.parentTable.setPosition(menu.parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT); //Menu Animation
+        menu.show();
+        gameManager.currentState=GameState.MENU;
+    }
+
+    public void closeCurrentMenu() {
+        currentMenu.parentTable.clearActions();
+        currentMenu.parentTable.addAction(Actions.sequence(Actions.moveTo(currentMenu.parentTable.getX(), -currentMenu.parentTable.getHeight(),0.2f),Actions.visible(false)));
+        currentMenu = null;
+        gameManager.currentState=GameState.IN_GAME;
+    }
+
+    private void openMenu(AbstractMenu menu) {
+        menu.parentTable.setPosition(menu.parentTable.getX(), -menu.parentTable.getHeight()); //Menu Animation
+        menu.parentTable.addAction(Actions.moveTo(menu.parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
+        menu.show();
+        currentMenu = menu;
+        gameManager.currentState=GameState.MENU;
     }
 
     public void showUpgradeMenu(int id){

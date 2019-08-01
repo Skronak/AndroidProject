@@ -55,6 +55,7 @@ public class GameInformationManager {
     }
 
     public void loadData() {
+        this.itemManager = itemManager;
         savedData = json.fromJson(SavedData.class, prefs.getString(PREF_NAME));
         if (savedData != null) {
             gameInformation = new GameInformation();

@@ -86,6 +86,7 @@ public class InventoryMenu extends AbstractMenu {
 
         parentTable.add(new Label("INVENTORY", skin)).bottom().padTop(10).padBottom(20).colspan(2);
         parentTable.row();
+//        addMenuHeader("INVENTORY", 2);
         Table leftTable = new Table();
         leftTable.top().left();
         Image image = new Image();

@@ -78,8 +78,7 @@ public class AchievementMenu extends AbstractMenu {
         NinePatchDrawable background = new NinePatchDrawable(patch);
         descriptionTable.setBackground(background);
 
-        parentTable.add(new Label("ACHIEVEMENT", skin)).center().padTop(10).padBottom(25);
-        parentTable.row();
+        addMenuHeader("ACHIEVEMENT",0);
         parentTable.add(pane).grow().top();
         parentTable.row();
         parentTable.add(descriptionTable).fillX();

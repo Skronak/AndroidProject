@@ -25,8 +25,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        parentTable.add(new Label("UPGRADE", skin)).bottom().padTop(10).padBottom(20);
-        parentTable.row();
+        addMenuHeader("UPGRADE",0);
 
         ScrollPane pane = initPane();
         parentTable.add(pane);
@@ -40,7 +39,6 @@ public class CharacterAttributeMenu extends AbstractMenu {
      */
     public ScrollPane initPane() {
         scrollContainerVG = new VerticalGroup();
-
         scrollContainerVG.space(10f);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;

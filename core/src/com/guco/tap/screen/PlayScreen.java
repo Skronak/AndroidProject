@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.LevelSelect;
 import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.TapActor;
 import com.guco.tap.action.ScaleLabelAction;
@@ -167,6 +168,7 @@ public class PlayScreen implements Screen {
 
         drawer=gameManager.loadDrawer(spriteBatch);
         enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
+
     }
 
     // member variables:

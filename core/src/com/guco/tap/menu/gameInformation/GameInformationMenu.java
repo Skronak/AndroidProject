@@ -29,7 +29,7 @@ public class GameInformationMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        parentTable.add(new Label("GAME INFORMATION ", skin)).bottom().padTop(10).colspan(2).padBottom(40);
+        addMenuHeader("GAME INFORMATION", 2);
         parentTable.row();
         parentTable.add(new Label("Total play time: ", skin)).left();
         parentTable.add(gameTimeLabel).left();

@@ -18,6 +18,7 @@ public class InventoryPane extends Container {
     private VerticalGroup weaponTab, bodyTab, headTab, activeTab;
     private InventoryMenu inventoryMenu;
     public InventoryElement selectedItemElement;
+    private ScrollPane.ScrollPaneStyle paneStyle;
 
     public InventoryPane(GameManager gameManager, InventoryMenu inventoryMenu) {
         this.gameManager = gameManager;
@@ -27,17 +28,15 @@ public class InventoryPane extends Container {
         initTabs();
 
         activeTab=weaponTab;
-        pane.setActor(activeTab);
-        //maxWidth(160);
+        pane = new ScrollPane(activeTab, paneStyle);
+        pane.setScrollingDisabled(true, false);
         setActor(pane);
     }
 
     public void initStyle(){
-        ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
+        paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
-        pane = new ScrollPane(activeTab, paneStyle);
-        pane.setScrollingDisabled(true, false);
 
         selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.greyTexture));
         selectedRegionDrawable.setMinHeight(1);
@@ -49,6 +48,7 @@ public class InventoryPane extends Container {
 
     public void initTabs() {
         bodyTab = new VerticalGroup();
+        bodyTab.space(5f);
         for (int i = 0; i < gameManager.ressourceManager.bodyList.size(); i++) {
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
             final Item item = gameManager.ressourceManager.bodyList.get(i);
@@ -63,6 +63,7 @@ public class InventoryPane extends Container {
         }
 
         weaponTab = new VerticalGroup();
+        weaponTab.space(5f);
         for (int i = 0; i < gameManager.ressourceManager.weaponList.size(); i++) {
             Item item = gameManager.ressourceManager.weaponList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
@@ -73,11 +74,12 @@ public class InventoryPane extends Container {
                     previewItem(inventoryElement);
                     return true;
                 }});
-            inventoryElement.getPrefWidth();
+            //add lockedItem
             weaponTab.addActor(inventoryElement);
         }
 
         headTab = new VerticalGroup();
+        headTab.space(5f);
         for (int i = 0; i < gameManager.ressourceManager.helmList.size(); i++) {
             final Item item = gameManager.ressourceManager.helmList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
@@ -113,8 +115,10 @@ public class InventoryPane extends Container {
         selectedItemElement = inventoryElement;
         for( int i=0; i<activeTab.getChildren().size;i++) {
             ((InventoryElement) activeTab.getChildren().get(i)).setBackground(backgroundRegionDrawable);
+            ((InventoryElement) activeTab.getChildren().get(i)).sellButton.setVisible(true);
         }
         selectedItemElement.setBackground(selectedRegionDrawable);
+        selectedItemElement.sellButton.setVisible(false);
         inventoryMenu.equipItem(selectedItemElement);
         inventoryMenu.upgradeButton.setVisible(true);
     }

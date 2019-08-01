@@ -56,8 +56,7 @@ public class ItemAttributeMenu extends AbstractMenu {
         titleLabel = new Label("",gameManager.ressourceManager.getSkin());
         descriptionLabel = new Label("",gameManager.ressourceManager.getSkin());
 
-        parentTable.add(new Label("ITEM ATTRIBUTE", skin)).bottom().padTop(20);
-        parentTable.row();
+        addMenuHeader("ITEM ATTRIBUTE",0);
 
         //TODO load pane on click only
         weaponUpgradePanes = new ArrayList<ScrollPane>();

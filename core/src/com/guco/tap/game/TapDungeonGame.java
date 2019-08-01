@@ -34,7 +34,7 @@ public class TapDungeonGame extends Game {
 	@Override
 	public void create () {
 		largeMath = new LargeMath();
-    	itemManager = new ItemManager(largeMath);
+    	itemManager = new ItemManager(this);
         ressourceManager = new RessourceManager();
 		gameInformationManager = new GameInformationManager(ressourceManager, itemManager);
 

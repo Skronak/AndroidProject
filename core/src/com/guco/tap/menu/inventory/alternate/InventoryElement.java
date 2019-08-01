@@ -1,8 +1,10 @@
 package com.guco.tap.menu.inventory.alternate;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -32,6 +34,8 @@ public class InventoryElement extends Table {
     private Image skillIcon;
     private TextButton unlockButton;
     private TextButton equipButton;
+    public TextButton sellButton;
+    private TextButton perkButton;
     private String ICON_PATH = "sprites/icon/";
     private String DAMAGE_LABEL = "Damage ";
 
@@ -78,9 +82,16 @@ public class InventoryElement extends Table {
                 return true;
             }});
 
+        perkButton = new TextButton("PERK", gameManager.ressourceManager.getSkin());
+        perkButton.getLabel().setFontScale(0.7f);
+        perkButton.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.playScreen.getHud().showUpgradeMenu(itemSource.id);
+                return true;
+            }});
+
         unlockButton = new TextButton("UNLOCK", gameManager.ressourceManager.getSkin());
         unlockButton.getLabel().setFontScale(0.7f);
-        unlockButton.setPosition(50,100);
         unlockButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 unlockItem();
@@ -95,6 +106,15 @@ public class InventoryElement extends Table {
                 return true;
             }
         });
+        sellButton = new TextButton("SELL", gameManager.ressourceManager.getSkin());
+        sellButton.getLabel().setFontScale(0.7f);
+        sellButton.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                confirmSell();
+                return true;
+            }
+        });
+
         overlapButtons = new Stack();
         overlapButtons.add(unlockButton);
         overlapButtons.add(equipButton);
@@ -107,10 +127,20 @@ public class InventoryElement extends Table {
         moduleLevelGroup.row();
         moduleLevelGroup.add(overlapLabel).left().width(50);
         moduleLevelGroup.row();
-        moduleLevelGroup.add(overlapButtons).fill().width(50);
-        moduleLevelGroup.add(upgradeButton).height(40).width(40).right();
 
-        //specialize content for locked item, switch to another content if unlocked
+        moduleLevelGroup.add(overlapButtons).height(20).width(80).padLeft(10).padBottom(5);
+        moduleLevelGroup.row();
+        moduleLevelGroup.add(sellButton).height(20).width(80).padLeft(10).padBottom(5);
+        moduleLevelGroup.row();
+        moduleLevelGroup.add(perkButton).height(20).width(80).padLeft(10);
+
+        //moduleLevelGroup.add(upgradeButton).height(20).width(40).right();
+
+        if (itemSource.level==0){
+            sellButton.setVisible(false);
+            perkButton.setVisible(false);
+        }
+        //TODO specialize content for locked item, switch to another content if unlocked
         lockedItemContent = new Table();
         lockedItemContent.add();
 
@@ -121,21 +151,40 @@ public class InventoryElement extends Table {
     }
 
     public void unlockItem() {
-        ValueDTO cost = gameManager.largeMath.calculateCost(itemSource.baseCostValue, itemSource.baseCostRate,0);
-        ValueDTO currentGold = new ValueDTO(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency);
-        if (currentGold.compareTo(cost)>=0) {
-            ValueDTO newGold = gameManager.largeMath.decreaseValue(currentGold.value, currentGold.currency, cost.value, cost.currency);
-            gameManager.gameInformation.currentGoldValue = newGold.value;
-            gameManager.gameInformation.currentGoldValue = newGold.currency;
-            itemSource.level = 1;
+        boolean unlocked = gameManager.itemManager.unlockItem(itemSource);
+        if (unlocked) {
             update();
+            showUnlockedItemOption();
         }
+    }
+
+    public void showUnlockedItemOption(){
+        sellButton.setVisible(true);
+        perkButton.setVisible(true);
+
     }
 
     public void equipItem(){
         inventoryPane.equipItem(this);
     }
 
+    private void sellItem(){
+        this.remove();
+    }
+
+    public void confirmSell(){
+        Dialog dialog = new Dialog("Warning", gameManager.ressourceManager.getSkin(), "dialog") {
+            public void result(Object obj) {
+                if (obj.equals(true))
+                sellItem();
+            }
+        };
+        dialog.text("Are you sure you want to sell it?");
+        dialog.button("Yes", true); //sends "true" as the result
+        dialog.button("No", false);  //sends "false" as the result
+        dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
+        dialog.show(gameManager.playScreen.getHud().stage);
+    }
     public void update() {
         String damage = gameManager.largeMath.getDisplayValue(itemSource.calculatedStat.damageValue, itemSource.calculatedStat.damageCurrency);
         this.levelLabel.setText(String.valueOf("Lv "+itemSource.level));

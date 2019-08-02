@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
@@ -16,6 +17,7 @@ import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.action.CameraMoveToAction;
+import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 /**
@@ -171,6 +174,21 @@ public class GameManager {
         return drawer;
     }
 
+    public void hitEnemy(int posX, int posY){
+        spriterPlayer.setAnimation("atk");
+
+        int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
+        if (randCritical == 1) {
+        //    playScreen.processCriticalHit(gameManager.getCriticalValue());
+        } else {
+        //    playScreen.processNormalHit();
+        }
+        playScreen.showTapActor(posX, posY);
+        String damage = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
+        playScreen.processHit(damage);
+        hurtEnemy();
+
+    }
     /**
      * Modification de l'etat du jeu en fonction
      * du temps passe
@@ -245,6 +263,9 @@ public class GameManager {
         }
     }
 
+    public void exitGame(){
+
+    }
     public void switchEnemy() {
         currentState = GameState.PAUSE;
         if (gameInformation.currentEnemyIdx+1<enemyActorQueue.size()) {

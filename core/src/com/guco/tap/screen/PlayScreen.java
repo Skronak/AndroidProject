@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -22,17 +21,16 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
-import com.guco.tap.LevelSelect;
 import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.TapActor;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.TorchActor;
 import com.guco.tap.effect.TorchParticleSEffect;
-import com.guco.tap.input.CustomInputProcessor;
+import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
-import com.guco.tap.utils.FlamEffectActor;
+import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,7 @@ public class PlayScreen implements Screen {
     public Group layer0GraphicObject = new Group(); // Background
     public Group layer1GraphicObject = new Group(); // Objects
     public Group layer2GraphicObject = new Group(); // Foreground
-    private Label damageLabel;
+    public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
     private TapActor tapActor;
@@ -157,7 +155,7 @@ public class PlayScreen implements Screen {
         //    displayTutorial();
         //}
 
-        CustomInputProcessor inputProcessor = new CustomInputProcessor(this);
+        TapInputProcessor inputProcessor = new TapInputProcessor(gameManager);
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud.stage);
         inputMultiplexer.addProcessor(inputProcessor);
@@ -252,14 +250,12 @@ public class PlayScreen implements Screen {
         }
 
     }
+
     /**
      * Animation du jeu au touche
      */
-    public void processHit() {
-        spriterPlayer.setAnimation("atk");
-        gameManager.hurtEnemy();
-
-        damageLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency),new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+    public void processHit(String damage) {
+        damageLabel = new Label(damage,new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;

@@ -261,38 +261,6 @@ public class Hud implements Disposable {
         };
         ascendButton.addListener(buttonListenerAscend);
 
-        final TextButton debugButton = new TextButton("SKILL 1",gameManager.ressourceManager.getSkin());
-        InputListener buttonListenerDebug = new ClickListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.spriterPlayer.characterMaps[0]= gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap("scyth8");
-                gameManager.gameInformation.tapDamageValue=5;
-                gameManager.gameInformation.tapDamageCurrency=2;
-
-                return true;
-            }
-        };
-        debugButton.addListener(buttonListenerDebug);
-        debugButton.setPosition(180,55);
-
-        TextButton debugButton2 = new TextButton("SKILL 2",gameManager.ressourceManager.getSkin());
-        InputListener buttonListenerDebug2 = new ClickListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.spriterPlayer.setAnimation("spec_2");
-                debugButton.addAction(Actions.delay(0.1f,Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        gameManager.playScreen.processHit("4");
-                        gameManager.currentEnemyActor.hurt();
-                    }
-                })));
-                return true;
-            }
-        };
-        debugButton2.addListener(buttonListenerDebug2);
-        debugButton2.setPosition(250,55);
-
-        stage.addActor(debugButton);
-        stage.addActor(debugButton2);
     }
 
     /**

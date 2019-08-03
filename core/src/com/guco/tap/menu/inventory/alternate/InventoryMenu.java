@@ -62,6 +62,7 @@ public class InventoryMenu extends AbstractMenu {
         itemSpriterPlayer.speed=5;
 
         menuState = MenuState.WEAPON;
+
     }
 
     public void customizeMenuTable() {
@@ -239,6 +240,7 @@ public class InventoryMenu extends AbstractMenu {
 
     public void show(){
         parentTable.setVisible(true);
+        inventoryPane.setDefaultEquipedItem();
     }
 
     @Override

@@ -83,7 +83,7 @@ public class InventoryPane extends Container {
         for (int i = 0; i < gameManager.ressourceManager.helmList.size(); i++) {
             final Item item = gameManager.ressourceManager.helmList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
-            inventoryElement.initItemMenuElement(gameManager.ressourceManager.helmList.get(i));
+            inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);
             inventoryElement.addListener(new ClickListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -91,6 +91,24 @@ public class InventoryPane extends Container {
                     return true;
                 }});
             headTab.addActor(inventoryElement);
+        }
+    }
+
+    public void setDefaultEquipedItem(){
+        for (int i=0;i<headTab.getChildren().size;i++){
+            if ( ((InventoryElement) headTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedHead) {
+                equipItem((InventoryElement) headTab.getChildren().get(i));
+            }
+        }
+        for (int i=0;i<bodyTab.getChildren().size;i++){
+            if ( ((InventoryElement) bodyTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedBody) {
+                equipItem((InventoryElement) bodyTab.getChildren().get(i));
+            }
+        }
+        for (int i=0;i<weaponTab.getChildren().size;i++){
+            if ( ((InventoryElement) weaponTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedWeapon.id) {
+                equipItem((InventoryElement) weaponTab.getChildren().get(i));
+            }
         }
     }
 

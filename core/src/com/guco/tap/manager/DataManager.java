@@ -20,10 +20,6 @@ public class DataManager {
         this.ressourceManager = gameManager.ressourceManager;
     }
 
-
-    public void increaseGoldActive(){
-    }
-
     public void increaseGoldPassive(){
         ValueDTO newValue = largeMath.increaseValue(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency, gameInformation.passivGoldValue, gameInformation.passivGoldCurrency);
         gameInformation.currentGoldValue =newValue.value;
@@ -36,15 +32,23 @@ public class DataManager {
     }
 
     public void increaseGold(){
-        ValueDTO addedValue = new ValueDTO(gameInformation.dungeonLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
+        ValueDTO addedValue = calculateGoldPerMonster();
+        increaseGold(addedValue);
+    }
+
+    public void increaseGold(ValueDTO addedValue){
         ValueDTO baseValue = new ValueDTO(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency);
         ValueDTO newValue = largeMath.increaseValue(baseValue, addedValue);
         gameInformation.currentGoldValue = newValue.value;
         gameInformation.currentGoldCurrency = newValue.currency;
     }
 
-    public void decreaseGold(){
+    public ValueDTO calculateGoldPerMonster(){
+        ValueDTO valueDTO = new ValueDTO(gameInformation.dungeonLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
+        return valueDTO;
+    }
 
+    public void decreaseGold(){
     }
 
     // TODO

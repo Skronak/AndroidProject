@@ -54,9 +54,9 @@ public class PlayScreen implements Screen {
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage;
     private Image doorImage, torchImage;
-    public Group layer0GraphicObject = new Group(); // Background
-    public Group layer1GraphicObject = new Group(); // Objects
-    public Group layer2GraphicObject = new Group(); // Foreground
+    public Group layer0GraphicObject; // Background
+    public Group layer1GraphicObject; // Objects
+    public Group layer2GraphicObject; // Foreground
     public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
@@ -80,10 +80,9 @@ public class PlayScreen implements Screen {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
         this.gameManager=gameManager;
-
-//        blurShader = new ShaderProgram(Gdx.files.internal("shaders/blur.vertex").readString(), Gdx.files.internal("shaders/camerablur.fragment").readString());
-
-//        ShaderProgram.pedantic = false;
+        layer0GraphicObject = new Group();
+        layer1GraphicObject = new Group();
+        layer2GraphicObject = new Group();
     }
 
     @Override

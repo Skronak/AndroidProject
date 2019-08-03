@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -82,7 +84,8 @@ public class Hud implements Disposable {
     public Label battleNbLabel;
     public ImageButton ascendButton;
     private GameInformation gameInformation;
-    
+    public Group sceneLayer, menuLayer;
+
     public Hud(SpriteBatch sb, GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
@@ -96,14 +99,15 @@ public class Hud implements Disposable {
         gameInformation = gameManager.gameInformation;
         generator.dispose();
         font.setColor(Color.WHITE);
+        sceneLayer = new Group();
+        menuLayer = new Group();
+
         initMenu();
         initButton();
         initHud();
 
 //        LevelSelect levelSelect = new LevelSelect(gameManager);
 //        stage.addActor(levelSelect.pane);
-
-
     }
 
     /**
@@ -132,15 +136,12 @@ public class Hud implements Disposable {
     }
 
     private void initTop(){
-
     }
 
     private void initMiddle(){
-
     }
 
     private void initBottom(){
-
     }
 
     /**
@@ -259,6 +260,39 @@ public class Hud implements Disposable {
             }
         };
         ascendButton.addListener(buttonListenerAscend);
+
+        final TextButton debugButton = new TextButton("SKILL 1",gameManager.ressourceManager.getSkin());
+        InputListener buttonListenerDebug = new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.playScreen.spriterPlayer.characterMaps[0]= gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap("scyth8");
+                gameManager.gameInformation.tapDamageValue=5;
+                gameManager.gameInformation.tapDamageCurrency=2;
+
+                return true;
+            }
+        };
+        debugButton.addListener(buttonListenerDebug);
+        debugButton.setPosition(180,55);
+
+        TextButton debugButton2 = new TextButton("SKILL 2",gameManager.ressourceManager.getSkin());
+        InputListener buttonListenerDebug2 = new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.playScreen.spriterPlayer.setAnimation("spec_2");
+                debugButton.addAction(Actions.delay(0.1f,Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameManager.playScreen.processHit("4");
+                        gameManager.currentEnemyActor.hurt();
+                    }
+                })));
+                return true;
+            }
+        };
+        debugButton2.addListener(buttonListenerDebug2);
+        debugButton2.setPosition(250,55);
+
+        stage.addActor(debugButton);
+        stage.addActor(debugButton2);
     }
 
     /**
@@ -313,13 +347,13 @@ public class Hud implements Disposable {
         // ***** OTHER *****
         // Hp bar & name
         enemyInformation = new EnemyInformation(gameManager);
-        stage.addActor(enemyInformation);
+        sceneLayer.addActor(enemyInformation);
 
         // Visual button to go upstairs
         ascendButton.setSize(80,80);
         ascendButton.setPosition(Constants.V_WIDTH/2 - ascendButton.getWidth()/2,350);
         ascendButton.setVisible(false);
-        stage.addActor(ascendButton);
+        sceneLayer.addActor(ascendButton);
 
         // Add buttons to the stage
         Table menuButtonTable = new Table();
@@ -343,14 +377,17 @@ public class Hud implements Disposable {
         mainTable.add(menuButtonTable).bottom().expandY().colspan(activeMenuList.size()-1);
         //mainTable.debug();
 
-       stage.addActor(mainTable);
-
         // Optionnal element
         fpsActor = new FpsActor(gameManager.ressourceManager);
         fpsActor.setVisible(gameInformation.optionFps);
         fpsActor.setPosition(Constants.V_WIDTH-fpsActor.getWidth(), Constants.V_HEIGHT-fpsActor.getHeight());
         fpsActor.setFontScale(1.5f);
-        stage.addActor(fpsActor);
+        sceneLayer.addActor(fpsActor);
+
+        stage.addActor(sceneLayer);
+        stage.addActor(menuLayer);
+        stage.addActor(mainTable);
+
     }
 
     /**

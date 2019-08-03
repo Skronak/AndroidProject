@@ -49,6 +49,8 @@ public class SavedData {
         this.weaponItemList=new int[gameInformation.weaponItemList.size()];
         this.bodyItemList = new int[gameInformation.bodyItemList.size()];
         this.headItemList = new int[gameInformation.headItemList.size()];
+        this.levelBaseGold=5;
+        this.levelBaseCurrency=0;
 
         for (int i=0;i<gameInformation.attributeLevel.size();i++){
             attributeLevel[i]=gameInformation.attributeLevel.get(i);

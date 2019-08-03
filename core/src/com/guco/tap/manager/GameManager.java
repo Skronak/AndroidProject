@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
@@ -17,11 +16,11 @@ import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
 import com.guco.tap.action.CameraMoveToAction;
-import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
+import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -66,7 +65,7 @@ public class GameManager {
     // Etat du jeu
     public GameState currentState;
 
-    private EnemyActor currentEnemyActor;
+    public EnemyActor currentEnemyActor;
 
     Random rand = new Random();
 
@@ -176,6 +175,7 @@ public class GameManager {
 
     public void hitEnemy(int posX, int posY){
         spriterPlayer.setAnimation("atk");
+        gameInformation.totalTapNumber=(gameInformation.totalTapNumber+1);
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
         if (randCritical == 1) {
@@ -183,11 +183,11 @@ public class GameManager {
         } else {
         //    playScreen.processNormalHit();
         }
-        playScreen.showTapActor(posX, posY);
-        String damage = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
-        playScreen.processHit(damage);
         hurtEnemy();
 
+        String damage = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
+        playScreen.showTapActor(posX, posY);
+        playScreen.processHit(damage);
     }
     /**
      * Modification de l'etat du jeu en fonction
@@ -263,9 +263,10 @@ public class GameManager {
         }
     }
 
-    public void exitGame(){
-
+    public void exitGame() {
+        gameInformationManager.saveData();
     }
+
     public void switchEnemy() {
         currentState = GameState.PAUSE;
         if (gameInformation.currentEnemyIdx+1<enemyActorQueue.size()) {
@@ -335,12 +336,12 @@ public class GameManager {
         currentEnemyActor.hp -= gameInformation.tapDamageValue;
         // Case of enemy death
         if (currentEnemyActor.hp <= 0) {
-            handleEnemyDeath();
+            killEnemy();
         }
         playScreen.getHud().updateEnemyInformation(gameInformation.tapDamageValue);
     }
 
-    public void handleEnemyDeath(){
+    public void killEnemy(){
         currentEnemyActor.hp=0;
         currentEnemyActor.death();
         Runnable incGold = new Runnable() {
@@ -351,8 +352,8 @@ public class GameManager {
         };
         float speed=1f;
         float fadeOut=0.75f;
-        goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()),3);
-
+        goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()));
+        GoldActor goldCoin = new GoldActor(currentEnemyActor.getX(), currentEnemyActor.getY());
         // go upstair or stay
         if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
             switchEnemy();

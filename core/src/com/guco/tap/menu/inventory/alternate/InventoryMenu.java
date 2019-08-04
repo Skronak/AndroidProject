@@ -62,6 +62,7 @@ public class InventoryMenu extends AbstractMenu {
         itemSpriterPlayer.speed=5;
 
         menuState = MenuState.WEAPON;
+        inventoryPane.switchTab();
 
     }
 
@@ -175,7 +176,7 @@ public class InventoryMenu extends AbstractMenu {
         batch.end();
     }
 
-    public void equipItem(InventoryElement inventoryElement){
+    public void equipItem(InventoryElement inventoryElement) {
         switch( menuState){
             case WEAPON:
                 gameManager.gameInformation.equipedWeapon= inventoryElement.itemSource;
@@ -240,7 +241,7 @@ public class InventoryMenu extends AbstractMenu {
 
     public void show(){
         parentTable.setVisible(true);
-        inventoryPane.setDefaultEquipedItem();
+        inventoryPane.setDefaultEquipedItem(); // fonctionne premiere fois mais plus ensuite
     }
 
     @Override

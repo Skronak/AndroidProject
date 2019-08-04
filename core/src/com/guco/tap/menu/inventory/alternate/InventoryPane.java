@@ -97,16 +97,19 @@ public class InventoryPane extends Container {
     public void setDefaultEquipedItem(){
         for (int i=0;i<headTab.getChildren().size;i++){
             if ( ((InventoryElement) headTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedHead) {
+                inventoryMenu.menuState=MenuState.HEAD;
                 equipItem((InventoryElement) headTab.getChildren().get(i));
             }
         }
         for (int i=0;i<bodyTab.getChildren().size;i++){
             if ( ((InventoryElement) bodyTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedBody) {
+                inventoryMenu.menuState=MenuState.BODY;
                 equipItem((InventoryElement) bodyTab.getChildren().get(i));
             }
         }
         for (int i=0;i<weaponTab.getChildren().size;i++){
             if ( ((InventoryElement) weaponTab.getChildren().get(i)).itemSource.id == gameManager.gameInformation.equipedWeapon.id) {
+                inventoryMenu.menuState=MenuState.WEAPON;
                 equipItem((InventoryElement) weaponTab.getChildren().get(i));
             }
         }

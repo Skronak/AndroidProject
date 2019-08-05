@@ -41,15 +41,9 @@ import static com.badlogic.gdx.Gdx.files;
 /**
  * Created by Skronak on 29/01/2017.
  */
-public class PlayScreen implements Screen {
+public class PlayScreen extends AbstractScreen {
 
-    // common batch for screen/hud
-    private SpriteBatch spriteBatch;
     private Random random;
-    public Stage stage;
-    public OrthographicCamera camera;
-    private Viewport viewport;
-    private Hud hud;
     private int textAnimMinX;
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage;
@@ -88,14 +82,8 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         textAnimMinX =100;
-        spriteBatch = new SpriteBatch();
+        initScreen();
         random = new Random();
-        camera = new OrthographicCamera(Constants.V_WIDTH, Constants.V_HEIGHT);
-        viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
-        stage = new Stage(viewport, spriteBatch);
-
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         hud = new Hud(spriteBatch, gameManager);
         gameManager.initialiseGame();

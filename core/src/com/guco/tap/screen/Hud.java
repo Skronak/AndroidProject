@@ -449,9 +449,8 @@ public class Hud implements Disposable {
         enemyInformation.reinitialise(enemyActor);
     }
 
-    public void updateEnemyInformation(float value){
-        enemyInformation.decrease(value);
-        //Gdx.app.debug("HP",String.valueOf(playScreen.enemyActorList.get(0).hp));
+    public void updateEnemyInformation(ValueDTO damage){
+        enemyInformation.decrease(damage);
     }
 
     // Met a jour l'affichage de l'or

@@ -25,6 +25,7 @@ import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
+import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -179,15 +180,15 @@ public class GameManager {
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
         if (randCritical == 1) {
-        //    playScreen.processCriticalHit(gameManager.getCriticalValue());
         } else {
-        //    playScreen.processNormalHit();
         }
-        hurtEnemy();
 
-        String damage = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
+        String damageString = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
         playScreen.showTapActor(posX, posY);
-        playScreen.processHit(damage);
+        playScreen.showDamageLabel(damageString);
+
+        ValueDTO damageData = new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
+        hurtEnemy(damageData);
     }
     /**
      * Modification de l'etat du jeu en fonction
@@ -259,7 +260,7 @@ public class GameManager {
         int randomNum=0;
        for (int i=0;i<10;i++) {
            randomNum = rand.nextInt((ressourceManager.enemyList.size()-1) + 1);
-           enemyActorQueue.add(new EnemyActor(ressourceManager.enemyList.get(randomNum)));
+           enemyActorQueue.add(new EnemyActor(ressourceManager.enemyList.get(randomNum),gameInformation.dungeonLevel));
         }
     }
 
@@ -331,14 +332,15 @@ public class GameManager {
     /**
      * hurtEnemy
      */
-    public void hurtEnemy() {
+    public void hurtEnemy(ValueDTO damageData) {
         //currentEnemyActor.hurt();
-        currentEnemyActor.hp -= gameInformation.tapDamageValue;
+        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);
         // Case of enemy death
-        if (currentEnemyActor.hp <= 0) {
+        if (currentEnemyActor.lifePoint.value <= 0) {
             killEnemy();
         }
-        playScreen.getHud().updateEnemyInformation(gameInformation.tapDamageValue);
+        // TODo instance du hud directement dans gamemanager? ou alors c'est un playScreenManager. mais je lui set quand meme le hud du Game
+        playScreen.getHud().updateEnemyInformation(damageData); // TODO to replace
     }
 
     public void killEnemy(){

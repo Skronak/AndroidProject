@@ -21,7 +21,8 @@ public abstract class AbstractScreen implements Screen {
     public Stage stage;
     public OrthographicCamera camera;
 
-    public void initScreen(){
+    public AbstractScreen (TapDungeonGame tapDungeonGame){
+        this.tapDungeonGame = tapDungeonGame;
         spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera(Constants.V_WIDTH, Constants.V_HEIGHT);
         viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
@@ -30,6 +31,16 @@ public abstract class AbstractScreen implements Screen {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
+
+    public void addPlayer(){
+
+    }
+
+    public void addEnemy(){
+
+    }
+
+
     @Override
     public void show() {
 

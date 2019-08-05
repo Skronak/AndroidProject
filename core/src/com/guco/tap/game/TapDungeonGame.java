@@ -46,7 +46,7 @@ public class TapDungeonGame extends Game {
         if(devMode) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 			gameManager = new GameManager(this);
-			playScreen = new PlayScreen(gameManager);
+			playScreen = new PlayScreen(this);
 			gameManager.playScreen=playScreen;
 			setScreen(playScreen);
 		} else {

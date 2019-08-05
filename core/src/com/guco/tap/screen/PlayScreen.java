@@ -27,6 +27,7 @@ import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.TorchActor;
 import com.guco.tap.effect.TorchParticleSEffect;
+import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
@@ -68,12 +69,11 @@ public class PlayScreen extends AbstractScreen {
 
     /**
      * Constructor
-     * @param gameManager
+     * @param tapDungeonGame
      */
-    public PlayScreen(GameManager gameManager) {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
-
-        this.gameManager=gameManager;
+    public PlayScreen(TapDungeonGame tapDungeonGame) {
+        super(tapDungeonGame);
+        this.gameManager=tapDungeonGame.gameManager;
         layer0GraphicObject = new Group();
         layer1GraphicObject = new Group();
         layer2GraphicObject = new Group();
@@ -82,7 +82,6 @@ public class PlayScreen extends AbstractScreen {
     @Override
     public void show() {
         textAnimMinX =100;
-        initScreen();
         random = new Random();
 
         hud = new Hud(spriteBatch, gameManager);
@@ -238,10 +237,7 @@ public class PlayScreen extends AbstractScreen {
 
     }
 
-    /**
-     * Animation du jeu au touche
-     */
-    public void processHit(String damage) {
+    public void showDamageLabel(String damage) {
         damageLabel = new Label(damage,new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){

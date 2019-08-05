@@ -27,6 +27,7 @@ public class GameInformation {
     public Long totalGameTime;
     public int totalTapNumber;
     public int dungeonLevel;
+    // public int area;
     public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;

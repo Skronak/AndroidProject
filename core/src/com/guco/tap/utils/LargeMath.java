@@ -103,14 +103,18 @@ public class LargeMath {
         return valueDTO;
     }
 
-    /**
-     * Compare two ValueDTO and decrease the first one from the second one
-     * @param firstValue
-     * @param firstCurrency
-     * @param secValue
-     * @param secCurrency
-     * @return
-     */
+    public ValueDTO decreaseValue(ValueDTO decreaseValue, ValueDTO originValue) {
+        return decreaseValue(decreaseValue.value, decreaseValue.currency, originValue.value, originValue.currency);
+    }
+
+        /**
+         * Compare two ValueDTO and decrease the first one from the second one
+         * @param firstValue
+         * @param firstCurrency
+         * @param secValue
+         * @param secCurrency
+         * @return
+         */
     public ValueDTO decreaseValue(float firstValue, int firstCurrency, float secValue, int secCurrency) {
         float newValue=firstValue;
         int currencyDifference = firstCurrency - secCurrency ;
@@ -130,11 +134,11 @@ public class LargeMath {
         float valueRes=0;
         // cas firstValue > secValue
         if (maxCurrency==firstCurrency) {
-            valueRes =(float) ((firstValue * Math.pow(1000, Double.valueOf(currencyDifference))) - (secValue));
-            valueRes = (float) (valueRes / Math.pow(1000, Double.valueOf(currencyDifference)));
+            valueRes = Math.round( ((firstValue * Math.pow(1000, Double.valueOf(currencyDifference))) - (secValue)));
+            valueRes = Math.round( (valueRes / Math.pow(1000, Double.valueOf(currencyDifference))));
         } else {
-            valueRes =(float) ((firstValue) - (secValue * Math.pow(1000, Double.valueOf(currencyDifference))));
-            valueRes = (float) (valueRes / Math.pow(1000, Double.valueOf(currencyDifference)));
+            valueRes =Math.round( ((firstValue) - (secValue * Math.pow(1000, Double.valueOf(currencyDifference)))));
+            valueRes = Math.round( (valueRes / Math.pow(1000, Double.valueOf(currencyDifference))));
         }
 
         return new ValueDTO(valueRes, maxCurrency);

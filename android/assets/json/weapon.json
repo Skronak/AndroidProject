@@ -6,7 +6,7 @@
     "description": "",
     "damageRate":1,
     "damageValue":1,
-    "damageCurrency":1,
+    "damageCurrency":0,
     "baseCostValue":50,
     "baseCostCurrency":0,
     "baseCostRate":1.25,

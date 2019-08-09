@@ -1,75 +1,11 @@
-todo:
-Station contains list with fixed lenght
-StationEntity
-ModuleElementActor[8]
-instead of reloading all module only update the module of the corresponding list id
-add animation when added
-Add an "added" animation to all element that play when element is added
-Automatically calculate next level  cost & generation (adds a lot at low level then became less interesting)
-Add Loading screen
-use the ressourceManager
-
-faire distingo achievement dans ressourceManager et dans achivementManager
-
-
-
-playscreen
-
-constructor
-    // spline
-    float speed = 1.5f;
-    float current = 0;
-    int k = 50; //increase k for more fidelity to the spline
-    Vector2[] points = new Vector2[k];
-    CatmullRomSpline<Vector2> myCatmull;
-
-        Vector2[] dataSet = {new Vector2(200,260), new Vector2(140,330),new Vector2(120,410),new Vector2(300,530),new Vector2(200,260)};
-        myCatmull = new CatmullRomSpline<Vector2>(dataSet, false);
-        for(int i = 0; i < k; ++i)
-        {
-            points[i] = new Vector2();
-            myCatmull.valueAt(points[i], ((float)i)/((float)k-1));
-        }
-
-
-render:
-        Vector2 out = new Vector2(0,0);
-        current += Gdx.graphics.getDeltaTime() * speed;
-        myCatmull.derivativeAt(out, current);
-
-        current += (Gdx.graphics.getDeltaTime() * speed / myCatmull.spanCount) / out.len();
-        if(current >= 1)
-            current -= 1;
-        float place = current * k;
-        Vector2 first = points[(int)place];
-        Vector2 second;
-        if(((int)place+1) < k)
-        {
-            second = points[(int)place+1];
-        }
-        else
-        {
-            second = points[0]; //or finish, in case it does not loop.
-        }
-        float t = place - ((int)place); //the decimal part of place
-        spriteBatch.draw(goldSprite,first.x + (second.x - first.x) * t, first.y + (second.y - first.y) * t,50,50);
-        spriteBatch.end();
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        for(int i = 0; i < k-1; ++i)
-//        {
-//            shapeRenderer.line(points[i], points[i+1]);
-//        }
-//        shapeRenderer.end();
-
-http://www.codinginsights.blog/libgdx-assetmanager/
-http://www.codinginsights.blog/design-patterns-decorator/
-
-
-GameData qui store tout?
-
-EquipedWeapon
-EquipedWeaponPerk[3] => prechare mon attribute menu avec ce que j'ai dans mon tableau
-
-
 Une enemiInformation par monstre, se deplace avec
 la voit apparaitre sur la derniere sec ou le monstre arrive, sinon invisible
+
+https://www.reddit.com/r/libgdx/comments/cm5fl7/adding_an_interstitial_ad_to_libgdx_game/
+https://developers.google.com/admob/android/test-ads
+https://www.youtube.com/watch?v=OvgOscOWOCE
+https://stackoverflow.com/questions/44014374/adding-admob-to-libgdx
+https://stackoverflow.com/questions/44650048/how-to-display-a-interstitial-ad-in-a-libgdx-project
+
+shape
+http://www.java-gaming.org/topics/solved-random-shape-generator/37693/view.html

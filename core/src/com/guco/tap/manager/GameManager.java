@@ -334,7 +334,8 @@ public class GameManager {
      */
     public void hurtEnemy(ValueDTO damageData) {
         //currentEnemyActor.hurt();
-        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);
+        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);//TODO debug
+        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,new ValueDTO(damageData.value,currentEnemyActor.lifePoint.currency));//TODO debug
         // Case of enemy death
         if (currentEnemyActor.lifePoint.value <= 0) {
             killEnemy();
@@ -355,15 +356,16 @@ public class GameManager {
         float speed=1f;
         float fadeOut=0.75f;
         goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()));
-        GoldActor goldCoin = new GoldActor(currentEnemyActor.getX(), currentEnemyActor.getY());
         // go upstair or stay
         if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
             switchEnemy();
         } else {
             //playScreen.getHud().ascendButton.setVisible(true);
             //playScreen.getHud().ascendButton.addAction(new BlinkAction(1f,2));
+            gameInformation.dungeonLevel+=1;
             initEnemyQueue();
             switchEnemy();
+            switchFloor();
         }
     }
 

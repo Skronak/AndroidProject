@@ -1,15 +1,84 @@
-Une enemiInformation par monstre, se deplace avec
-la voit apparaitre sur la derniere sec ou le monstre arrive, sinon invisible
-
+TODO:
+  HUD reword
+    Instanciate hud with game
+    attach hud to screen so can change screen for each lvl
+  AREA
+    each area contains x levels
+    levels = same background, enemies, object placement, 1 boss
+    area: differents background, enemy, object for each area
+    naming: [AREA] - [Level]  => FORBIDEN CAVE - 5
+    Transition between area: new screen
+    
+-- ads ressources
 https://www.reddit.com/r/libgdx/comments/cm5fl7/adding_an_interstitial_ad_to_libgdx_game/
 https://developers.google.com/admob/android/test-ads
 https://www.youtube.com/watch?v=OvgOscOWOCE
 https://stackoverflow.com/questions/44014374/adding-admob-to-libgdx
 https://stackoverflow.com/questions/44650048/how-to-display-a-interstitial-ad-in-a-libgdx-project
 
+-- box2D ressources
 shape
 http://www.java-gaming.org/topics/solved-random-shape-generator/37693/view.html
-
 https://www.codeandweb.com/physicseditor
 https://github.com/GuidebeeGameEngine/Box2D/wiki/Shape-Types
 https://www.emanueleferonato.com/2011/08/05/slicing-splitting-and-cutting-objects-with-box2d-part-4-using-real-graphics/
+
+-- Relics ideas
+Reduce delay between each hit
+Extend boss timer
+Increase damage
+Increase critical chance
+Increase critical damage percent
+Increase damage on boss
+Increase damage at certain lvl
+Special mob appearance
+Reduce skills cooldown
+Increase Gold reward
+Percent of possibility to obtain special reward after kill
+Percent of possibility to obtain jackpot after kill (loooot of gold)
+Unlocking new skill
+Decrease item cost
+Can reroll item for free x1 per day
+
+-- Progression
+Monster HP doubles every 5 levels, item cost is balanced to limit DPS increase at about 0.9 of HP increase
+
+-- Screen
+AbstractScreen
+Playscreen
+Level select screen
+CharacterScreen
+Boss screen
+
+-- Menu
+inventory menu
+stat menu
+achievement
+shop menu
+skill menu
+relic menu
+upgrade item
+forge for heritage(conserve apres ascension)
+ascension menu
+the pit: machine a generer item (roll quotidien ou avec ads)
+
+------------------------
+boss drop item (different color for rarity, click to collect
+forge: voir opera omnia, select plusieur item et fait monter jauge arme courante
+Certaines armes legendaires restent apres le reset
+------------------------
+Ascension Lv0: restart from scratch
+Ascension with ads: restart from lv x
+Ascension Lv2: restart from scratch
+
+pet following || artifact with auto atk
+passiv atk = atk when not connected
+
+----
+you chose wisely//poorly
+https://brashmonkey.com/forum/index.php?/topic/5039-sub-entity-bone-control/&tab=comments#comment-17461
+
+-----------------
+revoir saveddata : facon de store infos & update de la liste
+https://github.com/Anuken/Mindustry/blob/master/core/src/io/anuke/mindustry/game/Saves.java
+ajout try catch

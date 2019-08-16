@@ -5,7 +5,7 @@ import static com.brashmonkey.spriter.Interpolator.*;
 
 /**
  * Represents a curve in a Spriter SCML file.
- * An instance of this class is responsible for tweening given data.
+ * An instance of this class is responsible for tweening given playerData.
  * The most important method of this class is {@link #tween(float, float, float)}.
  * Curves can be changed with sub curves {@link Curve#subCurve}.
  * @author Trixt0r

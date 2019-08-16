@@ -37,9 +37,9 @@ public class SCMLReader {
 	}
 
 	/**
-	 * Parses the SCML object save in the given xml string and returns the build data object.
+	 * Parses the SCML object save in the given xml string and returns the build playerData object.
 	 * @param xml the xml string
-	 * @return the built data
+	 * @return the built playerData
 	 */
 	protected Data load(String xml){
 		XmlReader reader = new XmlReader();
@@ -47,9 +47,9 @@ public class SCMLReader {
 	}
 
 	/**
-	 * Parses the SCML objects saved in the given stream and returns the built data object.
+	 * Parses the SCML objects saved in the given stream and returns the built playerData object.
 	 * @param stream the stream from the SCML file 
-	 * @return the built data
+	 * @return the built playerData
 	 */
 	protected Data load(InputStream stream){
 		try {
@@ -62,7 +62,7 @@ public class SCMLReader {
 	}
 
 	/**
-	 * Reads the data from the given root element, i.e. the spriter_data node.
+	 * Reads the playerData from the given root element, i.e. the spriter_data node.
 	 * @param root
 	 * @return
 	 */
@@ -338,8 +338,8 @@ public class SCMLReader {
     protected void loadTagIntoMainline(Animation animation, ArrayList<Element> tagName, TagLine tagLine) {
     }
      /**
-	 * Returns the loaded SCML data.
-	 * @return the SCML data.
+	 * Returns the loaded SCML playerData.
+	 * @return the SCML playerData.
 	 */
 	public Data getData(){
 		return data;

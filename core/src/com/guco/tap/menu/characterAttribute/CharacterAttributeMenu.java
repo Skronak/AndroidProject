@@ -25,7 +25,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        addMenuHeader("UPGRADE",0);
+        addMenuHeader("UPGRADE",1);
 
         ScrollPane pane = initPane();
         parentTable.add(pane);

@@ -3,22 +3,16 @@ package com.guco.tap.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.AnimatedActor;
@@ -31,7 +25,6 @@ import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
-import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +52,7 @@ public class PlayScreen extends AbstractScreen {
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
-    Drawer<Sprite> drawer,enemyDrawer;
+    Drawer<Sprite> playerDrawer,enemyDrawer;
     public SpriterPlayer spriterPlayer;
     SpriterPlayer boss;
     GameManager gameManager;
@@ -150,7 +143,7 @@ public class PlayScreen extends AbstractScreen {
         spriterPlayer =gameManager.loadPlayer();
         boss=gameManager.loadBoss();
 
-        drawer=gameManager.loadDrawer(spriteBatch);
+        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
         enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
 
     }
@@ -182,7 +175,7 @@ public class PlayScreen extends AbstractScreen {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 //        spriteBatch.setShader(blurShader);
-        drawer.draw(spriterPlayer);
+        playerDrawer.draw(spriterPlayer);
 
         //enemyDrawer.draw(boss);
 //        torchParticleSEffect.update();

@@ -29,7 +29,7 @@ public class ShopMenu extends AbstractMenu {
     public void postInit(){
         spriterPlayer = gameManager.spriterPlayer;
         spriteBatch = new SpriteBatch();
-        drawer = gameManager.loadDrawer(spriteBatch);
+        drawer = gameManager.loadPlayerDrawer(spriteBatch);
     }
 
     public void customizeMenuTable() {

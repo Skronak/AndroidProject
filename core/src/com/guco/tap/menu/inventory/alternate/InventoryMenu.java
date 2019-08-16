@@ -51,13 +51,13 @@ public class InventoryMenu extends AbstractMenu {
         customizeMenuTable();
 
         batch = new SpriteBatch();
-        drawer = gameManager.loadDrawer(batch);
+        drawer = gameManager.loadPlayerDrawer(batch);
         float height = 20;
         float ppu = Gdx.graphics.getHeight() / height;
         float width = Gdx.graphics.getWidth() / ppu;
         itemSpriterPlayer = gameManager.loadPlayer();
         itemSpriterPlayer.setScale(0.5f);
-        itemSpriterPlayer.setEntity(gameManager.data.getEntity("inventoryMenu"));
+        itemSpriterPlayer.setEntity(gameManager.playerData.getEntity("inventoryMenu"));
         itemSpriterPlayer.setPosition(70, 320);
         itemSpriterPlayer.speed=5;
 
@@ -86,9 +86,7 @@ public class InventoryMenu extends AbstractMenu {
                 return true;
             }});
 
-        parentTable.add(new Label("INVENTORY", skin)).bottom().padTop(10).padBottom(20).colspan(2);
-        parentTable.row();
-//        addMenuHeader("INVENTORY", 2);
+        addMenuHeader("INVENTORY",2);
         Table leftTable = new Table();
         leftTable.top().left();
         Image image = new Image();
@@ -106,7 +104,6 @@ public class InventoryMenu extends AbstractMenu {
         leftTable.add(weaponDamageNextLvlLabel).left().padLeft(10);
         leftTable.row();
         leftTable.add(upgradeButton);
-
         parentTable.add(leftTable).top().width(100).expand().top().height(200).padTop(5);
         parentTable.add(initMenuContent()).expandX().top().padTop(5);
     }

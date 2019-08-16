@@ -1,6 +1,7 @@
 package com.guco.tap.menu.gameInformation;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
@@ -30,35 +31,36 @@ public class GameInformationMenu extends AbstractMenu {
 
     public void customizeMenuTable() {
         addMenuHeader("GAME INFORMATION", 2);
-        parentTable.row();
-        parentTable.add(new Label("Total play time: ", skin)).left();
-        parentTable.add(gameTimeLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Total tap number: ", skin)).left();
-        parentTable.add(tapNumberLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Current gold: ", skin)).left();
-        parentTable.add(goldLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Damage: ", skin)).left();
-        parentTable.add(activGoldGenLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Passive income: ", skin)).left();
-        parentTable.add(passivGoldGenLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Critical rate: ", skin)).left();
-        parentTable.add(criticalHitLabel).left();
-        parentTable.row();
-        parentTable.add(new Label("Total enemies slayed: ", skin)).left();
-        parentTable.row();
-        parentTable.add(new Label("- skeleton: ", skin)).left().padLeft(20);
-        parentTable.row();
-        parentTable.add(new Label("- orc: ", skin)).left().padLeft(20);
-        parentTable.row();
-        parentTable.add(new Label("- demon: ", skin)).left().padLeft(20);
-        parentTable.row();
-        parentTable.add(new Label("- devils: ", skin)).left().padLeft(20);
-        parentTable.row();
+        Table contentTable = new Table();
+        contentTable.add(new Label("Total play time: ", skin)).left();
+        contentTable.add(gameTimeLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Total tap number: ", skin)).left();
+        contentTable.add(tapNumberLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Current gold: ", skin)).left();
+        contentTable.add(goldLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Damage: ", skin)).left();
+        contentTable.add(activGoldGenLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Passive income: ", skin)).left();
+        contentTable.add(passivGoldGenLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Critical rate: ", skin)).left();
+        contentTable.add(criticalHitLabel).left();
+        contentTable.row();
+        contentTable.add(new Label("Total enemies slayed: ", skin)).left();
+        contentTable.row();
+        contentTable.add(new Label("- skeleton: ", skin)).left().padLeft(20);
+        contentTable.row();
+        contentTable.add(new Label("- orc: ", skin)).left().padLeft(20);
+        contentTable.row();
+        contentTable.add(new Label("- demon: ", skin)).left().padLeft(20);
+        contentTable.row();
+        contentTable.add(new Label("- devils: ", skin)).left().padLeft(20);
+
+        parentTable.add(contentTable).expandX();
     }
 
     @Override

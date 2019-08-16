@@ -34,6 +34,7 @@ import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.achievement.AchievementMenu;
+import com.guco.tap.menu.forge.ForgeMenu;
 import com.guco.tap.menu.shop.ShopMenu;
 import com.guco.tap.menu.gameInformation.GameInformationMenu;
 import com.guco.tap.menu.inventory.alternate.InventoryMenu;
@@ -62,6 +63,7 @@ public class Hud implements Disposable {
 
     private Viewport viewport;
     private ShopMenu shopMenu;
+    private ForgeMenu forgemenu;
     private OptionMenu optionMenu;
     private AchievementMenu achievementMenu;
     private GameInformationMenu gameInformationMenu;
@@ -108,6 +110,8 @@ public class Hud implements Disposable {
 
 //        LevelSelect levelSelect = new LevelSelect(gameManager);
 //        stage.addActor(levelSelect.pane);
+
+        toggleMenu(forgemenu);
     }
 
     /**
@@ -121,6 +125,7 @@ public class Hud implements Disposable {
         optionMenu = new OptionMenu(gameManager);
         achievementMenu = new AchievementMenu(gameManager);
         itemAttributeMenu = new ItemAttributeMenu(gameManager);
+        forgemenu = new ForgeMenu(gameManager);
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
@@ -129,6 +134,7 @@ public class Hud implements Disposable {
         activeMenuList.add(shopMenu);
         activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
+        activeMenuList.add(forgemenu);
     }
 
     public void postInitMenu(){
@@ -364,9 +370,11 @@ public class Hud implements Disposable {
     public void draw() {
         stage.act();
         stage.draw();
-        if (currentMenu instanceof InventoryMenu && currentMenu.parentTable.getActions().size==0) {
+//        if (currentMenu instanceof InventoryMenu && currentMenu.parentTable.getActions().size==0) {
+        if (currentMenu!=null) {
             currentMenu.draw();
         }
+//        }
     }
 
     public void animateCritical() {

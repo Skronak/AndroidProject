@@ -221,9 +221,9 @@ public class Spriter {
 	}
 	
 	/**
-	 * Returns the data for the given SCML filename.
+	 * Returns the playerData for the given SCML filename.
 	 * @param fileName the name of the SCML file
-	 * @return the data for the given SCML filename or null if not loaed yet
+	 * @return the playerData for the given SCML filename or null if not loaed yet
 	 */
 	public static Data getData(String fileName){
 		return loadedData.get(fileName);

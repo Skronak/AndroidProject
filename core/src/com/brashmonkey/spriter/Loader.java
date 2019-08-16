@@ -20,7 +20,7 @@ public abstract class Loader<R> {
 	protected final HashMap<FileReference, R> resources;
 	
 	/**
-	 * The current set data containing {@link Folder}s and {@link File}s.
+	 * The current set playerData containing {@link Folder}s and {@link File}s.
 	 */
 	protected Data data;
 	
@@ -32,8 +32,8 @@ public abstract class Loader<R> {
 	private boolean disposed;
 	
 	/**
-	 * Creates a loader with the given Spriter data.
-	 * @param data the generated Spriter data
+	 * Creates a loader with the given Spriter playerData.
+	 * @param data the generated Spriter playerData
 	 */
 	public Loader(Data data){
 		this.data = data;

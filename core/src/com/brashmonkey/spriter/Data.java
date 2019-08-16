@@ -2,7 +2,7 @@ package com.brashmonkey.spriter;
 
 
 /**
- * Represents all the data which necessary to animate a Spriter generated SCML file.
+ * Represents all the playerData which necessary to animate a Spriter generated SCML file.
  * An instance of this class holds {@link Folder}s and {@link Entity} instances.
  * Specific {@link Folder} and {@link Entity} instances can be accessed via the corresponding methods, i.e. getEntity()
  * and getFolder().
@@ -12,7 +12,7 @@ package com.brashmonkey.spriter;
 public class Data {
 
     /**
-     * Represents the rendering mode stored in the spriter data root.
+     * Represents the rendering mode stored in the spriter playerData root.
      */
     public enum PixelMode {
         NONE, PIXEL_ART;
@@ -46,7 +46,7 @@ public class Data {
     }
 
     /**
-     * Adds a folder to this data.
+     * Adds a folder to this playerData.
      * @param folder the folder to add
      */
     void addFolder(Folder folder){
@@ -54,7 +54,7 @@ public class Data {
     }
 
     /**
-     * Adds an entity to this data.
+     * Adds an entity to this playerData.
      * @param entity the entity to add
      */
     void addEntity(Entity entity){
@@ -155,7 +155,7 @@ public class Data {
     }
 
     /**
-     * @return The string representation of this spriter data
+     * @return The string representation of this spriter playerData
      */
     public String toString(){
         String toReturn = getClass().getSimpleName() +

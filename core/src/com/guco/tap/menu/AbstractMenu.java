@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.manager.GameManager;
@@ -28,6 +29,7 @@ public abstract class AbstractMenu {
     private TextureRegionDrawable menuBackground;
     private Image closeMenuIcon;
     public Label titleLabel;
+    protected VerticalGroup titleHeader;
 
     public AbstractMenu(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -58,10 +60,16 @@ public abstract class AbstractMenu {
                gameManager.playScreen.getHud().closeCurrentMenu();
                 return true;
             }});
-        titleLabel = new Label(title,skin);
+        closeMenuIcon.getDrawable().setMinWidth(40);
+        closeMenuIcon.getDrawable().setMinHeight(30);
 
-        parentTable.add(titleLabel).padTop(10).padLeft(menu_width/2-titleLabel.getWidth()/2).padBottom(40).colspan(nbColumn);
-        parentTable.add(closeMenuIcon).size(40,30).right().top();
+        titleLabel = new Label(title,skin);
+        titleHeader = new VerticalGroup();
+
+        titleHeader.addActor(titleLabel);
+        titleHeader.addActor(closeMenuIcon);
+
+        parentTable.add(titleHeader).top().colspan(nbColumn);
         parentTable.row();
 
     }

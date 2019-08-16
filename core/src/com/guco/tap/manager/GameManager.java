@@ -20,7 +20,6 @@ import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
-import com.guco.tap.object.GoldActor;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -72,7 +71,9 @@ public class GameManager {
 
     public int nbMandatoryFight;
 
-    public Data data;
+    public Data playerData;
+
+    public Data forgeData;
 
     public SpriterPlayer spriterPlayer;
 
@@ -123,7 +124,7 @@ public class GameManager {
         int weaponMap=0;
         int headMap=1;
         int bodyMap=2;
-        spriterPlayer = new SpriterPlayer(data.getEntity(0));
+        spriterPlayer = new SpriterPlayer(playerData.getEntity(0));
         spriterPlayer.setPosition(85,220);
         spriterPlayer.setScale(0.37f);
         spriterPlayer.speed=15;
@@ -132,6 +133,23 @@ public class GameManager {
         spriterPlayer.characterMaps[weaponMap]= spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
         spriterPlayer.characterMaps[headMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
         spriterPlayer.characterMaps[bodyMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
+        return spriterPlayer;
+    }
+
+    // TODO useless, to include in forgeMenu
+    public SpriterPlayer loadForgePlayer(){
+        int blade=0;
+        int gard=1;
+        int pom=2;
+        spriterPlayer = new SpriterPlayer(forgeData.getEntity(0));
+        spriterPlayer.setPosition(85,220);
+        spriterPlayer.setScale(0.30f);
+        spriterPlayer.speed=15;
+        spriterPlayer.setAnimation("idle");
+        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
+        spriterPlayer.characterMaps[blade]= spriterPlayer.getEntity().getCharacterMap("sword3");
+        spriterPlayer.characterMaps[gard]= spriterPlayer.getEntity().getCharacterMap("gard1");
+        spriterPlayer.characterMaps[pom]= spriterPlayer.getEntity().getCharacterMap("pom2");
         return spriterPlayer;
     }
 
@@ -148,13 +166,13 @@ public class GameManager {
         return boss;
     }
 
-    public Drawer loadDrawer(SpriteBatch batch) {
+    public Drawer loadPlayerDrawer(SpriteBatch batch) {
         ShapeRenderer renderer = new ShapeRenderer();
 
         FileHandle handle = Gdx.files.internal("spriter/animation.scml");
-        data = new SCMLReader(handle.read()).getData();
+        playerData = new SCMLReader(handle.read()).getData();
 
-        LibGdxLoader loader = new LibGdxLoader(data);
+        LibGdxLoader loader = new LibGdxLoader(playerData);
         loader.load(handle.file());
 
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
@@ -165,9 +183,22 @@ public class GameManager {
         ShapeRenderer renderer = new ShapeRenderer();
 
         FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
-        data = new SCMLReader(handle.read()).getData();
+        forgeData = new SCMLReader(handle.read()).getData();
 
-        LibGdxLoader loader = new LibGdxLoader(data);
+        LibGdxLoader loader = new LibGdxLoader(forgeData);
+        loader.load(handle.file());
+
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+        return drawer;
+    }
+
+    public Drawer loadForgeDrawer(SpriteBatch batch) {
+        ShapeRenderer renderer = new ShapeRenderer();
+
+        FileHandle handle = Gdx.files.internal("spriter/forge/forge.scml");
+        forgeData = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(forgeData);
         loader.load(handle.file());
 
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);

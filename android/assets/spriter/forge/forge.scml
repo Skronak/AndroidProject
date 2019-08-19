@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r11">
+    <folder id="0" name="sword">
+        <file id="0" name="pom3.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="pom2.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="pom1.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="swor0.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="gard0.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="pom0.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="swor1.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="swor2.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="swor3.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="swor4.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="gard1.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="gard2.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="gard3.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <tag_list>
+        <i id="0" name="hit"/>
+    </tag_list>
+    <entity id="0" name="forge">
+        <character_map id="0" name="pom1">
+            <map folder="0" file="5" target_folder="0" target_file="0"/>
+        </character_map>
+        <character_map id="1" name="sword1">
+            <map folder="0" file="3" target_folder="0" target_file="6"/>
+        </character_map>
+        <character_map id="2" name="sword2">
+            <map folder="0" file="3" target_folder="0" target_file="7"/>
+        </character_map>
+        <character_map id="3" name="sword3">
+            <map folder="0" file="3" target_folder="0" target_file="8"/>
+        </character_map>
+        <character_map id="4" name="sword4">
+            <map folder="0" file="3" target_folder="0" target_file="9"/>
+        </character_map>
+        <character_map id="5" name="gard1">
+            <map folder="0" file="4" target_folder="0" target_file="10"/>
+        </character_map>
+        <character_map id="6" name="gard2">
+            <map folder="0" file="4" target_folder="0" target_file="11"/>
+        </character_map>
+        <character_map id="7" name="gard3">
+            <map folder="0" file="4" target_folder="0" target_file="12"/>
+        </character_map>
+        <character_map id="8" name="sword0">
+            <map folder="0" file="3" target_folder="0" target_file="3"/>
+        </character_map>
+        <character_map id="9" name="gard0">
+            <map folder="0" file="4" target_folder="0" target_file="4"/>
+        </character_map>
+        <character_map id="10" name="pom2">
+            <map folder="0" file="5" target_folder="0" target_file="1"/>
+        </character_map>
+        <character_map id="11" name="pom3">
+            <map folder="0" file="5" target_folder="0" target_file="0"/>
+        </character_map>
+        <character_map id="12" name="pom0">
+            <map folder="0" file="5" target_folder="0" target_file="5"/>
+        </character_map>
+        <character_map id="13" name="pom4">
+            <map folder="0" file="5" target_folder="0" target_file="2"/>
+        </character_map>
+        <animation id="0" name="idle" length="2000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swor0">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-51" y="381.608696" angle="0"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="0" file="3" x="-51" y="422.785166" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="gard0">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="-51.086957" y="381.521739" angle="0"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="0" file="4" x="-51.086957" y="422.69821" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="pom0">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-51.351351" y="382.162162" angle="0"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="0" file="5" x="-51.351351" y="423.338633" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

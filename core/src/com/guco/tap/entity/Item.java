@@ -12,7 +12,7 @@ public class Item {
     public float criticalRate;
     public int reqLvl;
     public int level;
-    public int damageRate;
+    public float damageRate;
     public int baseCostValue;
     public int baseCostCurrency;
     public float baseCostRate;

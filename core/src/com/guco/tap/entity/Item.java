@@ -12,7 +12,7 @@ public class Item {
     public float criticalRate;
     public int reqLvl;
     public int level;
-    public int damageRate;
+    public float damageRate;
     public int baseCostValue;
     public int baseCostCurrency;
     public float baseCostRate;
@@ -21,7 +21,9 @@ public class Item {
     public String icon;
     public float width;
     public float height;
+    public int grade;
     public TiersUpgrades upgrades;
     public List<ItemUpgrade> selectedUpgrades;
     public CalculatedStat calculatedStat;
+    public Skin skin;
 }

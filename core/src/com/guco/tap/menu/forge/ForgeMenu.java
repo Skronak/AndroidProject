@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.Constants;
+import com.guco.tap.utils.ValueDTO;
 
 /**
  * Menu to change game settings
@@ -22,10 +24,9 @@ public class ForgeMenu extends AbstractMenu {
     private TextButton rollButton;
     private TextButton validateButton;
     private Label resultAtkLabel;
-    private Label resultPerk1Label;
-    private Label resultPerk2Label;
-    private Label resultPerk3Label;
-
+    private Label gradeLabel;
+    private Label nameLabel;
+    private ItemFactory itemFactory;
     private Drawer drawer;
     private SpriteBatch batch;
     public SpriterPlayer itemSpriterPlayer;
@@ -33,7 +34,7 @@ public class ForgeMenu extends AbstractMenu {
     public ForgeMenu(GameManager gameManager) {
         super(gameManager);
         addMenuHeader("FORGE", 1);
-
+        itemFactory = new ItemFactory(gameManager);
         createButton();
         createDrawer();
 
@@ -58,6 +59,7 @@ public class ForgeMenu extends AbstractMenu {
         rollButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                itemFactory.rollItem();
                 return true;
             }
         });
@@ -84,19 +86,17 @@ public class ForgeMenu extends AbstractMenu {
     }
 
     private void createResultTable(){
-        resultAtkLabel =new Label("Atk: 512A",skin);
-        resultPerk1Label=new Label("Perks: 1 - attk + 1%",skin);
-        resultPerk2Label =new Label("      2 - gold +1%",skin);
-        resultPerk3Label =new Label("      3 - ",skin);
+        resultAtkLabel =new Label("",skin);
+        gradeLabel = new Label("",skin);
+        nameLabel = new Label("", skin);
 
         Table resultTable = new Table();
-        resultTable.add(resultAtkLabel).left().padTop(200).expandX();
+        resultTable.add(nameLabel).left().padTop(200).expandX();
         resultTable.row();
-        resultTable.add(resultPerk1Label).left();
+        resultTable.add(gradeLabel);
         resultTable.row();
-        resultTable.add(resultPerk2Label).left();
+        resultTable.add(resultAtkLabel).left();
         resultTable.row();
-        resultTable.add(resultPerk3Label).left();
 
         parentTable.add(resultTable).expandX();
     }
@@ -116,9 +116,29 @@ public class ForgeMenu extends AbstractMenu {
     }
 
     private void rollItem() {
-        itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap("sword3");
-        itemSpriterPlayer.characterMaps[1]= itemSpriterPlayer.getEntity().getCharacterMap("gard3");
-        itemSpriterPlayer.characterMaps[2]= itemSpriterPlayer.getEntity().getCharacterMap("pom3");
+        Item item = itemFactory.rollItem();
+        showItem(item);
+    }
+
+    private void showItem(Item item){
+        String grade = "C";
+        if (item.grade==0){
+            grade = "C";
+        } else if (item.grade==1){
+            grade = "B";
+        } else if (item.grade==2){
+            grade = "A";
+        } else if (item.grade==3){
+            grade = "SSS";
+        }
+
+        gradeLabel.setText("Quality "+grade);
+        nameLabel.setText("Evil sword of Shadow");
+        ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(item.damageValue, item.damageCurrency);
+        resultAtkLabel.setText("Atk "+gameManager.largeMath.getDisplayValue(valueDTO));
+        itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.bladeMap);
+        itemSpriterPlayer.characterMaps[1]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.guardMap);
+        itemSpriterPlayer.characterMaps[2]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.hiltMap);
     }
 
     @Override

@@ -15,51 +15,105 @@
         <file id="11" name="gard2.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
         <file id="12" name="gard3.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
     </folder>
+    <folder id="1">
+        <file id="0" name="blade5.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="blade6.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="blade7.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="blade8.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="hilt4.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="hilt5.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="hilt6.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="hilt7.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="hilt8.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="guard4.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="guard5.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="guard7.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="guard8.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+    </folder>
     <tag_list>
         <i id="0" name="hit"/>
     </tag_list>
     <entity id="0" name="forge">
-        <character_map id="0" name="pom1">
+        <character_map id="0" name="hilt1">
             <map folder="0" file="5" target_folder="0" target_file="0"/>
         </character_map>
-        <character_map id="1" name="sword1">
+        <character_map id="1" name="blade1">
             <map folder="0" file="3" target_folder="0" target_file="6"/>
         </character_map>
-        <character_map id="2" name="sword2">
+        <character_map id="2" name="blade2">
             <map folder="0" file="3" target_folder="0" target_file="7"/>
         </character_map>
-        <character_map id="3" name="sword3">
+        <character_map id="3" name="blade3">
             <map folder="0" file="3" target_folder="0" target_file="8"/>
         </character_map>
-        <character_map id="4" name="sword4">
+        <character_map id="4" name="blade4">
             <map folder="0" file="3" target_folder="0" target_file="9"/>
         </character_map>
-        <character_map id="5" name="gard1">
+        <character_map id="5" name="guard0">
             <map folder="0" file="4" target_folder="0" target_file="10"/>
         </character_map>
-        <character_map id="6" name="gard2">
+        <character_map id="6" name="guard2">
             <map folder="0" file="4" target_folder="0" target_file="11"/>
         </character_map>
-        <character_map id="7" name="gard3">
+        <character_map id="7" name="guard1">
             <map folder="0" file="4" target_folder="0" target_file="12"/>
         </character_map>
-        <character_map id="8" name="sword0">
+        <character_map id="8" name="blade0">
             <map folder="0" file="3" target_folder="0" target_file="3"/>
         </character_map>
-        <character_map id="9" name="gard0">
+        <character_map id="9" name="guard3">
             <map folder="0" file="4" target_folder="0" target_file="4"/>
         </character_map>
-        <character_map id="10" name="pom2">
+        <character_map id="10" name="hilt2">
             <map folder="0" file="5" target_folder="0" target_file="1"/>
         </character_map>
-        <character_map id="11" name="pom3">
+        <character_map id="11" name="hilt3">
             <map folder="0" file="5" target_folder="0" target_file="0"/>
         </character_map>
-        <character_map id="12" name="pom0">
+        <character_map id="12" name="hilt0">
             <map folder="0" file="5" target_folder="0" target_file="5"/>
         </character_map>
-        <character_map id="13" name="pom4">
-            <map folder="0" file="5" target_folder="0" target_file="2"/>
+        <character_map id="13" name="hilt4">
+            <map folder="0" file="5" target_folder="1" target_file="4"/>
+        </character_map>
+        <character_map id="14" name="blade5">
+            <map folder="0" file="3" target_folder="1" target_file="0"/>
+        </character_map>
+        <character_map id="15" name="blade6">
+            <map folder="0" file="3" target_folder="1" target_file="1"/>
+        </character_map>
+        <character_map id="16" name="blade7">
+            <map folder="0" file="3" target_folder="1" target_file="2"/>
+        </character_map>
+        <character_map id="17" name="blade8">
+            <map folder="0" file="3" target_folder="1" target_file="3"/>
+        </character_map>
+        <character_map id="18" name="hilt5">
+            <map folder="0" file="5" target_folder="1" target_file="5"/>
+        </character_map>
+        <character_map id="19" name="hilt6">
+            <map folder="0" file="5" target_folder="1" target_file="6"/>
+        </character_map>
+        <character_map id="20" name="hilt7">
+            <map folder="0" file="5" target_folder="1" target_file="7"/>
+        </character_map>
+        <character_map id="21" name="hilt8">
+            <map folder="0" file="5" target_folder="1" target_file="8"/>
+        </character_map>
+        <character_map id="22" name="guard4">
+            <map folder="0" file="4" target_folder="1" target_file="9"/>
+        </character_map>
+        <character_map id="23" name="guard">
+            <map folder="0" file="4" target_folder="1" target_file="10"/>
+        </character_map>
+        <character_map id="24" name="guard6">
+            <map folder="0" file="4" target_folder="1" target_file="6"/>
+        </character_map>
+        <character_map id="25" name="guard7">
+            <map folder="0" file="4" target_folder="1" target_file="11"/>
+        </character_map>
+        <character_map id="26" name="guard8">
+            <map folder="0" file="5" target_folder="1" target_file="12"/>
         </character_map>
         <animation id="0" name="idle" length="2000" interval="100">
             <mainline>
@@ -76,7 +130,7 @@
             </mainline>
             <timeline id="0" name="swor0">
                 <key id="0" spin="0">
-                    <object folder="0" file="3" x="-51" y="381.608696" angle="0"/>
+                    <object folder="0" file="3" x="-50" y="381.608696" angle="0"/>
                 </key>
                 <key id="1" time="1000" spin="0">
                     <object folder="0" file="3" x="-51" y="422.785166" angle="0"/>

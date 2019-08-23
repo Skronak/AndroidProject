@@ -147,9 +147,6 @@ public class GameManager {
         spriterPlayer.speed=15;
         spriterPlayer.setAnimation("idle");
         spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
-        spriterPlayer.characterMaps[blade]= spriterPlayer.getEntity().getCharacterMap("sword3");
-        spriterPlayer.characterMaps[gard]= spriterPlayer.getEntity().getCharacterMap("gard1");
-        spriterPlayer.characterMaps[pom]= spriterPlayer.getEntity().getCharacterMap("pom2");
         return spriterPlayer;
     }
 

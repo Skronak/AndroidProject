@@ -73,7 +73,7 @@ public class EnemyInformation extends Group {
         orangeImage.setSize(redImage.getWidth(),redImage.getHeight());
 
         percent = ((damage.value * BAR_WIDTH)/ maxHpValue.value);
-        if (targetActor.lifePoint.value==0|| percent <0 || percent>redImage.getWidth()) {
+        if (targetActor.lifePoint.value<=0|| percent <0 || percent>redImage.getWidth()) {
             percent = redImage.getWidth();
         }
         redImage.setWidth(redImage.getWidth()-percent);
@@ -83,6 +83,9 @@ public class EnemyInformation extends Group {
     }
 
     private void updateDamagelabel(){
+        if(targetActor.lifePoint.value<=0){
+            targetActor.lifePoint.value=0;
+        }
         String damageLabel = largeMath.getDisplayValue(targetActor.lifePoint) +"/"+largeMath.getDisplayValue(maxHpValue);
         healthLabel.setText(damageLabel);
     }

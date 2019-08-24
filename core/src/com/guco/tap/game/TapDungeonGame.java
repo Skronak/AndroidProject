@@ -31,6 +31,7 @@ public class TapDungeonGame extends Game {
         this.devMode=devMode;
     }
 	public ItemManager itemManager;
+
 	@Override
 	public void create () {
 		largeMath = new LargeMath();

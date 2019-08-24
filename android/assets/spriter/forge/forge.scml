@@ -115,8 +115,8 @@
         </character_map>
         <character_map id="27" name="default">
             <map folder="0" file="1" target_folder="1" target_file="0"/>
-            <map folder="0" file="0"/>
-            <map folder="0" file="2"/>
+            <map folder="0" file="2" target_folder="1" target_file="0"/>
+            <map folder="0" file="0" target_folder="1" target_file="0"/>
         </character_map>
         <animation id="0" name="idle" length="1800" interval="100">
             <mainline>

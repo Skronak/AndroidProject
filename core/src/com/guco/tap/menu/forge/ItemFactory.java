@@ -15,6 +15,8 @@ public class ItemFactory {
     private final double RARITY_UNCOMMON_RATE=0.2;
     private final double RARITY_RARE_RATE=0.1;
     private final double RARITY_UNIQ_RATE=0.05;
+    private String[] NAME_PREFIX = {"Saber of ", "Sword of ", "The secret of ", "Silver", "Pain and ","Master of "};
+    private String[] NAME = {"Pain", "Silence", "the dead", "sorrow", "the elder", "Storms", "Doom"};
 
     private LargeMath largeMath;
     private GameInformation gameInformation;
@@ -22,6 +24,7 @@ public class ItemFactory {
     private int baseDamage = 100;
     private int area = 5;
     private int forgeLvl=10;
+
     // AUTO FROM DATAMANAGER
     private String[] hiltSprites_A = {"hilt0","hilt1", "hilt2"};
     private String[] hiltSprites_B = {"hilt3","hilt4", "hilt5"};
@@ -46,11 +49,13 @@ public class ItemFactory {
         ValueDTO stat = rollStat(itemGrade);
         ValueDTO cost = rollCost();
         Skin skin = rollSkin(itemGrade);
+        String name = rollName();
 
         Item item = new Item();
         item.grade = itemGrade;
         item.damageRate=1.5f; //
         item.level=1;
+        item.name=rollName();
         item.damageValue=stat.value;
         item.damageCurrency=stat.currency;
         item.baseCostValue=(int)cost.value;
@@ -126,13 +131,14 @@ public class ItemFactory {
         return skin;
     }
 
-    public String rollName(int grade) {
-        return "";
-    }
-
-    public String getRandom(String[] array){
+    private String getRandom(String[] array){
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
+
+    private String rollName() {
+        return getRandom(NAME_PREFIX) + getRandom(NAME);
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.guco.tap.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -50,7 +51,10 @@ public class LevelScreen extends AbstractScreen {
         stage.addActor(scrollingBackground);
 
         CameraDragProcessor cameraDragProcessor = new CameraDragProcessor(this);
-        Gdx.input.setInputProcessor(cameraDragProcessor);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(cameraDragProcessor);
+        inputMultiplexer.addProcessor(hud.stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override

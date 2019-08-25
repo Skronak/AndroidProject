@@ -8,7 +8,8 @@ public enum GameState {
     MENU ("Menu"),
     IN_GAME ("Ingame"),
     CREDIT ("Credit"),
-    PAUSE ("Pause");
+    PAUSE ("Pause"),
+    LEVEL ("Level");
 
     private String state = "";
 

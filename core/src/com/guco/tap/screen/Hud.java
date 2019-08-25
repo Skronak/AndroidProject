@@ -264,24 +264,7 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerLevelSelect = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.playScreen.stage.getRoot().getColor().a = 1;
-                gameManager.currentState=GameState.MENU;
-                SequenceAction sequenceAction = new SequenceAction();
-                sequenceAction.addAction(Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        game.playScreen.zoomTo(3,2);
-                    }
-                }));
-                sequenceAction.addAction(Actions.delay(2));
-                sequenceAction.addAction(Actions.run(new Runnable() {
-                                                          @Override
-                                                          public void run() {
-                                                              game.setScreen(game.levelScreen);
-                                                          }
-                                                      }
-                ));
-                game.playScreen.stage.getRoot().addAction(Actions.parallel(sequenceAction, Actions.fadeOut(2f)));
+                switchToSelectScreen();
                 return true;
             }
         };
@@ -304,6 +287,31 @@ public class Hud implements Disposable {
         skillButton1 = new ImageButton(skill0Head);
         skillButton2 = new ImageButton(skill0Head);
         skillButton3 = new ImageButton(skill0Head);
+    }
+
+    private void switchToSelectScreen() {
+        game.playScreen.stage.getRoot().getColor().a = 1;
+        if (currentMenu!=null) {
+            closeCurrentMenu();
+        }
+        gameManager.currentState= GameState.LEVEL;
+        enemyInformation.setVisible(false);
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.playScreen.zoomTo(3,2);
+            }
+        }));
+        sequenceAction.addAction(Actions.delay(2));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+                                                  @Override
+                                                  public void run() {
+                                                      game.setScreen(game.levelScreen);
+                                                  }
+                                              }
+        ));
+        game.playScreen.stage.getRoot().addAction(Actions.parallel(sequenceAction, Actions.fadeOut(2f)));
     }
 
     /**
@@ -447,6 +455,10 @@ public class Hud implements Disposable {
      */
     private void toggleMenu(AbstractMenu menu) {
         menu.parentTable.clearActions();
+        if (gameManager.currentState.equals(GameState.LEVEL)){
+            game.setScreen(game.playScreen);
+        }
+
         if (currentMenu == null) {
             openMenu(menu);
         } else if (menu.equals(currentMenu)) {

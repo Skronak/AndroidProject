@@ -219,7 +219,6 @@ public class PlayScreen extends AbstractScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             camera.translate(1f,0f);
         }
-
     }
 
     public void showDamageLabel(String damage) {

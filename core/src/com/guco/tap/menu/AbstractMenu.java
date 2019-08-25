@@ -82,6 +82,7 @@ public abstract class AbstractMenu {
 
     public void draw() {
     }
+
     /**
      * Update Menu
      */

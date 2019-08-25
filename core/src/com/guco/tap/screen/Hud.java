@@ -13,13 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,21 +27,21 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.guco.tap.LevelSelect;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
-import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.achievement.AchievementMenu;
+import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.forge.ForgeMenu;
-import com.guco.tap.menu.shop.ShopMenu;
 import com.guco.tap.menu.gameInformation.GameInformationMenu;
 import com.guco.tap.menu.inventory.alternate.InventoryMenu;
-import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
-import com.guco.tap.object.FpsActor;
+import com.guco.tap.menu.option.OptionMenu;
+import com.guco.tap.menu.shop.ShopMenu;
 import com.guco.tap.object.EnemyInformation;
+import com.guco.tap.object.FpsActor;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -87,18 +87,21 @@ public class Hud implements Disposable {
     public ImageButton ascendButton;
     private GameInformation gameInformation;
     public Group sceneLayer, menuLayer;
+    private ImageButton skillButton0, skillButton1,skillButton2,skillButton3;
+    private TapDungeonGame game;
 
-    public Hud(SpriteBatch sb, GameManager gameManager) {
+    public Hud(TapDungeonGame game) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
-
-        largeMath = gameManager.largeMath;
-        this.gameManager = gameManager;
+        this.game = game;
+        largeMath = game.largeMath;
+        this.gameManager = game.gameManager;
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
+        SpriteBatch sb = new SpriteBatch();
         stage = new Stage(viewport, sb);
         generator = new com.guco.tap.utils.BitmapFontGenerator();
-        font = gameManager.ressourceManager.getFont();
-        gameInformation = gameManager.gameInformation;
+        font = game.ressourceManager.getFont();
+        gameInformation = game.gameInformation;
         generator.dispose();
         font.setColor(Color.WHITE);
         sceneLayer = new Group();
@@ -259,6 +262,31 @@ public class Hud implements Disposable {
         };
         button_5.addListener(buttonListenerSkill);
 
+        InputListener buttonListenerLevelSelect = new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.playScreen.stage.getRoot().getColor().a = 1;
+                gameManager.currentState=GameState.MENU;
+                SequenceAction sequenceAction = new SequenceAction();
+                sequenceAction.addAction(Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.playScreen.zoomTo(3,2);
+                    }
+                }));
+                sequenceAction.addAction(Actions.delay(2));
+                sequenceAction.addAction(Actions.run(new Runnable() {
+                                                          @Override
+                                                          public void run() {
+                                                              game.setScreen(game.levelScreen);
+                                                          }
+                                                      }
+                ));
+                game.playScreen.stage.getRoot().addAction(Actions.parallel(sequenceAction, Actions.fadeOut(2f)));
+                return true;
+            }
+        };
+        button_6.addListener(buttonListenerLevelSelect);
+
         InputListener buttonListenerAscend = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameManager.switchFloor();
@@ -267,6 +295,15 @@ public class Hud implements Disposable {
         };
         ascendButton.addListener(buttonListenerAscend);
 
+
+
+        ImageButton.ImageButtonStyle skill0Head = new ImageButton.ImageButtonStyle();
+        skill0Head.up = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/icon/skillIcon1.png")));
+        skill0Head.down = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/icon/skillIcon1.png")));
+        skillButton0 = new ImageButton(skill0Head);
+        skillButton1 = new ImageButton(skill0Head);
+        skillButton2 = new ImageButton(skill0Head);
+        skillButton3 = new ImageButton(skill0Head);
     }
 
     /**
@@ -312,12 +349,6 @@ public class Hud implements Disposable {
         mainTable.top();
         mainTable.setFillParent(true);
 
-        // Add menu to the stage
-        for(int i=0;i<activeMenuList.size();i++) {
-            mainTable.addActor(activeMenuList.get(i).parentTable);
-        }
-        mainTable.addActor(itemAttributeMenu.parentTable);
-
         // ***** OTHER *****
         // Hp bar & name
         enemyInformation = new EnemyInformation(gameManager);
@@ -346,10 +377,21 @@ public class Hud implements Disposable {
         // Assemble hud
         mainTable.add(tableTop).top().height(45);
         mainTable.row();
-        //mainTable.add(versionLabel).align(Align.right).bottom();
-        //mainTable.row();
-        mainTable.add(menuButtonTable).bottom().expandY().colspan(activeMenuList.size()-1);
-        //mainTable.debug();
+        Table skillMenuTable = new Table();
+        skillMenuTable.add(skillButton0).size(50,50);
+        skillMenuTable.add(skillButton1).size(50,50);
+        skillMenuTable.add(skillButton2).size(50,50);
+        skillMenuTable.add(skillButton3).size(50,50);
+        mainTable.add(skillMenuTable).bottom().expandY().colspan(activeMenuList.size()-1);
+        mainTable.row();
+
+        // Add menu to the stage
+        for(int i=0;i<activeMenuList.size();i++) {
+            mainTable.addActor(activeMenuList.get(i).parentTable);
+        }
+        mainTable.addActor(itemAttributeMenu.parentTable);
+        mainTable.row();
+        mainTable.add(menuButtonTable);
 
         // Optionnal element
         fpsActor = new FpsActor(gameManager.ressourceManager);
@@ -361,7 +403,6 @@ public class Hud implements Disposable {
         stage.addActor(sceneLayer);
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
-
     }
 
     /**

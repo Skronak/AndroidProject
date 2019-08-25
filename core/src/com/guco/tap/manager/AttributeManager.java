@@ -22,7 +22,7 @@ public class AttributeManager {
     private GameManager gameManager;
     private CharacterAttributeMenu characterAttributeMenu;
     private List<AttributeElement> attributeEntityList;
-    
+    private RessourceManager ressourceManager;
 
     public AttributeManager(GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");

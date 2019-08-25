@@ -15,16 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
-import com.guco.tap.actor.AnimatedActor;
-import com.guco.tap.actor.TapActor;
 import com.guco.tap.action.ScaleLabelAction;
+import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.EnemyActor;
+import com.guco.tap.actor.TapActor;
 import com.guco.tap.actor.TorchActor;
 import com.guco.tap.effect.TorchParticleSEffect;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
+import com.guco.tap.utils.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class PlayScreen extends AbstractScreen {
     public PlayScreen(TapDungeonGame tapDungeonGame) {
         super(tapDungeonGame);
         this.gameManager=tapDungeonGame.gameManager;
+        this.hud = tapDungeonGame.hud;
         layer0GraphicObject = new Group();
         layer1GraphicObject = new Group();
         layer2GraphicObject = new Group();
@@ -77,7 +79,7 @@ public class PlayScreen extends AbstractScreen {
         textAnimMinX =100;
         random = new Random();
 
-        hud = new Hud(spriteBatch, gameManager);
+
         gameManager.initialiseGame();
 
         //tapActor
@@ -151,7 +153,7 @@ public class PlayScreen extends AbstractScreen {
     // member variables:
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
 
-    private void zoomTo (float newZoom, float duration){
+    public void zoomTo (float newZoom, float duration){
         cameraZoomOrigin = camera.zoom;
         cameraZoomTarget = newZoom;
         timeToCameraZoomTarget = cameraZoomDuration = duration;
@@ -166,7 +168,6 @@ public class PlayScreen extends AbstractScreen {
 
         gameManager.updateLogic(delta);
         hud.updateGoldLabel();
-        spriterPlayer.update();
         //boss.update();
         debugMode(delta);
         stage.act();
@@ -174,12 +175,10 @@ public class PlayScreen extends AbstractScreen {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-//        spriteBatch.setShader(blurShader);
-        playerDrawer.draw(spriterPlayer);
-
-        //enemyDrawer.draw(boss);
-//        torchParticleSEffect.update();
-//        torchParticleSEffect.render(spriteBatch);
+        if (gameManager.currentState.equals(GameState.IN_GAME)) {
+            spriterPlayer.update();
+            playerDrawer.draw(spriterPlayer);
+        }
         spriteBatch.end();
         hud.draw();
     }
@@ -197,17 +196,10 @@ public class PlayScreen extends AbstractScreen {
     }
 
     public void debugMode(float delta){
-        //todo bloquer rezoom si deja zoom max, pareil max dezoom
-        if (timeToCameraZoomTarget > 0) {
+        if (timeToCameraZoomTarget > 0){
             timeToCameraZoomTarget -= delta;
             float progress = timeToCameraZoomTarget < 0 ? 1 : 1f - timeToCameraZoomTarget / cameraZoomDuration;
             camera.zoom = Interpolation.pow3Out.apply(cameraZoomOrigin, cameraZoomTarget, progress);
-            // reajust y position
-            if (cameraZoomTarget == 2) {
-                camera.position.y = Interpolation.pow3Out.apply(285, 0, progress);
-            } else {
-                camera.position.y = Interpolation.pow3Out.apply(0, 285, progress);
-            }
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.B)) {

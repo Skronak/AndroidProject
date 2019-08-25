@@ -20,6 +20,8 @@ import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.MenuState;
 import com.guco.tap.utils.ValueDTO;
 
+import java.util.List;
+
 /**
  * Created by Skronak on 01/02/2017.
  * Menu d'update
@@ -40,6 +42,7 @@ public class InventoryMenu extends AbstractMenu {
     private String CURRENT_LEVEL="Current level";
     private Label nextDamageLabel;
     private Image upImage;
+    private List<Item> newItems;
 
     // FOR TEST ONLY
     private Drawer drawer;
@@ -63,7 +66,6 @@ public class InventoryMenu extends AbstractMenu {
 
         menuState = MenuState.WEAPON;
         inventoryPane.switchTab();
-
     }
 
     public void customizeMenuTable() {
@@ -236,7 +238,7 @@ public class InventoryMenu extends AbstractMenu {
 
     }
 
-    public void show(){
+    public void show() {
         parentTable.setVisible(true);
         inventoryPane.setDefaultEquipedItem(); // fonctionne premiere fois mais plus ensuite
     }

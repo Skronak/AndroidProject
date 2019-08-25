@@ -109,35 +109,34 @@ public class LargeMath {
 
         /**
          * Compare two ValueDTO and decrease the first one from the second one
-         * @param firstValue
-         * @param firstCurrency
-         * @param secValue
-         * @param secCurrency
+         * @param baseValue
+         * @param baseCurrency
+         * @param substractValue
+         * @param subtractCurrency
          * @return
          */
-    public ValueDTO decreaseValue(float firstValue, int firstCurrency, float secValue, int secCurrency) {
-        float newValue=firstValue;
-        int currencyDifference = firstCurrency - secCurrency ;
-        int maxCurrency = Math.max(firstCurrency, secCurrency);
+    public ValueDTO decreaseValue(float baseValue, int baseCurrency, float substractValue, int subtractCurrency) {
+        float newValue=baseValue;
+        int currencyDifference = baseCurrency - subtractCurrency ;
+        int maxCurrency = Math.max(baseCurrency, subtractCurrency);
 
         if (currencyDifference >= Constants.UNLIMITED_CURRENCY_TRIGGER) {
             Gdx.app.debug("LargeMath", "Non significative value " + newValue + " currencyDif " + currencyDifference);
-            return new ValueDTO(newValue, firstCurrency);
-        } else if (currencyDifference <= -Constants.UNLIMITED_CURRENCY_TRIGGER) {
+            return new ValueDTO(newValue, baseCurrency);
+        } else if (-currencyDifference >= 1) {
             Gdx.app.debug("LargeMath", "Non significative value " + newValue + " currencyDif " + currencyDifference);
-            return new ValueDTO(secValue, secCurrency);
-        }
-        if (currencyDifference == 0) {
-            return new ValueDTO(firstValue - secValue, firstCurrency);
+            return new ValueDTO(0, 0);
+        } else if (currencyDifference == 0) {
+            return new ValueDTO(baseValue - substractValue, baseCurrency);
         }
 
         float valueRes=0;
         // cas firstValue > secValue
-        if (maxCurrency==firstCurrency) {
-            valueRes = Math.round( ((firstValue * Math.pow(1000, Double.valueOf(currencyDifference))) - (secValue)));
+        if (maxCurrency==baseCurrency) {
+            valueRes = Math.round( ((baseValue * Math.pow(1000, Double.valueOf(currencyDifference))) - (substractValue)));
             valueRes = Math.round( (valueRes / Math.pow(1000, Double.valueOf(currencyDifference))));
         } else {
-            valueRes =Math.round( ((firstValue) - (secValue * Math.pow(1000, Double.valueOf(currencyDifference)))));
+            valueRes =Math.round( ((baseValue) - (substractValue * Math.pow(1000, Double.valueOf(currencyDifference)))));
             valueRes = Math.round( (valueRes / Math.pow(1000, Double.valueOf(currencyDifference))));
         }
 
@@ -171,42 +170,10 @@ public class LargeMath {
         ValueDTO valueDto = adjustCurrency(value, currency);
         return (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     }
-
-    /// TODO : PERF TO ANALYSE REAL PLAYTIME: perf2 better than perf& atm///
-    //public String getDisplayValue(Float value, int currency) {
-    //    testPerf1(value, currency);
-    //    testPerf2(value, currency);
-    //    return "A";
-    //}
-
-    //public void testPerf1(Float value, int currency){
-    //    long startTime = System.nanoTime();
-    //    ValueDTO valueDto = adjustCurrency(value, currency);
-    //    String r = (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
-    //    long endTime = System.nanoTime();
-    //    long duration = (endTime - startTime);
-    //    Gdx.app.log("Test1",String.valueOf(duration));
-    //}
-
-    //public void testPerf2(Float value, int currency){
-    //    long startTime = System.nanoTime();
-    //    ValueDTO valueDto = adjustCurrency(value, currency);
-    //    if(value==valueDto.currency) {
-    //        String r = (decimalFormat.format(valueDto.value) + getLetter(valueDto.currency));
-    //    } else {
-    //        String r = (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
-    //    }
-    //    long endTime = System.nanoTime();
-    //    long duration = (endTime - startTime);
-    //    Gdx.app.log("Test2:",String.valueOf(duration));
-    //}
-
     public String getDisplayValue(ValueDTO valueDTO) {
         ValueDTO valueDto = adjustCurrency(valueDTO.value, valueDTO.currency);
         return (decimalFormat.format(valueDto.value) + printLetter(valueDto.currency));
     }
-
-    //    formatgameInformation();
 
     /**
      * Renvoie la lettre Majuscule associee a l'index passe en parametre

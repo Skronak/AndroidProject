@@ -79,4 +79,5 @@ public class Constants {
     public static int BODY_ID=1;
     public static int WEAPON_ID=2;
     public static int MAX_CHARACTERMAP=4;
+    public static int FORGE_DELAY=3;
 }

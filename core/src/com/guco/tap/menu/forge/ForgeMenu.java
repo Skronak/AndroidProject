@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -34,8 +35,10 @@ public class ForgeMenu extends AbstractMenu {
     private Drawer drawer;
     private SpriteBatch batch;
     public SpriterPlayer itemSpriterPlayer;
-    Table resultButtonTable;
-    Table rollButtonTable;
+    private Table resultTable;
+    private Table resultButtonTable;
+    private Table rollButtonTable;
+    private Item currentItem;
 
     public ForgeMenu(GameManager gameManager) {
         super(gameManager);
@@ -43,13 +46,12 @@ public class ForgeMenu extends AbstractMenu {
         itemFactory = new ItemFactory(gameManager);
         createButton();
         createDrawer();
-
         createResultTable();
         createButtonTables();
         resetForge();
     }
 
-    private void createButton(){
+    private void createButton() {
         rerollButton = new TextButton("REROLL",gameManager.ressourceManager.getSkin());
         rerollButton.setDisabled(true);
         rerollButton.addListener(new InputListener(){
@@ -74,6 +76,7 @@ public class ForgeMenu extends AbstractMenu {
         validateButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.gameInformation.weaponItemList.add(currentItem);
                 return true;
             }
         });
@@ -105,7 +108,7 @@ public class ForgeMenu extends AbstractMenu {
         gradeLabel = new Label("",skin);
         nameLabel = new Label("", skin);
 
-        Table resultTable = new Table();
+        resultTable = new Table();
         resultTable.add(nameLabel).center().expandX();
         resultTable.row();
         resultTable.add(gradeLabel).padTop(180);
@@ -134,43 +137,55 @@ public class ForgeMenu extends AbstractMenu {
     }
 
     private void rollItem() {
-        Item item = itemFactory.rollItem();
-        showItem(item);
+        currentItem = itemFactory.rollItem();
 
         rollButtonTable.setVisible(false);
-        resultButtonTable.setVisible(true);
+        resultButtonTable.setVisible(false);
+        itemSpriterPlayer.setAnimation(itemSpriterPlayer.getEntity().getAnimation("load"));
+        resultTable.setVisible(false);
+
+        parentTable.addAction(Actions.sequence(Actions.delay(Constants.FORGE_DELAY),
+           Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                showItemResult();
+            }
+        })));
     }
 
     private void resetForge() {
         rollButtonTable.setVisible(true);
         resultButtonTable.setVisible(false);
-
+        resultTable.setVisible(false);
         itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap("default");
         itemSpriterPlayer.characterMaps[1]= itemSpriterPlayer.getEntity().getCharacterMap("default");
         itemSpriterPlayer.characterMaps[2]= itemSpriterPlayer.getEntity().getCharacterMap("default");
     }
 
-    private void showItem(Item item) {
+    private void showItemResult() {
         gradeLabel.setColor(Color.WHITE);
-        if (item.grade==0){
+        if (currentItem.grade==0){
             gradeLabel.setText("Grade - COMMON");
-        } else if (item.grade==1){
+        } else if (currentItem.grade==1){
             gradeLabel.setText("Grade - UNCOMMON");
             gradeLabel.setColor(Color.BLUE);
-        } else if (item.grade==2){
+        } else if (currentItem.grade==2){
             gradeLabel.setText("Grade - RARE");
             gradeLabel.setColor(Color.CYAN);
-        } else if (item.grade==3){
+        } else if (currentItem.grade==3){
             gradeLabel.setText("Grade - EPIQ");
             gradeLabel.setColor(Color.GOLD);
         }
-
-        nameLabel.setText(item.name);
-        ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(item.damageValue, item.damageCurrency);
+        resultTable.setVisible(true);
+        nameLabel.setText(currentItem.name);
+        ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(currentItem.damageValue, currentItem.damageCurrency);
         resultAtkLabel.setText("DAMAGE "+gameManager.largeMath.getDisplayValue(valueDTO));
-        itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.bladeMap);
-        itemSpriterPlayer.characterMaps[1]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.guardMap);
-        itemSpriterPlayer.characterMaps[2]= itemSpriterPlayer.getEntity().getCharacterMap(item.skin.hiltMap);
+        itemSpriterPlayer.characterMaps[0]= itemSpriterPlayer.getEntity().getCharacterMap(currentItem.skin.bladeMap);
+        itemSpriterPlayer.characterMaps[1]= itemSpriterPlayer.getEntity().getCharacterMap(currentItem.skin.guardMap);
+        itemSpriterPlayer.characterMaps[2]= itemSpriterPlayer.getEntity().getCharacterMap(currentItem.skin.hiltMap);
+        itemSpriterPlayer.setAnimation(itemSpriterPlayer.getEntity().getAnimation("idle"));
+
+        resultButtonTable.setVisible(true);
     }
 
     @Override

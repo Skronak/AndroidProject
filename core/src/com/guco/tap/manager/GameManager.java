@@ -146,7 +146,7 @@ public class GameManager {
         spriterPlayer.setScale(0.30f);
         spriterPlayer.speed=15;
         spriterPlayer.setAnimation("idle");
-        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
+        //spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
         return spriterPlayer;
     }
 
@@ -362,8 +362,7 @@ public class GameManager {
      */
     public void hurtEnemy(ValueDTO damageData) {
         //currentEnemyActor.hurt();
-        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);//TODO debug
-        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,new ValueDTO(damageData.value,currentEnemyActor.lifePoint.currency));//TODO debug
+        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);
         // Case of enemy death
         if (currentEnemyActor.lifePoint.value <= 0) {
             killEnemy();

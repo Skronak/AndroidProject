@@ -4,18 +4,16 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.guco.tap.entity.GameInformation;
-import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameInformationManager;
+import com.guco.tap.manager.GameManager;
 import com.guco.tap.manager.ItemManager;
 import com.guco.tap.manager.RessourceManager;
-import com.guco.tap.manager.GameManager;
+import com.guco.tap.screen.Hud;
+import com.guco.tap.screen.LevelScreen;
 import com.guco.tap.screen.LoadingScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.screen.SplashScreen;
 import com.guco.tap.utils.LargeMath;
-import com.guco.tap.utils.ValueDTO;
-
-import java.math.BigDecimal;
 
 public class TapDungeonGame extends Game {
 	public PlayScreen playScreen;
@@ -27,6 +25,9 @@ public class TapDungeonGame extends Game {
 	private boolean devMode;
     public GameInformation gameInformation;
 	public LargeMath largeMath;
+	public LevelScreen levelScreen;
+	public Hud hud;
+
 	public TapDungeonGame(boolean devMode){
         this.devMode=devMode;
     }
@@ -38,18 +39,21 @@ public class TapDungeonGame extends Game {
     	itemManager = new ItemManager(this);
         ressourceManager = new RessourceManager();
 		gameInformationManager = new GameInformationManager(ressourceManager, itemManager);
-
 		loadingScreen = new LoadingScreen(this);
 		loadingScreen.loadAsset();
+
         gameInformationManager.loadData();
         gameInformation = gameInformationManager.gameInformation;
 
         if(devMode) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 			gameManager = new GameManager(this);
+			hud = new Hud(this);
 			playScreen = new PlayScreen(this);
+			levelScreen = new LevelScreen(this);
 			gameManager.playScreen=playScreen;
 			setScreen(playScreen);
+//			setScreen(levelScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
 			splashScreen=new SplashScreen(this);

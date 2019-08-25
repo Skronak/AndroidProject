@@ -30,6 +30,8 @@
     </folder>
     <folder id="1">
         <file id="0" name="default.png" width="106" height="390" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="forge1.png" width="1204" height="628" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="forge2.png" width="420" height="952" pivot_x="0.501695" pivot_y="0.098507"/>
     </folder>
     <entity id="0" name="forge">
         <character_map id="0" name="blade0">
@@ -118,7 +120,32 @@
             <map folder="0" file="2" target_folder="1" target_file="0"/>
             <map folder="0" file="0" target_folder="1" target_file="0"/>
         </character_map>
-        <animation id="0" name="idle" length="1800" interval="100">
+        <animation id="0" name="load" length="700" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="230">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="forge1">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" x="-94.136202" y="124.159537" angle="0" scale_x="0.2" scale_y="0.2"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="forge2">
+                <key id="0" spin="-1">
+                    <object folder="1" file="2" x="-150.810649" y="130.186837" angle="359.532916" scale_x="0.2" scale_y="0.2"/>
+                </key>
+                <key id="1" time="230">
+                    <object folder="1" file="2" x="-150.810649" y="130.186837" angle="283.527469" scale_x="0.2" scale_y="0.2"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="idle" length="1800" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="2" key="0" z_index="0"/>

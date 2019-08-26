@@ -62,7 +62,7 @@ public class InventoryMenu extends AbstractMenu {
         itemSpriterPlayer.setScale(0.5f);
         itemSpriterPlayer.setEntity(gameManager.playerData.getEntity("inventoryMenu"));
         itemSpriterPlayer.setPosition(70, 320);
-        itemSpriterPlayer.speed=5;
+        itemSpriterPlayer.speed=1;
 
         menuState = MenuState.WEAPON;
         inventoryPane.switchTab();

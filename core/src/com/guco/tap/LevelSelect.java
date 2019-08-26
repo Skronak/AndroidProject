@@ -2,14 +2,9 @@ package com.guco.tap;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
@@ -21,7 +16,7 @@ public class LevelSelect {
     public ScrollPane pane;
 
     public LevelSelect(GameManager gameManager) {
-        VerticalGroup levelList = new VerticalGroup();
+        HorizontalGroup levelList = new HorizontalGroup();
         levelList.space(5f);
         Image image = new Image(new Texture("sprites/badlogic1.jpg"));
         levelList.addActor(image);
@@ -39,11 +34,12 @@ public class LevelSelect {
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
 
         pane = new ScrollPane(levelList);
-        pane.setScrollingDisabled(true, false);
-        pane.setSize(40,170);
+        pane.setScrollingDisabled(false, true);
+        pane.setSize(40,60);
         pane.layout();
-        pane.setScrollPercentY(.6f);
+        pane.setScrollPercentX(.6f);
         pane.updateVisualScroll();
         pane.setPosition(Constants.V_WIDTH-pane.getWidth()-10,Constants.V_HEIGHT/2-pane.getHeight()/2);
+        pane.debug();
     }
 }

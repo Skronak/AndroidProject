@@ -42,6 +42,7 @@ import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.shop.ShopMenu;
 import com.guco.tap.object.EnemyInformation;
 import com.guco.tap.object.FpsActor;
+import com.guco.tap.ui.UiLevelSelect;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -111,7 +112,7 @@ public class Hud implements Disposable {
         initButton();
         initHud();
 
-//        LevelSelect levelSelect = new LevelSelect(gameManager);
+//        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
 //        stage.addActor(levelSelect.pane);
 
         toggleMenu(forgemenu);
@@ -382,8 +383,11 @@ public class Hud implements Disposable {
         menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
         menuButtonTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
 
+        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
         // Assemble hud
         mainTable.add(tableTop).top().height(45);
+        mainTable.row();
+        mainTable.add(levelSelect).padTop(10);
         mainTable.row();
         Table skillMenuTable = new Table();
         skillMenuTable.add(skillButton0).size(50,50).padLeft(10);

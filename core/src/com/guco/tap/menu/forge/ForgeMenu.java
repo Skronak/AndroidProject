@@ -39,6 +39,7 @@ public class ForgeMenu extends AbstractMenu {
     private Table resultButtonTable;
     private Table rollButtonTable;
     private Item currentItem;
+    private Label craftingLabel;
 
     public ForgeMenu(GameManager gameManager) {
         super(gameManager);
@@ -46,8 +47,10 @@ public class ForgeMenu extends AbstractMenu {
         itemFactory = new ItemFactory(gameManager);
         createButton();
         createDrawer();
+        createLoadingLabel();
         createResultTable();
         createButtonTables();
+
         resetForge();
     }
 
@@ -103,6 +106,12 @@ public class ForgeMenu extends AbstractMenu {
         itemSpriterPlayer.setPosition(Constants.V_WIDTH/2, 280);
     }
 
+    private void createLoadingLabel(){
+        craftingLabel = new Label("CRAFTING...", skin);
+        parentTable.addActor(craftingLabel);
+        craftingLabel.setPosition(Constants.V_WIDTH/2-craftingLabel.getWidth()/2,350);
+    }
+
     private void createResultTable(){
         resultAtkLabel =new Label("",skin);
         gradeLabel = new Label("",skin);
@@ -139,6 +148,7 @@ public class ForgeMenu extends AbstractMenu {
     private void rollItem() {
         currentItem = itemFactory.rollItem();
 
+        craftingLabel.setVisible(true);
         rollButtonTable.setVisible(false);
         resultButtonTable.setVisible(false);
         itemSpriterPlayer.setAnimation(itemSpriterPlayer.getEntity().getAnimation("load"));
@@ -154,6 +164,7 @@ public class ForgeMenu extends AbstractMenu {
     }
 
     private void resetForge() {
+        craftingLabel.setVisible(false);
         rollButtonTable.setVisible(true);
         resultButtonTable.setVisible(false);
         resultTable.setVisible(false);
@@ -176,6 +187,7 @@ public class ForgeMenu extends AbstractMenu {
             gradeLabel.setText("Grade - EPIQ");
             gradeLabel.setColor(Color.GOLD);
         }
+        craftingLabel.setVisible(false);
         resultTable.setVisible(true);
         nameLabel.setText(currentItem.name);
         ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(currentItem.damageValue, currentItem.damageCurrency);

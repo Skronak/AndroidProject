@@ -144,7 +144,7 @@ public class GameManager {
         spriterPlayer = new SpriterPlayer(forgeData.getEntity(0));
         spriterPlayer.setPosition(85,220);
         spriterPlayer.setScale(0.30f);
-        spriterPlayer.speed=15;
+        spriterPlayer.speed=10;
         spriterPlayer.setAnimation("idle");
         //spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
         return spriterPlayer;

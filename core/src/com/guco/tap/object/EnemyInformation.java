@@ -53,7 +53,7 @@ public class EnemyInformation extends Group {
         this.addActor(healthLabel);
         this.addActor(difficulty);
 
-        this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 470);
+        this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 450);
     }
 
     public void reinitialise(EnemyActor enemyActor) {

@@ -386,11 +386,11 @@ public class Hud implements Disposable {
         mainTable.add(tableTop).top().height(45);
         mainTable.row();
         Table skillMenuTable = new Table();
-        skillMenuTable.add(skillButton0).size(50,50);
-        skillMenuTable.add(skillButton1).size(50,50);
-        skillMenuTable.add(skillButton2).size(50,50);
-        skillMenuTable.add(skillButton3).size(50,50);
-        mainTable.add(skillMenuTable).bottom().expandY().colspan(activeMenuList.size()-1);
+        skillMenuTable.add(skillButton0).size(50,50).padLeft(10);
+        skillMenuTable.add(skillButton1).size(50,50).padLeft(10);
+        skillMenuTable.add(skillButton2).size(50,50).padLeft(10);
+        skillMenuTable.add(skillButton3).size(50,50).padLeft(10);
+        mainTable.add(skillMenuTable).bottom().expandY().left().colspan(activeMenuList.size()-1).padBottom(10);
         mainTable.row();
 
         // Add menu to the stage
@@ -511,7 +511,7 @@ public class Hud implements Disposable {
     }
 
     public void updateEnemyInformation(ValueDTO damage){
-        enemyInformation.decrease(damage);
+        enemyInformation.updateLifeBar(damage);
     }
 
     // Met a jour l'affichage de l'or

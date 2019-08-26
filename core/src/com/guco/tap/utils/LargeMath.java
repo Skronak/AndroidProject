@@ -1,7 +1,6 @@
 package com.guco.tap.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.entity.Item;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -108,7 +107,7 @@ public class LargeMath {
     }
 
         /**
-         * Compare two ValueDTO and decrease the first one from the second one
+         * Compare two ValueDTO and updateLifeBar the first one from the second one
          * @param baseValue
          * @param baseCurrency
          * @param substractValue

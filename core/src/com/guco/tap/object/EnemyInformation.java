@@ -10,8 +10,6 @@ import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.LargeMath;
 import com.guco.tap.utils.ValueDTO;
 
-import java.util.Arrays;
-
 /**
  * TODO a revoir pour prendre en compte
  * ValueDTO previousLife? 
@@ -67,7 +65,7 @@ public class EnemyInformation extends Group {
         updateDamagelabel();
     }
 
-    public void decrease(ValueDTO damage) {
+    public void updateLifeBar(ValueDTO damage) {
         orangeImage.clear();
         orangeImage.getColor().a=1f;
         orangeImage.setSize(redImage.getWidth(),redImage.getHeight());

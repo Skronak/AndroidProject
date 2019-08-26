@@ -85,7 +85,7 @@ public class PlayScreen extends AbstractScreen {
         //tapActor
         tapActor = new TapActor();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background2.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
 
@@ -175,9 +175,11 @@ public class PlayScreen extends AbstractScreen {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        if (gameManager.currentState.equals(GameState.IN_GAME)) {
+        if (gameManager.currentState.equals(GameState.IN_GAME)||gameManager.currentState.equals(GameState.PAUSE)) {
             spriterPlayer.update();
             playerDrawer.draw(spriterPlayer);
+        } else {
+            hud.draw();
         }
         spriteBatch.end();
         hud.draw();

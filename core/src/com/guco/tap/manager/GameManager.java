@@ -13,8 +13,8 @@ import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.entity.GameInformation;
@@ -362,13 +362,18 @@ public class GameManager {
      */
     public void hurtEnemy(ValueDTO damageData) {
         //currentEnemyActor.hurt();
+        boolean noDamage=false;
+        ValueDTO previousEnemyLifePoint = currentEnemyActor.lifePoint;
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);
-        // Case of enemy death
+        if (currentEnemyActor.lifePoint.currency==previousEnemyLifePoint.currency && currentEnemyActor.lifePoint.value == previousEnemyLifePoint.value) {
+            noDamage=true;
+        }
         if (currentEnemyActor.lifePoint.value <= 0) {
             killEnemy();
         }
-        // TODo instance du hud directement dans gamemanager? ou alors c'est un playScreenManager. mais je lui set quand meme le hud du Game
-        playScreen.getHud().updateEnemyInformation(damageData); // TODO to replace
+        if (!noDamage) {
+            playScreen.getHud().updateEnemyInformation(damageData);
+        }
     }
 
     public void killEnemy(){

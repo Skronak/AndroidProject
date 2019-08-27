@@ -39,7 +39,7 @@ import com.guco.tap.menu.gameInformation.GameInformationMenu;
 import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.menu.option.OptionMenu;
-import com.guco.tap.menu.shop.ShopMenu;
+import com.guco.tap.menu.shop.AreaMenu;
 import com.guco.tap.object.EnemyInformation;
 import com.guco.tap.object.FpsActor;
 import com.guco.tap.ui.UiLevelSelect;
@@ -63,7 +63,7 @@ public class Hud implements Disposable {
     public CharacterAttributeMenu characterAttributeMenu;
 
     private Viewport viewport;
-    private ShopMenu shopMenu;
+    private AreaMenu areaMenu;
     private ForgeMenu forgemenu;
     private OptionMenu optionMenu;
     private AchievementMenu achievementMenu;
@@ -123,7 +123,7 @@ public class Hud implements Disposable {
      */
     private void initMenu() {
         characterAttributeMenu = new CharacterAttributeMenu(gameManager);
-        shopMenu = new ShopMenu(gameManager);
+        areaMenu = new AreaMenu(gameManager);
         inventoryMenu = new InventoryMenu(gameManager);
         gameInformationMenu = new GameInformationMenu(gameManager);
         optionMenu = new OptionMenu(gameManager);
@@ -135,14 +135,14 @@ public class Hud implements Disposable {
         activeMenuList.add(gameInformationMenu);
         activeMenuList.add(characterAttributeMenu);
         activeMenuList.add(inventoryMenu);
-        activeMenuList.add(shopMenu);
+        activeMenuList.add(areaMenu);
         activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
         activeMenuList.add(forgemenu);
     }
 
     public void postInitMenu(){
-        shopMenu.postInit();
+        areaMenu.postInit();
     }
 
     private void initTop(){

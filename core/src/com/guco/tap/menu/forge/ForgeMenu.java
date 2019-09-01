@@ -55,7 +55,7 @@ public class ForgeMenu extends AbstractMenu {
     }
 
     private void createButton() {
-        rerollButton = new TextButton("REROLL",gameManager.ressourceManager.getSkin());
+        rerollButton = new TextButton("REROLL",gameManager.assetsManager.getSkin());
         rerollButton.setDisabled(true);
         rerollButton.addListener(new InputListener(){
             @Override
@@ -65,7 +65,7 @@ public class ForgeMenu extends AbstractMenu {
             }
         });
 
-        rollButton = new DualTextButton("ROLL","50B",gameManager.ressourceManager.getSkin());
+        rollButton = new DualTextButton("ROLL","50B",gameManager.assetsManager.getSkin());
         rollButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -74,7 +74,7 @@ public class ForgeMenu extends AbstractMenu {
             }
         });
 
-        validateButton = new TextButton("OK", gameManager.ressourceManager.getSkin());
+        validateButton = new TextButton("OK", gameManager.assetsManager.getSkin());
         validateButton.setDisabled(true);
         validateButton.addListener(new InputListener(){
             @Override
@@ -84,7 +84,7 @@ public class ForgeMenu extends AbstractMenu {
             }
         });
 
-        sellButton = new DualTextButton("SELL", "20 A", gameManager.ressourceManager.getSkin());
+        sellButton = new DualTextButton("SELL", "20 A", gameManager.assetsManager.getSkin());
         sellButton.setDisabled(true);
         sellButton.addListener(new InputListener(){
             @Override

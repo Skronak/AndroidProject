@@ -72,7 +72,7 @@ public class GoldManager {
 
         ValueDTO goldValue = gameManager.dataManager.calculateGoldPerMonster();
         String value = gameManager.largeMath.getDisplayValue(goldValue);
-        Label goldValueLabel = new Label("+ "+value ,gameManager.ressourceManager.getSkin());
+        Label goldValueLabel = new Label("+ "+value ,gameManager.assetsManager.getSkin());
         goldValueLabel.setPosition(goldActor.getX(),goldActor.getY());
         gameManager.playScreen.getHud().sceneLayer.addActor(goldValueLabel);
         goldValueLabel.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0,50,1f),Actions.fadeOut(0.5f)),Actions.removeActor()));

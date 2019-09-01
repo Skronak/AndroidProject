@@ -88,7 +88,7 @@ public class GameInformationOld {
         prefs.putInteger("passivGoldCurrency", genCurrencyPassive);
         prefs.putInteger("criticalRate", criticalRate);
         prefs.putInteger("stationId", stationId);
-        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getAttributeElementList().size(); i++){
             prefs.putInteger("upgradeLevel"+i, upgradeLevelList.get(i));
         }
         prefs.putLong("lastLogin", System.currentTimeMillis());
@@ -129,16 +129,16 @@ public class GameInformationOld {
         stationId = 0;
         skillPoint = 0;
 
-        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getAttributeElementList().size(); i++){
             upgradeLevelList.add(0);
         }
-        for (int i = 0; i<game.ressourceManager.getAchievementElementList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getAchievementElementList().size(); i++){
             achievList.add(0);
         }
         for (int i=0;i<3;i++) {
             characterEquipedList.add(1);
         }
-        for (int i = 0; i<game.ressourceManager.getItemList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getItemList().size(); i++){
             itemLevellist.add(0);
         }
 
@@ -167,7 +167,7 @@ public class GameInformationOld {
         criticalRate = prefs.getInteger("criticalRate");
         stationId = prefs.getInteger("stationId");
         skillPoint = prefs.getInteger("skillPoint");
-        for (int i = 0; i<game.ressourceManager.getAttributeElementList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getAttributeElementList().size(); i++){
             upgradeLevelList.add(prefs.getInteger("upgradeLevel"+i));
         }
         lastLogin = prefs.getLong("lastLogin");
@@ -176,13 +176,13 @@ public class GameInformationOld {
         factionExp = prefs.getInteger("factionExp");
         factionId = prefs.getInteger("factionId");
         factionLvl = prefs.getInteger("factionLvl");
-        for (int i = 0; i<game.ressourceManager.getAchievementElementList().size(); i++){
+        for (int i = 0; i<game.assetsManager.getAchievementElementList().size(); i++){
             achievList.add(prefs.getInteger("achiev_"+i));
         }
         for (int i=0;i<5;i++) {
             characterEquipedList.add(prefs.getInteger("equip_"+i));
         }
-        for (int i = 0; i<game.ressourceManager.weaponList.size(); i++){
+        for (int i = 0; i<game.assetsManager.weaponList.size(); i++){
             itemLevellist.add(prefs.getInteger("item"+i));
         }
         optionSound=prefs.getBoolean("optionSound");

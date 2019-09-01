@@ -48,9 +48,9 @@ public class ItemAttributeRowElement extends Table {
         this.add(icon).height(45).width(80).pad(5);
 
         for (int i=0;i<itemUpgradeList.size();i++) {
-            button = new TextButton("", gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
+            button = new TextButton("", gameManager.assetsManager.getModuleMenuBuyTxtBtnStyle());
             itemUpgradeList.get(i).upgradeEffect.gameInformation = gameManager.gameInformation;
-            Item item = gameManager.ressourceManager.weaponList.get(itemUpgradeList.get(i).weaponId);
+            Item item = gameManager.assetsManager.weaponList.get(itemUpgradeList.get(i).weaponId);
             button.addListener(new SkillSelectButtonListener(itemAttributeMenu, itemUpgradeList.get(i), item));
 
             this.add(button).height(45).width(45).padRight(10).padLeft(10);

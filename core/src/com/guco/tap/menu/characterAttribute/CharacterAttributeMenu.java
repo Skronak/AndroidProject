@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -42,12 +41,12 @@ public class CharacterAttributeMenu extends AbstractMenu {
         scrollContainerVG.space(10f);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
 
-        for (int i = 0; i < gameManager.ressourceManager.getAttributeElementList().size(); i++) {
+        for (int i = 0; i < gameManager.assetsManager.getAttributeElementList().size(); i++) {
             CharacterAttributeElement characterAttributeElement = new CharacterAttributeElement(gameManager);
             characterAttributeElement.initModuleMenuElement(i);
             scrollContainerVG.addActor(characterAttributeElement);
@@ -61,7 +60,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if spriterPlayer can click them
      */
     public void updateBuyButton () {
-        for (int i = 0; i<gameManager.ressourceManager.getAttributeElementList().size(); i++) {
+        for (int i = 0; i<gameManager.assetsManager.getAttributeElementList().size(); i++) {
             if (gameManager.attributeManager.isAvailableUpgrade(i)){
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setTouchable(Touchable.enabled);
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setColor(Color.YELLOW);

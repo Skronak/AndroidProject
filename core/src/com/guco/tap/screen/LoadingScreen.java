@@ -55,14 +55,14 @@ public class LoadingScreen implements Screen {
                 }
             })));
         }
-        Gdx.app.debug("Loading",String.valueOf(game.ressourceManager.getLoadValue()));
+        Gdx.app.debug("Loading",String.valueOf(game.assetsManager.getLoadValue()));
     }
 
     /**
      * loadLoadingScreen if animation is finished
      */
     public void loadAsset() {
-        game.ressourceManager.loadAsset();
+        game.assetsManager.loadAsset();
     }
 
     @Override

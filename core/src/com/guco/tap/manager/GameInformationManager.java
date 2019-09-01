@@ -18,21 +18,17 @@ public class GameInformationManager {
     private String PREF_NAME ="value";
     private Preferences prefs;
     public GameInformation gameInformation;
-    public RessourceManager ressourceManager;
+    public AssetsManager assetsManager;
     private SavedData savedData;
     private ItemManager itemManager;
 
-    public GameInformationManager(RessourceManager ressourceManager, ItemManager itemManager) {
+    public GameInformationManager(AssetsManager assetsManager, ItemManager itemManager) {
         this.json = new Json();
-        this.ressourceManager = ressourceManager;
+        this.assetsManager = assetsManager;
         this.itemManager = itemManager;
         prefs = Gdx.app.getPreferences(Constants.APP_NAME);
     }
 
-    /**
-     * Sauvegarde les informations courantes
-     * dans le fichier de pref
-     */
     public void saveData() {
         SavedData savedData = new SavedData(gameInformation);
 
@@ -54,9 +50,10 @@ public class GameInformationManager {
         gameInformation.optionFps=false;
     }
 
-    public void loadData() {
-        this.itemManager = itemManager;
+    public void loadGameData() {
+
         savedData = json.fromJson(SavedData.class, prefs.getString(PREF_NAME));
+
         if (savedData != null) {
             gameInformation = new GameInformation();
             gameInformation.lastLogin=System.currentTimeMillis();
@@ -65,7 +62,7 @@ public class GameInformationManager {
             gameInformation.attributeLevel = new ArrayList<Integer>();
             gameInformation.totalGameTime = savedData.totalGameTime;
             gameInformation.totalTapNumber=savedData.totalTapNumber;
-            gameInformation.dungeonLevel=savedData.dungeonLevel;
+            gameInformation.areaLevel =savedData.areaLevel;
             gameInformation.currentEnemyIdx=savedData.currentEnemyIdx;
             gameInformation.achievList=new ArrayList<Integer>();
             gameInformation.optionFps=savedData.optionFps;
@@ -74,35 +71,38 @@ public class GameInformationManager {
             gameInformation.skillPoint=savedData.skillPoint;
             gameInformation.levelBaseGold=savedData.levelBaseGold;
             gameInformation.levelBaseCurrency=savedData.levelBaseCurrency;
-            gameInformation.equipedWeapon = ressourceManager.weaponList.get(savedData.currentEquipment[0]);
+            gameInformation.equipedWeapon = assetsManager.weaponList.get(savedData.currentEquipment[0]);
             gameInformation.equipedHead = savedData.currentEquipment[1];
             gameInformation.equipedBody = savedData.currentEquipment[2];
-            gameInformation.weaponItemList = new ArrayList<Item>();
-            gameInformation.bodyItemList = new ArrayList<Item>();
-            gameInformation.headItemList = new ArrayList<Item>();
-            for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
+            gameInformation.areaLevel= savedData.areaLevel;
+            gameInformation.areaId = savedData.areaId;
+
+            for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
                 gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
             }
-            for (int i = 0; i<ressourceManager.getAchievementElementList().size(); i++){
+            for (int i = 0; i< assetsManager.getAchievementElementList().size(); i++){
                 gameInformation.achievList.add(savedData.achievList[i]);
             }
-            for (int i=0;i<ressourceManager.weaponList.size();i++){
-                Item item = ressourceManager.weaponList.get(i);
+            gameInformation.weaponItemList = new ArrayList<Item>();
+            for (int i = 0; i< assetsManager.weaponList.size(); i++){
+                Item item = assetsManager.weaponList.get(i);
                 item.level=savedData.weaponItemList[i];
                 CalculatedStat calculatedStat = itemManager.calculateItemStat(item,item.level);
                 item.calculatedStat = calculatedStat;
                 item.selectedUpgrades = new ArrayList<ItemUpgrade>();
                 gameInformation.weaponItemList.add(item);
             }
-            for (int i=0;i<ressourceManager.bodyList.size();i++){
-                Item item = ressourceManager.bodyList.get(i);
+            gameInformation.bodyItemList = new ArrayList<Item>();
+            for (int i = 0; i< assetsManager.bodyList.size(); i++){
+                Item item = assetsManager.bodyList.get(i);
                 item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.bodyItemList[i];
                 gameInformation.bodyItemList.add(item);
                 item.selectedUpgrades = new ArrayList<ItemUpgrade>();
             }
-            for (int i=0;i<ressourceManager.helmList.size();i++){
-                Item item = ressourceManager.helmList.get(i);
+            gameInformation.headItemList = new ArrayList<Item>();
+            for (int i = 0; i< assetsManager.helmList.size(); i++){
+                Item item = assetsManager.helmList.get(i);
                 item.calculatedStat = new CalculatedStat(item);
                 item.level=savedData.headItemList[i];
                 gameInformation.headItemList.add(item);
@@ -131,31 +131,32 @@ public class GameInformationManager {
         gameInformation.totalGameTime=0L;
         gameInformation.levelBaseGold=5;
         gameInformation.levelBaseCurrency=1;
-        gameInformation.dungeonLevel =1;
+        gameInformation.areaLevel = 1;
+        gameInformation.areaId = 1;
         gameInformation.attributeLevel = new ArrayList();
-        gameInformation.equipedWeapon=ressourceManager.weaponList.get(0);
-        for (int i=0;i<ressourceManager.getAttributeElementList().size();i++){
+        gameInformation.equipedWeapon= assetsManager.weaponList.get(0);
+        for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
             gameInformation.attributeLevel.add(0);
         }
         gameInformation.achievList = new ArrayList();
-        for (int i = 0; i<ressourceManager.getAchievementElementList().size(); i++){
+        for (int i = 0; i< assetsManager.getAchievementElementList().size(); i++){
             gameInformation.achievList.add(0);
         }
         gameInformation.weaponItemList = new ArrayList();
-        for (int i=0;i<ressourceManager.weaponList.size();i++){
-            Item item = ressourceManager.weaponList.get(i);
+        for (int i = 0; i< assetsManager.weaponList.size(); i++){
+            Item item = assetsManager.weaponList.get(i);
             item.calculatedStat = new CalculatedStat(item);
             gameInformation.weaponItemList.add(item);
         }
         gameInformation.bodyItemList = new ArrayList();
-        for (int i=0;i<ressourceManager.bodyList.size();i++){
-            Item item = ressourceManager.bodyList.get(i);
+        for (int i = 0; i< assetsManager.bodyList.size(); i++){
+            Item item = assetsManager.bodyList.get(i);
             item.calculatedStat = new CalculatedStat(item);
             gameInformation.bodyItemList.add(item);
         }
         gameInformation.headItemList = new ArrayList();
-        for (int i=0;i<ressourceManager.helmList.size();i++){
-            Item item = ressourceManager.helmList.get(i);
+        for (int i = 0; i< assetsManager.helmList.size(); i++){
+            Item item = assetsManager.helmList.get(i);
             item.calculatedStat = new CalculatedStat(item);
             gameInformation.headItemList.add(item);
         }

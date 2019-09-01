@@ -49,35 +49,35 @@ public class CharacterAttributeElement extends Table {
      * @param i
      */
     public void initModuleMenuElement(int i) {
-        attributeElementSource = gameManager.ressourceManager.getAttributeElementList().get(i);
+        attributeElementSource = gameManager.assetsManager.getAttributeElementList().get(i);
         int currentLevel = gameManager.gameInformation.attributeLevel.get(i);
 //        AttributeElementLevel moduleLevel = attributeElementSource.getLevel().get(gameManager.gameInformation.attributeLevel.get(i));
 
-        moduleLevelLabel = new Label("Level "+currentLevel, gameManager.ressourceManager.getSkin());
+        moduleLevelLabel = new Label("Level "+currentLevel, gameManager.assetsManager.getSkin());
         //moduleLevelImage = new Image(gameManager.attributeManager.getLevelTextureByLevel(i));
-        elementTitle = new Label(attributeElementSource.getTitle(), gameManager.ressourceManager.getSkin());
-        activeGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
+        elementTitle = new Label(attributeElementSource.getTitle(), gameManager.assetsManager.getSkin());
+        activeGoldLabel = new Label("", gameManager.assetsManager.getSkin());
         activeGoldLabel.setFontScale(0.7f);
-        passiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
+        passiveGoldLabel = new Label("", gameManager.assetsManager.getSkin());
         passiveGoldLabel.setFontScale(0.7f);
-        nextActiveGoldLabel = new Label("", gameManager.ressourceManager.getSkin());
+        nextActiveGoldLabel = new Label("", gameManager.assetsManager.getSkin());
         nextActiveGoldLabel.setFontScale(0.9f);
-        nextPassiveGoldLabel= new Label("", gameManager.ressourceManager.getSkin());
+        nextPassiveGoldLabel= new Label("", gameManager.assetsManager.getSkin());
         nextPassiveGoldLabel.setFontScale(0.9f);
 
-        buyButton = new TextButton("",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
+        buyButton = new TextButton("",gameManager.assetsManager.getModuleMenuBuyTxtBtnStyle());
         buyButton.addListener(new BuyUpgradeButtonListener(gameManager.attributeManager, i));
 
         if (currentLevel==0) {
-            Texture skillTexture = gameManager.ressourceManager.getDisabledIcon();
+            Texture skillTexture = gameManager.assetsManager.getDisabledIcon();
             skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             skillIcon = new Image(skillTexture);
         } else {
-            Texture skillTexture = gameManager.ressourceManager.getModuleDrawableUpList().get(i);
+            Texture skillTexture = gameManager.assetsManager.getModuleDrawableUpList().get(i);
             skillTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             skillIcon = new Image(skillTexture);
         }
-        goldIcon = new Image(gameManager.ressourceManager.getGoldIcon());
+        goldIcon = new Image(gameManager.assetsManager.getGoldIcon());
 
         // Liste level actuel du module
         Table moduleLevelGroup = new Table();
@@ -108,8 +108,8 @@ public class CharacterAttributeElement extends Table {
             buyButton.setColor(Color.GRAY);
         }
         moduleLevelLabel.setText("Level "+gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId()));
-        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId())))));
-        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getModuleDrawableUpList().get(attributeElementSource.getId()))));
+        //moduleLevelImage.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(attributeElementSource.getId())))));
+        skillIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getModuleDrawableUpList().get(attributeElementSource.getId()))));
         skillIcon.setSize(60,60);
         activeGoldLabel.setText(ACTIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getActGen().value, moduleLevel.getActGen().currency));
         passiveGoldLabel.setText(PASSIVE_GOLD_LABEL+PLUS_GOLD_LABEL+gameManager.largeMath.getDisplayValue(moduleLevel.getPassGen().value, moduleLevel.getPassGen().currency));

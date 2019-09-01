@@ -36,12 +36,12 @@ public class InventoryPane extends Container {
     public void initStyle(){
         paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
 
-        selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.greyTexture));
+        selectedRegionDrawable = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.greyTexture));
         selectedRegionDrawable.setMinHeight(1);
         selectedRegionDrawable.setMinWidth(1);
-        backgroundRegionDrawable= new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.lightGreyTexture));
+        backgroundRegionDrawable= new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.lightGreyTexture));
         backgroundRegionDrawable.setMinHeight(1);
         backgroundRegionDrawable.setMinWidth(1);
     }
@@ -49,9 +49,9 @@ public class InventoryPane extends Container {
     public void initTabs() {
         bodyTab = new VerticalGroup();
         bodyTab.space(5f);
-        for (int i = 0; i < gameManager.ressourceManager.bodyList.size(); i++) {
+        for (int i = 0; i < gameManager.assetsManager.bodyList.size(); i++) {
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
-            final Item item = gameManager.ressourceManager.bodyList.get(i);
+            final Item item = gameManager.assetsManager.bodyList.get(i);
             inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);
             inventoryElement.addListener(new ClickListener(){
@@ -64,8 +64,8 @@ public class InventoryPane extends Container {
 
         weaponTab = new VerticalGroup();
         weaponTab.space(5f);
-        for (int i = 0; i < gameManager.ressourceManager.weaponList.size(); i++) {
-            Item item = gameManager.ressourceManager.weaponList.get(i);
+        for (int i = 0; i < gameManager.assetsManager.weaponList.size(); i++) {
+            Item item = gameManager.assetsManager.weaponList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
             inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);
@@ -80,8 +80,8 @@ public class InventoryPane extends Container {
 
         headTab = new VerticalGroup();
         headTab.space(5f);
-        for (int i = 0; i < gameManager.ressourceManager.helmList.size(); i++) {
-            final Item item = gameManager.ressourceManager.helmList.get(i);
+        for (int i = 0; i < gameManager.assetsManager.helmList.size(); i++) {
+            final Item item = gameManager.assetsManager.helmList.get(i);
             final InventoryElement inventoryElement = new InventoryElement(gameManager, this);
             inventoryElement.initItemMenuElement(item);
             inventoryElement.setBackground(backgroundRegionDrawable);

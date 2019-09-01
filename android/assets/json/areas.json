@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "name": "Garden of freedom",
+    "levels": 2,
+    "fights": 10,
+    "background": "body0.pnj",
+    "icon": "icon_body_0.png",
+    "enemyPosX": 0,
+    "enemyPosY": 0,
+    "playerPosX": 0,
+    "playerPosY": 0
+  },
+  {
+    "id": 1,
+    "name": "Refuge of the ancient",
+    "levels": 5,
+    "fights": 10,
+    "background": "body0.pnj",
+    "icon": "icon_body_0.png",
+    "enemyPosX": 0,
+    "enemyPosY": 0,
+    "playerPosX": 0,
+    "playerPosY": 0
+  }
+]

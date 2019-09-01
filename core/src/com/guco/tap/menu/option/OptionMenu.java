@@ -22,7 +22,7 @@ public class OptionMenu extends AbstractMenu {
     public OptionMenu(GameManager gameManager) {
         super(gameManager);
 
-        resetButton = new TextButton("reset account",gameManager.ressourceManager.getSkin());
+        resetButton = new TextButton("reset account",gameManager.assetsManager.getSkin());
         resetButton.setDisabled(true);
         resetButton.addListener(new InputListener(){
             @Override
@@ -32,7 +32,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        weatherButton = new TextButton("disable weather",gameManager.ressourceManager.getSkin());
+        weatherButton = new TextButton("disable weather",gameManager.assetsManager.getSkin());
         weatherButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -41,7 +41,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        soundButton = new TextButton("disable sound", gameManager.ressourceManager.getSkin());
+        soundButton = new TextButton("disable sound", gameManager.assetsManager.getSkin());
         soundButton.setDisabled(true);
         soundButton.addListener(new InputListener(){
             @Override
@@ -51,7 +51,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        fpsButton = new TextButton("Show FPS",gameManager.ressourceManager.getSkin());
+        fpsButton = new TextButton("Show FPS",gameManager.assetsManager.getSkin());
         fpsButton.setDisabled(true);
         fpsButton.addListener(new InputListener(){
             @Override
@@ -61,7 +61,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        goldButton = new TextButton("Max Gold",gameManager.ressourceManager.getSkin());
+        goldButton = new TextButton("Max Gold",gameManager.assetsManager.getSkin());
         goldButton.setDisabled(true);
         goldButton.addListener(new InputListener(){
             @Override
@@ -71,7 +71,7 @@ public class OptionMenu extends AbstractMenu {
             }
         });
 
-        debugButton = new TextButton("Debug",gameManager.ressourceManager.getSkin());
+        debugButton = new TextButton("Debug",gameManager.assetsManager.getSkin());
         debugButton.setDisabled(true);
         debugButton.addListener(new InputListener(){
             @Override
@@ -117,7 +117,7 @@ public class OptionMenu extends AbstractMenu {
         gameManager.gameInformation.skillPoint =999;
         gameManager.gameInformation.levelBaseGold =99;
         gameManager.gameInformation.levelBaseCurrency =99;
-        gameManager.gameInformation.dungeonLevel =999;
+        gameManager.gameInformation.areaLevel =999;
     }
 
     public void customizeMenuTable() {
@@ -128,7 +128,7 @@ public class OptionMenu extends AbstractMenu {
         parentTable.row();
         parentTable.add(fpsButton).left().pad(20);
         parentTable.row();
-        parentTable.add(new Label("***DEBUG***", gameManager.ressourceManager.getSkin()));
+        parentTable.add(new Label("***DEBUG***", gameManager.assetsManager.getSkin()));
         parentTable.row();
         parentTable.add(resetButton).expandX().left().pad(10);
         parentTable.row();

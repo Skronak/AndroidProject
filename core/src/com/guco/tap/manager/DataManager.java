@@ -10,14 +10,14 @@ public class DataManager {
 
     private LargeMath largeMath;
     private GameInformation gameInformation;
-    private RessourceManager ressourceManager;
+    private AssetsManager assetsManager;
 
     public DataManager(GameManager gameManager){
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
         this.largeMath = gameManager.largeMath;
         this.gameInformation = gameManager.gameInformation;
-        this.ressourceManager = gameManager.ressourceManager;
+        this.assetsManager = gameManager.assetsManager;
     }
 
     public void increaseGoldPassive(){
@@ -44,7 +44,7 @@ public class DataManager {
     }
 
     public ValueDTO calculateGoldPerMonster(){
-        ValueDTO valueDTO = new ValueDTO(gameInformation.dungeonLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
+        ValueDTO valueDTO = new ValueDTO(gameInformation.areaLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
         return valueDTO;
     }
 
@@ -57,8 +57,8 @@ public class DataManager {
         gameInformation.tapDamageValue = weapon.calculatedStat.damageValue;
         gameInformation.tapDamageCurrency = weapon.calculatedStat.damageCurrency;
 
-        ressourceManager.helmList.get(gameInformation.equipedBody);
-        ressourceManager.bodyList.get(gameInformation.equipedBody);
+        assetsManager.helmList.get(gameInformation.equipedBody);
+        assetsManager.bodyList.get(gameInformation.equipedBody);
 
     }
 

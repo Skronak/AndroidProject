@@ -24,9 +24,10 @@ public class EnemyActor extends AnimatedBaseActor {
         loadAnimation(enemy);
     }
 
-    private ValueDTO calculateHP(int baseHp, int area) {
-        int currency = 2%area ==0?area/2:(area-1)/2;//augmenter la currency tout les 2 niveaux
-        ValueDTO life = new ValueDTO(baseHp*area, currency);
+    private ValueDTO calculateHP(int baseHp, int level) {
+//        int currency = 2%level == 0?level/2:(level-1)/2;//augmenter la currency tout les 2 niveaux
+        int currency = 0;
+        ValueDTO life = new ValueDTO(baseHp*level, currency);
         return life;
     }
 

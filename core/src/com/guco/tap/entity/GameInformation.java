@@ -1,7 +1,6 @@
 package com.guco.tap.entity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Skronak on 30/01/2017.
@@ -26,8 +25,8 @@ public class GameInformation {
     public List<Integer> attributeLevel;
     public Long totalGameTime;
     public int totalTapNumber;
-    public int dungeonLevel;
-    // public int area;
+    public int areaLevel;
+    public int areaId;
     public List<Integer> achievList; //0: locked 1: unlocked,2: claimed
     public boolean optionWeather, optionSound, optionFps;
     public int skillPoint;

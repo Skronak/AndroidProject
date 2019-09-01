@@ -16,9 +16,9 @@ public class UiLevelSelect extends Table {
         previousLevel = new Image(new Texture("sprites/badlogic1.jpg"));
         currentLevel = new Image(new Texture("sprites/badlogic1.jpg"));
         nextLevel = new Image(new Texture("sprites/badlogic1.jpg"));
-        previousLevelLabel = new Label("1", gameManager.ressourceManager.getSkin());
-        currentLevelLabel = new Label("2", gameManager.ressourceManager.getSkin());
-        nextLevelLabel = new Label("3", gameManager.ressourceManager.getSkin());
+        previousLevelLabel = new Label("1", gameManager.assetsManager.getSkin());
+        currentLevelLabel = new Label("2", gameManager.assetsManager.getSkin());
+        nextLevelLabel = new Label("3", gameManager.assetsManager.getSkin());
 
         add(previousLevel).size(30,30);
         add(currentLevel).size(30,30).padLeft(5);

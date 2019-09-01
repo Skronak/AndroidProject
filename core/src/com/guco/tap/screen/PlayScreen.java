@@ -119,7 +119,7 @@ public class PlayScreen extends AbstractScreen {
         stage.addActor(layer2GraphicObject);
 
         // Init torch
-        TorchActor torchActor = new TorchActor(gameManager.ressourceManager);
+        TorchActor torchActor = new TorchActor(gameManager.assetsManager);
         torchActor.start();
 
         // Ajout des objets dans les calques
@@ -224,7 +224,7 @@ public class PlayScreen extends AbstractScreen {
     }
 
     public void showDamageLabel(String damage) {
-        damageLabel = new Label(damage,new Label.LabelStyle(gameManager.ressourceManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;

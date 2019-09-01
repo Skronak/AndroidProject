@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
+import com.guco.tap.dto.Area;
 import com.guco.tap.entity.AttributeElement;
-import com.guco.tap.entity.Item;
-import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.entity.Enemy;
+import com.guco.tap.entity.Item;
 import com.guco.tap.entity.TiersUpgrades;
+import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Classe de chargement des assets du jeu
  * TODO Utiliser atlas & asset manager
  */
-public class RessourceManager {
+public class AssetsManager {
 
     private AssetManager assetManager;
 
@@ -44,6 +45,7 @@ public class RessourceManager {
     public ArrayList<Enemy> enemyList;
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
+    public ArrayList<Area> areaList;
     public ArrayList<TiersUpgrades> weaponUpgradeList;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture,brownTexture, upTexture, grey9Texture;
     public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
@@ -58,7 +60,7 @@ public class RessourceManager {
 
     private int loadValue;
 
-    public RessourceManager() {
+    public AssetsManager() {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
 
         json = new Json();
@@ -68,7 +70,7 @@ public class RessourceManager {
     }
 
     public void loadAsset(){
-        loadFile();
+        readFromFile();
         loadIcons();
         loadImage();
         loadTexture();
@@ -80,7 +82,6 @@ public class RessourceManager {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         font = generator.getFont();
         generator.dispose();
-        loadValue+=1;
 
         TextureRegionDrawable buyDrawableUp = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(UI_PATH+"goldButtonUp.png"))) );
         TextureRegionDrawable buyDrawableDown = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(UI_PATH+"goldButtonDown.png"))) );
@@ -93,43 +94,29 @@ public class RessourceManager {
         moduleMenuUpgradeTxtBtnStyle = new TextButton.TextButtonStyle(upgradeDrawableUp, upgradeDrawableDown,upgradeDrawableChecked, font);
 
         loadValue+=1;
+        debugLogLoading();
     }
 
-    public void loadFile() {
+    private void readFromFile() {
         attributeElementList = new ArrayList<AttributeElement>();
         attributeElementList = json.fromJson(ArrayList.class, AttributeElement.class, Gdx.files.internal(JSON_PATH+"moduleElement.json"));
 
         achievementElementList = new ArrayList<AchievementElement>();
         achievementElementList = json.fromJson(ArrayList.class, AchievementElement.class, Gdx.files.internal(JSON_PATH+"achievementElement.json"));
 
-        enemyList = new ArrayList<Enemy>();
         enemyList = json.fromJson(ArrayList.class, Enemy.class, Gdx.files.internal(JSON_PATH+"enemyJSON.json"));
-
-        //itemList= new ArrayList<Item>();
-        //itemList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal("json/item.json"));
-
-        weaponList= new ArrayList<Item>();
         weaponList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"weapon.json"));
-
-        helmList= new ArrayList<Item>();
         helmList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"helm.json"));
-
-        bodyList= new ArrayList<Item>();
         bodyList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"body.json"));
-
-        weaponUpgradeList= new ArrayList<TiersUpgrades>();
         weaponUpgradeList = json.fromJson(ArrayList.class, TiersUpgrades.class, Gdx.files.internal(JSON_PATH+"itemUpgrade.json"));
+        weaponUpgradeList = json.fromJson(ArrayList.class, TiersUpgrades.class, Gdx.files.internal(JSON_PATH+"itemUpgrade.json"));
+        areaList = json.fromJson(ArrayList.class, Area.class, Gdx.files.internal(JSON_PATH+"areas.json"));
 
         loadValue+=1;
-        Gdx.app.log("RessourceManager","Chargement asset termine");
+        debugLogLoading();
     }
 
-    public void loadIcons(){
-        goldIcon = new Texture(Gdx.files.internal(ICON_PATH+"gold+.png"));
-        disabledIcon = new Texture(Gdx.files.internal(ICON_PATH+"lock.png"));
-    }
-
-    public void loadTexture() {
+    private void loadTexture() {
         scrollTexture = new Texture(Gdx.files.internal(ICON_PATH+"bar.png"));
         menuBackgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(BACKGROUND_PATH+"menuBackground.png"))));
         torchTexture = new Texture(Gdx.files.internal(OBJECT_PATH+"torch.png"));
@@ -155,6 +142,16 @@ public class RessourceManager {
         ascendButtonTextureDown = new Texture(Gdx.files.internal(ICON_PATH+"ascend_r.png"));
         lockedButton = new Texture(Gdx.files.internal(ICON_PATH+"locked_button.png"));
 
+        loadValue+=1;
+        debugLogLoading();
+    }
+
+    private void loadIcons(){
+        goldIcon = new Texture(Gdx.files.internal(ICON_PATH+"gold+.png"));
+        disabledIcon = new Texture(Gdx.files.internal(ICON_PATH+"lock.png"));
+
+        loadValue+=1;
+        debugLogLoading();
     }
 
     public void loadImage() {
@@ -164,24 +161,6 @@ public class RessourceManager {
         for (int i = 0; i < getAttributeElementList().size(); i++) {
             moduleDrawableUpList.add(new Texture(Gdx.files.internal(ICON_PATH + getAttributeElementList().get(i).getIcon())));
         }
-
-        // Pour chaque niveau de rarete on met dans la liste
-        //for (int i=0; i<7;i++){
-        //    upgradeLvlImageList.add(new Texture(Gdx.files.internal(ICON_PATH +"upgradeMenu/mLvlC"+i+".png")));
-        //}
-        //for (int i=0; i<7;i++){
-        //    upgradeLvlImageList.add(new Texture(Gdx.files.internal(ICON_PATH+"upgradeMenu/mLvlB"+i+".png")));
-        //}
-        //for (int i=0; i<7;i++){
-        //    upgradeLvlImageList.add(new Texture(Gdx.files.internal(ICON_PATH+"upgradeMenu/mLvlA"+i+".png")));
-        //}
-        //for (int i=0; i<7;i++){
-        //    upgradeLvlImageList.add(new Texture(Gdx.files.internal(ICON_PATH+"upgradeMenu/mLvlS"+i+".png")));
-        //}
-        //for (int i=0; i<7;i++){
-        //    upgradeLvlImageList.add(new Texture(Gdx.files.internal(ICON_PATH+"upgradeMenu/mLvlSS"+i+".png")));
-        //}
-
         redTexture = new Texture(Gdx.files.internal(UI_PATH+"red.png"));
         orangeTexture = new Texture(Gdx.files.internal(UI_PATH+"orange.png"));
         greyTexture = new Texture(Gdx.files.internal(UI_PATH+"grey.png"));
@@ -201,16 +180,17 @@ public class RessourceManager {
         bodyHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_body_r.png"));
         headHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_head_r.png"));
         weapHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_sword_r.png"));
+
+        loadValue+=1;
+        debugLogLoading();
     }
 
-
+    private void debugLogLoading(){
+        Gdx.app.log("AssetLoad",String.valueOf(loadValue) + "/ 5");
+    }
 //*****************************************************
 //                  GETTER & SETTER
 // ****************************************************
-
-//    public ArrayList<ModuleEntity> getUpgradeFile() {
-//        return upgradeFile;
-//    }
 
     public TextButton.TextButtonStyle getModuleMenuBuyTxtBtnStyle() {
         return moduleMenuBuyTxtBtnStyle;

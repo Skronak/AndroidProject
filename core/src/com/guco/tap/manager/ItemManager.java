@@ -7,10 +7,6 @@ import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.utils.LargeMath;
 import com.guco.tap.utils.ValueDTO;
 
-import java.math.BigDecimal;
-
-import javafx.util.converter.BigDecimalStringConverter;
-
 public class ItemManager {
 
     private LargeMath largeMath;
@@ -23,10 +19,10 @@ public class ItemManager {
     }
 
     //public void updateWeaponListWithUpgrade() {
-    //    for (int i = 0; i < gameManager.ressourceManager.weaponList.size(); i++) {
-    //        Item item = gameManager.ressourceManager.weaponList.get(i);
-    //        if (gameManager.ressourceManager.weaponUpgradeList.size()>i) {
-    //            item.upgrades = gameManager.ressourceManager.weaponUpgradeList.get(i);
+    //    for (int i = 0; i < gameManager.assetsManager.weaponList.size(); i++) {
+    //        Item item = gameManager.assetsManager.weaponList.get(i);
+    //        if (gameManager.assetsManager.weaponUpgradeList.size()>i) {
+    //            item.upgrades = gameManager.assetsManager.weaponUpgradeList.get(i);
     //            Item upgradedItem = gameManager.gameInformation.weaponItemList.get(i);
     //            if (upgradedItem.level==0) {
     //                item.calculatedStat = new CalculatedStat(upgradedItem.damageValue, upgradedItem.damageCurrency, upgradedItem.criticalRate);

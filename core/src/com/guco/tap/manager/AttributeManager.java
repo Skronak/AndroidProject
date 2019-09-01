@@ -22,12 +22,12 @@ public class AttributeManager {
     private GameManager gameManager;
     private CharacterAttributeMenu characterAttributeMenu;
     private List<AttributeElement> attributeEntityList;
-    private RessourceManager ressourceManager;
+    private AssetsManager assetsManager;
 
     public AttributeManager(GameManager gameManager) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameManager = gameManager;
-        this.attributeEntityList = gameManager.ressourceManager.getAttributeElementList();
+        this.attributeEntityList = gameManager.assetsManager.getAttributeElementList();
     }
 
     public void initialize(CharacterAttributeMenu characterAttributeMenu) {
@@ -111,9 +111,9 @@ public class AttributeManager {
      * @return
      */
     public Texture getLevelTextureByLevel(int level) {
-        Texture levelTexture = gameManager.ressourceManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(level));
+        Texture levelTexture = gameManager.assetsManager.getUpgradeLvlImageList().get(gameManager.gameInformation.attributeLevel.get(level));
         if (null==levelTexture) {
-            levelTexture = gameManager.ressourceManager.getUpgradeLvlImageList().get(0);
+            levelTexture = gameManager.assetsManager.getUpgradeLvlImageList().get(0);
         }
         return levelTexture;
     }

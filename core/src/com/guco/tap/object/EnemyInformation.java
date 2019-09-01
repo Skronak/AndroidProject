@@ -30,13 +30,13 @@ public class EnemyInformation extends Group {
     private LargeMath largeMath;
 
     public EnemyInformation(GameManager gameManager) {
-        nameLabel = new Label("default", gameManager.ressourceManager.getSkin());
-        healthLabel = new Label("", gameManager.ressourceManager.getSkin());
+        nameLabel = new Label("default", gameManager.assetsManager.getSkin());
+        healthLabel = new Label("", gameManager.assetsManager.getSkin());
         largeMath = gameManager.largeMath;
-        redImage = new Image(gameManager.ressourceManager.redTexture);
-        orangeImage = new Image(gameManager.ressourceManager.orangeTexture);
-        greyImage = new Image(gameManager.ressourceManager.greyTexture);
-        difficulty = new Image(gameManager.ressourceManager.diffTexture3);
+        redImage = new Image(gameManager.assetsManager.redTexture);
+        orangeImage = new Image(gameManager.assetsManager.orangeTexture);
+        greyImage = new Image(gameManager.assetsManager.greyTexture);
+        difficulty = new Image(gameManager.assetsManager.diffTexture3);
         nameLabel.setPosition(0,BAR_HEIGHT);
         orangeImage.setSize(BAR_WIDTH,BAR_HEIGHT);
         redImage.setSize(BAR_WIDTH,BAR_HEIGHT);

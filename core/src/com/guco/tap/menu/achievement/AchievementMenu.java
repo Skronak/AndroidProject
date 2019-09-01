@@ -42,7 +42,7 @@ public class AchievementMenu extends AbstractMenu {
         descriptionLabel.setWrap(true);
         descriptionLabel.setScale(0.8f);
         skillPointLabel = new Label(String.valueOf(gameManager.achievementManager.achievementElementList.get(0).skillPoint)+"SP",skin);
-        claimButton = new TextButton("claim",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
+        claimButton = new TextButton("claim",gameManager.assetsManager.getModuleMenuBuyTxtBtnStyle());
         claimAchievementButtonListener = new ClaimAchievementButtonListener(gameManager, this);
         claimButton.addListener(claimAchievementButtonListener);
 
@@ -50,13 +50,13 @@ public class AchievementMenu extends AbstractMenu {
         scrollContainerVG.space(5f);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
         achievementTable = new Table();
         int y=0; // count nb element per line
         for (int i = 0; i<gameManager.achievementManager.achievementElementList.size(); i++){
-            Image achievElement = new Image(gameManager.ressourceManager.achievementTexture);
+            Image achievElement = new Image(gameManager.assetsManager.achievementTexture);
             achievElement.addListener(new AchievementButtonListener(this,gameManager.achievementManager.achievementElementList.get(i)));
             achievementTable.add(achievElement).width(50).height(50).pad(10);
             if (y<max_element_row) {
@@ -73,7 +73,7 @@ public class AchievementMenu extends AbstractMenu {
         descriptionTable.row();
         descriptionTable.add(descriptionLabel).fillX();
         descriptionTable.add(claimButton).width(70).height(70);
-        NinePatch patch = new NinePatch(gameManager.ressourceManager.grey9Texture,
+        NinePatch patch = new NinePatch(gameManager.assetsManager.grey9Texture,
                 6,6, 6, 6);
         NinePatchDrawable background = new NinePatchDrawable(patch);
         descriptionTable.setBackground(background);
@@ -95,7 +95,7 @@ public class AchievementMenu extends AbstractMenu {
     public void show(){
         for (int i = 0; i<gameManager.achievementManager.achievementElementList.size(); i++) {
             if (gameManager.achievementManager.achievementElementList.get(i).isAchieved || gameManager.achievementManager.achievementElementList.get(i).condition.isAchieved()) {
-                ((Image) achievementTable.getCells().get(i).getActor()).setDrawable(new TextureRegionDrawable(gameManager.ressourceManager.achievementTexture));
+                ((Image) achievementTable.getCells().get(i).getActor()).setDrawable(new TextureRegionDrawable(gameManager.assetsManager.achievementTexture));
                 achievementTable.getCells().get(i).getActor().setOrigin(achievementTable.getCells().get(i).getActor().getWidth()/2,achievementTable.getCells().get(i).getActor().getHeight()/2);
 
                 // Animate elements to claim

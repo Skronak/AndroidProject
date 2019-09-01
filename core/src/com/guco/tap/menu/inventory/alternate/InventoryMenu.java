@@ -78,7 +78,7 @@ public class InventoryMenu extends AbstractMenu {
         damageLabel.setFontScale(0.7f);
         nextDamageLabel=new Label("99 G",skin);
         nextDamageLabel.setFontScale(0.7f);
-        upImage = new Image(gameManager.ressourceManager.upTexture);
+        upImage = new Image(gameManager.assetsManager.upTexture);
 
         upgradeButton = new TextButton("UPGRADE",skin);
         upgradeButton.addListener(new InputListener() {
@@ -113,8 +113,8 @@ public class InventoryMenu extends AbstractMenu {
     public Table initMenuContent() {
         final Table table = new Table();
         ImageButton.ImageButtonStyle styleHead = new ImageButton.ImageButtonStyle();
-        styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.headHTexture));
-        styleHead.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.headHTextureR));
+        styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.headHTexture));
+        styleHead.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.headHTextureR));
         headButton = new ImageButton(styleHead);
         headButton.addListener(new InputListener() {
             @Override
@@ -126,8 +126,8 @@ public class InventoryMenu extends AbstractMenu {
         });
 
         ImageButton.ImageButtonStyle styleBody = new ImageButton.ImageButtonStyle();
-        styleBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.bodyHTexture));
-        styleBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.bodyHTextureR));
+        styleBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.bodyHTexture));
+        styleBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.bodyHTextureR));
         bodyButton = new ImageButton(styleBody);
         bodyButton.addListener(new InputListener() {
             @Override
@@ -139,8 +139,8 @@ public class InventoryMenu extends AbstractMenu {
         });
 
         ImageButton.ImageButtonStyle weapBody = new ImageButton.ImageButtonStyle();
-        weapBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.weapHTexture));
-        weapBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.weapHTextureR));
+        weapBody.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.weapHTexture));
+        weapBody.down = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.weapHTextureR));
         weapButton = new ImageButton(weapBody);
         weapButton.addListener(new InputListener() {
             @Override

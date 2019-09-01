@@ -31,7 +31,7 @@ public class LevelSelect {
 
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
 
         pane = new ScrollPane(levelList);
         pane.setScrollingDisabled(false, true);

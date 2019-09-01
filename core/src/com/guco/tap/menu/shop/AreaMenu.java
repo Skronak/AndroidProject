@@ -22,7 +22,6 @@ public class AreaMenu extends AbstractMenu {
     private SpriteBatch spriteBatch;
     private Image background;
 
-
     public AreaMenu(GameManager gameManager) {
         super(gameManager);
 
@@ -47,7 +46,7 @@ public class AreaMenu extends AbstractMenu {
         Table container = new Table();
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
         ScrollPane pane = new ScrollPane(container, paneStyle);
         pane.setScrollingDisabled(false, true);
         for (int i = 0; i<12; i++){

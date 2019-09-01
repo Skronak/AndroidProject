@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.utils.ValueDTO;
-
-import java.util.List;
 
 /**
  * Represente un module dans le menu deroulant des modules
@@ -60,29 +57,29 @@ public class InventoryElement extends Table {
         int currentLevel = itemSource.level;
         skillIcon = new Image(new Texture(ICON_PATH+itemSource.icon));
 
-        itemNameLabel = new Label("", gameManager.ressourceManager.getSkin());
+        itemNameLabel = new Label("", gameManager.assetsManager.getSkin());
         itemNameLabel.setText(itemSource.name);
         itemNameLabel.setWrap(true);
         itemNameLabel.setFontScale(0.7f);
 
-        damageLabel = new Label("", gameManager.ressourceManager.getSkin());
+        damageLabel = new Label("", gameManager.assetsManager.getSkin());
         damageLabel.setFontScale(0.7f);
 
-        levelLabel = new Label("Lv "+currentLevel, gameManager.ressourceManager.getSkin());
+        levelLabel = new Label("Lv "+currentLevel, gameManager.assetsManager.getSkin());
         overlapLabel = new Stack();
-        levelReqLabel = new Label("Req Lv "+itemSource.reqLvl, gameManager.ressourceManager.getSkin());
-        descriptionLabel = new Label(itemSource.description, gameManager.ressourceManager.getSkin());
+        levelReqLabel = new Label("Req Lv "+itemSource.reqLvl, gameManager.assetsManager.getSkin());
+        descriptionLabel = new Label(itemSource.description, gameManager.assetsManager.getSkin());
         overlapLabel.add(levelReqLabel);
         overlapLabel.add(damageLabel);
 
-        upgradeButton = new TextButton("",gameManager.ressourceManager.getModuleMenuUpgradeTxtBtnStyle());
+        upgradeButton = new TextButton("",gameManager.assetsManager.getModuleMenuUpgradeTxtBtnStyle());
         upgradeButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameManager.playScreen.getHud().showUpgradeMenu(itemSource.id);
                 return true;
             }});
 
-        perkButton = new TextButton("PERK", gameManager.ressourceManager.getSkin());
+        perkButton = new TextButton("PERK", gameManager.assetsManager.getSkin());
         perkButton.getLabel().setFontScale(0.7f);
         perkButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -90,7 +87,7 @@ public class InventoryElement extends Table {
                 return true;
             }});
 
-        unlockButton = new TextButton("UNLOCK", gameManager.ressourceManager.getSkin());
+        unlockButton = new TextButton("UNLOCK", gameManager.assetsManager.getSkin());
         unlockButton.getLabel().setFontScale(0.7f);
         unlockButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -98,7 +95,7 @@ public class InventoryElement extends Table {
                 return true;
             }
         });
-        equipButton = new TextButton("EQUIP", gameManager.ressourceManager.getSkin());
+        equipButton = new TextButton("EQUIP", gameManager.assetsManager.getSkin());
         equipButton.getLabel().setFontScale(0.7f);
         equipButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -106,7 +103,7 @@ public class InventoryElement extends Table {
                 return true;
             }
         });
-        sellButton = new TextButton("SELL", gameManager.ressourceManager.getSkin());
+        sellButton = new TextButton("SELL", gameManager.assetsManager.getSkin());
         sellButton.getLabel().setFontScale(0.7f);
         sellButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -173,7 +170,7 @@ public class InventoryElement extends Table {
     }
 
     public void confirmSell(){
-        Dialog dialog = new Dialog("Warning", gameManager.ressourceManager.getSkin(), "dialog") {
+        Dialog dialog = new Dialog("Warning", gameManager.assetsManager.getSkin(), "dialog") {
             public void result(Object obj) {
                 if (obj.equals(true))
                 sellItem();
@@ -189,7 +186,7 @@ public class InventoryElement extends Table {
         String damage = gameManager.largeMath.getDisplayValue(itemSource.calculatedStat.damageValue, itemSource.calculatedStat.damageCurrency);
         this.levelLabel.setText(String.valueOf("Lv "+itemSource.level));
         this.damageLabel.setText(DAMAGE_LABEL+damage);
-        if (gameManager.gameInformation.dungeonLevel >= itemSource.reqLvl) {
+        if (gameManager.gameInformation.areaLevel >= itemSource.reqLvl) {
             if (itemSource.level > 0) {
                 previewItem(false, true, false, true);
             } else {

@@ -17,6 +17,7 @@ import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
+import com.guco.tap.dto.Area;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
@@ -79,7 +80,7 @@ public class GameManager {
 
     TapDungeonGame game;
 
-    public RessourceManager ressourceManager;
+    public AssetsManager assetsManager;
 
     public GameInformationManager gameInformationManager;
 
@@ -87,11 +88,13 @@ public class GameManager {
 
     public GoldManager goldManager;
 
+    public Area currentArea;
+
     public GameManager(TapDungeonGame game) {
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
         currentState = GameState.IN_GAME;
-        this.ressourceManager =game.ressourceManager;
+        this.assetsManager =game.assetsManager;
         this.gameInformation = game.gameInformation;
         largeMath = game.largeMath;
         newModuleIdList = new ArrayList<Integer>();
@@ -113,11 +116,13 @@ public class GameManager {
         //attributeManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
         initEnemyQueue();
         attributeManager.initialize(playScreen.getHud().characterAttributeMenu);
+        currentArea = assetsManager.areaList.get(gameInformation.areaId);
 
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
-        playScreen.getHud().initEnemyInformation(currentEnemyActor);
+        playScreen.getHud().initFight(currentEnemyActor);
         nbMandatoryFight=5; // from floor information
         playScreen.getHud().postInitMenu();
+
     }
 
     public SpriterPlayer loadPlayer(){
@@ -131,8 +136,8 @@ public class GameManager {
         spriterPlayer.setAnimation("idle");
         spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
         spriterPlayer.characterMaps[weaponMap]= spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
-        spriterPlayer.characterMaps[headMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.helmList.get(gameInformation.equipedHead).mapName);
-        spriterPlayer.characterMaps[bodyMap]= spriterPlayer.getEntity().getCharacterMap(ressourceManager.bodyList.get(gameInformation.equipedBody).mapName);
+        spriterPlayer.characterMaps[headMap]= spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
+        spriterPlayer.characterMaps[bodyMap]= spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
         return spriterPlayer;
     }
 
@@ -287,8 +292,8 @@ public class GameManager {
         gameInformation.currentEnemyIdx=0;
         int randomNum=0;
        for (int i=0;i<10;i++) {
-           randomNum = rand.nextInt((ressourceManager.enemyList.size()-1) + 1);
-           enemyActorQueue.add(new EnemyActor(ressourceManager.enemyList.get(randomNum),gameInformation.dungeonLevel));
+           randomNum = rand.nextInt((assetsManager.enemyList.size()-1) + 1);
+           enemyActorQueue.add(new EnemyActor(assetsManager.enemyList.get(randomNum),gameInformation.areaLevel));
         }
     }
 
@@ -342,7 +347,7 @@ public class GameManager {
             currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.8f),Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    playScreen.getHud().initEnemyInformation(currentEnemyActor); currentState = GameState.IN_GAME;
+                    playScreen.getHud().initFight(currentEnemyActor); currentState = GameState.IN_GAME;
                 }
             })));
 
@@ -392,18 +397,32 @@ public class GameManager {
         if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
             switchEnemy();
         } else {
-            //playScreen.getHud().ascendButton.setVisible(true);
-            //playScreen.getHud().ascendButton.addAction(new BlinkAction(1f,2));
-            gameInformation.dungeonLevel+=1;
+            //playScreen.getHud().goToNextAreaButton.setVisible(true);
+            //playScreen.getHud().goToNextAreaButton.addAction(new BlinkAction(1f,2));
+            gameInformation.areaLevel +=1;
             initEnemyQueue();
             switchEnemy();
             switchFloor();
         }
     }
 
-    /**
-     * TODO Classe d'experimentation
-     */
+    private void animateKillEnemyUI(){
+
+    }
+    private void getReward(){
+
+    }
+
+    private void changeAreaLevel() {
+        currentArea = assetsManager.areaList.get(gameInformation.areaId);
+
+        if (gameInformation.areaLevel < 10) {
+            changeAreaLevel();
+         } else {
+//            changeArea();
+         }
+    }
+
     public void switchFloor() {
         Vector2 targetPosition = new Vector2(Constants.V_WIDTH/2,Constants.V_HEIGHT);
         playScreen.stage.addAction(CameraMoveToAction.action(playScreen.camera, 1f, targetPosition.x, targetPosition.y, playScreen.camera.position.z, Interpolation.fade));

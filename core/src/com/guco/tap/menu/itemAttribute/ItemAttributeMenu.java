@@ -42,7 +42,7 @@ public class ItemAttributeMenu extends AbstractMenu {
     }
 
     public void customizeMenuTable() {
-        TextButton applySkillButton = new TextButton("Apply",gameManager.ressourceManager.getModuleMenuBuyTxtBtnStyle());
+        TextButton applySkillButton = new TextButton("Apply",gameManager.assetsManager.getModuleMenuBuyTxtBtnStyle());
         InputListener applyButtonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 selectedItemUpgrade.upgradeEffect.apply(selectedItem);
@@ -52,16 +52,16 @@ public class ItemAttributeMenu extends AbstractMenu {
         };
         applySkillButton.addListener(applyButtonListener);
 
-        levelLabel = new Label("",gameManager.ressourceManager.getSkin());
-        titleLabel = new Label("",gameManager.ressourceManager.getSkin());
-        descriptionLabel = new Label("",gameManager.ressourceManager.getSkin());
+        levelLabel = new Label("",gameManager.assetsManager.getSkin());
+        titleLabel = new Label("",gameManager.assetsManager.getSkin());
+        descriptionLabel = new Label("",gameManager.assetsManager.getSkin());
 
         addMenuHeader("ITEM ATTRIBUTE",1);
 
         //TODO load pane on click only
         weaponUpgradePanes = new ArrayList<ScrollPane>();
-        for (int i = 0; i < gameManager.ressourceManager.weaponUpgradeList.size(); i++) {
-            ScrollPane weaponUpgradePane = initUpgradePane(gameManager.ressourceManager.weaponUpgradeList.get(i));
+        for (int i = 0; i < gameManager.assetsManager.weaponUpgradeList.size(); i++) {
+            ScrollPane weaponUpgradePane = initUpgradePane(gameManager.assetsManager.weaponUpgradeList.get(i));
             weaponUpgradePanes.add(weaponUpgradePane);
         }
         currentPane = weaponUpgradePanes.get(0);
@@ -97,11 +97,11 @@ public class ItemAttributeMenu extends AbstractMenu {
         scrollContainerVG.padTop(20);
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
-        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.ressourceManager.getScrollTexture(), 10, 50));
+        paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
 
         ScrollPane pane = new ScrollPane(scrollContainerVG, paneStyle);
         pane.setScrollingDisabled(true, false);
-        Item item = gameManager.ressourceManager.weaponList.get(tiersUpgrades.firstTier.get(0).weaponId);
+        Item item = gameManager.assetsManager.weaponList.get(tiersUpgrades.firstTier.get(0).weaponId);
         ItemAttributeRowElement itemAttributeRowElement = new ItemAttributeRowElement(gameManager,this, tiersUpgrades.firstTier,1);
         scrollContainerVG.addActor(itemAttributeRowElement);
         itemAttributeRowElement = new ItemAttributeRowElement(gameManager,this, tiersUpgrades.secondTier,2);
@@ -124,7 +124,7 @@ public class ItemAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if spriterPlayer can click them
      */
     public void updateBuyButton () {
-        for (int i = 0; i<gameManager.ressourceManager.getAttributeElementList().size(); i++) {
+        for (int i = 0; i<gameManager.assetsManager.getAttributeElementList().size(); i++) {
         }
     }
 

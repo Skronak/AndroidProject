@@ -1,6 +1,7 @@
-package com.guco.tap.entity;
+package com.guco.tap.dto;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.guco.tap.entity.AttributeElementLevel;
 
 import java.util.List;
 

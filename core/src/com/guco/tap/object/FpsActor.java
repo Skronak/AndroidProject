@@ -3,7 +3,7 @@ package com.guco.tap.object;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.guco.tap.manager.RessourceManager;
+import com.guco.tap.manager.AssetsManager;
 
 
 /**
@@ -13,8 +13,8 @@ public class FpsActor extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     private long lastTimeCounted;
     private float sinceChange;
 
-    public FpsActor(RessourceManager ressourceManager){
-        super("", ressourceManager.getSkin());
+    public FpsActor(AssetsManager assetsManager){
+        super("", assetsManager.getSkin());
         lastTimeCounted = TimeUtils.millis();
         sinceChange = 0;
     }

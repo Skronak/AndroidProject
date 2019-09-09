@@ -517,7 +517,7 @@ public class Hud implements Disposable {
         enemyInformation.updateLifeBar(damage);
     }
 
-    // Met a jour l'affichage de l'or
+    // Met a jour l'affichage de l'orm
     public void updateGoldLabel(){
         String scoreAffichage = largeMath.getDisplayValue(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency);
         goldLabel.setText(scoreAffichage);

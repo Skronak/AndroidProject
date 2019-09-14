@@ -13,7 +13,7 @@
   },
   {
     "id": 1,
-    "name": "Refuge of the ancient",
+    "name": "Bamboo Forest",
     "levels": 5,
     "fights": 10,
     "background": "area1.png",
@@ -25,7 +25,7 @@
   },
   {
     "id": 2,
-    "name": "Refuge of the ancient",
+    "name": "Acasia Forest",
     "levels": 5,
     "fights": 10,
     "background": "area2.png",
@@ -38,7 +38,7 @@
   {
     "id": 3,
     "name": "Refuge of the ancient",
-    "levels": 5,
+    "levels": 3,
     "fights": 10,
     "background": "area3.png",
     "icon": "icon_body_0.png",
@@ -49,7 +49,7 @@
   },
   {
     "id": 4,
-    "name": "Refuge of the ancient",
+    "name": "Dark Sanctuary",
     "levels": 5,
     "fights": 10,
     "background": "area4.png",

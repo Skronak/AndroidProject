@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -14,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.dto.Area;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
+import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -28,9 +32,9 @@ public class AreaMenu extends AbstractMenu {
     private SpriteBatch spriteBatch;
     private Image background, area1, area2, area3, area4;
     Image[] backgroundImages;
-    private Table levelSelect;
     private Area currentArea;
-    ScrollPane levelPane;
+    private Label areaNameLabel;
+    private ScrollPane levelPane;
 
     public AreaMenu(GameManager gameManager) {
         super(gameManager);
@@ -38,7 +42,7 @@ public class AreaMenu extends AbstractMenu {
         ArrayList<Area> areaList = gameManager.assetsManager.areaList;
         currentArea = areaList.get(gameManager.gameInformation.areaId);
 
-        backgroundImages = new Image[8];
+        backgroundImages = new Image[areaList.size()];
         for (int i=0;i<gameManager.assetsManager.areaList.size();i++) {
             backgroundImages[i] = new Image(new Texture(Gdx.files.internal("sprites/background/"+ areaList.get(i).background)));
         }
@@ -55,15 +59,20 @@ public class AreaMenu extends AbstractMenu {
         parentTable.row();
         parentTable.add(background).fill();
         parentTable.row();
+        areaNameLabel = new Label("", skin);
+        parentTable.addActor(areaNameLabel);
         ScrollPane areaPane = createAreaPane();
         parentTable.add(areaPane).expandY().bottom();
-
         levelPane = createLevelPane();
         levelPane.setPosition(0,100);
         parentTable.addActor(levelPane);
 
-        parentTable.setDebug(true);
-        levelPane.debug();
+    }
+
+    @Override
+    public void show(){
+        super.show();
+        selectArea(gameManager.gameInformation.areaId);
     }
 
     private ScrollPane createAreaPane(){
@@ -75,15 +84,19 @@ public class AreaMenu extends AbstractMenu {
         pane.setScrollingDisabled(false, true);
         for (int i = 0; i<backgroundImages.length; i++) {
             final int areaId=i;
-            Image levelImage = new Image(new Texture(Gdx.files.internal("sprites/badlogic1.jpg")));
-            levelImage.addListener(new InputListener(){
+            ImageButton.ImageButtonStyle styleHead = new ImageButton.ImageButtonStyle();
+            styleHead.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("sprites/background/area"+areaId+"_icon.png"))));
+            styleHead.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("sprites/background/area"+areaId+"_icon_r.png"))));
+            ImageButton areaSelectButton = new ImageButton(styleHead);
+
+            areaSelectButton.addListener(new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                     selectArea(areaId);
                     return true;
                 }
             });
-            container.add(levelImage).size(60,120);
+            container.add(areaSelectButton).size(60,120);
         }
         return pane;
     }
@@ -95,8 +108,9 @@ public class AreaMenu extends AbstractMenu {
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
         ScrollPane pane = new ScrollPane(container, paneStyle);
         pane.setScrollingDisabled(true, false);
+
         for (int i = 0; i<currentArea.levels; i++) {
-            TextButton textButton = new TextButton("1-10",gameManager.assetsManager.getSkin());
+            TextButton textButton = new TextButton(i+"1-"+(i+1)+"0",gameManager.assetsManager.getSkin());
             textButton.addListener(new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -107,6 +121,7 @@ public class AreaMenu extends AbstractMenu {
             container.add(textButton).size(100,40).padTop(5);
             container.row();
         }
+
         pane.setHeight(300);
         return pane;
     }
@@ -115,10 +130,16 @@ public class AreaMenu extends AbstractMenu {
         currentArea = gameManager.assetsManager.areaList.get(areaId);
         background.setDrawable(backgroundImages[areaId].getDrawable());
         initialiseLevelPane();
+        areaNameLabel.setText(currentArea.name);
+        areaNameLabel.setPosition(Constants.V_WIDTH/2-areaNameLabel.getPrefWidth()/2,Constants.V_HEIGHT-170);
     }
 
     private void initialiseLevelPane() {
+        parentTable.removeActor(levelPane);
         levelPane = createLevelPane();
+        levelPane.setPosition(-100,100);
+        parentTable.addActor(levelPane);
+        levelPane.addAction(Actions.sequence(Actions.alpha(0.5f), Actions.parallel(Actions.fadeIn(1f),Actions.moveTo(0,100,0.5f))));
     }
 
     @Override

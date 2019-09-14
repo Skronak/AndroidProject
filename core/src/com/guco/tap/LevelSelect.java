@@ -40,6 +40,5 @@ public class LevelSelect {
         pane.setScrollPercentX(.6f);
         pane.updateVisualScroll();
         pane.setPosition(Constants.V_WIDTH-pane.getWidth()-10,Constants.V_HEIGHT/2-pane.getHeight()/2);
-        pane.debug();
     }
 }

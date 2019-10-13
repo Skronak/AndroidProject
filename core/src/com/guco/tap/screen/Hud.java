@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -315,7 +314,7 @@ public class Hud implements Disposable {
 
     /**
      * Initialise les informations du HUD et
-     * ajoute les elemnts dans le stage
+     * ajoute les elements dans le stage
      */
     private void initHud() {
         versionLabel = new Label(Constants.CURRENT_VERSION, new Label.LabelStyle(font, Color.WHITE));
@@ -338,23 +337,19 @@ public class Hud implements Disposable {
         stack.add(goldLabel);
         stack.add(goldDecreaseLabel);
 
-        Table tableTop = new Table();
-        tableTop.add(button_5).height(40).width(40).left();
+        Table topHorizontalTable = new Table();
+        topHorizontalTable.add(button_5).height(40).width(40).expandX();
         VerticalGroup verticalGroup = new VerticalGroup();
         verticalGroup.addActor(floorLabel);
         verticalGroup.addActor(battleNbLabel);
-        tableTop.add(verticalGroup).expandX().left().padLeft(90);
-        tableTop.add(goldIcon).size(30,30).right();
-        tableTop.add(stack).right();
+        topHorizontalTable.add(verticalGroup).left();
+        topHorizontalTable.add(goldIcon).size(30,30).right();
+        topHorizontalTable.add(stack).right();
 
         TextureRegionDrawable backgroundImg = new TextureRegionDrawable(gameManager.assetsManager.brownTexture);
         backgroundImg.setMinWidth(Constants.V_WIDTH);
         backgroundImg.setMinHeight(40);
-        tableTop.setBackground(backgroundImg);
-
-        mainTable = new Table();
-        mainTable.top();
-        mainTable.setFillParent(true);
+        topHorizontalTable.setBackground(backgroundImg);
 
         // ***** OTHER *****
         // Hp bar & name
@@ -368,25 +363,30 @@ public class Hud implements Disposable {
         sceneLayer.addActor(goToNextAreaButton);
 
         // Add buttons to the stage
-        Table menuButtonTable = new Table();
-        menuButtonTable.addActor(button_0);
-        menuButtonTable.addActor(button_1);
-        menuButtonTable.addActor(button_2);
-        menuButtonTable.addActor(button_3);
+        Table bottomMenuTable = new Table();
+        bottomMenuTable.addActor(button_0);
+        bottomMenuTable.addActor(button_1);
+        bottomMenuTable.addActor(button_2);
+        bottomMenuTable.addActor(button_3);
 
-        menuButtonTable.add(button_0).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-        menuButtonTable.add(button_1).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-        menuButtonTable.add(button_2).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-        menuButtonTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-        menuButtonTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
-        menuButtonTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_0).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_1).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_2).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_3).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
+        bottomMenuTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
 
         UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
         // Assemble hud
-        mainTable.add(tableTop).top().height(45);
+        mainTable = new Table();
+        mainTable.top();
+        mainTable.setFillParent(true);
+
+        mainTable.add(topHorizontalTable).top().height(45).expandX();
         mainTable.row();
         mainTable.add(levelSelect).padTop(10);
         mainTable.row();
+
         Table skillMenuTable = new Table();
         skillMenuTable.add(skillButton0).size(50,50).padLeft(10);
         skillMenuTable.add(skillButton1).size(50,50).padLeft(10);
@@ -401,7 +401,7 @@ public class Hud implements Disposable {
         }
         mainTable.addActor(itemAttributeMenu.parentTable);
         mainTable.row();
-        mainTable.add(menuButtonTable);
+        mainTable.add(bottomMenuTable);
 
         // Optionnal element
         fpsActor = new FpsActor(gameManager.assetsManager);
@@ -413,6 +413,8 @@ public class Hud implements Disposable {
         stage.addActor(sceneLayer);
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
+
+        stage.setDebugAll(true);
     }
 
     /**
@@ -480,16 +482,15 @@ public class Hud implements Disposable {
     }
 
     public void closeCurrentMenu() {
-        currentMenu.parentTable.clearActions();
-        currentMenu.parentTable.addAction(Actions.sequence(Actions.moveTo(currentMenu.parentTable.getX(), -currentMenu.parentTable.getHeight(),0.2f),Actions.visible(false)));
+        currentMenu.close();
+
         currentMenu = null;
         gameManager.currentState=GameState.IN_GAME;
     }
 
     private void openMenu(AbstractMenu menu) {
-        menu.parentTable.setPosition(menu.parentTable.getX(), -menu.parentTable.getHeight()); //Menu Animation
-        menu.parentTable.addAction(Actions.moveTo(menu.parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
-        menu.show();
+        menu.open();
+
         currentMenu = menu;
         gameManager.currentState=GameState.MENU;
     }

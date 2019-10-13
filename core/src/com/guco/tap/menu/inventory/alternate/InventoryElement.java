@@ -158,7 +158,6 @@ public class InventoryElement extends Table {
     public void showUnlockedItemOption(){
         sellButton.setVisible(true);
         perkButton.setVisible(true);
-
     }
 
     public void equipItem(){

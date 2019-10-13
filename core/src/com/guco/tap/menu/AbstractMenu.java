@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -83,9 +85,17 @@ public abstract class AbstractMenu {
     public void draw() {
     }
 
-    /**
-     * Update Menu
-     */
+    public void open(){
+        parentTable.setPosition(parentTable.getX(), -parentTable.getHeight()); //Menu Animation
+        parentTable.addAction(Actions.moveTo(parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
+        show();
+    }
+
+    public void close(){
+        parentTable.clearActions();
+        parentTable.addAction(Actions.sequence(Actions.moveTo(parentTable.getX(), - parentTable.getHeight(),0.2f),Actions.visible(false)));
+    }
+
     public void update(){
     }
 
@@ -99,8 +109,4 @@ public abstract class AbstractMenu {
         final Texture t = new Texture(Gdx.files.internal(fname));
         return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL);
     }
-
-//*****************************************************
-//                  GETTER & SETTER
-// ****************************************************
 }

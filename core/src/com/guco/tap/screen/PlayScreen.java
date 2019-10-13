@@ -85,7 +85,7 @@ public class PlayScreen extends AbstractScreen {
         //tapActor
         tapActor = new TapActor();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background2.png"));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
 

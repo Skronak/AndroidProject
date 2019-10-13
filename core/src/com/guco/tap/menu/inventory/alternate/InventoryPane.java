@@ -136,7 +136,7 @@ public class InventoryPane extends Container {
         selectedItemElement = inventoryElement;
         for( int i=0; i<activeTab.getChildren().size;i++) {
             ((InventoryElement) activeTab.getChildren().get(i)).setBackground(backgroundRegionDrawable);
-            ((InventoryElement) activeTab.getChildren().get(i)).sellButton.setVisible(true);
+            //((InventoryElement) activeTab.getChildren().get(i)).sellButton.setVisible(true);
         }
         selectedItemElement.setBackground(selectedRegionDrawable);
         selectedItemElement.sellButton.setVisible(false);

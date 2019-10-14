@@ -79,7 +79,6 @@ public class PlayScreen extends AbstractScreen {
         textAnimMinX =100;
         random = new Random();
 
-
         gameManager.initialiseGame();
 
         //tapActor

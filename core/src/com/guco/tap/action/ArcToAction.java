@@ -1,10 +1,7 @@
 package com.guco.tap.action;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 

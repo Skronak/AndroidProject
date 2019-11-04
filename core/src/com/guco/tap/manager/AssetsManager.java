@@ -35,6 +35,12 @@ public class AssetsManager {
     private TextureRegionDrawable menuBackgroundTexture;
     private BitmapFont font;
 
+    private String ICON_PATH = "sprites/icon/";
+    private String UI_PATH = "sprites/ui/";
+    private String BACKGROUND_PATH="sprites/background/";
+    private String OBJECT_PATH="sprites/object/";
+    private String JSON_PATH="json/";
+
     private Texture goldIcon;
     private ArrayList<Texture> moduleDrawableUpList;
     private Texture disabledIcon;
@@ -46,17 +52,13 @@ public class AssetsManager {
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
     public ArrayList<Area> areaList;
+    public ArrayList<Texture> backgroundImageList;
     public ArrayList<TiersUpgrades> weaponUpgradeList;
+    public Texture background1Texture,background2Texture,background3Texture,background4Texture,background5Texture;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture,brownTexture, upTexture, grey9Texture;
     public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4, torchTexture, achievementTexture,achievementAvaibleTexture;
     public Texture upgradeButtonTextureUp,skillButtonTextureUp,achievButtonTextureUp,upgradeButtonTextureDown,skillButtonTextureDown,achievButtonTextureDown,mapButtonTextureDown,mapButtonTextureUp,passivButtonTextureup,passivButtonTextureDown,button6TextureUp,button6TextureDown, ascendButtonTextureUp,ascendButtonTextureDown,lockedButton;
-
-    private String ICON_PATH = "sprites/icon/";
-    private String UI_PATH = "sprites/ui/";
-    private String BACKGROUND_PATH="sprites/background/";
-    private String OBJECT_PATH="sprites/object/";
-    private String JSON_PATH="json/";
 
     private int loadValue;
 
@@ -141,6 +143,13 @@ public class AssetsManager {
         ascendButtonTextureUp = new Texture(Gdx.files.internal(ICON_PATH+"ascend.png"));
         ascendButtonTextureDown = new Texture(Gdx.files.internal(ICON_PATH+"ascend_r.png"));
         lockedButton = new Texture(Gdx.files.internal(ICON_PATH+"locked_button.png"));
+
+        backgroundImageList = new ArrayList<Texture>();
+        for(int i=0;i<areaList.size();i++) {
+            Texture backgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + "\\" + areaList.get(i).background);
+            backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            backgroundImageList.add(backgroundTexture);
+        }
 
         loadValue+=1;
         debugLogLoading();

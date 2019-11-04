@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -264,7 +263,6 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerLevelSelect = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                switchToSelectScreen();
                 return true;
             }
         };
@@ -285,31 +283,6 @@ public class Hud implements Disposable {
         skillButton1 = new ImageButton(skill0Head);
         skillButton2 = new ImageButton(skill0Head);
         skillButton3 = new ImageButton(skill0Head);
-    }
-
-    private void switchToSelectScreen() {
-        game.playScreen.stage.getRoot().getColor().a = 1;
-        if (currentMenu!=null) {
-            closeCurrentMenu();
-        }
-        gameManager.currentState= GameState.LEVEL;
-        enemyInformation.setVisible(false);
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                game.playScreen.zoomTo(3,2);
-            }
-        }));
-        sequenceAction.addAction(Actions.delay(2));
-        sequenceAction.addAction(Actions.run(new Runnable() {
-                                                  @Override
-                                                  public void run() {
-                                                      game.setScreen(game.levelScreen);
-                                                  }
-                                              }
-        ));
-        game.playScreen.stage.getRoot().addAction(Actions.parallel(sequenceAction, Actions.fadeOut(2f)));
     }
 
     /**

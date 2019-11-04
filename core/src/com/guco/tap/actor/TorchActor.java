@@ -6,7 +6,7 @@ import com.guco.tap.manager.AssetsManager;
 import com.guco.tap.utils.FlamEffectActor;
 
 
-public class TorchActor extends Group {
+public class TorchActor extends Group implements AnimatedBackgroundObject {
     private FlamEffectActor flamEffectActor;
     private Image torchImage;
 

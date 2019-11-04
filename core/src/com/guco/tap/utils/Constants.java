@@ -80,4 +80,12 @@ public class Constants {
     public static int WEAPON_ID=2;
     public static int MAX_CHARACTERMAP=4;
     public static int FORGE_DELAY=3;
+
+    public static int BACKGROUND_WIDTH=410;
+    public static int BACKGROUND_LENGTH =585;
+
+    public static int BACKGROUND_POS_X=-90;
+
+    public static int BACKGROUND_POS_Y=-20;
+
 }

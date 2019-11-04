@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
@@ -21,6 +23,7 @@ import com.guco.tap.dto.Area;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
+import com.guco.tap.screen.AreaScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -111,6 +114,34 @@ public class GameManager {
         enemyActorQueue = new ArrayList<EnemyActor>();
     }
 
+    public void loadArea() {
+        int ID_AREA = 1;
+        Area area = assetsManager.areaList.get(ID_AREA);
+        AreaScreen areaScreen = new AreaScreen(game);
+        areaScreen.backgroundImage = new Image(assetsManager.backgroundImageList.get(ID_AREA));
+        areaScreen.backgroundImage.setSize(Constants.BACKGROUND_WIDTH,Constants.BACKGROUND_LENGTH);
+        areaScreen.backgroundImage.setPosition(Constants.BACKGROUND_POS_X,Constants.BACKGROUND_POS_Y);
+
+        EnemyActor enemyActor = enemyActorQueue.get(0);
+        enemyActor.setPosition(area.enemyPosX,area.enemyPosY);
+        EnemyActor nextEnemyActor = enemyActorQueue.get(1);
+        nextEnemyActor.setPosition(area.enemyBackPosX,area.enemyBackPosY);
+        nextEnemyActor.setColor(Color.BLACK);
+        EnemyActor hiddenEnemyActor = enemyActorQueue.get(2);
+        hiddenEnemyActor.setPosition(area.enemyHiddenPosX,area.enemyHiddenPosY);
+        hiddenEnemyActor.getColor().a=0f;
+
+        areaScreen.enemyActorList = new ArrayList<EnemyActor>();
+        areaScreen.enemyActorList.add(enemyActor);
+        areaScreen.enemyActorList.add(nextEnemyActor);
+        areaScreen.enemyActorList.add(hiddenEnemyActor);
+
+        for(int i=0;i<area.objectList.size();i++) {
+            areaScreen.layer0GraphicObject.addActor((Actor) area.objectList.get(i));
+            area.objectList.get(i).start();
+        }
+
+    }
     public void initialiseGame() {
         gameInformation.currentEnemyIdx=0;
         //attributeManager.initialize(playScreen.getHud().getCharacterAttributeMenu());

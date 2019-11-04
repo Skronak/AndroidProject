@@ -166,8 +166,7 @@ public class InventoryMenu extends AbstractMenu {
      * FOR TEST ONLY
      */
     @Override
-    public void draw(){
-        batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
+    public void draw() {
         batch.begin();
         itemSpriterPlayer.update();
 //        itemSpriterPlayer.
@@ -209,12 +208,12 @@ public class InventoryMenu extends AbstractMenu {
 
         String damage = gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency);
         damageLabel.setText(TOTAL_DMG_LABEL + damage);
-        String weap_damage = gameManager.largeMath.getDisplayValue(selectedItem.calculatedStat.damageValue, selectedItem.calculatedStat.damageCurrency);
-        weaponDamageLabel.setText(WEAPON_DMG_LABEL + weap_damage);
+        String weapDamage = gameManager.largeMath.getDisplayValue(selectedItem.calculatedStat.damageValue, selectedItem.calculatedStat.damageCurrency);
+        weaponDamageLabel.setText(WEAPON_DMG_LABEL + weapDamage);
 
         ValueDTO valueDTO = gameManager.largeMath.adjustCurrency(calculatedStat.damageValue, calculatedStat.damageCurrency);
-        weap_damage = gameManager.largeMath.getDisplayValue(valueDTO);
-        weaponDamageNextLvlLabel.setText(WEAPON_DMG_NEXT_LVL_LABEL + weap_damage);
+        weapDamage = gameManager.largeMath.getDisplayValue(valueDTO);
+        weaponDamageNextLvlLabel.setText(WEAPON_DMG_NEXT_LVL_LABEL + weapDamage);
 
         upgradeButton.setText(gameManager.largeMath.getDisplayValue(new ValueDTO(itemSource.calculatedStat.costValue,itemSource.calculatedStat.costCurrency)));
 

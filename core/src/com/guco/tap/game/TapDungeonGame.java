@@ -9,7 +9,6 @@ import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.manager.ItemManager;
 import com.guco.tap.screen.Hud;
-import com.guco.tap.screen.LevelScreen;
 import com.guco.tap.screen.LoadingScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.screen.SplashScreen;
@@ -25,7 +24,6 @@ public class TapDungeonGame extends Game {
 	private boolean devMode;
     public GameInformation gameInformation;
 	public LargeMath largeMath;
-	public LevelScreen levelScreen;
 	public Hud hud;
 
 	public TapDungeonGame(boolean devMode){
@@ -50,7 +48,6 @@ public class TapDungeonGame extends Game {
 			gameManager = new GameManager(this);
 			hud = new Hud(this);
 			playScreen = new PlayScreen(this);
-			levelScreen = new LevelScreen(this);
 			gameManager.playScreen=playScreen;
 			setScreen(playScreen);
 		} else {

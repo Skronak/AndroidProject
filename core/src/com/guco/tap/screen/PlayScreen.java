@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
@@ -59,7 +60,7 @@ public class PlayScreen extends AbstractScreen {
     GameManager gameManager;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
-
+    public OrthographicCamera camera;
 
     /**
      * Constructor
@@ -116,6 +117,7 @@ public class PlayScreen extends AbstractScreen {
         stage.addActor(layer0GraphicObject);
         stage.addActor(layer1GraphicObject);
         stage.addActor(layer2GraphicObject);
+        camera = (OrthographicCamera) stage.getCamera();
 
         // Init torch
         TorchActor torchActor = new TorchActor(gameManager.assetsManager);
@@ -163,8 +165,6 @@ public class PlayScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0, 0, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-
         gameManager.updateLogic(delta);
         hud.updateGoldLabel();
         //boss.update();
@@ -172,7 +172,6 @@ public class PlayScreen extends AbstractScreen {
         stage.act();
         stage.draw();
 
-        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         if (gameManager.currentState.equals(GameState.IN_GAME)||gameManager.currentState.equals(GameState.PAUSE)) {
             spriterPlayer.update();
@@ -234,7 +233,7 @@ public class PlayScreen extends AbstractScreen {
         damageLabel.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.parallel(
-                    Actions.fadeIn(1f)
+                        Actions.fadeIn(1f)
                 ),
                 Actions.fadeOut(2f),
                 Actions.removeActor(damageLabel)

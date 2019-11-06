@@ -270,7 +270,7 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerAscend = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.switchFloor();
+//                gameManager.switchFloor();
                 return true;
             }
         };

@@ -5,11 +5,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
@@ -17,7 +15,6 @@ import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
-import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.dto.Area;
 import com.guco.tap.entity.GameInformation;
@@ -94,6 +91,7 @@ public class GameManager {
     public Area currentArea;
 
     public GameManager(TapDungeonGame game) {
+        this.game = game;
         Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
         currentState = GameState.IN_GAME;
@@ -393,26 +391,40 @@ public class GameManager {
         return (gameInformation.tapDamageValue * gameInformation.criticalRate);
     }
 
-    /**
-     * hurtEnemy
-     */
-    public void hurtEnemy(ValueDTO damageData) {
-        //currentEnemyActor.hurt();
+    private void hurtEnemy(ValueDTO damageData) {
         boolean noDamage=false;
         ValueDTO previousEnemyLifePoint = currentEnemyActor.lifePoint;
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint,damageData);
         if (currentEnemyActor.lifePoint.currency==previousEnemyLifePoint.currency && currentEnemyActor.lifePoint.value == previousEnemyLifePoint.value) {
             noDamage=true;
         }
-        if (currentEnemyActor.lifePoint.value <= 0) {
-            killEnemy();
-        }
         if (!noDamage) {
-            playScreen.getHud().updateEnemyInformation(damageData);
+            game.hud.updateEnemyInformation(damageData);
+        }
+
+        if (currentEnemyActor.lifePoint.value <= 0) {
+            winBattle();
         }
     }
 
-    public void killEnemy(){
+    public void winBattle(){
+        killEnemy();
+
+        if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
+            switchEnemy();
+        } else {
+            gameInformation.areaLevel +=1;
+            initEnemyQueue();
+            switchEnemy();
+            if (gameInformation.areaLevel < 10) {
+                changeAreaLevel();
+            } else {
+//                updateArea();
+            }
+        }
+    }
+
+    public void killEnemy() {
         currentEnemyActor.hp=0;
         currentEnemyActor.death();
         Runnable incGold = new Runnable() {
@@ -424,51 +436,10 @@ public class GameManager {
         float speed=1f;
         float fadeOut=0.75f;
         goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()));
-        // go upstair or stay
-        if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
-            switchEnemy();
-        } else {
-            //playScreen.getHud().goToNextAreaButton.setVisible(true);
-            //playScreen.getHud().goToNextAreaButton.addAction(new BlinkAction(1f,2));
-            gameInformation.areaLevel +=1;
-            initEnemyQueue();
-            switchEnemy();
-            switchFloor();
-        }
-    }
-
-    private void animateKillEnemyUI(){
-
-    }
-    private void getReward(){
-
     }
 
     private void changeAreaLevel() {
         currentArea = assetsManager.areaList.get(gameInformation.areaId);
-
-        if (gameInformation.areaLevel < 10) {
-            changeAreaLevel();
-         } else {
-//            changeArea();
-         }
-    }
-
-    public void switchFloor() {
-        Vector2 targetPosition = new Vector2(Constants.V_WIDTH/2,Constants.V_HEIGHT);
-        playScreen.stage.addAction(CameraMoveToAction.action(playScreen.camera, 1f, targetPosition.x, targetPosition.y, playScreen.camera.position.z, Interpolation.fade));
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                playScreen.camera.position.x=Constants.V_WIDTH/2;
-                playScreen.camera.position.y=50;
-                playScreen.camera.position.z=0;
-                playScreen.stage.addAction(CameraMoveToAction.action(playScreen.camera, 0.5f, Constants.V_WIDTH/2,Constants.V_HEIGHT/2, playScreen.camera.position.z, Interpolation.circle));
-            }
-        }),fadeIn(1f)));
-//        playScreen.stage.getRoot().getColor().a = 0;
-        playScreen.stage.getRoot().addAction(sequenceAction);
 
     }
 }

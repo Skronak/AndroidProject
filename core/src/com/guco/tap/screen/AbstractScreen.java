@@ -3,9 +3,11 @@ package com.guco.tap.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.guco.tap.actor.TapActor;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.utils.Constants;
 
@@ -15,6 +17,7 @@ public abstract class AbstractScreen implements Screen {
     protected SpriteBatch spriteBatch;
     protected TapDungeonGame tapDungeonGame;
     public Stage stage;
+    protected TapActor tapActor;
 
     public AbstractScreen (TapDungeonGame tapDungeonGame){
         this.tapDungeonGame = tapDungeonGame;
@@ -23,8 +26,21 @@ public abstract class AbstractScreen implements Screen {
         viewport.apply(true);
         stage = new Stage(viewport, spriteBatch);
 
+        tapActor = new TapActor();
+
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    }
+
+    /**
+     * Affiche image la ou lecran est touche
+     * @param positionX
+     * @param positionY
+     */
+    public void showTapActor(int positionX, int positionY) {
+        Vector3 position2World = stage.getCamera().unproject(new Vector3(positionX, positionY,0));
+        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
+        tapActor.animate();
     }
 
     public void addPlayer(){

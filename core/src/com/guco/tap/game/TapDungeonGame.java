@@ -52,6 +52,7 @@ public class TapDungeonGame extends Game {
 			setScreen(playScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
+			hud = new Hud(this);
 			splashScreen=new SplashScreen(this);
 			setScreen(splashScreen);
 		}

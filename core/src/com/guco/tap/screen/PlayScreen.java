@@ -50,7 +50,6 @@ public class PlayScreen extends AbstractScreen {
     public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
-    private TapActor tapActor;
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
@@ -81,9 +80,6 @@ public class PlayScreen extends AbstractScreen {
         random = new Random();
 
         gameManager.initialiseGame();
-
-        //tapActor
-        tapActor = new TapActor();
 
         Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -181,18 +177,6 @@ public class PlayScreen extends AbstractScreen {
         }
         spriteBatch.end();
         hud.draw();
-    }
-
-    /**
-     * Affiche image la ou lecran est touche
-     * @param positionX
-     * @param positionY
-     */
-    public void showTapActor(int positionX, int positionY) {
-        Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
-        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
-
-        tapActor.animate();
     }
 
     public void debugMode(float delta){

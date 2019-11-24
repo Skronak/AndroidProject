@@ -2,6 +2,7 @@ package com.guco.tap.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +19,7 @@ public abstract class AbstractScreen implements Screen {
     protected TapDungeonGame tapDungeonGame;
     public Stage stage;
     protected TapActor tapActor;
+    protected OrthographicCamera camera;
 
     public AbstractScreen (TapDungeonGame tapDungeonGame){
         this.tapDungeonGame = tapDungeonGame;
@@ -25,7 +27,7 @@ public abstract class AbstractScreen implements Screen {
         viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
         viewport.apply(true);
         stage = new Stage(viewport, spriteBatch);
-
+        camera = (OrthographicCamera) stage.getCamera();
         tapActor = new TapActor();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

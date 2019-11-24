@@ -3,12 +3,14 @@ package com.guco.tap.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
@@ -21,6 +23,7 @@ import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
 import com.guco.tap.screen.AreaScreen;
+import com.guco.tap.screen.Hud;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import static com.badlogic.gdx.Gdx.files;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
@@ -53,6 +57,8 @@ public class GameManager {
     public AchievementManager achievementManager;
 
     public DataManager dataManager;
+
+    public AreaManager areaManager;
 
     public float autoSaveTimer,weatherTimer, increaseGoldTimer, logicTimer;
 
@@ -97,6 +103,7 @@ public class GameManager {
         currentState = GameState.IN_GAME;
         this.assetsManager =game.assetsManager;
         this.gameInformation = game.gameInformation;
+        this.areaManager = game.areaManager;
         largeMath = game.largeMath;
         newModuleIdList = new ArrayList<Integer>();
         //weatherManager = new WeatherManager(playScreen);
@@ -142,15 +149,16 @@ public class GameManager {
     }
     public void initialiseGame() {
         gameInformation.currentEnemyIdx=0;
-        //attributeManager.initialize(playScreen.getHud().getCharacterAttributeMenu());
+        //attributeManager.initialize(game.hud.getCharacterAttributeMenu());
         initEnemyQueue();
-        attributeManager.initialize(playScreen.getHud().characterAttributeMenu);
+        Hud hud = game.hud;
+        attributeManager.initialize(hud.characterAttributeMenu);
         currentArea = assetsManager.areaList.get(gameInformation.areaId);
 
         currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
-        playScreen.getHud().initFight(currentEnemyActor);
+        hud.initFight(currentEnemyActor);
         nbMandatoryFight=5; // from floor information
-        playScreen.getHud().postInitMenu();
+        hud.postInitMenu();
 
     }
 
@@ -184,7 +192,7 @@ public class GameManager {
         return spriterPlayer;
     }
 
-    public SpriterPlayer loadBoss(){
+    public SpriterPlayer loadBoss() {
         FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
         Data data = new SCMLReader(handle.read()).getData();
         LibGdxLoader loader = new LibGdxLoader(data);
@@ -242,7 +250,6 @@ public class GameManager {
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
         if (randCritical == 1) {
-        } else {
         }
 
         String damageString = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
@@ -252,37 +259,23 @@ public class GameManager {
         ValueDTO damageData = new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
         hurtEnemy(damageData);
     }
-    /**
-     * Modification de l'etat du jeu en fonction
-     * du temps passe
-     */
+
     public void updateLogic(float delta) {
         autoSaveTimer += Gdx.graphics.getDeltaTime();
         increaseGoldTimer += Gdx.graphics.getDeltaTime();
         weatherTimer += Gdx.graphics.getDeltaTime();
         logicTimer += Gdx.graphics.getDeltaTime();
 
-        if(newModuleIdList.size()>0){
-            if (currentState.equals(GameState.IN_GAME)){
-                for (int i=0;i<newModuleIdList.size();i++) {
-//                    stationEntity.addModule(newModuleIdList.get(i));
-                }
-                newModuleIdList.clear();
-            }
-        }
         switch (currentState) {
             case IN_GAME:
-                //Gdx.input.setInputProcessor(playScreen.inputMultiplexer);
                 break;
             case MENU:
-                //Gdx.input.setInputProcessor(playScreen.getHud().getStage());
                 if (logicTimer > 1f) {
                     logicTimer=0f;
-                    playScreen.getHud().update();
+                    game.hud.update();
                 }
                 break;
             case CREDIT:
-                //Gdx.input.setInputProcessor(playScreen.getHud().getStage());
                 break;
             default:
                 break;
@@ -298,24 +291,12 @@ public class GameManager {
         // Increase Gold passivly
         if(increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
             dataManager.increaseGoldPassive();
-//            Gdx.app.debug("PlayScreen","Increasing Gold by "+gameInformation.getGenGoldPassive()+" val "+gameInformation.getGenCurrencyPassive());
             dataManager.increaseGoldPassive();
-            playScreen.getHud().updateGoldLabel();
+            game.hud.updateGoldLabel();
             increaseGoldTimer=0f;
         }
-
-     //   if (gameInformation.isOptionWeather()) {
-     //       if (weatherTimer >= Constants.DELAY_WEATHER_CHANGE) {
-     //           Gdx.app.debug("PlayScreen", "Changing weather");
-     //           weatherManager.addRandomWeather();
-     //           weatherTimer = 0f;
-     //       }
-     //   }
     }
 
-    /**
-     * todo from json
-     */
     public void initEnemyQueue() {
         enemyActorQueue.clear();
         gameInformation.currentEnemyIdx=0;
@@ -330,11 +311,10 @@ public class GameManager {
         gameInformationManager.saveData();
     }
 
-    public void switchEnemy() {
-        currentState = GameState.PAUSE;
+    public void showNextEnemy() {
         if (gameInformation.currentEnemyIdx+1<enemyActorQueue.size()) {
             gameInformation.currentEnemyIdx+=1;
-            playScreen.getHud().battleNbLabel.setText(gameInformation.currentEnemyIdx+"/10");
+            game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx+"/10");
 
             // Initialize position before moving
             playScreen.enemyActorList.get(0).clearActions();
@@ -363,8 +343,6 @@ public class GameManager {
                 playScreen.layer1GraphicObject.addActor(playScreen.enemyActorList.get(2));
                 playScreen.enemyActorList.get(2).setPosition(220, 235);
                 playScreen.enemyActorList.get(2).getColor().a = 0f;
-            } else {
-
             }
 
             // first actor always on top
@@ -376,17 +354,13 @@ public class GameManager {
             currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.8f),Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    playScreen.getHud().initFight(currentEnemyActor); currentState = GameState.IN_GAME;
+                    game.hud.initFight(currentEnemyActor); currentState = GameState.IN_GAME;
                 }
             })));
 
         }
     }
 
-    /**
-     * Value d'un coup critique
-     * @return
-     */
     public float getCriticalValue(){
         return (gameInformation.tapDamageValue * gameInformation.criticalRate);
     }
@@ -407,39 +381,51 @@ public class GameManager {
         }
     }
 
-    public void winBattle(){
-        killEnemy();
+    public void winBattle() {
+        currentState = GameState.PAUSE;
 
-        if (gameInformation.currentEnemyIdx < nbMandatoryFight) {
-            switchEnemy();
+        killCurrentEnemy();
+
+        addReward();
+
+        if (gameInformation.currentEnemyIdx < currentArea.fights) {
+            showNextEnemy();
         } else {
-            gameInformation.areaLevel +=1;
-            initEnemyQueue();
-            switchEnemy();
-            if (gameInformation.areaLevel < 10) {
-                changeAreaLevel();
-            } else {
-//                updateArea();
-            }
+            updateArea();
+        }
+        currentState = GameState.IN_GAME;
+    }
+
+    private void updateArea() {
+        if (gameInformation.areaLevel < 10) {
+            changeAreaLevel();
+        } else {
+            updateCurrentArea();
         }
     }
 
-    public void killEnemy() {
+    public void killCurrentEnemy() {
         currentEnemyActor.hp=0;
         currentEnemyActor.death();
-        Runnable incGold = new Runnable() {
-            @Override
-            public void run() {
-                dataManager.increaseGold();
-            }
-        };
-        float speed=1f;
-        float fadeOut=0.75f;
+    }
+
+    private void addReward() {
         goldManager.addGoldCoin(new Vector2(currentEnemyActor.getX(), currentEnemyActor.getY()));
     }
 
-    private void changeAreaLevel() {
+    private void updateCurrentArea(){
+        gameInformation.areaLevel +=1;
+        initEnemyQueue();
+        showNextEnemy();
+    }
+
+    public void changeAreaLevel() {
         currentArea = assetsManager.areaList.get(gameInformation.areaId);
+
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background2.png"));
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        TextureRegionDrawable drawable = new TextureRegionDrawable(backgroundTexture);
+        playScreen.initScreen(drawable);
 
     }
 }

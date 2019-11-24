@@ -3,7 +3,9 @@ package com.guco.tap.game;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guco.tap.entity.GameInformation;
+import com.guco.tap.manager.AreaManager;
 import com.guco.tap.manager.AssetsManager;
 import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.GameManager;
@@ -21,9 +23,12 @@ public class TapDungeonGame extends Game {
 	public GameManager gameManager;
 	public AssetsManager assetsManager;
 	public GameInformationManager gameInformationManager;
+	public AreaManager areaManager;
 	private boolean devMode;
     public GameInformation gameInformation;
 	public LargeMath largeMath;
+	public SpriteBatch sb;
+
 	public Hud hud;
 
 	public TapDungeonGame(boolean devMode){
@@ -36,6 +41,7 @@ public class TapDungeonGame extends Game {
 		largeMath = new LargeMath();
     	itemManager = new ItemManager(this);
         assetsManager = new AssetsManager();
+		areaManager = new AreaManager(this);
 		gameInformationManager = new GameInformationManager(assetsManager, itemManager);
 		loadingScreen = new LoadingScreen(this);
 		loadingScreen.loadAsset();
@@ -45,14 +51,16 @@ public class TapDungeonGame extends Game {
 
         if(devMode) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
+			sb = new SpriteBatch();
+
 			gameManager = new GameManager(this);
 			hud = new Hud(this);
 			playScreen = new PlayScreen(this);
-			gameManager.playScreen=playScreen;
+//			AreaScreen areaScreen = new AreaScreen(this);
+			gameManager.playScreen = playScreen;
 			setScreen(playScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
-			hud = new Hud(this);
 			splashScreen=new SplashScreen(this);
 			setScreen(splashScreen);
 		}

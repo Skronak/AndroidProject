@@ -17,6 +17,7 @@ import com.guco.tap.entity.TiersUpgrades;
 import com.guco.tap.menu.achievement.element.AchievementElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -37,7 +38,7 @@ public class AssetsManager {
 
     private String ICON_PATH = "sprites/icon/";
     private String UI_PATH = "sprites/ui/";
-    private String BACKGROUND_PATH="sprites/background/";
+    private String BACKGROUND_PATH="sprites/background";
     private String OBJECT_PATH="sprites/object/";
     private String JSON_PATH="json/";
 
@@ -120,7 +121,7 @@ public class AssetsManager {
 
     private void loadTexture() {
         scrollTexture = new Texture(Gdx.files.internal(ICON_PATH+"bar.png"));
-        menuBackgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(BACKGROUND_PATH+"menuBackground.png"))));
+        menuBackgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(BACKGROUND_PATH+ File.separator + "menuBackground.png"))));
         torchTexture = new Texture(Gdx.files.internal(OBJECT_PATH+"torch.png"));
 
         upTexture = new Texture(Gdx.files.internal(ICON_PATH+"up.png"));
@@ -146,7 +147,7 @@ public class AssetsManager {
 
         backgroundImageList = new ArrayList<Texture>();
         for(int i=0;i<areaList.size();i++) {
-            Texture backgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + "\\" + areaList.get(i).background);
+            Texture backgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + File.separator+ areaList.get(i).background);
             backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             backgroundImageList.add(backgroundTexture);
         }

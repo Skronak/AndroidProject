@@ -227,14 +227,13 @@ public class InventoryMenu extends AbstractMenu {
         }
     }
 
-    public void increaseItemLevel(){
+    public void increaseItemLevel() {
         gameManager.itemManager.increaseItemLevel(inventoryPane.selectedItemElement.itemSource);
         updateItemInformation(inventoryPane.selectedItemElement.itemSource);
         inventoryPane.selectedItemElement.update();
         if (inventoryPane.selectedItemElement.itemSource.equals(gameManager.gameInformation.equipedWeapon)){
             gameManager.dataManager.calculateTapDamage();
         }
-
     }
 
     public void show() {

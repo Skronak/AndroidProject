@@ -2,7 +2,6 @@ package com.guco.tap.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -90,19 +89,19 @@ public class Hud implements Disposable {
     private TapDungeonGame game;
 
     public Hud(TapDungeonGame game) {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.game = game;
+
         largeMath = game.largeMath;
         this.gameManager = game.gameManager;
-        OrthographicCamera camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera);
-        SpriteBatch sb = new SpriteBatch();
-        stage = new Stage(viewport, sb);
+        viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
+
+        stage = new Stage(viewport, game.sb);
         generator = new com.guco.tap.utils.BitmapFontGenerator();
         font = game.assetsManager.getFont();
         gameInformation = game.gameInformation;
         generator.dispose();
         font.setColor(Color.WHITE);
+
         sceneLayer = new Group();
         menuLayer = new Group();
 
@@ -113,7 +112,7 @@ public class Hud implements Disposable {
 //        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
 //        stage.addActor(levelSelect.pane);
 
-        toggleMenu(forgemenu);
+//        toggleMenu(forgemenu);
     }
 
     /**
@@ -127,7 +126,7 @@ public class Hud implements Disposable {
         optionMenu = new OptionMenu(gameManager);
         achievementMenu = new AchievementMenu(gameManager);
         itemAttributeMenu = new ItemAttributeMenu(gameManager);
-        forgemenu = new ForgeMenu(gameManager);
+        forgemenu = new ForgeMenu(gameManager, (SpriteBatch) stage.getBatch());
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
@@ -215,7 +214,9 @@ public class Hud implements Disposable {
         // Declaration des listener
         InputListener buttonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                toggleMenu(activeMenuList.get(0));
+//                toggleMenu(activeMenuList.get(0));
+                gameManager.changeAreaLevel();
+
                 return true;
             }
         };
@@ -263,6 +264,7 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerLevelSelect = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                switchToSelectScreen();
                 return true;
             }
         };
@@ -270,7 +272,6 @@ public class Hud implements Disposable {
 
         InputListener buttonListenerAscend = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                gameManager.switchFloor();
                 return true;
             }
         };

@@ -2,7 +2,6 @@ package com.guco.tap.dto;
 
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.guco.tap.actor.AnimatedBackgroundObject;
 
 public class Area {

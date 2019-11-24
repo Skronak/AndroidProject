@@ -41,8 +41,10 @@ public class ForgeMenu extends AbstractMenu {
     private Item currentItem;
     private Label craftingLabel;
 
-    public ForgeMenu(GameManager gameManager) {
+    public ForgeMenu(GameManager gameManager, SpriteBatch batch) {
         super(gameManager);
+        this.batch = batch;
+
         addMenuHeader("FORGE", 1);
         itemFactory = new ItemFactory(gameManager);
         createButton();
@@ -95,8 +97,7 @@ public class ForgeMenu extends AbstractMenu {
         });
     }
 
-    private void createDrawer(){
-        batch = new SpriteBatch();//a recuperer
+    private void createDrawer() {
         drawer = gameManager.loadForgeDrawer(batch);
         float height = 20;
         float ppu = Gdx.graphics.getHeight() / height;
@@ -202,7 +203,7 @@ public class ForgeMenu extends AbstractMenu {
 
     @Override
     public void draw(){
-        batch.setProjectionMatrix(gameManager.playScreen.camera.combined);
+        batch.setProjectionMatrix(gameManager.playScreen.stage.getCamera().combined);
         batch.begin();
         itemSpriterPlayer.update();
         drawer.draw(itemSpriterPlayer);

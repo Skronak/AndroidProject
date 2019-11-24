@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.action.ScaleLabelAction;
@@ -50,6 +50,7 @@ public class PlayScreen extends AbstractScreen {
     public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
+    private TapActor tapActor;
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
@@ -59,7 +60,7 @@ public class PlayScreen extends AbstractScreen {
     GameManager gameManager;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
-    public OrthographicCamera camera;
+
 
     /**
      * Constructor
@@ -81,10 +82,12 @@ public class PlayScreen extends AbstractScreen {
 
         gameManager.initialiseGame();
 
+        //tapActor
+        tapActor = new TapActor();
+
         Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
-
         backgroundImage.setSize(410,Constants.V_HEIGHT+15);
         backgroundImage.setPosition(-90,-20);
 
@@ -113,7 +116,6 @@ public class PlayScreen extends AbstractScreen {
         stage.addActor(layer0GraphicObject);
         stage.addActor(layer1GraphicObject);
         stage.addActor(layer2GraphicObject);
-        camera = (OrthographicCamera) stage.getCamera();
 
         // Init torch
         TorchActor torchActor = new TorchActor(gameManager.assetsManager);
@@ -147,6 +149,10 @@ public class PlayScreen extends AbstractScreen {
 
     }
 
+    public void initScreen(TextureRegionDrawable backgroundDrawable) {
+        backgroundImage.setDrawable(backgroundDrawable);
+
+    }
     // member variables:
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
 
@@ -161,6 +167,8 @@ public class PlayScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0, 0, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+
         gameManager.updateLogic(delta);
         hud.updateGoldLabel();
         //boss.update();
@@ -168,6 +176,7 @@ public class PlayScreen extends AbstractScreen {
         stage.act();
         stage.draw();
 
+        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         if (gameManager.currentState.equals(GameState.IN_GAME)||gameManager.currentState.equals(GameState.PAUSE)) {
             spriterPlayer.update();
@@ -177,6 +186,18 @@ public class PlayScreen extends AbstractScreen {
         }
         spriteBatch.end();
         hud.draw();
+    }
+
+    /**
+     * Affiche image la ou lecran est touche
+     * @param positionX
+     * @param positionY
+     */
+    public void showTapActor(int positionX, int positionY) {
+        Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
+        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
+
+        tapActor.animate();
     }
 
     public void debugMode(float delta){
@@ -217,7 +238,7 @@ public class PlayScreen extends AbstractScreen {
         damageLabel.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.parallel(
-                        Actions.fadeIn(1f)
+                    Actions.fadeIn(1f)
                 ),
                 Actions.fadeOut(2f),
                 Actions.removeActor(damageLabel)

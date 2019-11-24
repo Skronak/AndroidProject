@@ -85,18 +85,18 @@ public abstract class AbstractMenu {
     public void draw() {
     }
 
-    public void open(){
+    public void open() {
         parentTable.setPosition(parentTable.getX(), -parentTable.getHeight()); //Menu Animation
         parentTable.addAction(Actions.moveTo(parentTable.getX(), Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT,0.2f, Interpolation.exp5Out)); // Menu Animation
         show();
     }
 
-    public void close(){
+    public void close() {
         parentTable.clearActions();
         parentTable.addAction(Actions.sequence(Actions.moveTo(parentTable.getX(), - parentTable.getHeight(),0.2f),Actions.visible(false)));
     }
 
-    public void update(){
+    public void update() {
     }
 
     /**

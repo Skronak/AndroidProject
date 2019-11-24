@@ -72,7 +72,12 @@ public class AreaScreen extends AbstractScreen {
 
         gameManager.initialiseGame();
 
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        backgroundImage = new Image(backgroundTexture);
+
         Texture doorTexture= new Texture(files.internal("sprites/background/dg_door.png"));
+        Image backgroundImage = new Image();
         doorImage = new Image(doorTexture);
         doorImage.setSize(backgroundImage.getWidth(),backgroundImage.getHeight());
         doorImage.setPosition(backgroundImage.getX(),backgroundImage.getY());
@@ -214,22 +219,5 @@ public class AreaScreen extends AbstractScreen {
 
     public GameManager getGameManager() {
         return gameManager;
-    }
-
-    public Hud getHud() {
-        return hud;
-    }
-
-    public Group getLayer1GraphicObject() {
-        return layer1GraphicObject;
-    }
-
-    public Image getBackgroundImage() {
-        return backgroundImage;
-    }
-
-
-    public Group getLayer2GraphicObject() {
-        return layer2GraphicObject;
     }
 }

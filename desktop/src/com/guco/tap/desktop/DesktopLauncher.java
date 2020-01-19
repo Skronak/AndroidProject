@@ -12,6 +12,6 @@ public class DesktopLauncher {
 		config.height= com.guco.tap.utils.Constants.V_HEIGHT;
 		config.foregroundFPS = com.guco.tap.utils.Constants.MAX_FPS;
 		config.title = Constants.APP_NAME;
-		new LwjglApplication(new TapDungeonGame(true), config);
+		new LwjglApplication(new TapDungeonGame(true,null), config);
 	}
 }

@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -18,7 +19,7 @@ import com.guco.tap.ads.AdController;
 import com.guco.tap.ads.AdsUtils;
 import com.guco.tap.game.TapDungeonGame;
 
-public class AndroidLauncherWithAd extends AndroidApplication implements AdController {
+public class AndroidLauncherWithAdTest extends AndroidApplication implements AdController {
 	private final String TAG = "AndroidLauncher";
 	private AdView bannerView;
 	private InterstitialAd interstitialAd;
@@ -51,21 +52,35 @@ public class AndroidLauncherWithAd extends AndroidApplication implements AdContr
 			}
 		});
 		interstitialAd = new InterstitialAd(this);
-		interstitialAd.setAdUnitId(AdsUtils.INTERSTITIAL_ID_TEST);
+		interstitialAd.setAdUnitId(AdsUtils.INTERSTITIAL_VIDEO_ID_TEST);
 		interstitialAd.setAdListener(new AdListener() {
 			@Override
 			public void onAdClosed() {
 				//loadInterstitial();
 			}
 		});
-
-		//loadInterstitial();
-
+		AdRequest adRequest = new AdRequest.Builder().build();
+		interstitialAd.loadAd(adRequest);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (interstitialAd.isLoaded()) {
+			interstitialAd.show();
+			interstitialAd.setAdListener(new AdListener() {
+				@Override
+				public void onAdClosed() {
+					super.onAdClosed();
+					finish();
+				}
+			});
+		} else {
+			super.onBackPressed();
+		}
+	}
 	private void initUi(){
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		View gameView = initializeForView(new TapDungeonGame(true), config);
+		View gameView = initializeForView(new TapDungeonGame(true, null), config);
 
 		RelativeLayout layout = new RelativeLayout(this);
 		RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(

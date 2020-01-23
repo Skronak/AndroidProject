@@ -84,7 +84,7 @@ public class GameManager {
 
     public SpriterPlayer spriterPlayer;
 
-    TapDungeonGame game;
+    public TapDungeonGame game;
 
     public AssetsManager assetsManager;
 

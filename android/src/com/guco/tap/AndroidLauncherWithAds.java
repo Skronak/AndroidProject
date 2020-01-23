@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 
@@ -13,47 +16,69 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.guco.tap.ad.AdHandler;
+import com.guco.tap.ad.AdController;
 import com.guco.tap.ads.AdsUtils;
 import com.guco.tap.game.TapDungeonGame;
 
-public class AndroidLauncherWithAds extends AndroidApplication implements AdHandler {
-	private final String TAG = "AndroidLauncher";
-	private RewardedAd rewardedAd;
+public class AndroidLauncherWithAds extends AndroidApplication implements AdController {
 	private final int HIDE_ADS=0;
 	private final int SHOW_ADS=1;
+	protected AdView adView;
+
+	private RewardedAd rewardedAd;
 	private RewardedAdCallback rewardedAdCallback;
 	RewardedAdLoadCallback adLoadCallback;
+	RewardedAdLoadCallback rewardedAdLoadCallback;
 	private boolean rewardEarned;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		initAds();
-	}
 
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch ((msg.what)) {
 				case SHOW_ADS:
-					showAds();
+					adView.setVisibility(View.VISIBLE);
+					break;
+				case HIDE_ADS:
+					adView.setVisibility(View.GONE);
+					break;
 			}
 		}
 	};
 
-	private void showAds() {
-		rewardedAd.show(this, rewardedAdCallback);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		initUi();
+		rewardedAd = initRewardedAd();
 	}
 
-	private void initAds() {
+	private void initUi() {
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		View gameView = initializeForView(new TapDungeonGame(true,this), config);
+
+		RelativeLayout layout = new RelativeLayout(this);
+		RelativeLayout.LayoutParams gameParams = new RelativeLayout.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT
+		);
+
+		layout.addView(gameView, gameParams);
+
+		setContentView(layout);
+	}
+
+	public RewardedAd initRewardedAd() {
+		rewardedAd = new RewardedAd(this, AdsUtils.REWARDED_VIDEO_ID_TEST);
 		adLoadCallback = new RewardedAdLoadCallback() {
 			@Override
 			public void onRewardedAdLoaded() {
+				rewardedAd = initRewardedAd();
 				Gdx.app.debug("AndroidLauncher","RewardedApp loaded");
 			}
 			@Override
@@ -61,45 +86,57 @@ public class AndroidLauncherWithAds extends AndroidApplication implements AdHand
 				Gdx.app.debug("AndroidLauncher","RewardedApp failed to load");
 			}
 		};
-
-		rewardedAd = new RewardedAd(this, AdsUtils.REWARDED_VIDEO_ID_TEST);
-		rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
 		rewardedAdCallback = new RewardedAdCallback() {
 			@Override
+			public void onRewardedAdClosed(){
+				initRewardedAd();
+			}
+
+			@Override
 			public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-				rewardEarned=true;
+				rewardEarned = true;
 			}
 		};
+		loadRewardedAd();
 
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new TapDungeonGame(true, this), config);
+		return rewardedAd;
+	}
+
+	@Override
+	public void showRewardedAd() {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					showRewardAdOnUI();
+				}
+			});
+		}
+
+	private void showRewardAdOnUI() {
+		if (rewardedAd.isLoaded()) {
+			rewardedAd.show(this, rewardedAdCallback);
+		}
 	}
 
 	public boolean isNetworkConnected() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-		return networkInfo !=null &&  networkInfo.isConnected();
+		return networkInfo != null &&  networkInfo.isConnected();
 	}
 
-	@Override
-	public void showAds(boolean show) {
+	private void loadRewardedAd() {
 		if (isNetworkConnected()) {
-			handler.sendEmptyMessage(show ? SHOW_ADS : HIDE_ADS);
+			rewardedAd.loadAd(new AdRequest.Builder().build(), rewardedAdLoadCallback );
 		}
 	}
 
 	@Override
-	public boolean checkRewardStatus() {
+	public boolean isRewardEarned() {
 		return rewardEarned;
 	}
 
 	@Override
-	public boolean checkConnectivity() {
-		return isNetworkConnected();
-	}
-
-	@Override
-	public boolean isAdLoaded() {
-		return rewardedAd.isLoaded();
+	public void claimReward() {
+		rewardEarned=false;
 	}
 }

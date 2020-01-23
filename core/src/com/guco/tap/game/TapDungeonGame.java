@@ -4,7 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.guco.tap.ad.AdHandler;
+import com.guco.tap.ad.AdController;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.manager.AreaManager;
 import com.guco.tap.manager.AssetsManager;
@@ -31,14 +31,13 @@ public class TapDungeonGame extends Game {
     public GameInformation gameInformation;
 	public LargeMath largeMath;
 	public SpriteBatch sb;
-	AdHandler handler;
-	boolean toggle;
+	public AdController adController;
 
 	public Hud hud;
 
-	public TapDungeonGame(boolean devMode, AdHandler handler){
+	public TapDungeonGame(boolean devMode, AdController adController) {
+		this.adController = adController;
         this.devMode=devMode;
-        this.handler = handler;
     }
 
 	public ItemManager itemManager;
@@ -77,30 +76,6 @@ public class TapDungeonGame extends Game {
 	public void render () {
 		super.render();
 		Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
-
-//		if (Gdx.input.justTouched()) {
-//			if (handler.checkConnectivity() && !disconnectedLastTime) {
-//				handler.showAds(toggle);
-//				toggle = !toggle;
-//			} else if (handler.checkConnectivity() && disconnectedLastTime) {
-//				disconnectedLastTime = false;
-//				new Runnable() {
-//					@Override
-//					public void run() {
-//						if (handler.isAdLoaded()) {
-//							handler.showAds(true);
-//						}
-//					}
-//				};
-//			} else {
-//				disconnectedLastTime = true;
-//				Gdx.app.debug("GAME", "DISCONNECTED !");
-//			}
-//
-//			if (handler.checkRewardStatus()) {
-//				Gdx.app.debug("rr", "$$$$$$$$$$$$$");
-//			}
-//		}
 	}
 
 	@Override

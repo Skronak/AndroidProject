@@ -40,6 +40,7 @@ public class ForgeMenu extends AbstractMenu {
     private Table rollButtonTable;
     private Item currentItem;
     private Label craftingLabel;
+    private boolean rewardPending;
 
     public ForgeMenu(GameManager gameManager, SpriteBatch batch) {
         super(gameManager);
@@ -62,7 +63,9 @@ public class ForgeMenu extends AbstractMenu {
         rerollButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                rollItem();
+                if (!rerollButton.isDisabled()) {
+                    rollItem();
+                }
                 return true;
             }
         });
@@ -76,12 +79,14 @@ public class ForgeMenu extends AbstractMenu {
             }
         });
 
-        validateButton = new TextButton("OK", gameManager.assetsManager.getSkin());
+        validateButton = new TextButton("WATCH ADD TO REROLL", gameManager.assetsManager.getSkin());
         validateButton.setDisabled(true);
         validateButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 gameManager.gameInformation.weaponItemList.add(currentItem);
+                rewardPending = true;
+                gameManager.game.adController.showRewardedAd();
                 return true;
             }
         });
@@ -199,6 +204,21 @@ public class ForgeMenu extends AbstractMenu {
         itemSpriterPlayer.setAnimation(itemSpriterPlayer.getEntity().getAnimation("idle"));
 
         resultButtonTable.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        if (rewardPending && gameManager.game.adController.isRewardEarned()) {
+            rewardPending = false;
+            gameManager.game.adController.claimReward();
+
+            unlockRerollButton();
+        }
+    }
+
+    public void unlockRerollButton(){
+        rerollButton.setDisabled(false);
     }
 
     @Override

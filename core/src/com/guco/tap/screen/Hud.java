@@ -214,7 +214,7 @@ public class Hud implements Disposable {
         // Declaration des listener
         InputListener buttonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                toggleMenu(activeMenuList.get(0));
+                toggleMenu(activeMenuList.get(6));
                 gameManager.changeAreaLevel();
 
                 return true;

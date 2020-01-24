@@ -32,6 +32,7 @@ import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.menu.achievement.AchievementMenu;
 import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.forge.ForgeMenu;
+import com.guco.tap.menu.fuse.FuseMenu;
 import com.guco.tap.menu.gameInformation.GameInformationMenu;
 import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
@@ -67,6 +68,7 @@ public class Hud implements Disposable {
     private GameInformationMenu gameInformationMenu;
     private ItemAttributeMenu itemAttributeMenu;
     private InventoryMenu inventoryMenu;
+    private FuseMenu fuseMenu;
     private Label versionLabel;
     public Label goldLabel;
     private Label goldDecreaseLabel;
@@ -127,6 +129,7 @@ public class Hud implements Disposable {
         achievementMenu = new AchievementMenu(gameManager);
         itemAttributeMenu = new ItemAttributeMenu(gameManager);
         forgemenu = new ForgeMenu(gameManager, (SpriteBatch) stage.getBatch());
+        fuseMenu = new FuseMenu(gameManager);
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
@@ -136,6 +139,7 @@ public class Hud implements Disposable {
         activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
         activeMenuList.add(forgemenu);
+        activeMenuList.add(fuseMenu);
     }
 
     public void postInitMenu(){
@@ -265,6 +269,7 @@ public class Hud implements Disposable {
         InputListener buttonListenerLevelSelect = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                switchToSelectScreen();
+                toggleMenu(activeMenuList.get(6));
                 return true;
             }
         };
@@ -276,6 +281,7 @@ public class Hud implements Disposable {
             }
         };
         goToNextAreaButton.addListener(buttonListenerAscend);
+//fuseMenu
 
         ImageButton.ImageButtonStyle skill0Head = new ImageButton.ImageButtonStyle();
         skill0Head.up = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/icon/skillIcon1.png")));

@@ -118,7 +118,7 @@ public class ForgeMenu extends AbstractMenu {
         craftingLabel.setPosition(Constants.V_WIDTH/2-craftingLabel.getWidth()/2,350);
     }
 
-    private void createResultTable(){
+    private void createResultTable() {
         resultAtkLabel =new Label("",skin);
         gradeLabel = new Label("",skin);
         nameLabel = new Label("", skin);

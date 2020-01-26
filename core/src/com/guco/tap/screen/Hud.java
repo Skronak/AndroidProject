@@ -269,7 +269,7 @@ public class Hud implements Disposable {
         InputListener buttonListenerLevelSelect = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                switchToSelectScreen();
-                toggleMenu(activeMenuList.get(6));
+                toggleMenu(activeMenuList.get(7));
                 return true;
             }
         };
@@ -281,7 +281,6 @@ public class Hud implements Disposable {
             }
         };
         goToNextAreaButton.addListener(buttonListenerAscend);
-//fuseMenu
 
         ImageButton.ImageButtonStyle skill0Head = new ImageButton.ImageButtonStyle();
         skill0Head.up = new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/icon/skillIcon1.png")));
@@ -394,7 +393,7 @@ public class Hud implements Disposable {
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
 
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
     }
 
     /**

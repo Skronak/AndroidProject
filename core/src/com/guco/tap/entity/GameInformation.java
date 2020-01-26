@@ -19,6 +19,7 @@ public class GameInformation {
     public int tapDamageCurrency;
     public int passivDamageValue;
     public int passivDamageCurrency;
+    public Weapon currentWeapon;
 
     public float criticalRate;
     public boolean firstPlay;

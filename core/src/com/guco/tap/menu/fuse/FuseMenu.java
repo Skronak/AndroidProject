@@ -1,76 +1,107 @@
 package com.guco.tap.menu.fuse;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
 public class FuseMenu extends AbstractMenu {
-    private Label goldLabel;
-    private Label activGoldGenLabel;
-    private Label passivGoldGenLabel;
-    private Label criticalHitLabel;
-    private Label gameTimeLabel;
-    private Label tapNumberLabel;
+    private Label weaponCurrentLevelLabel;
+    private Label weaponLevelLabel;
+    private Label damageLabel;
+    private Label criticalLabel;
+    private Label manaLabel;
 
     public FuseMenu(GameManager gameManager) {
         super(gameManager);
-        goldLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency), skin);
-        activGoldGenLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency), skin);
-        passivGoldGenLabel = new Label(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.passivGoldValue, gameManager.gameInformation.passivGoldCurrency), skin);
-        criticalHitLabel = new Label(String.valueOf("x " + gameManager.gameInformation.criticalRate), skin);
-        gameTimeLabel = new Label(String.valueOf((gameManager.gameInformation.totalGameTime / (1000 * 60 * 60)) + " hours"), skin);
-        tapNumberLabel = new Label(String.valueOf(gameManager.gameInformation.totalTapNumber), skin);
+        weaponCurrentLevelLabel = new Label("" + gameManager.gameInformation.currentWeapon.lvl, skin);
+        weaponLevelLabel = new Label(""+gameManager.gameInformation.currentWeapon.lvl, skin);
+        damageLabel = new Label(""+gameManager.gameInformation.currentWeapon.damage_value, skin);
+        criticalLabel = new Label("", skin);
+        manaLabel = new Label("", skin);
         customizeMenuTable();
     }
 
     public void customizeMenuTable() {
         addMenuHeader("FUSE MENU", 2);
         Table contentTable = new Table();
-        contentTable.add(new Label("Total play time: ", skin)).left();
-        contentTable.add(gameTimeLabel).left();
+
+        Image currentWeaponImage = new Image(new Texture(Gdx.files.local("sprites/icon/icon_sword_3.png")));
+        Label.LabelStyle labelStyle = new Label.LabelStyle( gameManager.assetsManager.getFont(), Color.WHITE );
+        weaponCurrentLevelLabel = new Label("Lv " + gameManager.gameInformation.currentWeapon.lvl, labelStyle);
+        weaponCurrentLevelLabel.setBounds(currentWeaponImage.getX()-5, currentWeaponImage.getY()-10, currentWeaponImage.getWidth(), currentWeaponImage.getHeight()-weaponCurrentLevelLabel.getHeight());
+        weaponCurrentLevelLabel.setAlignment(Align.topRight);
+        Table table = new Table();
+        table.add(currentWeaponImage);
+        table.addActor(weaponCurrentLevelLabel);
+        contentTable.add(table).colspan(3);
+        contentTable.row().padTop(30);
+
+        ClickListener emptySlotListener = new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.debug("","");
+                return true;
+            }};
+        Image emptySlotImage1 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        Image emptySlotImage2 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        Image emptySlotImage3 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        contentTable.add(emptySlotImage1).size(70,70).padRight(20);
+        contentTable.add(emptySlotImage2).size(70,70).padRight(20);
+        contentTable.add(emptySlotImage3).size(70,70);
         contentTable.row();
-        contentTable.add(new Label("Total tap number: ", skin)).left();
-        contentTable.add(tapNumberLabel).left();
+        contentTable.add(weaponLevelLabel).left().padTop(25).expandX();
         contentTable.row();
-        contentTable.add(new Label("Current gold: ", skin)).left();
-        contentTable.add(goldLabel).left();
+        contentTable.add(damageLabel).left();
         contentTable.row();
-        contentTable.add(new Label("Damage: ", skin)).left();
-        contentTable.add(activGoldGenLabel).left();
+        contentTable.add(criticalLabel).left();
         contentTable.row();
-        contentTable.add(new Label("Passive income: ", skin)).left();
-        contentTable.add(passivGoldGenLabel).left();
+        contentTable.add(manaLabel).left();
         contentTable.row();
-        contentTable.add(new Label("Critical rate: ", skin)).left();
-        contentTable.add(criticalHitLabel).left();
-        contentTable.row();
-        contentTable.add(new Label("Total enemies slayed: ", skin)).left();
-        contentTable.row();
-        contentTable.add(new Label("- skeleton: ", skin)).left().padLeft(20);
-        contentTable.row();
-        contentTable.add(new Label("- orc: ", skin)).left().padLeft(20);
-        contentTable.row();
-        contentTable.add(new Label("- demon: ", skin)).left().padLeft(20);
-        contentTable.row();
-        contentTable.add(new Label("- devils: ", skin)).left().padLeft(20);
+        TextButton textButton = new TextButton("FUSE",skin);
+        contentTable.add(textButton).padTop(25).colspan(3);
+        contentTable.debug();
 
         parentTable.add(contentTable).expandX();
     }
 
     @Override
-    public void show() {
-        update();
-        super.show();
+    public void update(){
+        update(0,0,0,0);
     }
 
-    @Override
-    public void update() {
-        goldLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.currentGoldValue, gameManager.gameInformation.currentGoldCurrency));
-        activGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency));
-        passivGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.passivGoldValue, gameManager.gameInformation.passivGoldCurrency));
-        criticalHitLabel.setText("x " + gameManager.gameInformation.criticalRate);
-        gameTimeLabel.setText(String.valueOf((gameManager.gameInformation.totalGameTime / (1000 * 60 * 60)) + " hours"));
-        tapNumberLabel.setText(String.valueOf(gameManager.gameInformation.totalTapNumber));
+    public void update(int newLvl, int newDamage, int newCritical, int newMana) {
+        String lvl = "Level: " +gameManager.gameInformation.currentWeapon.lvl;
+        String nextValue = " > ";
+        if (newLvl==0){
+            weaponLevelLabel.setText(lvl);
+        } else {
+            weaponLevelLabel.setText(lvl + nextValue +newLvl);
+        }
+        String dmg = "Damage: " +gameManager.gameInformation.currentWeapon.damage_value;
+        if (newDamage == 0){
+            damageLabel.setText(dmg);
+        } else {
+            damageLabel.setText(dmg + nextValue +newDamage);
+        }
+        String critical = "Critical: " +gameManager.gameInformation.currentWeapon.critical_currency;
+        if (newDamage == 0){
+            criticalLabel.setText(critical);
+        } else {
+            criticalLabel.setText(critical + nextValue +newDamage);
+        }
+        String mana = "Mana: ";
+        if (newMana == 0){
+            manaLabel.setText(mana);
+        } else {
+            damageLabel.setText(mana+ nextValue +mana);
+        }
     }
 }

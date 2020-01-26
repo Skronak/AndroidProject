@@ -96,6 +96,9 @@ public abstract class AbstractMenu {
         parentTable.addAction(Actions.sequence(Actions.moveTo(parentTable.getX(), - parentTable.getHeight(),0.2f),Actions.visible(false)));
     }
 
+    /**
+     * update called on show
+     */
     public void update() {
     }
 

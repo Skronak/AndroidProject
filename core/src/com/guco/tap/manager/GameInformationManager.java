@@ -7,6 +7,7 @@ import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
 import com.guco.tap.entity.ItemUpgrade;
+import com.guco.tap.entity.Weapon;
 import com.guco.tap.save.SavedData;
 import com.guco.tap.utils.Constants;
 
@@ -76,6 +77,9 @@ public class GameInformationManager {
             gameInformation.equipedBody = savedData.currentEquipment[2];
             gameInformation.areaLevel= savedData.areaLevel;
             gameInformation.areaId = savedData.areaId;
+            //TODO to implement
+            gameInformation.currentWeapon = new Weapon();
+            gameInformation.currentWeapon.lvl=1;
 
             for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
                 gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
@@ -134,6 +138,10 @@ public class GameInformationManager {
         gameInformation.areaLevel = 1;
         gameInformation.areaId = 1;
         gameInformation.attributeLevel = new ArrayList();
+        gameInformation.currentWeapon = new Weapon();
+        gameInformation.currentWeapon.icon=assetsManager.getItemList().get(0).icon;
+        gameInformation.currentWeapon.lvl=1;
+
         gameInformation.equipedWeapon= assetsManager.weaponList.get(0);
         for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
             gameInformation.attributeLevel.add(0);

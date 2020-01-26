@@ -98,7 +98,6 @@ public class GameManager {
 
     public GameManager(TapDungeonGame game) {
         this.game = game;
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
         this.gameInformationManager = game.gameInformationManager;
         currentState = GameState.IN_GAME;
         this.assetsManager =game.assetsManager;

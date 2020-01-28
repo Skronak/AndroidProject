@@ -19,6 +19,7 @@ public class FuseMenu extends AbstractMenu {
     private Label damageLabel;
     private Label criticalLabel;
     private Label manaLabel;
+    private InventoryPanel inventoryPanel;
 
     public FuseMenu(GameManager gameManager) {
         super(gameManager);
@@ -27,6 +28,7 @@ public class FuseMenu extends AbstractMenu {
         damageLabel = new Label(""+gameManager.gameInformation.currentWeapon.damage_value, skin);
         criticalLabel = new Label("", skin);
         manaLabel = new Label("", skin);
+        inventoryPanel = new InventoryPanel();
         customizeMenuTable();
     }
 
@@ -53,6 +55,8 @@ public class FuseMenu extends AbstractMenu {
         Image emptySlotImage1 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
         Image emptySlotImage2 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
         Image emptySlotImage3 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        emptySlotImage1.addListener(emptySlotListener);
+
         contentTable.add(emptySlotImage1).size(70,70).padRight(20);
         contentTable.add(emptySlotImage2).size(70,70).padRight(20);
         contentTable.add(emptySlotImage3).size(70,70);
@@ -67,9 +71,9 @@ public class FuseMenu extends AbstractMenu {
         contentTable.row();
         TextButton textButton = new TextButton("FUSE",skin);
         contentTable.add(textButton).padTop(25).colspan(3);
-        contentTable.debug();
 
         parentTable.add(contentTable).expandX();
+        parentTable.add(inventoryPanel.mainTable);
     }
 
     @Override

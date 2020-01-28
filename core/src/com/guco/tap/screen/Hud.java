@@ -402,7 +402,7 @@ public class Hud implements Disposable {
     public void draw() {
         stage.act();
         stage.draw();
-//        if (currentMenu instanceof InventoryMenu && currentMenu.parentTable.getActions().size==0) {
+//        if (currentMenu instanceof InventoryMenu && currentMenu.mainTable.getActions().size==0) {
         if (currentMenu!=null) {
             currentMenu.draw();
         }

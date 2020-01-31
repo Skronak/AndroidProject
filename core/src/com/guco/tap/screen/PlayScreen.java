@@ -10,12 +10,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.EnemyActor;
@@ -60,7 +63,7 @@ public class PlayScreen extends AbstractScreen {
     GameManager gameManager;
     // Enemy present on screen
     public List<EnemyActor> enemyActorList;
-
+    private boolean gameStarted;
 
     /**
      * Constructor
@@ -147,16 +150,33 @@ public class PlayScreen extends AbstractScreen {
         playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
         enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
 
+        camera.zoom-=0.5;
+        camera.translate(-70,0);
+        hud.setVisible(false);
+        hud.stage.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                stage.addAction(Actions.parallel(CameraMoveToAction.action(camera, 3f, camera.position.x + 70, camera.position.y, 0f, Interpolation.exp5In),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                zoomTo(1f, 3f);
+                            }
+                        })));
+                hud.stage.removeListener(this);
+                hud.setVisible(true);
+                return true;
+            }
+    });
     }
 
     public void initScreen(TextureRegionDrawable backgroundDrawable) {
         backgroundImage.setDrawable(backgroundDrawable);
-
     }
+
     // member variables:
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
 
-    public void zoomTo (float newZoom, float duration){
+    public void zoomTo(float newZoom, float duration){
         cameraZoomOrigin = camera.zoom;
         cameraZoomTarget = newZoom;
         timeToCameraZoomTarget = cameraZoomDuration = duration;

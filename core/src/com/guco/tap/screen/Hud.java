@@ -518,4 +518,10 @@ public class Hud implements Disposable {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
+    public void setVisible(boolean isVisible){
+        sceneLayer.setVisible(isVisible);
+        menuLayer.setVisible(isVisible);
+        mainTable.setVisible(isVisible);
+    }
 }

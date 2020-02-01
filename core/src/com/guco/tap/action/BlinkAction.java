@@ -10,7 +10,6 @@ public class BlinkAction extends SequenceAction {
     }
 
     /**
-     *
      * @param duration
      * @param occurence
      */

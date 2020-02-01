@@ -520,8 +520,14 @@ public class Hud implements Disposable {
     }
 
     public void setVisible(boolean isVisible){
-        sceneLayer.setVisible(isVisible);
-        menuLayer.setVisible(isVisible);
-        mainTable.setVisible(isVisible);
+        if (isVisible){
+            sceneLayer.addAction(Actions.fadeIn(1f));
+            menuLayer.addAction(Actions.fadeIn(1f));
+            mainTable.addAction(Actions.fadeIn(1f));
+        } else {
+            sceneLayer.getColor().a=0;
+            menuLayer.getColor().a=0;
+            mainTable.getColor().a=0;
+        }
     }
 }

@@ -47,6 +47,7 @@ public class PlayScreen extends AbstractScreen {
     private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage;
     private Image doorImage, torchImage;
+    float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     public Group layer0GraphicObject; // Background
     public Group layer1GraphicObject; // Objects
     public Group layer2GraphicObject; // Foreground
@@ -150,31 +151,51 @@ public class PlayScreen extends AbstractScreen {
         playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
         enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
 
+        initStartScreen();
+    }
+
+    public void initStartScreen() {
+        final Label startLabel = new Label("TAP TO START", game.assetsManager.getSkin());
+        startLabel.setFontScale(2);
+        startLabel.setPosition(Constants.V_WIDTH/2-startLabel.getWidth(), Constants.V_HEIGHT/2);
+        hud.stage.addActor(startLabel);
+
+        gameManager.currentState=GameState.PAUSE;
         camera.zoom-=0.5;
         camera.translate(-70,0);
         hud.setVisible(false);
         hud.stage.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                stage.addAction(Actions.parallel(CameraMoveToAction.action(camera, 3f, camera.position.x + 70, camera.position.y, 0f, Interpolation.exp5In),
+                startLabel.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        startLabel.remove();
+                    }
+                })));
+                stage.addAction(Actions.sequence(Actions.parallel(
+                        CameraMoveToAction.action(camera, 3f, camera.position.x + 70, camera.position.y, 0f,Interpolation.exp10In),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
                                 zoomTo(1f, 3f);
+                            }
+                        })),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                gameManager.currentState=GameState.IN_GAME;
                             }
                         })));
                 hud.stage.removeListener(this);
                 hud.setVisible(true);
                 return true;
             }
-    });
+        });
     }
 
     public void initScreen(TextureRegionDrawable backgroundDrawable) {
         backgroundImage.setDrawable(backgroundDrawable);
     }
-
-    // member variables:
-    float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
 
     public void zoomTo(float newZoom, float duration){
         cameraZoomOrigin = camera.zoom;

@@ -16,13 +16,13 @@ public abstract class AbstractScreen implements Screen {
     protected Viewport viewport;
     protected Hud hud;
     protected SpriteBatch spriteBatch;
-    protected TapDungeonGame tapDungeonGame;
+    protected TapDungeonGame game;
     public Stage stage;
     protected TapActor tapActor;
     protected OrthographicCamera camera;
 
-    public AbstractScreen (TapDungeonGame tapDungeonGame){
-        this.tapDungeonGame = tapDungeonGame;
+    public AbstractScreen (TapDungeonGame game){
+        this.game = game;
         spriteBatch = new SpriteBatch();
         viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
         viewport.apply(true);

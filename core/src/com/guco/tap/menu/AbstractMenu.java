@@ -97,7 +97,7 @@ public abstract class AbstractMenu {
     }
 
     /**
-     * update called on show
+     * update called on toggle
      */
     public void update() {
     }

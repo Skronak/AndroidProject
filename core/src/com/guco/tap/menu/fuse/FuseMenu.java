@@ -3,13 +3,13 @@ package com.guco.tap.menu.fuse;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.guco.tap.input.GemSlotListener;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 
@@ -19,7 +19,10 @@ public class FuseMenu extends AbstractMenu {
     private Label damageLabel;
     private Label criticalLabel;
     private Label manaLabel;
-    private InventoryPanel inventoryPanel;
+    private ScrollPane inventoryPane;
+    public InventoryPanel inventoryPanel;
+    private Image[] slotedImage;
+    private int selectedSlot;
 
     public FuseMenu(GameManager gameManager) {
         super(gameManager);
@@ -28,7 +31,6 @@ public class FuseMenu extends AbstractMenu {
         damageLabel = new Label(""+gameManager.gameInformation.currentWeapon.damage_value, skin);
         criticalLabel = new Label("", skin);
         manaLabel = new Label("", skin);
-        inventoryPanel = new InventoryPanel();
         customizeMenuTable();
     }
 
@@ -37,31 +39,32 @@ public class FuseMenu extends AbstractMenu {
         Table contentTable = new Table();
 
         Image currentWeaponImage = new Image(new Texture(Gdx.files.local("sprites/icon/icon_sword_3.png")));
+//        currentWeaponImage.getDrawable().setMinHeight(70);
+//        currentWeaponImage.getDrawable().setMinWidth(70);
+
+        Table table = new Table();
+        table.add(currentWeaponImage).size(90,90);
+
         Label.LabelStyle labelStyle = new Label.LabelStyle( gameManager.assetsManager.getFont(), Color.WHITE );
         weaponCurrentLevelLabel = new Label("Lv " + gameManager.gameInformation.currentWeapon.lvl, labelStyle);
-        weaponCurrentLevelLabel.setBounds(currentWeaponImage.getX()-5, currentWeaponImage.getY()-10, currentWeaponImage.getWidth(), currentWeaponImage.getHeight()-weaponCurrentLevelLabel.getHeight());
+        weaponCurrentLevelLabel.setBounds(-10, -60, currentWeaponImage.getWidth(), currentWeaponImage.getHeight()-weaponCurrentLevelLabel.getHeight());
         weaponCurrentLevelLabel.setAlignment(Align.topRight);
-        Table table = new Table();
-        table.add(currentWeaponImage);
         table.addActor(weaponCurrentLevelLabel);
         contentTable.add(table).colspan(3);
-        contentTable.row().padTop(30);
+        contentTable.row().padTop(15);
 
-        ClickListener emptySlotListener = new ClickListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.debug("","");
-                return true;
-            }};
-        Image emptySlotImage1 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
-        Image emptySlotImage2 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
-        Image emptySlotImage3 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
-        emptySlotImage1.addListener(emptySlotListener);
+        Image fuseSlotImage1 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        fuseSlotImage1.addListener(new GemSlotListener(this));
+        Image fuseSlotImage2 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        fuseSlotImage2.addListener(new GemSlotListener(this));
+        Image fuseSlotImage3 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        fuseSlotImage3.addListener(new GemSlotListener(this));
 
-        contentTable.add(emptySlotImage1).size(70,70).padRight(20);
-        contentTable.add(emptySlotImage2).size(70,70).padRight(20);
-        contentTable.add(emptySlotImage3).size(70,70);
+        contentTable.add(fuseSlotImage1).size(70,70).padRight(20);
+        contentTable.add(fuseSlotImage2).size(70,70).padRight(20);
+        contentTable.add(fuseSlotImage3).size(70,70);
         contentTable.row();
-        contentTable.add(weaponLevelLabel).left().padTop(25).expandX();
+        contentTable.add(weaponLevelLabel).left().padTop(5).expandX();
         contentTable.row();
         contentTable.add(damageLabel).left();
         contentTable.row();
@@ -70,10 +73,15 @@ public class FuseMenu extends AbstractMenu {
         contentTable.add(manaLabel).left();
         contentTable.row();
         TextButton textButton = new TextButton("FUSE",skin);
-        contentTable.add(textButton).padTop(25).colspan(3);
+        contentTable.add(textButton).bottom().colspan(3);
 
         parentTable.add(contentTable).expandX();
-        parentTable.add(inventoryPanel.mainTable);
+        parentTable.row();
+        inventoryPanel = new InventoryPanel(gameManager);
+        inventoryPane = inventoryPanel.pane;
+        inventoryPane.setSize(parentTable.getWidth(),200);
+        inventoryPane.setPosition(inventoryPane.getX(),-parentTable.getHeight());
+        parentTable.addActor(inventoryPane);
     }
 
     @Override

@@ -139,7 +139,6 @@ public class GameInformationManager {
         gameInformation.areaId = 1;
         gameInformation.attributeLevel = new ArrayList();
         gameInformation.currentWeapon = new Weapon();
-        gameInformation.currentWeapon.icon=assetsManager.getItemList().get(0).icon;
         gameInformation.currentWeapon.lvl=1;
 
         gameInformation.equipedWeapon= assetsManager.weaponList.get(0);

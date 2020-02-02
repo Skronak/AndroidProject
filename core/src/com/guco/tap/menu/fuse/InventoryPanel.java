@@ -27,7 +27,7 @@ public class InventoryPanel {
 
         for (int i = 0; i < 5; i++) {
             for (int y = 0; y < 4; y++) {
-                Image slotImage = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+                Image slotImage = new Image(new Texture(Gdx.files.internal("sprites/icon/empty_slot.png")));
                 fuseInventoryTable.add(slotImage).size(55, 55);
             }
             fuseInventoryTable.row();

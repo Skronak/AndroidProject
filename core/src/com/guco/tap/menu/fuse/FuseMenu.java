@@ -38,7 +38,7 @@ public class FuseMenu extends AbstractMenu {
         addMenuHeader("FUSE MENU", 2);
         Table contentTable = new Table();
 
-        Image currentWeaponImage = new Image(new Texture(Gdx.files.local("sprites/icon/icon_sword_3.png")));
+        Image currentWeaponImage = new Image(new Texture(Gdx.files.internal("sprites/icon/icon_sword_3.png")));
 //        currentWeaponImage.getDrawable().setMinHeight(70);
 //        currentWeaponImage.getDrawable().setMinWidth(70);
 
@@ -53,11 +53,11 @@ public class FuseMenu extends AbstractMenu {
         contentTable.add(table).colspan(3);
         contentTable.row().padTop(15);
 
-        Image fuseSlotImage1 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        Image fuseSlotImage1 = new Image(new Texture(Gdx.files.internal("sprites/icon/empty_slot.png")));
         fuseSlotImage1.addListener(new GemSlotListener(this));
-        Image fuseSlotImage2 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        Image fuseSlotImage2 = new Image(new Texture(Gdx.files.internal("sprites/icon/empty_slot.png")));
         fuseSlotImage2.addListener(new GemSlotListener(this));
-        Image fuseSlotImage3 = new Image(new Texture(Gdx.files.local("sprites/icon/empty_slot.png")));
+        Image fuseSlotImage3 = new Image(new Texture(Gdx.files.internal("sprites/icon/empty_slot.png")));
         fuseSlotImage3.addListener(new GemSlotListener(this));
 
         contentTable.add(fuseSlotImage1).size(70,70).padRight(20);

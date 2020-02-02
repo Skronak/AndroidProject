@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.AnimatedActor;
@@ -155,9 +156,15 @@ public class PlayScreen extends AbstractScreen {
     }
 
     public void initStartScreen() {
+        final Label titleLabel = new Label("TAP DUNGEON", game.assetsManager.getSkin());
+        titleLabel.setFontScale(2);
+        titleLabel.setPosition(Constants.V_WIDTH/2-titleLabel.getWidth(),Constants.V_HEIGHT-Constants.V_HEIGHT/6);
         final Label startLabel = new Label("TAP TO START", game.assetsManager.getSkin());
         startLabel.setFontScale(2);
-        startLabel.setPosition(Constants.V_WIDTH/2-startLabel.getWidth(), Constants.V_HEIGHT/2);
+        startLabel.setPosition(Constants.V_WIDTH/2-startLabel.getWidth(), Constants.V_HEIGHT/6);
+        startLabel.addAction(Actions.forever(new BlinkAction(3,1)));
+
+        hud.stage.addActor(titleLabel);
         hud.stage.addActor(startLabel);
 
         gameManager.currentState=GameState.PAUSE;
@@ -166,6 +173,12 @@ public class PlayScreen extends AbstractScreen {
         hud.setVisible(false);
         hud.stage.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                titleLabel.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        titleLabel.remove();
+                    }
+                })));
                 startLabel.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
                     @Override
                     public void run() {

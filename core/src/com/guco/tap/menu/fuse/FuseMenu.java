@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.guco.tap.actor.ImageText;
 import com.guco.tap.input.GemSlotListener;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
@@ -73,6 +74,7 @@ public class FuseMenu extends AbstractMenu {
         contentTable.add(manaLabel).left();
         contentTable.row();
         TextButton textButton = new TextButton("FUSE",skin);
+        contentTable.row();
         contentTable.add(textButton).bottom().colspan(3);
 
         parentTable.add(contentTable).expandX();
@@ -82,6 +84,11 @@ public class FuseMenu extends AbstractMenu {
         inventoryPane.setSize(parentTable.getWidth(),200);
         inventoryPane.setPosition(inventoryPane.getX(),-parentTable.getHeight());
         parentTable.addActor(inventoryPane);
+
+        //debug ImageText
+        ImageText imageText = new ImageText(fuseSlotImage1,"1/20",skin);
+        contentTable.add(imageText).size(50,50);
+
     }
 
     @Override

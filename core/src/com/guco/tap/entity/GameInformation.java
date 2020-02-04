@@ -40,6 +40,7 @@ public class GameInformation {
     public List<Item> bodyItemList;
     public int levelBaseCurrency;
     public int levelBaseGold;
+    public List<Ressource> ressources;
 
     public GameInformation() {
     }

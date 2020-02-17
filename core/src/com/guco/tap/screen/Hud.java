@@ -38,9 +38,9 @@ import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.shop.AreaMenu;
-import com.guco.tap.object.EnemyInformation;
-import com.guco.tap.object.FpsActor;
-import com.guco.tap.ui.UiLevelSelect;
+import com.guco.tap.actor.EnemyInformationUI;
+import com.guco.tap.actor.FpsActor;
+import com.guco.tap.actor.UiLevelSelect;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -82,7 +82,7 @@ public class Hud implements Disposable {
     private ArrayList<AbstractMenu> activeMenuList;
     private Label floorLabel;
     public FpsActor fpsActor;
-    private EnemyInformation enemyInformation;
+    private EnemyInformationUI enemyInformation;
     public Label battleNbLabel;
     public ImageButton goToNextAreaButton;
     private GameInformation gameInformation;
@@ -332,7 +332,7 @@ public class Hud implements Disposable {
 
         // ***** OTHER *****
         // Hp bar & name
-        enemyInformation = new EnemyInformation(gameManager);
+        enemyInformation = new EnemyInformationUI(gameManager);
         sceneLayer.addActor(enemyInformation);
 
         // Visual button to go upstairs

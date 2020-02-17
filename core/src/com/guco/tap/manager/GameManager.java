@@ -66,7 +66,7 @@ public class GameManager {
 
     public ItemManager itemManager;
 
-    // Enemy present on this floor
+    // EnemyTemplateEntity present on this floor
     public ArrayList<EnemyActor> enemyActorQueue;
 
     // Etat du jeu
@@ -301,8 +301,8 @@ public class GameManager {
         gameInformation.currentEnemyIdx=0;
         int randomNum=0;
        for (int i=0;i<10;i++) {
-           randomNum = rand.nextInt((assetsManager.enemyList.size()-1) + 1);
-           enemyActorQueue.add(new EnemyActor(assetsManager.enemyList.get(randomNum),gameInformation.areaLevel));
+           randomNum = rand.nextInt((assetsManager.enemyTemplateEntityList.size()-1) + 1);
+           enemyActorQueue.add(new EnemyActor(assetsManager.enemyTemplateEntityList.get(randomNum),gameInformation.areaLevel));
         }
     }
 
@@ -404,7 +404,6 @@ public class GameManager {
     }
 
     public void killCurrentEnemy() {
-        currentEnemyActor.hp=0;
         currentEnemyActor.death();
     }
 

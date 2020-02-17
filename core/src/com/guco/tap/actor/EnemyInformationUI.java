@@ -1,10 +1,9 @@
-package com.guco.tap.object;
+package com.guco.tap.actor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.LargeMath;
@@ -14,7 +13,7 @@ import com.guco.tap.utils.ValueDTO;
  * TODO a revoir pour prendre en compte
  * ValueDTO previousLife? 
  */
-public class EnemyInformation extends Group {
+public class EnemyInformationUI extends Group {
     private Image redImage;
     private Image orangeImage;
     private Image greyImage;
@@ -29,7 +28,7 @@ public class EnemyInformation extends Group {
     private EnemyActor targetActor;
     private LargeMath largeMath;
 
-    public EnemyInformation(GameManager gameManager) {
+    public EnemyInformationUI(GameManager gameManager) {
         nameLabel = new Label("default", gameManager.assetsManager.getSkin());
         healthLabel = new Label("", gameManager.assetsManager.getSkin());
         largeMath = gameManager.largeMath;

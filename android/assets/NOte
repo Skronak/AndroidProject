@@ -5,7 +5,7 @@ TODO:
   AREA
     each area contains x levels
     levels = same background, enemies, object placement, 1 boss
-    area: differents background, enemy, object for each area
+    area: differents background, enemyTemplateEntity, object for each area
     naming: [AREA] - [Level]  => FORBIDEN CAVE - 5
     Transition between area: new screen
     

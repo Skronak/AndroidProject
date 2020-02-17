@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.guco.tap.dto.Area;
 import com.guco.tap.entity.AttributeElement;
-import com.guco.tap.entity.Enemy;
+import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.Item;
 import com.guco.tap.entity.TiersUpgrades;
 import com.guco.tap.menu.achievement.element.AchievementElement;
@@ -49,7 +49,7 @@ public class AssetsManager {
     private Skin skin;
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
-    public ArrayList<Enemy> enemyList;
+    public ArrayList<EnemyTemplateEntity> enemyTemplateEntityList;
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
     public ArrayList<Area> areaList;
@@ -107,7 +107,7 @@ public class AssetsManager {
         achievementElementList = new ArrayList<AchievementElement>();
         achievementElementList = json.fromJson(ArrayList.class, AchievementElement.class, Gdx.files.internal(JSON_PATH+"achievementElement.json"));
 
-        enemyList = json.fromJson(ArrayList.class, Enemy.class, Gdx.files.internal(JSON_PATH+"enemyJSON.json"));
+        enemyTemplateEntityList = json.fromJson(ArrayList.class, EnemyTemplateEntity.class, Gdx.files.internal(JSON_PATH+"enemyJSON.json"));
         weaponList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"weapon.json"));
         helmList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"helm.json"));
         bodyList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"body.json"));

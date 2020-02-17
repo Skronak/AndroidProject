@@ -2,11 +2,11 @@ package com.guco.tap.entity;
 
 import java.util.List;
 
-public class Enemy {
+public class EnemyTemplateEntity {
     private String id;
     private String name;
     private int category;
-    private int hp;
+    private int baseHp;
     private int time;
     private int posX;
     private int posY;
@@ -41,12 +41,12 @@ public class Enemy {
         this.category = category;
     }
 
-    public int getHp() {
-        return hp;
+    public int getBaseHp() {
+        return baseHp;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void setBaseHp(int baseHp) {
+        this.baseHp = baseHp;
     }
 
     public int getTime() {

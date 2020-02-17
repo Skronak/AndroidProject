@@ -1,4 +1,4 @@
-package com.guco.tap.ui;
+package com.guco.tap.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.action.IncreaseGoldAction;
-import com.guco.tap.object.GoldActor;
+import com.guco.tap.actor.GoldActor;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.ValueDTO;
 

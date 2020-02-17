@@ -1,11 +1,10 @@
-package com.guco.tap.object;
+package com.guco.tap.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.guco.tap.actor.AnimatedActor;
 
 public class GoldActor extends AnimatedActor {
 

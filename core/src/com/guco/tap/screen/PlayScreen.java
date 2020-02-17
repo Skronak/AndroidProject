@@ -63,7 +63,7 @@ public class PlayScreen extends AbstractScreen {
     public SpriterPlayer spriterPlayer;
     SpriterPlayer boss;
     GameManager gameManager;
-    // Enemy present on screen
+    // EnemyTemplateEntity present on screen
     public List<EnemyActor> enemyActorList;
     private boolean gameStarted;
 

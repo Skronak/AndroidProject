@@ -13,11 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.actor.ImageText;
 import com.guco.tap.manager.GameManager;
 
-public class InventoryPanel {
+public class FuseInventoryPanel {
     public ScrollPane pane;
     public boolean isShown;
+    private int[] slotId=new int[3];
 
-    public InventoryPanel(GameManager gameManager) {
+    public FuseInventoryPanel(GameManager gameManager) {
         Table fuseInventoryTable = new Table();
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;

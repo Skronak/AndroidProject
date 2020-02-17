@@ -18,11 +18,13 @@ public class FuseMenu extends AbstractMenu {
     private Label weaponLevelLabel;
     private Label damageLabel;
     private Label criticalLabel;
-    private Label manaLabel;
+    private Label expLabel;
     private ScrollPane inventoryPane;
-    public InventoryPanel inventoryPanel;
+    public FuseInventoryPanel fuseInventoryPanel;
     private Image[] slotedImage;
     private int selectedSlot;
+    private int lastClickedButton;
+
 
     public FuseMenu(GameManager gameManager) {
         super(gameManager);
@@ -30,7 +32,7 @@ public class FuseMenu extends AbstractMenu {
         weaponLevelLabel = new Label(""+gameManager.gameInformation.currentWeapon.lvl, skin);
         damageLabel = new Label(""+gameManager.gameInformation.currentWeapon.damage_value, skin);
         criticalLabel = new Label("", skin);
-        manaLabel = new Label("", skin);
+        expLabel = new Label("", skin);
         customizeMenuTable();
     }
 
@@ -70,7 +72,7 @@ public class FuseMenu extends AbstractMenu {
         contentTable.row();
         contentTable.add(criticalLabel).left();
         contentTable.row();
-        contentTable.add(manaLabel).left();
+        contentTable.add(expLabel).left();
         contentTable.row();
         TextButton textButton = new TextButton("FUSE",skin);
         contentTable.row();
@@ -78,8 +80,8 @@ public class FuseMenu extends AbstractMenu {
 
         parentTable.add(contentTable).expandX();
         parentTable.row();
-        inventoryPanel = new InventoryPanel(gameManager);
-        inventoryPane = inventoryPanel.pane;
+        fuseInventoryPanel = new FuseInventoryPanel(gameManager);
+        inventoryPane = fuseInventoryPanel.pane;
         inventoryPane.setSize(parentTable.getWidth(),200);
         inventoryPane.setPosition(inventoryPane.getX(),-parentTable.getHeight());
         parentTable.addActor(inventoryPane);
@@ -116,11 +118,11 @@ public class FuseMenu extends AbstractMenu {
         } else {
             criticalLabel.setText(critical + nextValue +newDamage);
         }
-        String mana = "Mana: ";
+        String exp = "Exp: ";
         if (newMana == 0){
-            manaLabel.setText(mana);
+            expLabel.setText(exp);
         } else {
-            damageLabel.setText(mana+ nextValue +mana);
+            damageLabel.setText(exp+ nextValue +exp);
         }
     }
 }

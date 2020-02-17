@@ -25,11 +25,9 @@ public class ImageText extends Table {
         Stack stack = new Stack();
         stack.add(image);
 
-        if (overlayTexture != null) {
-            overlayImage = new Image(overlayTexture);
-            overlayImage.setVisible(false);
-            stack.add(overlayImage);
-        }
+        overlayImage = new Image(overlayTexture);
+        overlayImage.setVisible(false);
+        stack.add(overlayImage);
         add(stack);
         stack.add(label);
         label.setAlignment(Align.bottomLeft);

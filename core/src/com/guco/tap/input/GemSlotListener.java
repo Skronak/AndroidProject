@@ -13,7 +13,7 @@ public class GemSlotListener extends ClickListener {
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        fuseMenu.inventoryPanel.toggle();
+        fuseMenu.fuseInventoryPanel.toggle();
         return true;
     };
 }

@@ -73,11 +73,24 @@ public class PlayScreen extends AbstractScreen {
      */
     public PlayScreen(TapDungeonGame tapDungeonGame) {
         super(tapDungeonGame);
-        this.gameManager=tapDungeonGame.gameManager;
+        this.gameManager = tapDungeonGame.gameManager;
         this.hud = tapDungeonGame.hud;
+
         layer0GraphicObject = new Group();
         layer1GraphicObject = new Group();
         layer2GraphicObject = new Group();
+
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setSize(410,Constants.V_HEIGHT+15);
+        backgroundImage.setPosition(-90,-20);
+
+        Texture doorTexture= new Texture(files.internal("sprites/background/dg_door.png"));
+        doorImage = new Image(doorTexture);
+        doorImage.setSize(backgroundImage.getWidth(),backgroundImage.getHeight());
+        doorImage.setPosition(backgroundImage.getX(),backgroundImage.getY());
+
     }
 
     @Override
@@ -90,16 +103,6 @@ public class PlayScreen extends AbstractScreen {
         //tapActor
         tapActor = new TapActor();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
-        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        backgroundImage = new Image(backgroundTexture);
-        backgroundImage.setSize(410,Constants.V_HEIGHT+15);
-        backgroundImage.setPosition(-90,-20);
-
-        Texture doorTexture= new Texture(files.internal("sprites/background/dg_door.png"));
-        doorImage = new Image(doorTexture);
-        doorImage.setSize(backgroundImage.getWidth(),backgroundImage.getHeight());
-        doorImage.setPosition(backgroundImage.getX(),backgroundImage.getY());
 
         EnemyActor enemyActor = gameManager.enemyActorQueue.get(0);
         enemyActor.setPosition(130,220);
@@ -146,8 +149,8 @@ public class PlayScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        spriterPlayer =gameManager.loadPlayer();
-        boss=gameManager.loadBoss();
+        spriterPlayer = gameManager.loadPlayer();
+        boss = gameManager.loadBoss();
 
         playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
         enemyDrawer = gameManager.loadBossDrawer(spriteBatch);

@@ -4,14 +4,14 @@ public class UpgradeGoldEffect extends AbstractUpgradeEffect {
 
     @Override
     public void apply(Item item) {
-        originValue = gameInformation.levelBaseGold;
-        originCurrency = gameInformation.levelBaseCurrency;
+        originValue = gameInformation.levelBaseGoldValue;
+        originCurrency = gameInformation.levelBaseGoldCurrency;
 
-        gameInformation.levelBaseGold = (int) (gameInformation.levelBaseGold*value);
+        gameInformation.levelBaseGoldValue = (int) (gameInformation.levelBaseGoldValue *value);
     }
 
     @Override
     public void unapply(Item item) {
-        gameInformation.levelBaseGold = (int) originValue;
+        gameInformation.levelBaseGoldValue = (int) originValue;
     }
 }

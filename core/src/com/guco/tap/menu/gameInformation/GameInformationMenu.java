@@ -75,7 +75,7 @@ public class GameInformationMenu extends AbstractMenu {
         activGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.tapDamageValue, gameManager.gameInformation.tapDamageCurrency));
         passivGoldGenLabel.setText(gameManager.largeMath.getDisplayValue(gameManager.gameInformation.passivGoldValue, gameManager.gameInformation.passivGoldCurrency));
         criticalHitLabel.setText("x "+gameManager.gameInformation.criticalRate);
-        gameTimeLabel.setText(String.valueOf((gameManager.gameInformation.totalGameTime/ (1000*60*60)) + " hours"));
+        gameTimeLabel.setText((gameManager.gameInformation.totalGameTime/ (1000*60*60)) + " hours");
         tapNumberLabel.setText(String.valueOf(gameManager.gameInformation.totalTapNumber));
     }
 

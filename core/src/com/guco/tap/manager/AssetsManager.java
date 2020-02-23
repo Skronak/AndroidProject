@@ -38,7 +38,7 @@ public class AssetsManager {
 
     private String ICON_PATH = "sprites/icon/";
     private String UI_PATH = "sprites/ui/";
-    private String BACKGROUND_PATH="sprites/background";
+    private String BACKGROUND_PATH="sprites/background/";
     private String OBJECT_PATH="sprites/object/";
     private String JSON_PATH="json/";
 
@@ -53,7 +53,7 @@ public class AssetsManager {
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
     public ArrayList<Area> areaList;
-    public ArrayList<Texture> backgroundImageList;
+    public ArrayList<Texture> menuBackgroundTextureList, backgroundTextureList;
     public ArrayList<TiersUpgrades> weaponUpgradeList;
     public Texture background1Texture,background2Texture,background3Texture,background4Texture,background5Texture;
     public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture,brownTexture, upTexture, grey9Texture;
@@ -86,18 +86,22 @@ public class AssetsManager {
         font = generator.getFont();
         generator.dispose();
 
-        TextureRegionDrawable buyDrawableUp = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(UI_PATH+"goldButtonUp.png"))) );
-        TextureRegionDrawable buyDrawableDown = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(UI_PATH+"goldButtonDown.png"))) );
-        TextureRegionDrawable buyDrawableChecked = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(UI_PATH+"goldButtonUp.png"))) );
-        moduleMenuBuyTxtBtnStyle = new TextButton.TextButtonStyle(buyDrawableUp, buyDrawableDown,buyDrawableChecked, font);
+        TextureRegionDrawable buyDrawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(UI_PATH + "goldButtonUp.png"))));
+        TextureRegionDrawable buyDrawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(UI_PATH + "goldButtonDown.png"))));
+        TextureRegionDrawable buyDrawableChecked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(UI_PATH + "goldButtonUp.png"))));
+        moduleMenuBuyTxtBtnStyle = new TextButton.TextButtonStyle(buyDrawableUp, buyDrawableDown, buyDrawableChecked, font);
 
-        TextureRegionDrawable upgradeDrawableUp = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH+"hud_b5.png"))) );
-        TextureRegionDrawable upgradeDrawableDown = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH+"hud_b5_r.png"))) );
-        TextureRegionDrawable upgradeDrawableChecked = new TextureRegionDrawable( new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH+"hud_b5_r.png"))) );
-        moduleMenuUpgradeTxtBtnStyle = new TextButton.TextButtonStyle(upgradeDrawableUp, upgradeDrawableDown,upgradeDrawableChecked, font);
+        TextureRegionDrawable upgradeDrawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH + "hud_b5.png"))));
+        TextureRegionDrawable upgradeDrawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH + "hud_b5_r.png"))));
+        TextureRegionDrawable upgradeDrawableChecked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(ICON_PATH + "hud_b5_r.png"))));
+        moduleMenuUpgradeTxtBtnStyle = new TextButton.TextButtonStyle(upgradeDrawableUp, upgradeDrawableDown, upgradeDrawableChecked, font);
 
-        loadValue+=1;
+        loadValue += 1;
         debugLogLoading();
+
+        for (int i = 0; i < areaList.size(); i++) {
+
+        }
     }
 
     private void readFromFile() {
@@ -145,11 +149,18 @@ public class AssetsManager {
         ascendButtonTextureDown = new Texture(Gdx.files.internal(ICON_PATH+"ascend_r.png"));
         lockedButton = new Texture(Gdx.files.internal(ICON_PATH+"locked_button.png"));
 
-        backgroundImageList = new ArrayList<Texture>();
+        menuBackgroundTextureList = new ArrayList<Texture>();
         for(int i=0;i<areaList.size();i++) {
-            Texture backgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + File.separator+ areaList.get(i).background);
+            Texture menubackgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + File.separator+ areaList.get(i).menuBackgroundTexture);
+            menubackgroundTexture .setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            menuBackgroundTextureList.add(menubackgroundTexture );
+        }
+
+        backgroundTextureList = new ArrayList<Texture>();
+        for(int i=0;i<areaList.size();i++) {
+            Texture backgroundTexture = new Texture(Gdx.files.internal(BACKGROUND_PATH) + File.separator+ areaList.get(i).backgroundTexture);
             backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            backgroundImageList.add(backgroundTexture);
+            menuBackgroundTextureList.add(backgroundTexture);
         }
 
         loadValue+=1;

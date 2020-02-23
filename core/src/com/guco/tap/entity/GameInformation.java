@@ -38,8 +38,8 @@ public class GameInformation {
     public List<Item> weaponItemList;
     public List<Item> headItemList;
     public List<Item> bodyItemList;
-    public int levelBaseCurrency;
-    public int levelBaseGold;
+    public int levelBaseGoldCurrency;
+    public int levelBaseGoldValue;
     public List<Ressource> ressources;
 
     public GameInformation() {

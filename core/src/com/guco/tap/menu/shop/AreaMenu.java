@@ -2,7 +2,6 @@ package com.guco.tap.menu.shop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 public class AreaMenu extends AbstractMenu {
 
     private Table equipTable;
-    private SpriteBatch spriteBatch;
     private Image background, area1, area2, area3, area4;
     Image[] backgroundImages;
     private Area currentArea;
@@ -44,13 +42,9 @@ public class AreaMenu extends AbstractMenu {
 
         backgroundImages = new Image[areaList.size()];
         for (int i=0;i<gameManager.assetsManager.areaList.size();i++) {
-            backgroundImages[i] = new Image(new Texture(Gdx.files.internal("sprites/background/"+ areaList.get(i).background)));
+            backgroundImages[i] = new Image(gameManager.assetsManager.menuBackgroundTextureList.get(i));
         }
         customizeMenuTable();
-    }
-
-    public void postInit(){
-        spriteBatch = new SpriteBatch();
     }
 
     public void customizeMenuTable() {

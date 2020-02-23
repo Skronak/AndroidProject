@@ -115,8 +115,8 @@ public class OptionMenu extends AbstractMenu {
 
     public void debugMode(){
         gameManager.gameInformation.skillPoint =999;
-        gameManager.gameInformation.levelBaseGold =99;
-        gameManager.gameInformation.levelBaseCurrency =99;
+        gameManager.gameInformation.levelBaseGoldValue =99;
+        gameManager.gameInformation.levelBaseGoldCurrency =99;
         gameManager.gameInformation.areaLevel =999;
     }
 

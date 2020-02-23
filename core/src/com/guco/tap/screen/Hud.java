@@ -38,7 +38,7 @@ import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.shop.AreaMenu;
-import com.guco.tap.actor.EnemyInformationUI;
+import com.guco.tap.actor.EnemyHudUI;
 import com.guco.tap.actor.FpsActor;
 import com.guco.tap.actor.UiLevelSelect;
 import com.guco.tap.utils.Constants;
@@ -82,7 +82,7 @@ public class Hud implements Disposable {
     private ArrayList<AbstractMenu> activeMenuList;
     private Label floorLabel;
     public FpsActor fpsActor;
-    private EnemyInformationUI enemyInformation;
+    private EnemyHudUI enemyInformation;
     public Label battleNbLabel;
     public ImageButton goToNextAreaButton;
     private GameInformation gameInformation;
@@ -140,10 +140,6 @@ public class Hud implements Disposable {
         activeMenuList.add(optionMenu);
         activeMenuList.add(forgemenu);
         activeMenuList.add(fuseMenu);
-    }
-
-    public void postInitMenu(){
-        areaMenu.postInit();
     }
 
     private void initTop(){
@@ -219,7 +215,7 @@ public class Hud implements Disposable {
         InputListener buttonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 toggleMenu(activeMenuList.get(6));
-                gameManager.changeAreaLevel();
+                gameManager.initArea();
 
                 return true;
             }
@@ -332,7 +328,7 @@ public class Hud implements Disposable {
 
         // ***** OTHER *****
         // Hp bar & name
-        enemyInformation = new EnemyInformationUI(gameManager);
+        enemyInformation = new EnemyHudUI(gameManager);
         sceneLayer.addActor(enemyInformation);
 
         // Visual button to go upstairs
@@ -489,8 +485,7 @@ public class Hud implements Disposable {
 
     public void initFight(EnemyActor enemyActor){
         floorLabel.setText(gameManager.currentArea.name + " - "+gameInformation.areaLevel);
-
-        enemyInformation.reinitialise(enemyActor);
+        enemyInformation.init(enemyActor);
     }
 
     public void updateEnemyInformation(ValueDTO damage){

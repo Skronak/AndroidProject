@@ -44,7 +44,7 @@ public class DataManager {
     }
 
     public ValueDTO calculateGoldPerMonster(){
-        ValueDTO valueDTO = new ValueDTO(gameInformation.areaLevel * gameInformation.levelBaseGold,gameInformation.levelBaseCurrency);
+        ValueDTO valueDTO = new ValueDTO(gameInformation.areaLevel * gameInformation.levelBaseGoldValue,gameInformation.levelBaseGoldCurrency);
         return valueDTO;
     }
 

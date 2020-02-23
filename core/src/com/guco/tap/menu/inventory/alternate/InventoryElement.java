@@ -14,12 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
 
-/**
- * Represente un module dans le menu deroulant des modules
- * Created by Skronak on 21/03/2018.
- *
- */
-
 public class InventoryElement extends Table {
     private GameManager gameManager;
     private Label itemNameLabel;

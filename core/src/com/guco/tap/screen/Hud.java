@@ -34,6 +34,8 @@ import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
 import com.guco.tap.menu.forge.ForgeMenu;
 import com.guco.tap.menu.fuse.FuseMenu;
 import com.guco.tap.menu.gameInformation.GameInformationMenu;
+import com.guco.tap.menu.inventory.CharacterMenu;
+import com.guco.tap.menu.inventory.CharacterInventoryMenu;
 import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.menu.option.OptionMenu;
@@ -58,9 +60,8 @@ import java.util.ArrayList;
 public class Hud implements Disposable {
     public Stage stage;
 
-    public CharacterAttributeMenu characterAttributeMenu;
-
     private Viewport viewport;
+    public CharacterAttributeMenu characterAttributeMenu;
     private AreaMenu areaMenu;
     private ForgeMenu forgemenu;
     private OptionMenu optionMenu;
@@ -68,7 +69,9 @@ public class Hud implements Disposable {
     private GameInformationMenu gameInformationMenu;
     private ItemAttributeMenu itemAttributeMenu;
     private InventoryMenu inventoryMenu;
+    private CharacterMenu characterMenu;
     private FuseMenu fuseMenu;
+    private CharacterInventoryMenu characterInventoryMenu;
     private Label versionLabel;
     public Label goldLabel;
     private Label goldDecreaseLabel;
@@ -80,9 +83,9 @@ public class Hud implements Disposable {
     private LargeMath largeMath;
     private AbstractMenu currentMenu;
     private ArrayList<AbstractMenu> activeMenuList;
-    private Label floorLabel;
+    public Label floorLabel;
     public FpsActor fpsActor;
-    private EnemyHudUI enemyInformation;
+    public EnemyHudUI enemyInformation;
     public Label battleNbLabel;
     public ImageButton goToNextAreaButton;
     private GameInformation gameInformation;
@@ -130,6 +133,8 @@ public class Hud implements Disposable {
         itemAttributeMenu = new ItemAttributeMenu(gameManager);
         forgemenu = new ForgeMenu(gameManager, (SpriteBatch) stage.getBatch());
         fuseMenu = new FuseMenu(gameManager);
+        characterInventoryMenu = new CharacterInventoryMenu(game);
+        characterMenu = new CharacterMenu(game, characterInventoryMenu);
 
         activeMenuList = new ArrayList<AbstractMenu>();
         activeMenuList.add(gameInformationMenu);
@@ -140,6 +145,8 @@ public class Hud implements Disposable {
         activeMenuList.add(optionMenu);
         activeMenuList.add(forgemenu);
         activeMenuList.add(fuseMenu);
+        activeMenuList.add(characterMenu);
+        activeMenuList.add(characterInventoryMenu);
     }
 
     private void initTop(){
@@ -389,6 +396,8 @@ public class Hud implements Disposable {
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
 
+        currentMenu = characterMenu;
+        characterMenu.show();
 //        stage.setDebugAll(true);
     }
 

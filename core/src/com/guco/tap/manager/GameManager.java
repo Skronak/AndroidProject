@@ -150,10 +150,16 @@ public class GameManager {
         initArea();
         initFloorEnemies();
 
-        game.hud.initFight(currentEnemyActor);
+                startGame();
+
 //        attributeManager.initialize(game.hud.characterAttributeMenu);
     }
 
+    private void startGame(){
+        game.hud.floorLabel.setText(currentArea.name + " - "+gameInformation.areaLevel);
+        game.hud.enemyInformation.init(currentEnemyActor);
+        //game.hud.initFight(currentEnemyActor);
+    }
     public SpriterPlayer loadPlayer() {
         int weaponMap = 0;
         int headMap = 1;

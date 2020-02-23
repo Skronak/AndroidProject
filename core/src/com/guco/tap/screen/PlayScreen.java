@@ -103,7 +103,6 @@ public class PlayScreen extends AbstractScreen {
         //tapActor
         tapActor = new TapActor();
 
-
         EnemyActor enemyActor = gameManager.enemyActorQueue.get(0);
         enemyActor.setPosition(130,220);
 
@@ -242,14 +241,10 @@ public class PlayScreen extends AbstractScreen {
             hud.draw();
         }
         spriteBatch.end();
+
         hud.draw();
     }
 
-    /**
-     * Affiche image la ou lecran est touche
-     * @param positionX
-     * @param positionY
-     */
     public void showTapActor(int positionX, int positionY) {
         Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
         tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
@@ -315,12 +310,6 @@ public class PlayScreen extends AbstractScreen {
 
         damageLabel.setText("CRITICAL "+String.valueOf(value));
         damageLabel.setColor(Constants.CRITICAL_LABEL_COLOR);
-    }
-
-    /**
-     * Animation du jeu au touche normal
-     */
-    public void processNormalHit() {
     }
 
     //TODO: a terminer

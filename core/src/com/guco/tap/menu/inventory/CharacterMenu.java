@@ -54,7 +54,7 @@ public class CharacterMenu extends AbstractMenu {
         armSlot = addSlot(padRight,240,null);
         mantleSlot = addSlot(padRight,180, null);
 
-        weaponDamageLabel.addListener(new ClickListener(){
+        weaponSlot.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 characterInventoryMenu.show();
                 return true;
@@ -72,16 +72,16 @@ public class CharacterMenu extends AbstractMenu {
             slotTexture = new Texture(Gdx.files.internal("sprites/icon/item_frame_0.png"));
             itemTexture = new Texture(Gdx.files.internal("sprites/icon/item/empty.png"));
         }
-        weaponSlot = new InventorySlotImage(slotTexture, itemTexture, null);
-        weaponSlot.setPosition(posX, posY);
-        weaponSlot.setSize(SLOT_SIZE, SLOT_SIZE);
+        InventorySlotImage inventorySlotImage = new InventorySlotImage(slotTexture, itemTexture, null);
+        inventorySlotImage.setPosition(posX, posY);
+        inventorySlotImage.setSize(SLOT_SIZE, SLOT_SIZE);
 
-        parentTable.addActor(weaponSlot);
+        parentTable.addActor(inventorySlotImage);
 
-        return weaponSlot;
+        return inventorySlotImage;
     }
 
-    public void customizeMenuTable() {
+    private void customizeMenuTable() {
         characterNameLabel = new Label("",skin);
         characterNameLabel.setFontScale(0.7f);
         weaponDamageLabel = new Label("",skin);
@@ -94,9 +94,7 @@ public class CharacterMenu extends AbstractMenu {
         addMenuHeader("INVENTORY",2);
     }
 
-    /**
-     * FOR TEST ONLY
-     */
+
     @Override
     public void draw() {
         batch.begin();

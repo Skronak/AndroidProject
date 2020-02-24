@@ -39,8 +39,8 @@ public abstract class AbstractMenu {
     }
 
     public void initMenu() {
-        menu_width = Constants.V_WIDTH - Constants.UPDATE_MENU_PAD_EXTERNAL_WIDTH;
-        menu_height = Constants.V_HEIGHT - Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT - (Constants.UPDATE_MENU_PAD_EXTERNAL_HEIGHT);
+        menu_width = Constants.V_WIDTH - Constants.MENU_PAD_EXTERNAL_WIDTH;
+        menu_height = Constants.V_HEIGHT - Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT - (Constants.MENU_PAD_EXTERNAL_HEIGHT);
         menuBackground = gameManager.assetsManager.getMenuBackgroundTexture();
         skin = gameManager.assetsManager.getSkin();
 
@@ -49,10 +49,9 @@ public abstract class AbstractMenu {
         parentTable.setBackground(menuBackground);
         parentTable.setWidth(menu_width);
         parentTable.setHeight(menu_height);
-        parentTable.setPosition(Constants.UPDATE_MENU_PAD_EXTERNAL_WIDTH/2,Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);
+        parentTable.setPosition(Constants.MENU_PAD_EXTERNAL_WIDTH /2,Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);
         parentTable.setVisible(false);
         parentTable.top();
-
     }
 
     public void addMenuHeader(String title, int nbColumn){
@@ -73,11 +72,21 @@ public abstract class AbstractMenu {
 
         parentTable.add(titleHeader).top().colspan(nbColumn);
         parentTable.row();
-
     }
-    /**
-     * Called when menu is shown
-     */
+
+    // TODO return button
+    public void addMenuHeader(String title, int nbColumn, boolean returnButton) {
+        addMenuHeader(title, nbColumn);
+        Image returnMenuIcon = new Image(new Texture("sprites/icon/arrow_down.png"));
+        returnMenuIcon.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameManager.playScreen.getHud().closeCurrentMenu();
+                return true;
+            }});
+
+        titleHeader.addActor(returnMenuIcon);
+    }
+
     public void show() {
         this.parentTable.setVisible(true);
     }
@@ -110,6 +119,6 @@ public abstract class AbstractMenu {
     private NinePatch getNinePatch(String fname) {
         // Get the image
         final Texture t = new Texture(Gdx.files.internal(fname));
-        return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL, Constants.UPDATE_MENU_PAD_INTERNAL);
+        return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), Constants.MENU_PAD_INTERNAL, Constants.MENU_PAD_INTERNAL, Constants.MENU_PAD_INTERNAL, Constants.MENU_PAD_INTERNAL);
     }
 }

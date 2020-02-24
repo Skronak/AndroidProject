@@ -84,8 +84,7 @@ public class ItemManager {
     }
 
     public void calculateCurrentDamage(Item item){
-       //item.currentDamageValue = item.level * (item.damageValue * item.damageRate);
+        //item.currentDamageValue = item.level * (item.damageValue * item.damageRate);
     }
 
 }
-

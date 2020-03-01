@@ -169,7 +169,6 @@ public class InventoryMenu extends AbstractMenu {
     public void draw() {
         batch.begin();
         itemSpriterPlayer.update();
-//        itemSpriterPlayer.
         drawer.draw(itemSpriterPlayer);
         batch.end();
     }

@@ -2,17 +2,17 @@ package com.guco.tap.menu.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.InventorySlotImage;
+import com.guco.tap.dto.SpriterDto;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.menu.AbstractMenu;
+import com.guco.tap.utils.Constants;
 
 /**
  * Created by Skronak on 01/02/2017.
@@ -26,24 +26,26 @@ public class CharacterMenu extends AbstractMenu {
     private Label hpLabel;
     private int SLOT_SIZE=40;
     private GameInformation gameInformation;
-
-    private Drawer drawer;
-    private SpriteBatch batch;
-    public SpriterPlayer itemSpriterPlayer;
+    private SpriterDto spriterDto;
+    private TapDungeonGame game;
+    public SpriterPlayer spriterPlayer;
 
     public CharacterMenu(final TapDungeonGame game, final CharacterInventoryMenu characterInventoryMenu) {
         super(game.gameManager);
+        this.game = game;
         this.gameInformation = game.gameInformation;
         customizeMenuTable();
 
-        batch = new SpriteBatch();
-        drawer = gameManager.loadPlayerDrawer(batch);
-
-        itemSpriterPlayer = gameManager.loadPlayer();
-        itemSpriterPlayer.setScale(0.5f);
-        itemSpriterPlayer.setEntity(gameManager.playerData.getEntity("inventoryMenu"));
-        itemSpriterPlayer.setPosition(70, 320);
-        itemSpriterPlayer.speed=1;
+        spriterDto = gameManager.loadDrawer(game.sb, "/animation.scml");
+        spriterPlayer = new SpriterPlayer(spriterDto.data.getEntity(0));
+        spriterPlayer.setPosition(Constants.V_WIDTH/2, 220);
+        spriterPlayer.setScale(0.5f);
+        spriterPlayer.speed = 15;
+        spriterPlayer.setAnimation("idle_sleeping");
+//        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, playScreen));
+        spriterPlayer.characterMaps[1] = spriterPlayer.getEntity().getCharacterMap("sleepingHead");
+          //spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
+//        spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
 
         float padLeft = 15;
         float padRight = parentTable.getWidth() - SLOT_SIZE - 15;
@@ -94,18 +96,15 @@ public class CharacterMenu extends AbstractMenu {
         addMenuHeader("INVENTORY",2);
     }
 
+    public void show() {
+        parentTable.setVisible(true);
+    }
 
     @Override
     public void draw() {
-        batch.begin();
-//        itemSpriterPlayer.update();
-//        itemSpriterPlayer.
-//        drawer.draw(itemSpriterPlayer);
-        batch.end();
-    }
-
-    public void show() {
-        parentTable.setVisible(true);
-        // update les labels
+        game.sb.begin();
+        spriterPlayer.update();
+        spriterDto.drawer.draw(spriterPlayer);
+        game.sb.end();
     }
 }

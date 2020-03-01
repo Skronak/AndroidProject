@@ -144,9 +144,9 @@ public class Hud implements Disposable {
         activeMenuList.add(achievementMenu);
         activeMenuList.add(optionMenu);
         activeMenuList.add(forgemenu);
-        activeMenuList.add(fuseMenu);
+//        activeMenuList.add(fuseMenu);
         activeMenuList.add(characterMenu);
-        activeMenuList.add(characterInventoryMenu);
+        activeMenuList.add(inventoryMenu);
     }
 
     private void initTop(){

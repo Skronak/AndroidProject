@@ -1,12 +1,12 @@
 package com.brashmonkey.spriter;
 
-import java.util.Iterator;
-
 import com.brashmonkey.spriter.Entity.CharacterMap;
 import com.brashmonkey.spriter.Entity.ObjectInfo;
 import com.brashmonkey.spriter.Entity.ObjectType;
 import com.brashmonkey.spriter.Timeline.Key.Bone;
 import com.brashmonkey.spriter.Timeline.Key.Object;
+
+import java.util.Iterator;
 
 /**
  * A Drawer is responsible for drawing a {@link SpriterPlayer}.
@@ -182,7 +182,7 @@ public abstract class Drawer<R> {
 	/**
 	 * Draws the given spriterPlayer with the given character map.
 	 * @param spriterPlayer the spriterPlayer to draw
-	 * @param map the character map to draw
+	 * @param maps the character map to draw
 	 */
 	public void draw(SpriterPlayer spriterPlayer, CharacterMap[] maps){
 		this.draw(spriterPlayer.objectIterator(), maps);

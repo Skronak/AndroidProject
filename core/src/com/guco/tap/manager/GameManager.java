@@ -19,6 +19,7 @@ import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.dto.Area;
+import com.guco.tap.dto.SpriterDto;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
@@ -150,7 +151,7 @@ public class GameManager {
         initArea();
         initFloorEnemies();
 
-                startGame();
+        startGame();
 
 //        attributeManager.initialize(game.hud.characterAttributeMenu);
     }
@@ -173,6 +174,7 @@ public class GameManager {
         spriterPlayer.characterMaps[weaponMap] = spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
         spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
         spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
+
         return spriterPlayer;
     }
 
@@ -214,6 +216,21 @@ public class GameManager {
 
         Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
         return drawer;
+    }
+
+    public SpriterDto loadDrawer(SpriteBatch batch, String pathToScml) {
+        FileHandle handle = Gdx.files.internal("spriter/"+pathToScml);
+        Data data = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(data);
+        loader.load(handle.file());
+
+        ShapeRenderer renderer = new ShapeRenderer();
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+
+        SpriterDto spriterDto = new SpriterDto(data, drawer);
+
+        return spriterDto;
     }
 
     public Drawer loadBossDrawer(SpriteBatch batch) {

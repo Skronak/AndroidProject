@@ -21,6 +21,7 @@ public class CharacterInventoryMenu extends AbstractMenu {
         pane.setSize(parentTable.getWidth(),195);
         pane.setPosition(0,parentTable.getHeight()- Constants.MENU_PAD_EXTERNAL_HEIGHT - Constants.MENU_PAD_INTERNAL - pane.getHeight());
         parentTable.addActor(pane);
+
     }
 
     private void customizeMenuTable() {
@@ -43,7 +44,6 @@ public class CharacterInventoryMenu extends AbstractMenu {
             }
             table.row();
         }
-
         return pane;
     }
 

@@ -1,4 +1,4 @@
-package com.guco.tap.menu.characterAttribute.element;
+package com.guco.tap.menu.characterAttribute;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

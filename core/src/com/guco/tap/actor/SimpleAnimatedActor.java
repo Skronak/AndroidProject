@@ -1,10 +1,8 @@
-package com.guco.tap.entity;
+package com.guco.tap.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 // Take your **animation** created for your sprite batch and call this:
 public class SimpleAnimatedActor extends Image {

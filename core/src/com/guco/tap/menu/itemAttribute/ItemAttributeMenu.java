@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.entity.Item;
 import com.guco.tap.entity.ItemUpgrade;
-import com.guco.tap.menu.itemAttribute.element.ItemAttributeRowElement;
 import com.guco.tap.entity.TiersUpgrades;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;

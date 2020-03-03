@@ -1,4 +1,4 @@
-package com.guco.tap.menu.itemAttribute.element;
+package com.guco.tap.menu.itemAttribute;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +10,6 @@ import com.guco.tap.entity.Item;
 import com.guco.tap.entity.ItemUpgrade;
 import com.guco.tap.input.SkillSelectButtonListener;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 
 import java.util.ArrayList;
 

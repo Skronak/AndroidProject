@@ -1,7 +1,7 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.menu.achievement.element.AchievementElement;
+import com.guco.tap.menu.achievement.AchievementElement;
 
 import java.util.List;
 

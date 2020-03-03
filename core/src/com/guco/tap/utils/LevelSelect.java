@@ -1,4 +1,4 @@
-package com.guco.tap;
+package com.guco.tap.utils;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.utils.Constants;
 
 public class LevelSelect {
 

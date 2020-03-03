@@ -14,7 +14,7 @@ import com.guco.tap.entity.AttributeElement;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.Item;
 import com.guco.tap.entity.TiersUpgrades;
-import com.guco.tap.menu.achievement.element.AchievementElement;
+import com.guco.tap.menu.achievement.AchievementElement;
 import com.guco.tap.utils.BitmapFontGenerator;
 
 import java.io.File;

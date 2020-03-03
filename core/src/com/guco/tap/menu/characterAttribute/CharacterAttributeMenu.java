@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.guco.tap.menu.characterAttribute.element.CharacterAttributeElement;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 

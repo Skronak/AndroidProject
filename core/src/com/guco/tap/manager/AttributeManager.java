@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.guco.tap.entity.AttributeElement;
 import com.guco.tap.entity.AttributeElementLevel;
 import com.guco.tap.menu.characterAttribute.CharacterAttributeMenu;
-import com.guco.tap.menu.characterAttribute.element.CharacterAttributeElement;
+import com.guco.tap.menu.characterAttribute.CharacterAttributeElement;
 import com.guco.tap.utils.ValueDTO;
 
 import java.util.List;

@@ -396,8 +396,8 @@ public class Hud implements Disposable {
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
 
-        currentMenu = characterMenu;
-        characterMenu.show();
+//        currentMenu = characterMenu;
+//        characterMenu.show();
 //        stage.setDebugAll(true);
     }
 
@@ -408,7 +408,7 @@ public class Hud implements Disposable {
         stage.act();
         stage.draw();
 //        if (currentMenu instanceof InventoryMenu && currentMenu.mainTable.getActions().size==0) {
-        if (currentMenu!=null) {
+        if (currentMenu != null) {
             currentMenu.draw();
         }
 //        }

@@ -5,6 +5,7 @@ import com.guco.tap.entity.Item;
 import java.util.Map;
 
 public class SavedData {
+    public String accountName;
     public Long lastLogin;
     public float currentGoldValue;
     public int currentGoldCurrency;
@@ -29,6 +30,7 @@ public class SavedData {
     }
 
     public SavedData(GameInformation gameInformation){
+        this.accountName = gameInformation.accountName;
         this.lastLogin = System.currentTimeMillis();
         this.currentGoldValue = gameInformation.currentGoldValue;
         this.currentGoldCurrency = gameInformation.currentGoldCurrency;

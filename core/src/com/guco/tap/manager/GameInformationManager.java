@@ -57,6 +57,7 @@ public class GameInformationManager {
 
         if (savedData !=  null) {
             gameInformation = new GameInformation();
+            gameInformation.accountName = savedData.accountName;
             gameInformation.lastLogin = System.currentTimeMillis();
             gameInformation.currentGoldValue = savedData.currentGoldValue;
             gameInformation.currentGoldCurrency = savedData.currentGoldCurrency;
@@ -123,7 +124,9 @@ public class GameInformationManager {
     }
 
     public void initGameInformation() {
+
         gameInformation = new GameInformation();
+        gameInformation.accountName = "Narvak";
         gameInformation.lastLogin = System.currentTimeMillis();
         gameInformation.currentGoldValue = 0;
         gameInformation.currentGoldCurrency = 0;

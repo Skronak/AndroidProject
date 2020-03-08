@@ -11,6 +11,7 @@ import java.util.List;
 public class GameInformation {
 
     public Long lastLogin;
+    public String accountName;
     public float currentGoldValue;
     public int currentGoldCurrency;
     public float passivGoldValue;

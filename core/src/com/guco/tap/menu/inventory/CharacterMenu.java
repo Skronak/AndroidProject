@@ -153,6 +153,7 @@ public class CharacterMenu extends AbstractMenu {
             currentInventorySlotImages.get(i).selectSlot(false);
         }
         currentInventorySlotImages.get(id).selectSlot(true);
+        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(id).mapName);
     }
 
     private void customizeMenuTable() {

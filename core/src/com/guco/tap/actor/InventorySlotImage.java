@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.guco.tap.entity.Item;
 
 public class InventorySlotImage extends Table {
-    private Image overlayImage;
+    private Image selectOverlayImage, equipeOverlayImage;
     private Item item;
     private Texture itemTexture;
 
-    public InventorySlotImage(Item item, Texture frameTexture, Texture overlayTexture) {
+    public InventorySlotImage(Item item, Texture frameTexture, Texture selectOverlay, Texture equipOverlay) {
         this.item = item;
         frameTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Image frameImage = new Image(frameTexture);
@@ -28,11 +28,18 @@ public class InventorySlotImage extends Table {
         Image itemImage = new Image(itemTexture);
         stack.add(itemImage);
 
-        if(overlayTexture != null) {
-            overlayTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            overlayImage = new Image(overlayTexture);
-            overlayImage.setVisible(false);
-            stack.add(overlayImage);
+        if(selectOverlay != null) {
+            selectOverlay.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            selectOverlayImage = new Image(selectOverlay);
+            selectOverlayImage.setVisible(false);
+            stack.add(selectOverlayImage);
+        }
+
+        if(equipOverlay != null) {
+            equipOverlay.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            equipeOverlayImage = new Image(equipOverlay);
+            equipeOverlayImage.setVisible(false);
+            stack.add(equipeOverlayImage);
         }
 
         add(stack);
@@ -40,7 +47,12 @@ public class InventorySlotImage extends Table {
     }
 
     public void selectSlot(boolean isSelected) {
-        overlayImage.setVisible(isSelected);
+        selectOverlayImage.setVisible(isSelected);
         isSelected = !isSelected;
+    }
+
+    public void equipSlot(boolean isEquiped) {
+        selectOverlayImage.setVisible(false);
+        equipeOverlayImage.setVisible(isEquiped);
     }
 }

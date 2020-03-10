@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.SpriterPlayer;
@@ -39,6 +40,7 @@ public class CharacterMenu extends AbstractMenu {
     ScrollPane availableItemsPane;
     private List<InventorySlotImage> currentInventorySlotImages;
     private Label nameLabel;
+    private Label weaponAttackLabel;
 
     public CharacterMenu(final TapDungeonGame game, final CharacterInventoryMenu characterInventoryMenu) {
         super(game.gameManager);
@@ -92,7 +94,8 @@ public class CharacterMenu extends AbstractMenu {
         } else {
             slotTexture = new Texture(Gdx.files.internal("sprites/icon/item_frame_0.png"));
         }
-        InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, null);
+
+        InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, null, null);
         inventorySlotImage.setPosition(posX, posY);
         inventorySlotImage.setSize(SLOT_SIZE, SLOT_SIZE);
 
@@ -104,6 +107,11 @@ public class CharacterMenu extends AbstractMenu {
 
     private void initInventoryPanel() {
         final Table table = new Table();
+        weaponAttackLabel = new Label("atk: ", skin);
+        table.add(weaponAttackLabel).colspan(4).left();
+        TextButton equipButton = new TextButton("EQUIP", skin);
+        table.add(equipButton).left();
+        table.row();
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = paneStyle.hScrollKnob = paneStyle.vScroll = paneStyle.vScrollKnob;
         paneStyle.vScrollKnob = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.getScrollTexture(), 10, 50));
@@ -116,7 +124,8 @@ public class CharacterMenu extends AbstractMenu {
         for (int i = 0; i < 5; i++) {
             for (int y=0; y<5; y++) {
                 Texture slotTexture = new Texture(Gdx.files.internal("sprites/icon/off_icon.png"));
-                Texture selectTexture = new Texture(Gdx.files.internal("sprites/icon/iconSelected.png"));
+                Texture selectTexture = new Texture(Gdx.files.internal("sprites/icon/select.png"));
+                Texture equipTexture = new Texture(Gdx.files.internal("sprites/icon/iconSelected.png"));
 
                 final Item item;
                 final int itemIdx = (i * 5) + y;
@@ -125,12 +134,12 @@ public class CharacterMenu extends AbstractMenu {
                 } else {
                     item = null;
                 }
-                final InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, selectTexture);
+                final InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, selectTexture, null);
                 inventorySlotImage.setSize(SLOT_SIZE, SLOT_SIZE);
                 if (item != null) {
                     inventorySlotImage.addListener(new ClickListener() {
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            selectItem(itemIdx);
+                            selectItem(item);
                             return true;
                         }
                     });
@@ -148,12 +157,13 @@ public class CharacterMenu extends AbstractMenu {
        availableItemsPane.setVisible(false);
     }
 
-    private void selectItem(int id) {
+    private void selectItem(Item item) {
         for (int i = 0; i < currentInventorySlotImages.size(); i++) {
             currentInventorySlotImages.get(i).selectSlot(false);
         }
-        currentInventorySlotImages.get(id).selectSlot(true);
-        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(id).mapName);
+        currentInventorySlotImages.get(item.id).selectSlot(true);
+        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(item.id).mapName);
+        weaponAttackLabel.setText("Damage: " + item.damageValue);
     }
 
     private void customizeMenuTable() {

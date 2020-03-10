@@ -41,6 +41,8 @@ public class CharacterMenu extends AbstractMenu {
     private List<InventorySlotImage> currentInventorySlotImages;
     private Label nameLabel;
     private Label weaponAttackLabel;
+    private InventorySlotImage currentSelectedInventorySlot, currentEquipedInventorySlot;
+    private Item currentEquipedItem;
 
     public CharacterMenu(final TapDungeonGame game, final CharacterInventoryMenu characterInventoryMenu) {
         super(game.gameManager);
@@ -110,6 +112,16 @@ public class CharacterMenu extends AbstractMenu {
         weaponAttackLabel = new Label("atk: ", skin);
         table.add(weaponAttackLabel).colspan(4).left();
         TextButton equipButton = new TextButton("EQUIP", skin);
+        equipButton.addListener(new ClickListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (currentEquipedInventorySlot!=null) {
+                    currentEquipedInventorySlot.equipSlot(false);
+                }
+                currentSelectedInventorySlot.equipSlot(true);
+                currentEquipedInventorySlot = currentSelectedInventorySlot;
+                return true;
+            }
+        });
         table.add(equipButton).left();
         table.row();
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
@@ -134,11 +146,12 @@ public class CharacterMenu extends AbstractMenu {
                 } else {
                     item = null;
                 }
-                final InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, selectTexture, null);
+                final InventorySlotImage inventorySlotImage = new InventorySlotImage(item, slotTexture, selectTexture, equipTexture);
                 inventorySlotImage.setSize(SLOT_SIZE, SLOT_SIZE);
                 if (item != null) {
                     inventorySlotImage.addListener(new ClickListener() {
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            currentSelectedInventorySlot = inventorySlotImage;
                             selectItem(item);
                             return true;
                         }
@@ -158,12 +171,21 @@ public class CharacterMenu extends AbstractMenu {
     }
 
     private void selectItem(Item item) {
+//        if (currentSelectedInventorySlot!=null) {
+//            currentEquipedInventorySlot.selectSlot(false);
+//        }
         for (int i = 0; i < currentInventorySlotImages.size(); i++) {
             currentInventorySlotImages.get(i).selectSlot(false);
         }
-        currentInventorySlotImages.get(item.id).selectSlot(true);
-        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(item.id).mapName);
-        weaponAttackLabel.setText("Damage: " + item.damageValue);
+
+        // TODO je reset le currentInventorySlotImage a false donc jamais appelé
+        if (currentSelectedInventorySlot.isSelected==true) {
+            currentSelectedInventorySlot.equipSlot(true);
+        } else {
+            currentInventorySlotImages.get(item.id).selectSlot(true);
+            spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(item.id).mapName);
+            weaponAttackLabel.setText("Damage: " + item.damageValue);
+        }
     }
 
     private void customizeMenuTable() {

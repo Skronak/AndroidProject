@@ -9,8 +9,9 @@ import com.guco.tap.entity.Item;
 
 public class InventorySlotImage extends Table {
     private Image selectOverlayImage, equipeOverlayImage;
-    private Item item;
+    public Item item;
     private Texture itemTexture;
+    public boolean isSelected;
 
     public InventorySlotImage(Item item, Texture frameTexture, Texture selectOverlay, Texture equipOverlay) {
         this.item = item;
@@ -46,9 +47,9 @@ public class InventorySlotImage extends Table {
         setSize(getPrefWidth(), getPrefHeight());
     }
 
-    public void selectSlot(boolean isSelected) {
-        selectOverlayImage.setVisible(isSelected);
-        isSelected = !isSelected;
+    public void selectSlot(boolean selected) {
+        selectOverlayImage.setVisible(selected);
+        isSelected = selected;
     }
 
     public void equipSlot(boolean isEquiped) {

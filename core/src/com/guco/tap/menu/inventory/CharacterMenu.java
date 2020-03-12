@@ -49,7 +49,6 @@ public class CharacterMenu extends AbstractMenu {
         this.game = game;
         this.gameInformation = game.gameInformation;
         customizeMenuTable();
-
         spriterDto = gameManager.loadDrawer(game.sb, "/animation.scml");
         spriterPlayer = new SpriterPlayer(spriterDto.data.getEntity(0));
         spriterPlayer.setPosition(Constants.V_WIDTH/2, 220);
@@ -61,6 +60,8 @@ public class CharacterMenu extends AbstractMenu {
           //spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
 //        spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
 
+
+        currentEquipedItem = gameInformation.equipedWeapon;
 
         float padLeft = 15;
 
@@ -138,7 +139,6 @@ public class CharacterMenu extends AbstractMenu {
                 Texture slotTexture = new Texture(Gdx.files.internal("sprites/icon/off_icon.png"));
                 Texture selectTexture = new Texture(Gdx.files.internal("sprites/icon/select.png"));
                 Texture equipTexture = new Texture(Gdx.files.internal("sprites/icon/iconSelected.png"));
-
                 final Item item;
                 final int itemIdx = (i * 5) + y;
                 if (itemIdx < availableWeapon.size()) {
@@ -151,15 +151,17 @@ public class CharacterMenu extends AbstractMenu {
                 if (item != null) {
                     inventorySlotImage.addListener(new ClickListener() {
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            selectItem(currentSelectedInventorySlot);
                             currentSelectedInventorySlot = inventorySlotImage;
-                            selectItem(item);
                             return true;
                         }
                     });
                 }
-
                 currentInventorySlotImages.add(inventorySlotImage);
                 table.add(inventorySlotImage).size(50,50).pad(2);
+                if (currentEquipedItem == item) {
+                    inventorySlotImage.equipSlot(true);
+                }
             }
             table.row();
         }
@@ -170,21 +172,29 @@ public class CharacterMenu extends AbstractMenu {
        availableItemsPane.setVisible(false);
     }
 
-    private void selectItem(Item item) {
+    private void selectItem(InventorySlotImage inventorySlotImage) {
 //        if (currentSelectedInventorySlot!=null) {
 //            currentEquipedInventorySlot.selectSlot(false);
 //        }
-        for (int i = 0; i < currentInventorySlotImages.size(); i++) {
-            currentInventorySlotImages.get(i).selectSlot(false);
+//        for (int i = 0; i < currentInventorySlotImages.size(); i++) {
+//            currentInventorySlotImages.get(i).selectSlot(false);
+//        }
+
+        if (currentSelectedInventorySlot != null) {
+            currentSelectedInventorySlot.selectSlot(false);
+        }
+        if (currentEquipedInventorySlot != null) {
+            currentEquipedInventorySlot.selectSlot(false);
         }
 
         // TODO je reset le currentInventorySlotImage a false donc jamais appelé
         if (currentSelectedInventorySlot.isSelected==true) {
             currentSelectedInventorySlot.equipSlot(true);
+            currentEquipedInventorySlot = inventorySlotImage;
         } else {
-            currentInventorySlotImages.get(item.id).selectSlot(true);
-            spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(item.id).mapName);
-            weaponAttackLabel.setText("Damage: " + item.damageValue);
+            currentInventorySlotImages.get(inventorySlotImage.item.id).selectSlot(true);
+            spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
+            weaponAttackLabel.setText("Damage: " + inventorySlotImage.item.damageValue);
         }
     }
 

@@ -90,13 +90,20 @@ public class PlayScreen extends AbstractScreen {
         doorImage = new Image(doorTexture);
         doorImage.setSize(backgroundImage.getWidth(),backgroundImage.getHeight());
         doorImage.setPosition(backgroundImage.getX(),backgroundImage.getY());
-
     }
 
     @Override
     public void show() {
         textAnimMinX =100;
         random = new Random();
+
+        // TODO bug dans l'ordre de chargement du drawer
+        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
+        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
+        spriterPlayer = gameManager.loadPlayer();
+
+        hud.initializeHud();
+        hud.update();
 
         gameManager.initialiseGame();
 
@@ -136,7 +143,6 @@ public class PlayScreen extends AbstractScreen {
         layer1GraphicObject.addActor(enemyActorList.get(0));
         layer2GraphicObject.addActor(doorImage);
         layer2GraphicObject.addActor(tapActor);
-        hud.update();
 
         //if (gameManager.isFirstPlay()) {
         //    displayTutorial();
@@ -148,11 +154,7 @@ public class PlayScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        spriterPlayer = gameManager.loadPlayer();
         boss = gameManager.loadBoss();
-
-        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
-        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
 
         initStartScreen();
     }

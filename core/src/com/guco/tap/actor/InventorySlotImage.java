@@ -11,7 +11,6 @@ public class InventorySlotImage extends Table {
     private Image selectOverlayImage, equipeOverlayImage;
     public Item item;
     private Texture itemTexture;
-    public boolean isSelected;
 
     public InventorySlotImage(Item item, Texture frameTexture, Texture selectOverlay, Texture equipOverlay) {
         this.item = item;
@@ -49,11 +48,9 @@ public class InventorySlotImage extends Table {
 
     public void selectSlot(boolean selected) {
         selectOverlayImage.setVisible(selected);
-        isSelected = selected;
     }
 
     public void equipSlot(boolean isEquiped) {
-        selectOverlayImage.setVisible(false);
         equipeOverlayImage.setVisible(isEquiped);
     }
 }

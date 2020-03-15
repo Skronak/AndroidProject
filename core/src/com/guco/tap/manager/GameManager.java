@@ -189,6 +189,7 @@ public class GameManager {
         spriterPlayer.speed = 10;
         spriterPlayer.setAnimation("idle");
         //spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
+
         return spriterPlayer;
     }
 
@@ -260,7 +261,7 @@ public class GameManager {
     }
 
     public void hitEnemy(int posX, int posY) {
-        spriterPlayer.setAnimation("atk");
+        playScreen.spriterPlayer.setAnimation("atk");
         gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1);
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;

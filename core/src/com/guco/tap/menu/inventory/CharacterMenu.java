@@ -22,10 +22,6 @@ import com.guco.tap.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Skronak on 01/02/2017.
- * Menu d'update
- */
 public class CharacterMenu extends AbstractMenu {
     private Label characterNameLabel;
     private Label weaponDamageLabel;
@@ -116,7 +112,7 @@ public class CharacterMenu extends AbstractMenu {
         TextButton equipButton = new TextButton("EQUIP", skin);
         equipButton.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                equipItem();
+                equipItem(currentSelectedInventorySlot);
                 return true;
             }
         });
@@ -155,8 +151,8 @@ public class CharacterMenu extends AbstractMenu {
                 }
                 currentInventorySlotImages.add(inventorySlotImage);
                 table.add(inventorySlotImage).size(50, 50).pad(2);
-                if (currentEquipedItem == item) {
-                    inventorySlotImage.equipSlot(true);
+                if (currentEquipedItem.equals(item)) {
+                    equipItem(inventorySlotImage);
                 }
             }
             table.row();
@@ -168,30 +164,31 @@ public class CharacterMenu extends AbstractMenu {
         availableItemsPane.setVisible(false);
     }
 
-    private void equipItem() {
+    private void equipItem(InventorySlotImage inventorySlotImage) {
+        inventorySlotImage.equipSlot(true);
         if (currentEquipedInventorySlot != null) {
             currentEquipedInventorySlot.equipSlot(false);
         }
-        currentSelectedInventorySlot.equipSlot(true);
-        currentEquipedInventorySlot = currentSelectedInventorySlot;
+        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
+        currentEquipedInventorySlot = inventorySlotImage;
+
+        gameManager.dataManager.calculateTapDamage();
+        gameManager.playScreen.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
+
     }
 
     private void selectItem(InventorySlotImage inventorySlotImage) {
         inventorySlotImage.selectSlot(true);
         if (currentSelectedInventorySlot != null) {
             currentSelectedInventorySlot.selectSlot(false);
+            // equip item if cell is already selected & play sound
+            if (currentSelectedInventorySlot.equals(inventorySlotImage)) {
+                equipItem(inventorySlotImage);
+            }
         }
+
         currentSelectedInventorySlot = inventorySlotImage;
-
-        //if (currentSelectedInventorySlot.isSelected == true) {
-        //    currentSelectedInventorySlot.equipSlot(true);
-        //    currentEquipedInventorySlot = inventorySlotImage;
-        //} else {
-        //    currentInventorySlotImages.get(inventorySlotImage.item.id).selectSlot(true);
-        //    spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
-        //    weaponAttackLabel.setText("Damage: " + inventorySlotImage.item.damageValue);
-        //}
-
+        weaponAttackLabel.setText("Damage: " + inventorySlotImage.item.damageValue);
     }
 
     private void customizeMenuTable() {

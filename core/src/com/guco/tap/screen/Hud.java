@@ -109,15 +109,12 @@ public class Hud implements Disposable {
 
         sceneLayer = new Group();
         menuLayer = new Group();
+    }
 
+    public void initializeHud(){
         initMenu();
         initButton();
         initHud();
-
-//        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
-//        stage.addActor(levelSelect.pane);
-
-//        toggleMenu(forgemenu);
     }
 
     /**

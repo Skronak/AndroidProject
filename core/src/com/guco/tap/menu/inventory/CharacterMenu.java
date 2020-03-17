@@ -169,7 +169,6 @@ public class CharacterMenu extends AbstractMenu {
         if (currentEquipedInventorySlot != null) {
             currentEquipedInventorySlot.equipSlot(false);
         }
-        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
         currentEquipedInventorySlot = inventorySlotImage;
 
         gameManager.dataManager.calculateTapDamage();
@@ -179,6 +178,8 @@ public class CharacterMenu extends AbstractMenu {
 
     private void selectItem(InventorySlotImage inventorySlotImage) {
         inventorySlotImage.selectSlot(true);
+        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
+
         if (currentSelectedInventorySlot != null) {
             currentSelectedInventorySlot.selectSlot(false);
             // equip item if cell is already selected & play sound

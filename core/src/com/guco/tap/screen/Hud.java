@@ -171,8 +171,6 @@ public class Hud implements Disposable {
         Texture passivButtonTextureDown = gameManager.assetsManager.passivButtonTextureDown;
         Texture button6TextureUp = gameManager.assetsManager.button6TextureUp;
         Texture button6TextureDown = gameManager.assetsManager.button6TextureDown;
-        Texture ascendButtonTextureUp = gameManager.assetsManager.ascendButtonTextureUp;
-        Texture ascendButtonTextureDown = gameManager.assetsManager.ascendButtonTextureDown;
         Texture lockedButton = gameManager.assetsManager.lockedButton;
 
         ImageButton.ImageButtonStyle style0 = new ImageButton.ImageButtonStyle();

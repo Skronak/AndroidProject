@@ -1,7 +1,6 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,8 +26,6 @@ import java.util.ArrayList;
  * TODO Utiliser atlas & asset manager
  */
 public class AssetsManager {
-
-    private AssetManager assetManager;
 
     private Json json;
     private ArrayList<AttributeElement> attributeElementList;
@@ -59,16 +56,14 @@ public class AssetsManager {
     public Texture redTexture, orangeTexture, crossTexture, greyTexture, lightGreyTexture,brownTexture, upTexture, grey9Texture;
     public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4, torchTexture, achievementTexture,achievementAvaibleTexture;
-    public Texture upgradeButtonTextureUp,skillButtonTextureUp,achievButtonTextureUp,upgradeButtonTextureDown,skillButtonTextureDown,achievButtonTextureDown,mapButtonTextureDown,mapButtonTextureUp,passivButtonTextureup,passivButtonTextureDown,button6TextureUp,button6TextureDown, ascendButtonTextureUp,ascendButtonTextureDown,lockedButton;
+    public Texture upgradeButtonTextureUp,skillButtonTextureUp,achievButtonTextureUp,upgradeButtonTextureDown,skillButtonTextureDown,achievButtonTextureDown,mapButtonTextureDown,mapButtonTextureUp,passivButtonTextureup,passivButtonTextureDown,button6TextureUp,button6TextureDown, lockedButton;
 
     private int loadValue;
 
     public AssetsManager() {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         json = new Json();
-        assetManager = new AssetManager();
-
         loadValue=0;
     }
 
@@ -145,8 +140,6 @@ public class AssetsManager {
         passivButtonTextureDown = new Texture(Gdx.files.internal(ICON_PATH+"hud_b5.png"));
         button6TextureUp = new Texture(Gdx.files.internal(ICON_PATH+"hud_b6.png"));
         button6TextureDown = new Texture(Gdx.files.internal(ICON_PATH+"hud_b6_r.png"));
-        ascendButtonTextureUp = new Texture(Gdx.files.internal(ICON_PATH+"ascend.png"));
-        ascendButtonTextureDown = new Texture(Gdx.files.internal(ICON_PATH+"ascend_r.png"));
         lockedButton = new Texture(Gdx.files.internal(ICON_PATH+"locked_button.png"));
 
         menuBackgroundTextureList = new ArrayList<Texture>();

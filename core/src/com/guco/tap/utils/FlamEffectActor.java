@@ -1,7 +1,6 @@
 package com.guco.tap.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.screen.PlayScreen;
 
 /**
  * Created by Skronak on 23/08/2017.

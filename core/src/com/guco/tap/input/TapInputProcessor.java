@@ -1,14 +1,8 @@
 package com.guco.tap.input;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.guco.tap.manager.GameManager;
-import com.guco.tap.screen.PlayScreen;
-import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
-
-import java.util.Random;
 
 /**
  * Created by Skronak on 29/01/2017.

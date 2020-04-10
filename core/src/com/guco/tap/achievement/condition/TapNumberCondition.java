@@ -1,7 +1,5 @@
 package com.guco.tap.achievement.condition;
 
-import com.guco.tap.achievement.condition.AbstractCondition;
-
 public class TapNumberCondition extends AbstractCondition {
 
     @Override

@@ -21,8 +21,8 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Entity;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
+import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.utils.Constants;
 
 import static com.badlogic.gdx.Gdx.files;

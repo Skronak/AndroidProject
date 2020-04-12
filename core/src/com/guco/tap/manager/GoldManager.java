@@ -34,7 +34,7 @@ public class GoldManager {
     }
 
     public void addGoldCoin(Vector2 position) {
-        if (goldCoinList.size()>=MAX_GOLDCOIN) {
+        if (goldCoinList.size() >= MAX_GOLDCOIN) {
             resetRandomGoldPosition();
             collectAllGoldCoins();
         }

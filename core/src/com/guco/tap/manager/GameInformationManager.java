@@ -61,7 +61,7 @@ public class GameInformationManager {
             gameInformation.lastLogin = System.currentTimeMillis();
             gameInformation.currentGoldValue = savedData.currentGoldValue;
             gameInformation.currentGoldCurrency = savedData.currentGoldCurrency;
-            gameInformation.attributeLevel = new ArrayList<Integer>();
+//            gameInformation.attributeLevel = new ArrayList<Integer>();
             gameInformation.totalGameTime = savedData.totalGameTime;
             gameInformation.totalTapNumber = savedData.totalTapNumber;
             gameInformation.areaLevel  = savedData.areaLevel;
@@ -71,8 +71,8 @@ public class GameInformationManager {
             gameInformation.optionSound = savedData.optionSound;
             gameInformation.optionWeather = savedData.optionWeather;
             gameInformation.skillPoint = savedData.skillPoint;
-            gameInformation.levelBaseGoldValue  = savedData.levelBaseGold;
-            gameInformation.levelBaseGoldCurrency  = savedData.levelBaseCurrency;
+//            gameInformation.levelBaseGoldValue  = savedData.levelBaseGold;
+//            gameInformation.levelBaseGoldCurrency  = savedData.levelBaseCurrency;
             gameInformation.equipedWeapon = assetsManager.weaponList.get(savedData.currentEquipment[0]);
             gameInformation.equipedHead = savedData.currentEquipment[1];
             gameInformation.equipedBody = savedData.currentEquipment[2];
@@ -80,17 +80,18 @@ public class GameInformationManager {
             gameInformation.areaId = savedData.areaId;
 
             //TODO to implement
-            gameInformation.currentWeapon = new Weapon();
-            gameInformation.currentWeapon.lvl = 1;
-            gameInformation.currentWeapon.damage_value=1;
-            gameInformation.currentWeapon.damage_currency=1;
+//            gameInformation.currentWeapon = new Weapon();
+//            gameInformation.currentWeapon.lvl = 1;
+//            gameInformation.currentWeapon.damage_value = 1;
+//            gameInformation.currentWeapon.damage_currency = 1;
 
-            for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
-                gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
-            }
+            //for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
+            //    gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
+            //}
             for (int i = 0; i< assetsManager.getAchievementElementList().size(); i++){
                 gameInformation.achievList.add(savedData.achievList[i]);
             }
+
             gameInformation.weaponItemList = new ArrayList<Item>();
             for (int i = 0; i< assetsManager.weaponList.size(); i++){
                 Item item = assetsManager.weaponList.get(i);
@@ -100,6 +101,7 @@ public class GameInformationManager {
                 item.selectedUpgrades = new ArrayList<ItemUpgrade>();
                 gameInformation.weaponItemList.add(item);
             }
+
             gameInformation.bodyItemList = new ArrayList<Item>();
             for (int i = 0; i< assetsManager.bodyList.size(); i++){
                 Item item = assetsManager.bodyList.get(i);
@@ -108,6 +110,7 @@ public class GameInformationManager {
                 gameInformation.bodyItemList.add(item);
                 item.selectedUpgrades = new ArrayList<ItemUpgrade>();
             }
+
             gameInformation.headItemList = new ArrayList<Item>();
             for (int i = 0; i< assetsManager.helmList.size(); i++){
                 Item item = assetsManager.helmList.get(i);

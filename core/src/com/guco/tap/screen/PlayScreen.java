@@ -280,7 +280,7 @@ public class PlayScreen extends AbstractScreen {
         }
     }
 
-    public void showDamageLabel(String damage) {
+    public void addDamageLabel(String damage) {
         damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
         damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){

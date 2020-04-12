@@ -1,9 +1,7 @@
 package com.guco.tap.menu.characterAttribute;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,7 +17,7 @@ public class CharacterAttributeMenu extends AbstractMenu {
 
     public CharacterAttributeMenu(GameManager gameManager) {
         super(gameManager);
-        customizeMenuTable();
+//        customizeMenuTable();
     }
 
     public void customizeMenuTable() {
@@ -59,14 +57,14 @@ public class CharacterAttributeMenu extends AbstractMenu {
      * Update all module buybutton to check if spriterPlayer can click them
      */
     public void updateBuyButton () {
-        for (int i = 0; i<gameManager.assetsManager.getAttributeElementList().size(); i++) {
-            if (gameManager.attributeManager.isAvailableUpgrade(i)){
+        for (int i = 0; i< gameManager.assetsManager.getAttributeElementList().size(); i++ ) {
+           /* if (gameManager.attributeManager.isAvailableUpgrade(i)){
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setTouchable(Touchable.enabled);
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setColor(Color.YELLOW);
             } else {
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setTouchable(Touchable.disabled);
                 ((CharacterAttributeElement) getScrollContainerVG().getChildren().get(i)).getBuyButton().setColor(Color.GRAY);
-            }
+            }*/
         }
     }
 

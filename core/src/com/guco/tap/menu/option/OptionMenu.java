@@ -104,7 +104,7 @@ public class OptionMenu extends AbstractMenu {
 
     public void triggerReset(){
         gameManager.gameInformationManager.reset();
-        gameManager.attributeManager.evaluateAttributeGeneration();
+//        gameManager.attributeManager.evaluateAttributeGeneration();
         gameManager.playScreen.getHud().updateCurrentMenu();
     }
 

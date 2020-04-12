@@ -53,7 +53,7 @@ public class GameManager {
 
     //public WeatherManager weatherManager;
 
-    public AttributeManager attributeManager;
+    //public AttributeManager attributeManager;
 
     public AchievementManager achievementManager;
 
@@ -106,8 +106,7 @@ public class GameManager {
         this.areaManager = game.areaManager;
         largeMath = game.largeMath;
         newModuleIdList = new ArrayList<Integer>();
-        //weatherManager = new WeatherManager(playScreen);
-        attributeManager = new AttributeManager(this);
+//        attributeManager = new AttributeManager(this);
         achievementManager = new AchievementManager(this);
         dataManager = new DataManager(this);
         itemManager = game.itemManager;
@@ -268,12 +267,12 @@ public class GameManager {
         if (randCritical == 1) {
         }
 
-        String damageString = largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
-        playScreen.showTapActor(posX, posY);
-        playScreen.showDamageLabel(damageString);
-
         ValueDTO damageData = new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
         hurtEnemy(damageData);
+
+        String damageString = largeMath.getDisplayValue(damageData);
+        playScreen.addDamageLabel(damageString);
+        playScreen.showTapActor(posX, posY);
     }
 
     public void updateLogic(float delta) {
@@ -378,21 +377,9 @@ public class GameManager {
         })));
     }
 
-    public float getCriticalValue() {
-        return (gameInformation.tapDamageValue * gameInformation.criticalRate);
-    }
-
     private void hurtEnemy(ValueDTO damageData) {
-        boolean noDamage = false;
-        ValueDTO previousEnemyLifePoint = currentEnemyActor.lifePoint;
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint, damageData);
-        if (currentEnemyActor.lifePoint.currency == previousEnemyLifePoint.currency && currentEnemyActor.lifePoint.value == previousEnemyLifePoint.value) {
-            noDamage = true;
-        }
-        if (!noDamage) {
-            game.hud.updateEnemyInformation(damageData);
-        }
-
+        game.hud.updateEnemyInformation(damageData);
         if (currentEnemyActor.lifePoint.value <= 0) {
             winBattle();
         }

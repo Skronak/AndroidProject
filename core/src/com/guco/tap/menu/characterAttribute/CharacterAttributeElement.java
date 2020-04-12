@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.entity.AttributeElement;
 import com.guco.tap.entity.AttributeElementLevel;
-import com.guco.tap.input.BuyUpgradeButtonListener;
 import com.guco.tap.manager.GameManager;
 
 
@@ -66,7 +65,7 @@ public class CharacterAttributeElement extends Table {
         nextPassiveGoldLabel.setFontScale(0.9f);
 
         buyButton = new TextButton("",gameManager.assetsManager.getModuleMenuBuyTxtBtnStyle());
-        buyButton.addListener(new BuyUpgradeButtonListener(gameManager.attributeManager, i));
+        //buyButton.addListener(new BuyUpgradeButtonListener(gameManager.attributeManager, i));
 
         if (currentLevel==0) {
             Texture skillTexture = gameManager.assetsManager.getDisabledIcon();

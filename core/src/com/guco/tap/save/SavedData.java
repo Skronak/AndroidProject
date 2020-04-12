@@ -9,7 +9,7 @@ public class SavedData {
     public Long lastLogin;
     public float currentGoldValue;
     public int currentGoldCurrency;
-    public int[] attributeLevel;
+//    public int[] attributeLevel;
     public Long totalGameTime;
     public int totalTapNumber;
     public int areaLevel;
@@ -34,7 +34,7 @@ public class SavedData {
         this.lastLogin = System.currentTimeMillis();
         this.currentGoldValue = gameInformation.currentGoldValue;
         this.currentGoldCurrency = gameInformation.currentGoldCurrency;
-        this.attributeLevel = new int[gameInformation.attributeLevel.size()];
+//        this.attributeLevel = new int[gameInformation.attributeLevel.size()];
         this.totalGameTime = gameInformation.totalGameTime+(System.currentTimeMillis() - gameInformation.lastLogin);
         this.totalTapNumber = gameInformation.totalTapNumber;
         this.areaLevel = gameInformation.areaLevel;
@@ -55,9 +55,9 @@ public class SavedData {
         this.levelBaseGold=5;
         this.levelBaseCurrency=0;
 
-        for (int i=0;i<gameInformation.attributeLevel.size();i++){
-            attributeLevel[i]=gameInformation.attributeLevel.get(i);
-        }
+        //for (int i=0;i<gameInformation.attributeLevel.size();i++){
+        //    attributeLevel[i]=gameInformation.attributeLevel.get(i);
+        //}
         for (int i=0;i<gameInformation.achievList.size();i++){
             achievList[i]=gameInformation.achievList.get(i);
         }

@@ -21,7 +21,7 @@ public class RewardManager {
     GameManager gameManager;
 
     public RewardManager(PlayScreen playScreen, GameManager gameManager){
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         this.playScreen = playScreen;
         this.gameManager = gameManager;

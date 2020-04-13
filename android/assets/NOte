@@ -1,6 +1,6 @@
 TODO:
   HUD reword
-    Instanciate hud with game
+    Instantiate hud with game
     attach hud to screen so can change screen for each lvl
   AREA
     each area contains x levels

@@ -17,7 +17,7 @@ public class WeatherManager {
     private Random random;
 
     public WeatherManager(PlayScreen screen){
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         this.screen = screen;
         random = new Random();

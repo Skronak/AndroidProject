@@ -25,7 +25,7 @@ public class AttributeManager {
     private AssetsManager assetsManager;
 
     public AttributeManager(GameManager gameManager) {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
         this.gameManager = gameManager;
         this.attributeEntityList = gameManager.assetsManager.getAttributeElementList();
     }

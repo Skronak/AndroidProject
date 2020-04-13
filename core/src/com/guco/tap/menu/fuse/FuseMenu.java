@@ -28,9 +28,9 @@ public class FuseMenu extends AbstractMenu {
 
     public FuseMenu(GameManager gameManager) {
         super(gameManager);
-        weaponCurrentLevelLabel = new Label("" + gameManager.gameInformation.currentWeapon.lvl, skin);
-        weaponLevelLabel = new Label(""+gameManager.gameInformation.currentWeapon.lvl, skin);
-        damageLabel = new Label(""+gameManager.gameInformation.currentWeapon.damage_value, skin);
+        weaponCurrentLevelLabel = new Label("" + gameManager.gameInformation.equipedWeapon.level, skin);
+        weaponLevelLabel = new Label(""+gameManager.gameInformation.equipedWeapon.level, skin);
+        damageLabel = new Label(""+gameManager.gameInformation.equipedWeapon.damageValue, skin);
         criticalLabel = new Label("", skin);
         expLabel = new Label("", skin);
         customizeMenuTable();
@@ -48,7 +48,7 @@ public class FuseMenu extends AbstractMenu {
         table.add(currentWeaponImage).size(90,90);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle( gameManager.assetsManager.getFont(), Color.WHITE );
-        weaponCurrentLevelLabel = new Label("Lv " + gameManager.gameInformation.currentWeapon.lvl, labelStyle);
+        weaponCurrentLevelLabel = new Label("Lv " + gameManager.gameInformation.equipedWeapon.level, labelStyle);
         weaponCurrentLevelLabel.setBounds(-10, -60, currentWeaponImage.getWidth(), currentWeaponImage.getHeight()-weaponCurrentLevelLabel.getHeight());
         weaponCurrentLevelLabel.setAlignment(Align.topRight);
         table.addActor(weaponCurrentLevelLabel);
@@ -99,20 +99,20 @@ public class FuseMenu extends AbstractMenu {
     }
 
     public void update(int newLvl, int newDamage, int newCritical, int newMana) {
-        String lvl = "Level: " +gameManager.gameInformation.currentWeapon.lvl;
+        String lvl = "Level: " +gameManager.gameInformation.equipedWeapon.level;
         String nextValue = " > ";
         if (newLvl==0){
             weaponLevelLabel.setText(lvl);
         } else {
             weaponLevelLabel.setText(lvl + nextValue +newLvl);
         }
-        String dmg = "Damage: " +gameManager.gameInformation.currentWeapon.damage_value;
+        String dmg = "Damage: " +gameManager.gameInformation.equipedWeapon.damageValue;
         if (newDamage == 0){
             damageLabel.setText(dmg);
         } else {
             damageLabel.setText(dmg + nextValue +newDamage);
         }
-        String critical = "Critical: " +gameManager.gameInformation.currentWeapon.critical_currency;
+        String critical = "Critical: " +gameManager.gameInformation.equipedWeapon.criticalRate;
         if (newDamage == 0){
             criticalLabel.setText(critical);
         } else {

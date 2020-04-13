@@ -29,7 +29,7 @@ public class SplashScreen implements Screen {
 
     public SplashScreen(TapDungeonGame game)
     {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
         this.game=game;
     }
 

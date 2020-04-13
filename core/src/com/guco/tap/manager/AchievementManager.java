@@ -13,7 +13,7 @@ public class AchievementManager {
     public List<AchievementElement> achievementElementList;
 
     public AchievementManager(GameManager gameManager) {
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
         this.gameManager = gameManager;
 
         // Retrieve Achievement from AssetsManager

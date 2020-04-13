@@ -13,7 +13,7 @@ public class DataManager {
     private AssetsManager assetsManager;
 
     public DataManager(GameManager gameManager){
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         this.largeMath = gameManager.largeMath;
         this.gameInformation = gameManager.gameInformation;

@@ -27,7 +27,7 @@ public class LoadingScreen implements Screen {
     private boolean started;
 
     public LoadingScreen(TapDungeonGame game){
-        Gdx.app.debug(this.getClass().getSimpleName(), "Instanciate");
+        Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         this.game=game;
     }

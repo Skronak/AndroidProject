@@ -3,7 +3,6 @@ package com.guco.tap.entity;
 import java.util.List;
 
 /**
- * Created by Skronak on 30/01/2017.
  *
  * Classe de stat & information sur le compte du jeu
  * // TODO store all current AttributeElement

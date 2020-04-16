@@ -131,7 +131,7 @@ public class GameInformationManager {
     public void initGameInformation() {
 
         gameInformation = new GameInformation();
-        gameInformation.accountName = "Narvak";
+        gameInformation.accountName = "";
         gameInformation.lastLogin = System.currentTimeMillis();
         gameInformation.currentGoldValue = 0;
         gameInformation.currentGoldCurrency = 0;

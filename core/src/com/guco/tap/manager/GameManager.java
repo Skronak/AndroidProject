@@ -40,8 +40,6 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 /**
- * Created by Skronak on 30/07/2017.
- * <p>
  * Classe de gestion globale du jeu
  * gerant le lien entre PlayScreen et GameInformation
  */

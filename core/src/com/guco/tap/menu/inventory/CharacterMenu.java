@@ -84,6 +84,17 @@ public class CharacterMenu extends AbstractMenu {
                 return true;
             }
         });
+
+        parentTable.row();
+        parentTable.add(weaponDamageLabel).padTop(300).expandX().left().padLeft(15);
+        parentTable.row();
+        parentTable.add(criticalRateLabel).left().padLeft(15);
+        parentTable.row();
+        parentTable.add(hpLabel).left().padLeft(15);
+
+        updateCharacterDetails();
+        initInventoryPanel();
+
     }
 
     private InventorySlotImage addSlot(float posX, float posY, Item item) {
@@ -99,8 +110,6 @@ public class CharacterMenu extends AbstractMenu {
         inventorySlotImage.setPosition(posX, posY);
         inventorySlotImage.setSize(SLOT_SIZE, SLOT_SIZE);
 
-        initInventoryPanel();
-
         parentTable.addActor(inventorySlotImage);
         return inventorySlotImage;
     }
@@ -108,14 +117,16 @@ public class CharacterMenu extends AbstractMenu {
     private void initInventoryPanel() {
         final Table table = new Table();
         weaponAttackLabel = new Label("atk: ", skin);
-        table.add(weaponAttackLabel).colspan(4).left();
+        table.add(weaponAttackLabel).colspan(3).left();
         TextButton equipButton = new TextButton("EQUIP", skin);
+        TextButton sellButton = new TextButton("SELL", skin);
         equipButton.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 equipItem(currentSelectedInventorySlot);
                 return true;
             }
         });
+        table.add(sellButton).left();
         table.add(equipButton).left();
         table.row();
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
@@ -126,7 +137,7 @@ public class CharacterMenu extends AbstractMenu {
         availableItemsPane.setScrollingDisabled(true, false);
         currentInventorySlotImages = new ArrayList<InventorySlotImage>();
 
-        List<Item> availableWeapon = gameInformation.weaponItemList;
+        List<Item> availableWeapon = gameInformation.unlockedWeaponList;
         for (int i = 0; i < 5; i++) {
             for (int y = 0; y < 5; y++) {
                 Texture slotTexture = new Texture(Gdx.files.internal("sprites/icon/off_icon.png"));
@@ -170,15 +181,15 @@ public class CharacterMenu extends AbstractMenu {
             currentEquipedInventorySlot.equipSlot(false);
         }
         currentEquipedInventorySlot = inventorySlotImage;
-
+        gameInformation.equipedWeapon = inventorySlotImage.item;
         gameManager.dataManager.calculateTapDamage();
         gameManager.playScreen.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
-
+        updateCharacterDetails();
     }
 
     private void selectItem(InventorySlotImage inventorySlotImage) {
         inventorySlotImage.selectSlot(true);
-        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.weaponItemList.get(inventorySlotImage.item.id).mapName);
+        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.unlockedWeaponList.get(inventorySlotImage.item.id).mapName);
 
         if (currentSelectedInventorySlot != null) {
             currentSelectedInventorySlot.selectSlot(false);
@@ -194,15 +205,21 @@ public class CharacterMenu extends AbstractMenu {
 
     private void customizeMenuTable() {
         characterNameLabel = new Label("", skin);
-        characterNameLabel.setFontScale(0.7f);
+//        characterNameLabel.setFontScale(0.7f);
         weaponDamageLabel = new Label("", skin);
-        weaponDamageLabel.setFontScale(0.7f);
+//        weaponDamageLabel.setFontScale(0.7f);
         criticalRateLabel = new Label("", skin);
-        criticalRateLabel.setFontScale(0.7f);
+//        criticalRateLabel.setFontScale(0.7f);
         hpLabel = new Label("99 G", skin);
-        hpLabel.setFontScale(0.7f);
+//        hpLabel.setFontScale(0.7f);
 
         addMenuHeader("INVENTORY", 2);
+    }
+
+    public void updateCharacterDetails(){
+        weaponDamageLabel.setText("Damage " + game.largeMath.getDisplayValue(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency));
+        criticalRateLabel.setText("Critical rate: " + gameInformation.criticalRate+"%");
+        hpLabel.setText("200 Hp");
     }
 
     @Override

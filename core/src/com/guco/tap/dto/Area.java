@@ -13,6 +13,7 @@ public class Area {
     public String menuBackgroundTexture;
     public String icon;
     public int[] enemiesId;
+    public int[] bossId;
     public int enemyPosX;
     public int enemyPosY;
     public int enemyBackPosX;

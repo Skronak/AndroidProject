@@ -4,7 +4,7 @@ import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
 import java.util.Map;
 
-public class SavedData {
+public class SaveJSON {
     public String accountName;
     public Long lastLogin;
     public float currentGoldValue;
@@ -26,10 +26,7 @@ public class SavedData {
     public int[] bodyItemList;
     public transient Map<Integer, Item> upgradedItem;
 
-    public SavedData(){
-    }
-
-    public SavedData(GameInformation gameInformation){
+    public SaveJSON(GameInformation gameInformation){
         this.accountName = gameInformation.accountName;
         this.lastLogin = System.currentTimeMillis();
         this.currentGoldValue = gameInformation.currentGoldValue;
@@ -49,9 +46,9 @@ public class SavedData {
         currentEquipment[0]= gameInformation.equipedWeapon.id;
         currentEquipment[1]= gameInformation.equipedHead;
         currentEquipment[2]= gameInformation.equipedBody;
-        this.weaponItemList = new int[gameInformation.weaponItemList.size()];
-        this.bodyItemList = new int[gameInformation.bodyItemList.size()];
-        this.headItemList = new int[gameInformation.headItemList.size()];
+        this.weaponItemList = new int[gameInformation.unlockedWeaponList.size()];
+        this.bodyItemList = new int[gameInformation.unlockedBodyList.size()];
+        this.headItemList = new int[gameInformation.unlockedHeadList.size()];
         this.levelBaseGold=5;
         this.levelBaseCurrency=0;
 
@@ -61,16 +58,18 @@ public class SavedData {
         for (int i=0;i<gameInformation.achievList.size();i++){
             achievList[i]=gameInformation.achievList.get(i);
         }
-        for (int i=0;i<gameInformation.weaponItemList.size();i++){
-            weaponItemList[i]=gameInformation.weaponItemList.get(i).level;
+        for (int i = 0; i<gameInformation.unlockedWeaponList.size(); i++){
+            weaponItemList[i]=gameInformation.unlockedWeaponList.get(i).level;
         }
 
-        for (int i=0;i<gameInformation.bodyItemList.size();i++){
-            bodyItemList[i]=gameInformation.bodyItemList.get(i).level;
+        for (int i = 0; i<gameInformation.unlockedBodyList.size(); i++){
+            bodyItemList[i]=gameInformation.unlockedBodyList.get(i).level;
         }
 
-        for (int i=0;i<gameInformation.headItemList.size();i++){
-            headItemList[i]=gameInformation.headItemList.get(i).level;
+        for (int i = 0; i<gameInformation.unlockedHeadList.size(); i++){
+            headItemList[i]=gameInformation.unlockedHeadList.get(i).level;
         }
     }
+
+    public SaveJSON(){};
 }

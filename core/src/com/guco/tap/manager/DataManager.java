@@ -51,11 +51,12 @@ public class DataManager {
     public void decreaseGold(){
     }
 
-    // TODO
     public void calculateTapDamage(){
         Item weapon = gameInformation.equipedWeapon;
-        gameInformation.tapDamageValue = weapon.calculatedStat.damageValue;
-        gameInformation.tapDamageCurrency = weapon.calculatedStat.damageCurrency;
+//        gameInformation.tapDamageValue = weapon.calculatedStat.damageValue;
+//        gameInformation.tapDamageCurrency = weapon.calculatedStat.damageCurrency;
+        gameInformation.tapDamageValue = weapon.damageValue;
+        gameInformation.tapDamageCurrency = weapon.damageCurrency;
 
         assetsManager.helmList.get(gameInformation.equipedBody);
         assetsManager.bodyList.get(gameInformation.equipedBody);

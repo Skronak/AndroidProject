@@ -45,7 +45,7 @@ public class ItemAttributeMenu extends AbstractMenu {
         InputListener applyButtonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 selectedItemUpgrade.upgradeEffect.apply(selectedItem);
-                gameManager.gameInformation.weaponItemList.get(selectedItemUpgrade.weaponId).selectedUpgrades.add(selectedItemUpgrade);
+                gameManager.gameInformation.unlockedWeaponList.get(selectedItemUpgrade.weaponId).selectedUpgrades.add(selectedItemUpgrade);
                 return true;
             }
         };

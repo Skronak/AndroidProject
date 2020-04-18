@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by Skronak on 02/08/2017.
  *
  * Classe de chargement des assets du jeu
  * TODO Utiliser atlas & asset manager

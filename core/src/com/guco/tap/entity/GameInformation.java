@@ -35,9 +35,9 @@ public class GameInformation {
     public Item equipedWeapon;
     public int equipedHead;
     public int equipedBody;
-    public List<Item> weaponItemList;
-    public List<Item> headItemList;
-    public List<Item> bodyItemList;
+    public List<Item> unlockedWeaponList;
+    public List<Item> unlockedHeadList;
+    public List<Item> unlockedBodyList;
     public int levelBaseGoldCurrency;
     public int levelBaseGoldValue;
     public List<Ressource> ressources;

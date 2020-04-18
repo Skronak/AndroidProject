@@ -25,9 +25,9 @@ public class WeatherManager {
         snowEffectActor = new SnowEffectActor(screen);
         fogEffectActor = new FogEffectActor(screen);
 
-        screen.getLayer1GraphicObject().addActor(snowEffectActor);
-        screen.getLayer1GraphicObject().addActor(rainEffectActor);
-        screen.getLayer1GraphicObject().addActor(fogEffectActor);
+        screen.getLayerEnemy().addActor(snowEffectActor);
+        screen.getLayerEnemy().addActor(rainEffectActor);
+        screen.getLayerEnemy().addActor(fogEffectActor);
     }
 
     /**

@@ -3,16 +3,16 @@ package com.guco.tap.input;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.SpriterPlayer;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.manager.GameManager;
 
 public class PlayerListenerImpl implements SpriterPlayer.PlayerListener {
 
     SpriterPlayer spriterPlayerParent;
-    PlayScreen playScreen;
+    GameManager gameManager;
 
-    public PlayerListenerImpl(SpriterPlayer spriterPlayerParent, PlayScreen playScreen){
+    public PlayerListenerImpl(SpriterPlayer spriterPlayerParent, GameManager gameManager){
         this.spriterPlayerParent = spriterPlayerParent;
-        this.playScreen=playScreen;
+        this.gameManager = gameManager;
     }
 
 
@@ -44,7 +44,7 @@ public class PlayerListenerImpl implements SpriterPlayer.PlayerListener {
     @Override
     public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
         if (spriterPlayerParent.getAnimation().name.equals("atk")&&newKey.id==5) {
-            playScreen.enemyActorList.get(0).hurt();
+            gameManager.currentEnemyActor.hurt();
         }
     }
 }

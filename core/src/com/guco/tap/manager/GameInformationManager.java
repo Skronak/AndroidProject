@@ -7,7 +7,7 @@ import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
 import com.guco.tap.entity.ItemUpgrade;
-import com.guco.tap.save.SavedData;
+import com.guco.tap.save.SaveJSON;
 import com.guco.tap.utils.Constants;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class GameInformationManager {
     private Preferences prefs;
     public GameInformation gameInformation;
     public AssetsManager assetsManager;
-    private SavedData savedData;
+    private SaveJSON saveJSON;
     private ItemManager itemManager;
 
     public GameInformationManager(AssetsManager assetsManager, ItemManager itemManager) {
@@ -30,9 +30,9 @@ public class GameInformationManager {
     }
 
     public void saveData() {
-        SavedData savedData = new SavedData(gameInformation);
+        SaveJSON saveJSON = new SaveJSON(gameInformation);
 
-        String jsonVal = json.toJson(savedData);
+        String jsonVal = json.toJson(saveJSON);
         prefs.putString(PREF_NAME, jsonVal);
         prefs.flush();
     }
@@ -52,9 +52,9 @@ public class GameInformationManager {
 
     public void loadGameData() {
 
-        savedData = json.fromJson(SavedData.class, prefs.getString(PREF_NAME));
+        saveJSON = json.fromJson(SaveJSON.class, prefs.getString(PREF_NAME));
 
-        if (savedData !=  null) {
+        if (saveJSON !=  null) {
             loadGameInformationFromSave();
         } else {
             Gdx.app.debug("GameInformation", "Initialisation du compte par defaut");
@@ -65,27 +65,27 @@ public class GameInformationManager {
 
     private void loadGameInformationFromSave() {
         gameInformation = new GameInformation();
-        gameInformation.accountName = savedData.accountName;
+        gameInformation.accountName = saveJSON.accountName;
         gameInformation.lastLogin = System.currentTimeMillis();
-        gameInformation.currentGoldValue = savedData.currentGoldValue;
-        gameInformation.currentGoldCurrency = savedData.currentGoldCurrency;
+        gameInformation.currentGoldValue = saveJSON.currentGoldValue;
+        gameInformation.currentGoldCurrency = saveJSON.currentGoldCurrency;
 //            gameInformation.attributeLevel = new ArrayList<Integer>();
-        gameInformation.totalGameTime = savedData.totalGameTime;
-        gameInformation.totalTapNumber = savedData.totalTapNumber;
-        gameInformation.areaLevel  = savedData.areaLevel;
-        gameInformation.currentEnemyIdx = savedData.currentEnemyIdx;
+        gameInformation.totalGameTime = saveJSON.totalGameTime;
+        gameInformation.totalTapNumber = saveJSON.totalTapNumber;
+        gameInformation.areaLevel  = saveJSON.areaLevel;
+        gameInformation.currentEnemyIdx = saveJSON.currentEnemyIdx;
         gameInformation.achievList = new ArrayList<Integer>();
-        gameInformation.optionFps = savedData.optionFps;
-        gameInformation.optionSound = savedData.optionSound;
-        gameInformation.optionWeather = savedData.optionWeather;
-        gameInformation.skillPoint = savedData.skillPoint;
-//            gameInformation.levelBaseGoldValue  = savedData.levelBaseGold;
-//            gameInformation.levelBaseGoldCurrency  = savedData.levelBaseCurrency;
-        gameInformation.equipedWeapon = assetsManager.weaponList.get(savedData.currentEquipment[0]);
-        gameInformation.equipedHead = savedData.currentEquipment[1];
-        gameInformation.equipedBody = savedData.currentEquipment[2];
-        gameInformation.areaLevel =  savedData.areaLevel;
-        gameInformation.areaId = savedData.areaId;
+        gameInformation.optionFps = saveJSON.optionFps;
+        gameInformation.optionSound = saveJSON.optionSound;
+        gameInformation.optionWeather = saveJSON.optionWeather;
+        gameInformation.skillPoint = saveJSON.skillPoint;
+//            gameInformation.levelBaseGoldValue  = saveJSON.levelBaseGold;
+//            gameInformation.levelBaseGoldCurrency  = saveJSON.levelBaseCurrency;
+        gameInformation.equipedWeapon = assetsManager.weaponList.get(saveJSON.currentEquipment[0]);
+        gameInformation.equipedHead = saveJSON.currentEquipment[1];
+        gameInformation.equipedBody = saveJSON.currentEquipment[2];
+        gameInformation.areaLevel =  saveJSON.areaLevel;
+        gameInformation.areaId = saveJSON.areaId;
 
         //TODO to implement
         //gameInformation.currentWeapon = new Weapon();
@@ -94,42 +94,41 @@ public class GameInformationManager {
         //gameInformation.currentWeapon.damage_currency = 1;
 
         //for (int i = 0; i< assetsManager.getAttributeElementList().size(); i++){
-        //    gameInformation.attributeLevel.add(i,savedData.attributeLevel[i]);
+        //    gameInformation.attributeLevel.add(i,saveJSON.attributeLevel[i]);
         //}
         for (int i = 0; i< assetsManager.getAchievementElementList().size(); i++){
-            gameInformation.achievList.add(savedData.achievList[i]);
+            gameInformation.achievList.add(saveJSON.achievList[i]);
         }
 
-        gameInformation.weaponItemList = new ArrayList<Item>();
+        gameInformation.unlockedWeaponList = new ArrayList<Item>();
         for (int i = 0; i< assetsManager.weaponList.size(); i++){
             Item item = assetsManager.weaponList.get(i);
-            item.level = savedData.weaponItemList[i];
+            item.level = saveJSON.weaponItemList[i];
             CalculatedStat calculatedStat = itemManager.calculateItemStat(item,item.level);
             item.calculatedStat = calculatedStat;
             item.selectedUpgrades = new ArrayList<ItemUpgrade>();
-            gameInformation.weaponItemList.add(item);
+            gameInformation.unlockedWeaponList.add(item);
         }
 
-        gameInformation.bodyItemList = new ArrayList<Item>();
+        gameInformation.unlockedBodyList = new ArrayList<Item>();
         for (int i = 0; i< assetsManager.bodyList.size(); i++){
             Item item = assetsManager.bodyList.get(i);
             item.calculatedStat = new CalculatedStat(item);
-            item.level = savedData.bodyItemList[i];
-            gameInformation.bodyItemList.add(item);
+            item.level = saveJSON.bodyItemList[i];
+            gameInformation.unlockedBodyList.add(item);
             item.selectedUpgrades = new ArrayList<ItemUpgrade>();
         }
-        gameInformation.headItemList = new ArrayList<Item>();
+        gameInformation.unlockedHeadList = new ArrayList<Item>();
         for (int i = 0; i< assetsManager.helmList.size(); i++){
             Item item = assetsManager.helmList.get(i);
             item.calculatedStat = new CalculatedStat(item);
-            item.level = savedData.headItemList[i];
-            gameInformation.headItemList.add(item);
+            item.level = saveJSON.headItemList[i];
+            gameInformation.unlockedHeadList.add(item);
             item.selectedUpgrades = new ArrayList<ItemUpgrade>();
         }
     }
 
     public void initGameInformation() {
-
         gameInformation = new GameInformation();
         gameInformation.accountName = "";
         gameInformation.lastLogin = System.currentTimeMillis();
@@ -160,23 +159,23 @@ public class GameInformationManager {
         for (int i = 0; i< assetsManager.getAchievementElementList().size(); i++){
             gameInformation.achievList.add(0);
         }
-        gameInformation.weaponItemList = new ArrayList();
+        gameInformation.unlockedWeaponList = new ArrayList();
         for (int i = 0; i< assetsManager.weaponList.size(); i++){
             Item item = assetsManager.weaponList.get(i);
             item.calculatedStat = new CalculatedStat(item);
-            gameInformation.weaponItemList.add(item);
+            gameInformation.unlockedWeaponList.add(item);
         }
-        gameInformation.bodyItemList = new ArrayList();
+        gameInformation.unlockedBodyList = new ArrayList();
         for (int i = 0; i< assetsManager.bodyList.size(); i++){
             Item item = assetsManager.bodyList.get(i);
             item.calculatedStat = new CalculatedStat(item);
-            gameInformation.bodyItemList.add(item);
+            gameInformation.unlockedBodyList.add(item);
         }
-        gameInformation.headItemList = new ArrayList();
+        gameInformation.unlockedHeadList = new ArrayList();
         for (int i = 0; i< assetsManager.helmList.size(); i++){
             Item item = assetsManager.helmList.get(i);
             item.calculatedStat = new CalculatedStat(item);
-            gameInformation.headItemList.add(item);
+            gameInformation.unlockedHeadList.add(item);
         }
     }
 }

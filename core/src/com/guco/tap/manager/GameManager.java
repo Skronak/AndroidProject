@@ -59,14 +59,14 @@ public class GameManager {
 
     public AreaManager areaManager;
 
-    public float autoSaveTimer, weatherTimer, increaseGoldTimer, logicTimer;
+    public float autoSaveTimer, increaseGoldTimer, logicTimer;
 
     public ArrayList<Integer> newModuleIdList;
 
     public ItemManager itemManager;
 
     // EnemyTemplateEntity present on this floor
-    public ArrayList<EnemyActor> enemyActorQueue;
+    public ArrayList<EnemyActor> waitingEnemies;
 
     // Etat du jeu
     public GameState currentState;
@@ -74,8 +74,6 @@ public class GameManager {
     public EnemyActor currentEnemyActor;
 
     Random rand = new Random();
-
-    public int nbMandatoryFight;
 
     public Data playerData;
 
@@ -111,9 +109,8 @@ public class GameManager {
         goldManager = new GoldManager(this);
         autoSaveTimer = 0f;
         increaseGoldTimer = 0f;
-        weatherTimer = 0f;
         logicTimer = 0f;
-        enemyActorQueue = new ArrayList<EnemyActor>();
+        waitingEnemies = new ArrayList<EnemyActor>();
     }
 
     public void loadArea() {
@@ -124,12 +121,12 @@ public class GameManager {
         areaScreen.backgroundImage.setSize(Constants.BACKGROUND_WIDTH, Constants.BACKGROUND_LENGTH);
         areaScreen.backgroundImage.setPosition(Constants.BACKGROUND_POS_X, Constants.BACKGROUND_POS_Y);
 
-        EnemyActor enemyActor = enemyActorQueue.get(0);
+        EnemyActor enemyActor = waitingEnemies.get(0);
         enemyActor.setPosition(area.enemyPosX, area.enemyPosY);
-        EnemyActor nextEnemyActor = enemyActorQueue.get(1);
+        EnemyActor nextEnemyActor = waitingEnemies.get(1);
         nextEnemyActor.setPosition(area.enemyBackPosX, area.enemyBackPosY);
         nextEnemyActor.setColor(Color.BLACK);
-        EnemyActor hiddenEnemyActor = enemyActorQueue.get(2);
+        EnemyActor hiddenEnemyActor = waitingEnemies.get(2);
         hiddenEnemyActor.setPosition(area.enemyHiddenPosX, area.enemyHiddenPosY);
         hiddenEnemyActor.getColor().a = 0f;
 
@@ -156,8 +153,8 @@ public class GameManager {
     private void startGame(){
         game.hud.floorLabel.setText(currentArea.name + " - "+gameInformation.areaLevel);
         game.hud.enemyInformation.init(currentEnemyActor);
-        //game.hud.initFight(currentEnemyActor);
     }
+
     public SpriterPlayer loadPlayer() {
         int weaponMap = 0;
         int headMap = 1;
@@ -167,7 +164,7 @@ public class GameManager {
         spriterPlayer.setScale(0.37f);
         spriterPlayer.speed = 15;
         spriterPlayer.setAnimation("idle");
-        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, playScreen));
+        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, this));
         spriterPlayer.characterMaps[weaponMap] = spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
         spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
         spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
@@ -259,25 +256,22 @@ public class GameManager {
 
     public void hitEnemy(int posX, int posY) {
         playScreen.spriterPlayer.setAnimation("atk");
-        gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1);
+        gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1); // updateStat
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
         if (randCritical == 1) {
         }
 
         ValueDTO damageData = new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
-        hurtEnemy(damageData);
-
+        hurtEnemy(new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency));
         String damageString = largeMath.getDisplayValue(damageData);
         playScreen.addDamageLabel(damageString);
-        playScreen.showTapActor(posX, posY);
     }
 
     public void updateLogic(float delta) {
-        autoSaveTimer += Gdx.graphics.getDeltaTime();
-        increaseGoldTimer += Gdx.graphics.getDeltaTime();
-        weatherTimer += Gdx.graphics.getDeltaTime();
-        logicTimer += Gdx.graphics.getDeltaTime();
+        autoSaveTimer += delta;// TODO a desactiver
+        increaseGoldTimer += delta;
+        logicTimer += delta;
 
         switch (currentState) {
             case IN_GAME:
@@ -311,25 +305,24 @@ public class GameManager {
     }
 
     public void initFloorEnemies() {
-        enemyActorQueue.clear();
-        gameInformation.currentEnemyIdx=0;
+        waitingEnemies.clear();
 
-        for (int i = 0; i < 10; i++) {
+        gameInformation.currentEnemyIdx=0; // TODO ne peux pas reprendre si moins de 2 enemies pour init playscreen
+        // Generate random enemy list from enemy available at this stage
+        for (int i = gameInformation.currentEnemyIdx; i < currentArea.fights+1; i++) {
             int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
             EnemyTemplateEntity enemyTemplateEntity = assetsManager.enemyTemplateEntityList.get(randomNum);
             EnemyActor enemyActor = new EnemyActor(enemyTemplateEntity, gameInformation.areaLevel);
-            enemyActorQueue.add(enemyActor);
+            waitingEnemies.add(enemyActor);
         }
-        currentEnemyActor = enemyActorQueue.get(gameInformation.currentEnemyIdx);
-    }
-
-    public void exitGame() {
-        gameInformationManager.saveData();
+        currentEnemyActor = waitingEnemies.get(currentArea.fights-gameInformation.currentEnemyIdx-1);
     }
 
     public void showNextEnemy() {
         gameInformation.currentEnemyIdx += 1;
-        game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
+        game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
+
+        playScreen.layerEnemy.addActor(waitingEnemies.get(0));
 
         // Initialize position before moving
         playScreen.enemyActorList.get(0).clearActions();
@@ -340,7 +333,6 @@ public class GameManager {
         playScreen.enemyActorList.get(2).setPosition(220, 235);
         playScreen.enemyActorList.get(2).getColor().a = 0f;
 
-        //playScreen.enemyActorList.get(0).setActiveAnimation("idle");
         playScreen.enemyActorList.get(1).setActiveAnimation("idle");
         playScreen.enemyActorList.get(2).setActiveAnimation("idle");
 
@@ -352,16 +344,15 @@ public class GameManager {
         Collections.swap(playScreen.enemyActorList, 0, 1);
         Collections.swap(playScreen.enemyActorList, 1, 2);
 
-        // TODO faire disparaitre les mobs  & corriger numero du combat
-        if (gameInformation.currentEnemyIdx + 3 < enemyActorQueue.size()) {
-            playScreen.enemyActorList.set(2, enemyActorQueue.get(gameInformation.currentEnemyIdx + 2));
-            playScreen.layer1GraphicObject.addActor(playScreen.enemyActorList.get(2));
+        if (gameInformation.currentEnemyIdx + 3 < waitingEnemies.size()) { // TODO ???
+            playScreen.enemyActorList.set(2, waitingEnemies.get(gameInformation.currentEnemyIdx + 2));
+            playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(2));
             playScreen.enemyActorList.get(2).setPosition(220, 235);
             playScreen.enemyActorList.get(2).getColor().a = 0f;
         }
 
         // first actor always on top
-        playScreen.layer1GraphicObject.swapActor(playScreen.enemyActorList.get(0), playScreen.enemyActorList.get(1));
+        playScreen.layerEnemy.swapActor(playScreen.enemyActorList.get(0), playScreen.enemyActorList.get(1));
 
         // Set new Current Actor
         currentEnemyActor = playScreen.enemyActorList.get(0);
@@ -374,6 +365,11 @@ public class GameManager {
             }
         })));
     }
+
+     public void showBoss(){
+         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
+
+     }
 
     private void hurtEnemy(ValueDTO damageData) {
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint, damageData);
@@ -389,7 +385,9 @@ public class GameManager {
         killCurrentEnemy();
         addReward();
 
-        if (gameInformation.currentEnemyIdx < currentArea.fights) {
+        if (gameInformation.currentEnemyIdx == currentArea.fights) {
+            showBoss();
+        } else if (gameInformation.currentEnemyIdx < currentArea.fights) {
             showNextEnemy();
         } else {
             updateArea();
@@ -407,6 +405,10 @@ public class GameManager {
 
     public void killCurrentEnemy() {
         currentEnemyActor.death();
+        waitingEnemies.remove(0);
+        if (waitingEnemies.isEmpty()) {
+            initFloorEnemies();
+        }
     }
 
     private void addReward() {

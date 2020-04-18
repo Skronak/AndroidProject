@@ -64,11 +64,11 @@ public class SnowEffectActor extends AbstractParticleEffectActor {
         background.setScale(playScreen.getBackgroundImage().getScaleX(),playScreen.getBackgroundImage().getScaleY());
         background.getColor().a=0f;
 
-        playScreen.getLayer1GraphicObject().addActor(background);
-        playScreen.getLayer1GraphicObject().addActor(snow1);
-        playScreen.getLayer1GraphicObject().addActor(snow2);
-        playScreen.getLayer1GraphicObject().addActor(snow3);
-        playScreen.getLayer1GraphicObject().addActor(fog);
+        playScreen.getLayerEnemy().addActor(background);
+        playScreen.getLayerEnemy().addActor(snow1);
+        playScreen.getLayerEnemy().addActor(snow2);
+        playScreen.getLayerEnemy().addActor(snow3);
+        playScreen.getLayerEnemy().addActor(fog);
         fog.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10f), Actions.fadeOut(10f),Actions.removeActor(fog)));
         background.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10), Actions.fadeOut(10f),Actions.removeActor(background)));
         snow1.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(5f),Actions.delay(30f), Actions.fadeOut(5f),Actions.removeActor(snow1)));

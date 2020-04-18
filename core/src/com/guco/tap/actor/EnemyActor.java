@@ -21,6 +21,9 @@ public class EnemyActor extends AnimatedBaseActor {
         loadAnimation(enemyTemplateEntity);
     }
 
+    public EnemyActor() {
+    }
+
     private ValueDTO calculateHP(int baseHp, int level) {
         int currency = 0;
         ValueDTO life = new ValueDTO(baseHp*level, currency);

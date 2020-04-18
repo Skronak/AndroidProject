@@ -84,7 +84,7 @@ public class ForgeMenu extends AbstractMenu {
         validateButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.gameInformation.weaponItemList.add(currentItem);
+                gameManager.gameInformation.unlockedWeaponList.add(currentItem);
                 rewardPending = true;
                 gameManager.game.adController.showRewardedAd();
                 return true;

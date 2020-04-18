@@ -23,7 +23,6 @@ import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
 import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.actor.TapActor;
 import com.guco.tap.actor.TorchActor;
 import com.guco.tap.effect.TorchParticleSEffect;
 import com.guco.tap.game.TapDungeonGame;
@@ -49,13 +48,12 @@ public class PlayScreen extends AbstractScreen {
     private Image backgroundImage;
     private Image doorImage, torchImage;
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
-    public Group layer0GraphicObject; // Background
-    public Group layer1GraphicObject; // Objects
-    public Group layer2GraphicObject; // Foreground
+    public Group layerBackground; // Background
+    public Group layerEnemy; // Objects
+    public Group layerFrontObjects; // Foreground
     public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
-    private TapActor tapActor;
     private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
     public TorchParticleSEffect torchParticleSEffect;
@@ -63,7 +61,7 @@ public class PlayScreen extends AbstractScreen {
     public SpriterPlayer spriterPlayer;
     SpriterPlayer boss;
     GameManager gameManager;
-    // EnemyTemplateEntity present on screen
+    // 3 EnemyTemplateEntity present on screen
     public List<EnemyActor> enemyActorList;
     private boolean gameStarted;
 
@@ -76,9 +74,9 @@ public class PlayScreen extends AbstractScreen {
         this.gameManager = tapDungeonGame.gameManager;
         this.hud = tapDungeonGame.hud;
 
-        layer0GraphicObject = new Group();
-        layer1GraphicObject = new Group();
-        layer2GraphicObject = new Group();
+        layerBackground = new Group();
+        layerEnemy = new Group();
+        layerFrontObjects = new Group();
 
         Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -107,42 +105,36 @@ public class PlayScreen extends AbstractScreen {
 
         gameManager.initialiseGame();
 
-        //tapActor
-        tapActor = new TapActor();
-
-        EnemyActor enemyActor = gameManager.enemyActorQueue.get(0);
+        EnemyActor enemyActor = gameManager.waitingEnemies.get(0);
         enemyActor.setPosition(130,220);
 
-        EnemyActor nextEnemyActor = gameManager.enemyActorQueue.get(1);
+        EnemyActor nextEnemyActor = gameManager.waitingEnemies.get(1);
         nextEnemyActor.setPosition(190,235);
         nextEnemyActor.setColor(Color.BLACK);
 
-        EnemyActor hiddenEnemyActor = gameManager.enemyActorQueue.get(2);
+        EnemyActor hiddenEnemyActor = gameManager.waitingEnemies.get(2);
         hiddenEnemyActor.setPosition(220,235);
         hiddenEnemyActor.getColor().a=0f;
 
         enemyActorList = new ArrayList<EnemyActor>();
-        enemyActorList.add(enemyActor);
+
+        // Gestion des calques
+        stage.addActor(layerBackground);
+        stage.addActor(layerEnemy);
+        stage.addActor(layerFrontObjects);        enemyActorList.add(enemyActor);
         enemyActorList.add(nextEnemyActor);
         enemyActorList.add(hiddenEnemyActor);
 
-        // Gestion des calques
-        stage.addActor(layer0GraphicObject);
-        stage.addActor(layer1GraphicObject);
-        stage.addActor(layer2GraphicObject);
 
         // Init torch
         TorchActor torchActor = new TorchActor(gameManager.assetsManager);
         torchActor.start();
 
         // Ajout des objets dans les calques
-        layer0GraphicObject.addActor(backgroundImage);
-        layer0GraphicObject.addActor(torchActor);
-        layer1GraphicObject.addActor(enemyActorList.get(2));
-        layer1GraphicObject.addActor(enemyActorList.get(1));
-        layer1GraphicObject.addActor(enemyActorList.get(0));
-        layer2GraphicObject.addActor(doorImage);
-        layer2GraphicObject.addActor(tapActor);
+        layerBackground.addActor(backgroundImage);
+        layerBackground.addActor(torchActor);
+        layerEnemy.addActor(enemyActorList.get(0));
+        layerFrontObjects.addActor(doorImage);
 
         //if (gameManager.isFirstPlay()) {
         //    displayTutorial();
@@ -247,12 +239,6 @@ public class PlayScreen extends AbstractScreen {
         hud.draw();
     }
 
-    public void showTapActor(int positionX, int positionY) {
-        Vector3 position2World = camera.unproject(new Vector3(positionX, positionY,0));
-        tapActor.setPosition(position2World.x- ((int)tapActor.getWidth()/2),( (int) position2World.y-tapActor.getHeight()/2));//TODO a calculer autrepart
-
-        tapActor.animate();
-    }
 
     public void debugMode(float delta){
         if (timeToCameraZoomTarget > 0){
@@ -288,7 +274,7 @@ public class PlayScreen extends AbstractScreen {
         } else {
             gLPPointer=0;
         }
-        layer2GraphicObject.addActor(damageLabel);
+        layerFrontObjects.addActor(damageLabel);
         damageLabel.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.parallel(
@@ -362,8 +348,8 @@ public class PlayScreen extends AbstractScreen {
         return hud;
     }
 
-    public Group getLayer1GraphicObject() {
-        return layer1GraphicObject;
+    public Group getLayerEnemy() {
+        return layerEnemy;
     }
 
     public Image getBackgroundImage() {
@@ -371,7 +357,7 @@ public class PlayScreen extends AbstractScreen {
     }
 
 
-    public Group getLayer2GraphicObject() {
-        return layer2GraphicObject;
+    public Group getLayerFrontObjects() {
+        return layerFrontObjects;
     }
 }

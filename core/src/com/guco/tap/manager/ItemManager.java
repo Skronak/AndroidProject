@@ -23,7 +23,7 @@ public class ItemManager {
     //        Item item = gameManager.assetsManager.weaponList.get(i);
     //        if (gameManager.assetsManager.weaponUpgradeList.size()>i) {
     //            item.upgrades = gameManager.assetsManager.weaponUpgradeList.get(i);
-    //            Item upgradedItem = gameManager.gameInformation.weaponItemList.get(i);
+    //            Item upgradedItem = gameManager.gameInformation.unlockedWeaponList.get(i);
     //            if (upgradedItem.level==0) {
     //                item.calculatedStat = new CalculatedStat(upgradedItem.damageValue, upgradedItem.damageCurrency, upgradedItem.criticalRate);
     //            } else {
@@ -32,6 +32,18 @@ public class ItemManager {
     //        }
     //    }
     //}
+
+    public Item getWeapon(int id) {
+        return game.assetsManager.weaponList.get(id);
+    }
+
+    public Item getHead(int id) {
+        return game.assetsManager.helmList.get(id);
+    }
+
+    public Item getBody(int id) {
+        return game.assetsManager.bodyList.get(id);
+    }
 
     public void increaseItemLevel(Item item){
         item.level = item.level+1;

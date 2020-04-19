@@ -1,30 +1,20 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.brashmonkey.spriter.Data;
-import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.LibGdxDrawer;
-import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.EnemyActor;
+import com.guco.tap.actor.PlayerActor;
 import com.guco.tap.dto.Area;
-import com.guco.tap.dto.SpriterDto;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.PlayerListenerImpl;
-import com.guco.tap.screen.AreaScreen;
 import com.guco.tap.screen.PlayScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
@@ -61,8 +51,6 @@ public class GameManager {
 
     public float autoSaveTimer, increaseGoldTimer, logicTimer;
 
-    public ArrayList<Integer> newModuleIdList;
-
     public ItemManager itemManager;
 
     // EnemyTemplateEntity present on this floor
@@ -74,10 +62,6 @@ public class GameManager {
     public EnemyActor currentEnemyActor;
 
     Random rand = new Random();
-
-    public Data playerData;
-
-    public Data forgeData;
 
     public SpriterPlayer spriterPlayer;
 
@@ -101,8 +85,6 @@ public class GameManager {
         this.gameInformation = game.gameInformation;
         this.areaManager = game.areaManager;
         largeMath = game.largeMath;
-        newModuleIdList = new ArrayList<Integer>();
-//        attributeManager = new AttributeManager(this);
         achievementManager = new AchievementManager(this);
         dataManager = new DataManager(this);
         itemManager = game.itemManager;
@@ -114,7 +96,7 @@ public class GameManager {
     }
 
     public void loadArea() {
-        int ID_AREA = 1;
+/*        int ID_AREA = 1;
         Area area = assetsManager.areaList.get(ID_AREA);
         AreaScreen areaScreen = new AreaScreen(game);
         areaScreen.backgroundImage = new Image(assetsManager.menuBackgroundTextureList.get(ID_AREA));
@@ -138,7 +120,7 @@ public class GameManager {
         for (int i = 0; i < area.objectList.size(); i++) {
             areaScreen.layer0GraphicObject.addActor((Actor) area.objectList.get(i));
             area.objectList.get(i).start();
-        }
+        }*/
     }
 
     public void initialiseGame() {
@@ -155,107 +137,23 @@ public class GameManager {
         game.hud.enemyInformation.init(currentEnemyActor);
     }
 
-    public SpriterPlayer loadPlayer() {
-        int weaponMap = 0;
-        int headMap = 1;
-        int bodyMap = 2;
-        spriterPlayer = new SpriterPlayer(playerData.getEntity(0));
-        spriterPlayer.setPosition(85, 220);
-        spriterPlayer.setScale(0.37f);
-        spriterPlayer.speed = 15;
-        spriterPlayer.setAnimation("idle");
-        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, this));
-        spriterPlayer.characterMaps[weaponMap] = spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
-        spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
-        spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
+    public PlayerActor loadPlayerActor(SpriteBatch spriteBatch) {
+        PlayerActor playerActor = new PlayerActor(spriteBatch,"spriter/animation.scml");
+        playerActor.setPosition(85, 220);
+        playerActor.setScale(0.37f);
+        playerActor.spriterPlayer.speed = 15;
+        playerActor.spriterPlayer.setAnimation("idle");
+        playerActor.spriterPlayer.addListener(new PlayerListenerImpl(playerActor.spriterPlayer, this));
+        playerActor.spriterPlayer.characterMaps[0] = playerActor.spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
+        playerActor.spriterPlayer.characterMaps[1] = playerActor.spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
+        playerActor.spriterPlayer.characterMaps[2] = playerActor.spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
 
-        return spriterPlayer;
+        return playerActor;
     }
 
-    // TODO useless, to include in forgeMenu
-    public SpriterPlayer loadForgePlayer() {
-        int blade = 0;
-        int gard = 1;
-        int pom = 2;
-        spriterPlayer = new SpriterPlayer(forgeData.getEntity(0));
-        spriterPlayer.setPosition(85, 220);
-        spriterPlayer.setScale(0.30f);
-        spriterPlayer.speed = 10;
-        spriterPlayer.setAnimation("idle");
-        //spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
 
-        return spriterPlayer;
-    }
-
-    public SpriterPlayer loadBoss() {
-        FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
-        Data data = new SCMLReader(handle.read()).getData();
-        LibGdxLoader loader = new LibGdxLoader(data);
-        loader.load(handle.file());
-        SpriterPlayer boss = new SpriterPlayer(data.getEntity(0));
-        boss.setPosition(240, 300);
-        boss.setScale(0.4f);
-        boss.speed = 15;
-        boss.setAnimation("idle");
-        return boss;
-    }
-
-    public Drawer loadPlayerDrawer(SpriteBatch batch) {
-        ShapeRenderer renderer = new ShapeRenderer();
-
-        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
-        playerData = new SCMLReader(handle.read()).getData();
-
-        LibGdxLoader loader = new LibGdxLoader(playerData);
-        loader.load(handle.file());
-
-        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
-        return drawer;
-    }
-
-    public SpriterDto loadDrawer(SpriteBatch batch, String pathToScml) {
-        FileHandle handle = Gdx.files.internal("spriter/"+pathToScml);
-        Data data = new SCMLReader(handle.read()).getData();
-
-        LibGdxLoader loader = new LibGdxLoader(data);
-        loader.load(handle.file());
-
-        ShapeRenderer renderer = new ShapeRenderer();
-        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
-
-        SpriterDto spriterDto = new SpriterDto(data, drawer);
-
-        return spriterDto;
-    }
-
-    public Drawer loadBossDrawer(SpriteBatch batch) {
-        ShapeRenderer renderer = new ShapeRenderer();
-
-        FileHandle handle = Gdx.files.internal("spriter/boss/dragon.scml");
-        forgeData = new SCMLReader(handle.read()).getData();
-
-        LibGdxLoader loader = new LibGdxLoader(forgeData);
-        loader.load(handle.file());
-
-        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
-        return drawer;
-    }
-
-    public Drawer loadForgeDrawer(SpriteBatch batch) {
-        ShapeRenderer renderer = new ShapeRenderer();
-
-        FileHandle handle = Gdx.files.internal("spriter/forge/forge.scml");
-        forgeData = new SCMLReader(handle.read()).getData();
-
-        LibGdxLoader loader = new LibGdxLoader(forgeData);
-        loader.load(handle.file());
-
-        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
-        return drawer;
-    }
-
-    public void hitEnemy(int posX, int posY) {
-        playScreen.spriterPlayer.setAnimation("atk");
+    public void hitEnemy() {
+        playScreen.playerActor.setAnimation("atk");
         gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1); // updateStat
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
@@ -367,8 +265,7 @@ public class GameManager {
     }
 
      public void showBoss(){
-         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
-
+//         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
      }
 
     private void hurtEnemy(ValueDTO damageData) {

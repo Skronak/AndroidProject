@@ -11,17 +11,16 @@ import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
-import com.brashmonkey.spriter.SpriterPlayer;
 import com.brashmonkey.spriter.SCMLReader;
+import com.brashmonkey.spriter.SpriterPlayer;
 
 public class PlayerActor extends Actor {
     Drawer<Sprite> drawer;
     LibGdxLoader loader;
-    SpriterPlayer spriterPlayer;
-    ShapeRenderer renderer;
+    public SpriterPlayer spriterPlayer;
 
-    public PlayerActor(SpriteBatch spriteBatch) {
-        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
+    public PlayerActor(SpriteBatch spriteBatch, String animationPath) {
+        FileHandle handle = Gdx.files.internal(animationPath);
         Data data = new SCMLReader(handle.read()).getData();
         ShapeRenderer renderer = new ShapeRenderer();
         loader = new LibGdxLoader(data);
@@ -44,4 +43,7 @@ public class PlayerActor extends Actor {
         spriterPlayer.setScale(scale);
     }
 
-}
+    public void setAnimation(String animation) {
+        spriterPlayer.setAnimation(animation);
+    }
+ }

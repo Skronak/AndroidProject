@@ -1,8 +1,10 @@
 package com.guco.tap.menu.inventory.alternate;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
+import com.brashmonkey.spriter.LibGdxDrawer;
+import com.brashmonkey.spriter.LibGdxLoader;
+import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.Item;
+import com.guco.tap.input.PlayerListenerImpl;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.MenuState;
@@ -44,6 +51,10 @@ public class InventoryMenu extends AbstractMenu {
     private Image upImage;
     private List<Item> newItems;
 
+    SpriterPlayer spriterPlayer;
+    Data playerData;
+
+
     // FOR TEST ONLY
     private Drawer drawer;
     private SpriteBatch batch;
@@ -54,13 +65,13 @@ public class InventoryMenu extends AbstractMenu {
         customizeMenuTable();
 
         batch = new SpriteBatch();
-        drawer = gameManager.loadPlayerDrawer(batch);
+        drawer = loadPlayerDrawer(batch);
         float height = 20;
         float ppu = Gdx.graphics.getHeight() / height;
         float width = Gdx.graphics.getWidth() / ppu;
-        itemSpriterPlayer = gameManager.loadPlayer();
+        itemSpriterPlayer = loadPlayer();
         itemSpriterPlayer.setScale(0.5f);
-        itemSpriterPlayer.setEntity(gameManager.playerData.getEntity("inventoryMenu"));
+        itemSpriterPlayer.setEntity(playerData.getEntity("inventoryMenu"));
         itemSpriterPlayer.setPosition(70, 320);
         itemSpriterPlayer.speed=1;
 
@@ -68,6 +79,35 @@ public class InventoryMenu extends AbstractMenu {
         inventoryPane.switchTab();
     }
 
+    public Drawer loadPlayerDrawer(SpriteBatch batch) {
+        ShapeRenderer renderer = new ShapeRenderer();
+
+        FileHandle handle = Gdx.files.internal("spriter/animation.scml");
+        playerData = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(playerData);
+        loader.load(handle.file());
+
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+        return drawer;
+    }
+
+    public SpriterPlayer loadPlayer() {
+        int weaponMap = 0;
+        int headMap = 1;
+        int bodyMap = 2;
+        spriterPlayer = new SpriterPlayer(playerData.getEntity(0));
+        spriterPlayer.setPosition(85, 220);
+        spriterPlayer.setScale(0.37f);
+        spriterPlayer.speed = 15;
+        spriterPlayer.setAnimation("idle");
+        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, gameManager));
+        spriterPlayer.characterMaps[weaponMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.gameInformation.equipedWeapon.mapName);
+        spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.assetsManager.helmList.get(gameManager.gameInformation.equipedHead).mapName);
+        spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.assetsManager.bodyList.get(gameManager.gameInformation.equipedBody).mapName);
+
+        return spriterPlayer;
+    }
     public void customizeMenuTable() {
         damageLabel = new Label("",skin);
         damageLabel.setFontScale(0.7f);
@@ -88,7 +128,7 @@ public class InventoryMenu extends AbstractMenu {
                 return true;
             }});
 
-        addMenuHeader("INVENTORY",2);
+        addMenuHeader("INVENTORY2",2);
         Table leftTable = new Table();
         leftTable.top().left();
         Image image = new Image();
@@ -189,7 +229,7 @@ public class InventoryMenu extends AbstractMenu {
 
         gameManager.dataManager.calculateTapDamage();
         Item itemSource= inventoryPane.selectedItemElement.itemSource;
-        gameManager.playScreen.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
+        gameManager.playScreen.playerActor.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.playScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
     }
 
     public void updateBuyButton () {

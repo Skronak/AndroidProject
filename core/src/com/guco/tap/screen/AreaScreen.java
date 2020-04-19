@@ -1,41 +1,11 @@
 package com.guco.tap.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.SpriterPlayer;
-import com.guco.tap.action.ScaleLabelAction;
-import com.guco.tap.actor.AnimatedActor;
-import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.effect.TorchParticleSEffect;
-import com.guco.tap.game.TapDungeonGame;
-import com.guco.tap.input.TapInputProcessor;
-import com.guco.tap.manager.GameManager;
-import com.guco.tap.utils.Constants;
-import com.guco.tap.utils.GameState;
-
-import java.util.List;
-import java.util.Random;
-
-import static com.badlogic.gdx.Gdx.files;
-
 /**
  * Created by Skronak on 29/01/2017.
  */
-public class AreaScreen extends AbstractScreen {
+public class AreaScreen /*extends AbstractScreen */{
 
-    private Random random;
+/*    private Random random;
     private int textAnimMinX;
     private com.guco.tap.utils.BitmapFontGenerator generator;
     public Image backgroundImage;
@@ -219,5 +189,5 @@ public class AreaScreen extends AbstractScreen {
 
     public GameManager getGameManager() {
         return gameManager;
-    }
+    }*/
 }

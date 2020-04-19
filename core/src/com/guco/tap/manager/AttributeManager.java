@@ -142,7 +142,7 @@ public class AttributeManager {
 
         // Ajoute l'element dans la station
         if (gameManager.gameInformation.attributeLevel.get(idSelect)==1){
-            gameManager.newModuleIdList.add(idSelect);
+//            gameManager.newModuleIdList.add(idSelect);
         }
      }
 

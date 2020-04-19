@@ -33,7 +33,7 @@ public class TapInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (gameManager.currentState.equals(GameState.IN_GAME)) {
-            gameManager.hitEnemy(screenX, screenY);
+            gameManager.hitEnemy();
         }
         return true;
     }

@@ -1,8 +1,10 @@
 package com.guco.tap.menu.forge;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -10,7 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
+import com.brashmonkey.spriter.LibGdxDrawer;
+import com.brashmonkey.spriter.LibGdxLoader;
+import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.entity.Item;
 import com.guco.tap.manager.GameManager;
@@ -41,6 +47,7 @@ public class ForgeMenu extends AbstractMenu {
     private Item currentItem;
     private Label craftingLabel;
     private boolean rewardPending;
+    private Data forgeData;
 
     public ForgeMenu(GameManager gameManager, SpriteBatch batch) {
         super(gameManager);
@@ -102,14 +109,41 @@ public class ForgeMenu extends AbstractMenu {
         });
     }
 
+    private SpriterPlayer loadForgePlayer() {
+        int blade = 0;
+        int gard = 1;
+        int pom = 2;
+        itemSpriterPlayer = new SpriterPlayer(forgeData.getEntity(0));
+        itemSpriterPlayer.setPosition(85, 220);
+        itemSpriterPlayer.setScale(0.30f);
+        itemSpriterPlayer.speed = 10;
+        itemSpriterPlayer.setAnimation("idle");
+        //spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer,playScreen));
+
+        return itemSpriterPlayer;
+    }
+
     private void createDrawer() {
-        drawer = gameManager.loadForgeDrawer(batch);
+        drawer = loadForgeDrawer(batch);
         float height = 20;
         float ppu = Gdx.graphics.getHeight() / height;
         float width = Gdx.graphics.getWidth() / ppu;
-        itemSpriterPlayer = gameManager.loadForgePlayer();
+        itemSpriterPlayer = loadForgePlayer();
         itemSpriterPlayer.setScale(0.4f);
         itemSpriterPlayer.setPosition(Constants.V_WIDTH/2, 280);
+    }
+
+    private Drawer loadForgeDrawer(SpriteBatch batch) {
+        ShapeRenderer renderer = new ShapeRenderer();
+
+        FileHandle handle = Gdx.files.internal("spriter/forge/forge.scml");
+        forgeData = new SCMLReader(handle.read()).getData();
+
+        LibGdxLoader loader = new LibGdxLoader(forgeData);
+        loader.load(handle.file());
+
+        Drawer drawer = new LibGdxDrawer(loader, batch, renderer);
+        return drawer;
     }
 
     private void createLoadingLabel(){

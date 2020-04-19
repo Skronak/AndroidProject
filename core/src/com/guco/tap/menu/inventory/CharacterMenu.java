@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.InventorySlotImage;
+import com.guco.tap.actor.PlayerActor;
 import com.guco.tap.dto.SpriterDto;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
@@ -32,30 +32,31 @@ public class CharacterMenu extends AbstractMenu {
     private GameInformation gameInformation;
     private SpriterDto spriterDto;
     private TapDungeonGame game;
-    public SpriterPlayer spriterPlayer;
     ScrollPane availableItemsPane;
     private List<InventorySlotImage> currentInventorySlotImages;
     private Label nameLabel;
     private Label weaponAttackLabel;
     private InventorySlotImage currentSelectedInventorySlot, currentEquipedInventorySlot;
     private Item currentEquipedItem;
+    private PlayerActor playerActor;
 
     public CharacterMenu(final TapDungeonGame game, final CharacterInventoryMenu characterInventoryMenu) {
         super(game.gameManager);
         this.game = game;
         this.gameInformation = game.gameInformation;
         customizeMenuTable();
-        spriterDto = gameManager.loadDrawer(game.sb, "/animation.scml");
-        spriterPlayer = new SpriterPlayer(spriterDto.data.getEntity(0));
-        spriterPlayer.setPosition(Constants.V_WIDTH / 2, 220);
-        spriterPlayer.setScale(0.5f);
-        spriterPlayer.speed = 15;
-        spriterPlayer.setAnimation("idle_sleeping");
+        playerActor = gameManager.loadPlayerActor(game.sb);
+        //spriterPlayer = new SpriterPlayer(spriterDto.data.getEntity(0));
+        playerActor.spriterPlayer.setPosition(Constants.V_WIDTH / 2, 220);
+        playerActor.spriterPlayer.setScale(0.5f);
+        playerActor.spriterPlayer.speed = 15;
+        playerActor.spriterPlayer.setAnimation("idle_sleeping");
 //        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, playScreen));
-        spriterPlayer.characterMaps[1] = spriterPlayer.getEntity().getCharacterMap("sleepingHead");
+        playerActor.spriterPlayer.characterMaps[1] = playerActor.spriterPlayer.getEntity().getCharacterMap("sleepingHead");
         //spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
 //        spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
 
+//        parentTable.addActor(playerActor);
 
         currentEquipedItem = gameInformation.equipedWeapon;
 
@@ -183,13 +184,13 @@ public class CharacterMenu extends AbstractMenu {
         currentEquipedInventorySlot = inventorySlotImage;
         gameInformation.equipedWeapon = inventorySlotImage.item;
         gameManager.dataManager.calculateTapDamage();
-        gameManager.playScreen.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.playScreen.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
+        gameManager.playScreen.playerActor.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.playScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
         updateCharacterDetails();
     }
 
     private void selectItem(InventorySlotImage inventorySlotImage) {
         inventorySlotImage.selectSlot(true);
-        spriterPlayer.characterMaps[0] = spriterPlayer.getEntity().getCharacterMap(gameInformation.unlockedWeaponList.get(inventorySlotImage.item.id).mapName);
+        playerActor.spriterPlayer.characterMaps[0] = playerActor.spriterPlayer.getEntity().getCharacterMap(gameInformation.unlockedWeaponList.get(inventorySlotImage.item.id).mapName);
 
         if (currentSelectedInventorySlot != null) {
             currentSelectedInventorySlot.selectSlot(false);
@@ -236,8 +237,8 @@ public class CharacterMenu extends AbstractMenu {
     @Override
     public void draw() {
         game.sb.begin();
-        spriterPlayer.update();
-        spriterDto.drawer.draw(spriterPlayer);
+        playerActor.spriterPlayer.update();
+        playerActor.draw(game.sb, 1f);
         game.sb.end();
     }
 }

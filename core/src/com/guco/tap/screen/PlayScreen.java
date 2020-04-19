@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -16,15 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.brashmonkey.spriter.Drawer;
-import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
-import com.guco.tap.actor.AnimatedActor;
 import com.guco.tap.actor.EnemyActor;
+import com.guco.tap.actor.PlayerActor;
 import com.guco.tap.actor.TorchActor;
-import com.guco.tap.effect.TorchParticleSEffect;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
@@ -37,33 +33,22 @@ import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.files;
 
-/**
- * Created by Skronak on 29/01/2017.
- */
 public class PlayScreen extends AbstractScreen {
 
     private Random random;
     private int textAnimMinX;
     private com.guco.tap.utils.BitmapFontGenerator generator;
-    private Image backgroundImage;
-    private Image doorImage, torchImage;
+    private Image backgroundImage, doorImage;
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
-    public Group layerBackground; // Background
-    public Group layerEnemy; // Objects
-    public Group layerFrontObjects; // Foreground
+    public Group layerBackground, layerEnemy, layerFrontObjects;
     public Label damageLabel;
     private int[] damageLabelPosition = {100,80,120,70,130};
     int gLPPointer;
-    private AnimatedActor rewardActor;
     public InputMultiplexer inputMultiplexer;
-    public TorchParticleSEffect torchParticleSEffect;
-    Drawer<Sprite> playerDrawer,enemyDrawer;
-    public SpriterPlayer spriterPlayer;
-    SpriterPlayer boss;
     GameManager gameManager;
+    public PlayerActor playerActor;
     // 3 EnemyTemplateEntity present on screen
     public List<EnemyActor> enemyActorList;
-    private boolean gameStarted;
 
     /**
      * Constructor
@@ -96,10 +81,11 @@ public class PlayScreen extends AbstractScreen {
         random = new Random();
 
         // TODO bug dans l'ordre de chargement du drawer
-        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
-        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
-        spriterPlayer = gameManager.loadPlayer();
+//        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
+//        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
+//        spriterPlayer = gameManager.loadPlayer();
 
+        playerActor = gameManager.loadPlayerActor(spriteBatch);
         hud.initializeHud();
         hud.update();
 
@@ -134,6 +120,7 @@ public class PlayScreen extends AbstractScreen {
         layerBackground.addActor(backgroundImage);
         layerBackground.addActor(torchActor);
         layerEnemy.addActor(enemyActorList.get(0));
+        layerFrontObjects.addActor(playerActor);
         layerFrontObjects.addActor(doorImage);
 
         //if (gameManager.isFirstPlay()) {
@@ -146,7 +133,7 @@ public class PlayScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        boss = gameManager.loadBoss();
+        //boss = gameManager.loadBoss();
 
         initStartScreen();
     }
@@ -228,9 +215,9 @@ public class PlayScreen extends AbstractScreen {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        if (gameManager.currentState.equals(GameState.IN_GAME)||gameManager.currentState.equals(GameState.PAUSE)) {
-            spriterPlayer.update();
-            playerDrawer.draw(spriterPlayer);
+        if (gameManager.currentState.equals(GameState.IN_GAME) || gameManager.currentState.equals(GameState.PAUSE)) {
+//            spriterPlayer.update();
+//            playerDrawer.draw(spriterPlayer);
         } else {
             hud.draw();
         }

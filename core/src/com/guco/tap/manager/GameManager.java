@@ -322,7 +322,7 @@ public class GameManager {
         gameInformation.currentEnemyIdx += 1;
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
 
-        playScreen.layerEnemy.addActor(waitingEnemies.get(0));
+//        playScreen.layerEnemy.addActor(waitingEnemies.get(0));
 
         // Initialize position before moving
         playScreen.enemyActorList.get(0).clearActions();

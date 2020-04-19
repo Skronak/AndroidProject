@@ -121,10 +121,10 @@ public class PlayScreen extends AbstractScreen {
         // Gestion des calques
         stage.addActor(layerBackground);
         stage.addActor(layerEnemy);
-        stage.addActor(layerFrontObjects);        enemyActorList.add(enemyActor);
+        stage.addActor(layerFrontObjects);
+        enemyActorList.add(enemyActor);
         enemyActorList.add(nextEnemyActor);
         enemyActorList.add(hiddenEnemyActor);
-
 
         // Init torch
         TorchActor torchActor = new TorchActor(gameManager.assetsManager);

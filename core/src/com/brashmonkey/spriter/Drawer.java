@@ -26,7 +26,7 @@ public abstract class Drawer<R> {
 	 */
 	public float pointRadius = 5f;
 	protected Loader<R> loader;
-	
+
 	/**
 	 * Creates a new drawer based on the given loader.
 	 * @param loader the loader containing resources

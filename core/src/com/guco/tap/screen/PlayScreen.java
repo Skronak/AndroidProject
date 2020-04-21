@@ -50,7 +50,7 @@ public class PlayScreen extends AbstractScreen {
     GameManager gameManager;
     public PlayerActor playerActor;
     public List<EnemyActor> enemyActorList;    // 3 EnemyTemplateEntity present on screen
-
+    public EnemyActor currentActor;
     /**
      * Constructor
      * @param tapDungeonGame

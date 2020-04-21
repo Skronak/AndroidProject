@@ -219,13 +219,15 @@ public class GameManager {
         gameInformation.currentEnemyIdx += 1;
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
 
-        playScreen.swapEnemy();
-        if (gameInformation.currentEnemyIdx + 3 < waitingEnemies.size()) { // TODO ???
-            playScreen.enemyActorList.set(2, waitingEnemies.get(gameInformation.currentEnemyIdx + 2));
-            playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(2));
-            playScreen.enemyActorList.get(2).setPosition(220, 235);
-            playScreen.enemyActorList.get(2).getColor().a = 0f;
-        }
+//        playScreen.swapEnemy();
+        playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(0));
+
+//        if (gameInformation.currentEnemyIdx + 3 < waitingEnemies.size()) { // TODO ???
+//            playScreen.enemyActorList.set(2, waitingEnemies.get(gameInformation.currentEnemyIdx + 2));
+//            playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(2));
+//            playScreen.enemyActorList.get(2).setPosition(220, 235);
+//            playScreen.enemyActorList.get(2).getColor().a = 0f;
+//        }
 
         // Set new Current Actor
         currentEnemyActor = playScreen.enemyActorList.get(0);
@@ -258,7 +260,8 @@ public class GameManager {
         addReward();
 
         if (gameInformation.currentEnemyIdx == currentArea.fights) {
-            showBoss();
+            //showBoss();
+            updateArea();
         } else if (gameInformation.currentEnemyIdx < currentArea.fights) {
             showNextEnemy();
         } else {
@@ -277,6 +280,12 @@ public class GameManager {
 
     public void killCurrentEnemy() {
         currentEnemyActor.death();
+        currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.5f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                currentEnemyActor.destroy();
+            }
+        })));
         waitingEnemies.remove(0);
         if (waitingEnemies.isEmpty()) {
             initFloorEnemies();

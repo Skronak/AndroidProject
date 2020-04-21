@@ -59,16 +59,16 @@ public class SnowEffectActor extends AbstractParticleEffectActor {
         fog.setPosition(0,50);
         fog.setScale(2);
         fog.getColor().a=0f;
-        background.setPosition(playScreen.getBackgroundImage().getX(), playScreen.getBackgroundImage().getY());
-        background.setSize(playScreen.getBackgroundImage().getWidth(), playScreen.getBackgroundImage().getHeight());
-        background.setScale(playScreen.getBackgroundImage().getScaleX(),playScreen.getBackgroundImage().getScaleY());
+//        background.setPosition(playScreen.getBackgroundImage().getX(), playScreen.getBackgroundImage().getY());
+//        background.setSize(playScreen.getBackgroundImage().getWidth(), playScreen.getBackgroundImage().getHeight());
+//        background.setScale(playScreen.getBackgroundImage().getScaleX(),playScreen.getBackgroundImage().getScaleY());
         background.getColor().a=0f;
 
-        playScreen.getLayerEnemy().addActor(background);
-        playScreen.getLayerEnemy().addActor(snow1);
-        playScreen.getLayerEnemy().addActor(snow2);
-        playScreen.getLayerEnemy().addActor(snow3);
-        playScreen.getLayerEnemy().addActor(fog);
+        playScreen.layerEnemy.addActor(background);
+        playScreen.layerEnemy.addActor(snow1);
+        playScreen.layerEnemy.addActor(snow2);
+        playScreen.layerEnemy.addActor(snow3);
+        playScreen.layerEnemy.addActor(fog);
         fog.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10f), Actions.fadeOut(10f),Actions.removeActor(fog)));
         background.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10), Actions.fadeOut(10f),Actions.removeActor(background)));
         snow1.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(5f),Actions.delay(30f), Actions.fadeOut(5f),Actions.removeActor(snow1)));

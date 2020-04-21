@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -28,16 +29,17 @@ import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.files;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 public class PlayScreen extends AbstractScreen {
 
     private Random random;
     private int textAnimMinX;
-    private com.guco.tap.utils.BitmapFontGenerator generator;
     private Image backgroundImage, doorImage;
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     public Group layerBackground, layerEnemy, layerFrontObjects;
@@ -47,8 +49,7 @@ public class PlayScreen extends AbstractScreen {
     public InputMultiplexer inputMultiplexer;
     GameManager gameManager;
     public PlayerActor playerActor;
-    // 3 EnemyTemplateEntity present on screen
-    public List<EnemyActor> enemyActorList;
+    public List<EnemyActor> enemyActorList;    // 3 EnemyTemplateEntity present on screen
 
     /**
      * Constructor
@@ -80,37 +81,32 @@ public class PlayScreen extends AbstractScreen {
         textAnimMinX =100;
         random = new Random();
 
-        // TODO bug dans l'ordre de chargement du drawer
-//        enemyDrawer = gameManager.loadBossDrawer(spriteBatch);
-//        playerDrawer = gameManager.loadPlayerDrawer(spriteBatch);
-//        spriterPlayer = gameManager.loadPlayer();
-
         playerActor = gameManager.loadPlayerActor(spriteBatch);
+
         hud.initializeHud();
         hud.update();
 
         gameManager.initialiseGame();
 
-        EnemyActor enemyActor = gameManager.waitingEnemies.get(0);
-        enemyActor.setPosition(130,220);
+//        EnemyActor enemyActor = gameManager.waitingEnemies.get(0);
+//        enemyActor.setPosition(130,220);
+//
+//        EnemyActor nextEnemyActor = gameManager.waitingEnemies.get(1);
+//        nextEnemyActor.setPosition(190,235);
+//        nextEnemyActor.setColor(Color.BLACK);
+//
+//        EnemyActor hiddenEnemyActor = gameManager.waitingEnemies.get(2);
+//        hiddenEnemyActor.setPosition(220,235);
+//        hiddenEnemyActor.getColor().a=0f;
 
-        EnemyActor nextEnemyActor = gameManager.waitingEnemies.get(1);
-        nextEnemyActor.setPosition(190,235);
-        nextEnemyActor.setColor(Color.BLACK);
-
-        EnemyActor hiddenEnemyActor = gameManager.waitingEnemies.get(2);
-        hiddenEnemyActor.setPosition(220,235);
-        hiddenEnemyActor.getColor().a=0f;
-
-        enemyActorList = new ArrayList<EnemyActor>();
 
         // Gestion des calques
         stage.addActor(layerBackground);
         stage.addActor(layerEnemy);
         stage.addActor(layerFrontObjects);
-        enemyActorList.add(enemyActor);
-        enemyActorList.add(nextEnemyActor);
-        enemyActorList.add(hiddenEnemyActor);
+//        enemyActorList.add(enemyActor);
+//        enemyActorList.add(nextEnemyActor);
+//        enemyActorList.add(hiddenEnemyActor);
 
         // Init torch
         TorchActor torchActor = new TorchActor(gameManager.assetsManager);
@@ -123,19 +119,50 @@ public class PlayScreen extends AbstractScreen {
         layerFrontObjects.addActor(playerActor);
         layerFrontObjects.addActor(doorImage);
 
-        //if (gameManager.isFirstPlay()) {
-        //    displayTutorial();
-        //}
-
         TapInputProcessor inputProcessor = new TapInputProcessor(gameManager);
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud.stage);
         inputMultiplexer.addProcessor(inputProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        //boss = gameManager.loadBoss();
-
         initStartScreen();
+    }
+
+    public void initFloor() {
+        enemyActorList = new ArrayList<EnemyActor>();
+        Vector2[] enemyFixedPosition = new Vector2[]{new Vector2(130,220), new Vector2(190,235), new Vector2(220,235)};
+        for (int i=0;i<3 && i<gameManager.waitingEnemies.size();i++) {
+            EnemyActor enemyActor = gameManager.waitingEnemies.get(i);
+            enemyActor.setPosition(enemyFixedPosition[i].x, enemyFixedPosition[i].y);
+            enemyActorList.add(enemyActor);
+        }
+    }
+
+    public void swapEnemy() {
+        enemyActorList.get(0).clearActions();
+        enemyActorList.get(1).clearActions();
+        enemyActorList.get(0).setPosition(130, 220);
+        enemyActorList.get(1).setPosition(190, 235);
+
+        enemyActorList.get(1).setActiveAnimation("idle");
+
+        enemyActorList.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
+        enemyActorList.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
+
+        // Change order of enemy on screen (0: current, 1: visible, 2: swap
+        Collections.swap(enemyActorList, 0, 1);
+        if (enemyActorList.size()>2) {
+            enemyActorList.get(2).clearActions();
+            enemyActorList.get(2).setPosition(220, 235);
+            enemyActorList.get(2).getColor().a = 0f;
+            enemyActorList.get(2).setActiveAnimation("idle");
+            enemyActorList.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
+
+            Collections.swap(enemyActorList, 1, 2);
+        }
+
+        // first actor always on top
+        layerEnemy.swapActor(enemyActorList.get(0), enemyActorList.get(1));
     }
 
     public void initStartScreen() {
@@ -154,6 +181,7 @@ public class PlayScreen extends AbstractScreen {
         camera.zoom-=0.5;
         camera.translate(-70,0);
         hud.setVisible(false);
+
         hud.stage.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 titleLabel.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
@@ -300,18 +328,6 @@ public class PlayScreen extends AbstractScreen {
     }
 
     @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
     public void dispose() {
         Gdx.app.debug("PlayScreen","dispose");
         spriteBatch.dispose();
@@ -327,24 +343,7 @@ public class PlayScreen extends AbstractScreen {
 //                  GETTER & SETTER
 // ****************************************************
 
-    public GameManager getGameManager() {
-        return gameManager;
-    }
-
     public Hud getHud() {
         return hud;
-    }
-
-    public Group getLayerEnemy() {
-        return layerEnemy;
-    }
-
-    public Image getBackgroundImage() {
-        return backgroundImage;
-    }
-
-
-    public Group getLayerFrontObjects() {
-        return layerFrontObjects;
     }
 }

@@ -1,7 +1,6 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -22,12 +21,10 @@ import com.guco.tap.utils.LargeMath;
 import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.files;
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 /**
  * Classe de gestion globale du jeu
@@ -205,7 +202,7 @@ public class GameManager {
     public void initFloorEnemies() {
         waitingEnemies.clear();
 
-        gameInformation.currentEnemyIdx=0; // TODO ne peux pas reprendre si moins de 2 enemies pour init playscreen
+        gameInformation.currentEnemyIdx = 1; // TODO ne peux pas reprendre si moins de 2 enemies pour init playscreen
         // Generate random enemy list from enemy available at this stage
         for (int i = gameInformation.currentEnemyIdx; i < currentArea.fights+1; i++) {
             int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
@@ -213,44 +210,22 @@ public class GameManager {
             EnemyActor enemyActor = new EnemyActor(enemyTemplateEntity, gameInformation.areaLevel);
             waitingEnemies.add(enemyActor);
         }
-        currentEnemyActor = waitingEnemies.get(currentArea.fights-gameInformation.currentEnemyIdx-1);
+        currentEnemyActor = waitingEnemies.get(currentArea.fights-gameInformation.currentEnemyIdx);
+
+        playScreen.initFloor();
     }
 
     public void showNextEnemy() {
         gameInformation.currentEnemyIdx += 1;
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
 
-//        playScreen.layerEnemy.addActor(waitingEnemies.get(0));
-
-        // Initialize position before moving
-        playScreen.enemyActorList.get(0).clearActions();
-        playScreen.enemyActorList.get(1).clearActions();
-        playScreen.enemyActorList.get(2).clearActions();
-        playScreen.enemyActorList.get(0).setPosition(130, 220);
-        playScreen.enemyActorList.get(1).setPosition(190, 235);
-        playScreen.enemyActorList.get(2).setPosition(220, 235);
-        playScreen.enemyActorList.get(2).getColor().a = 0f;
-
-        playScreen.enemyActorList.get(1).setActiveAnimation("idle");
-        playScreen.enemyActorList.get(2).setActiveAnimation("idle");
-
-        playScreen.enemyActorList.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
-        playScreen.enemyActorList.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
-        playScreen.enemyActorList.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
-
-        // Change order of enemy on screen (0: current, 1: visible, 2: swap
-        Collections.swap(playScreen.enemyActorList, 0, 1);
-        Collections.swap(playScreen.enemyActorList, 1, 2);
-
+        playScreen.swapEnemy();
         if (gameInformation.currentEnemyIdx + 3 < waitingEnemies.size()) { // TODO ???
             playScreen.enemyActorList.set(2, waitingEnemies.get(gameInformation.currentEnemyIdx + 2));
             playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(2));
             playScreen.enemyActorList.get(2).setPosition(220, 235);
             playScreen.enemyActorList.get(2).getColor().a = 0f;
         }
-
-        // first actor always on top
-        playScreen.layerEnemy.swapActor(playScreen.enemyActorList.get(0), playScreen.enemyActorList.get(1));
 
         // Set new Current Actor
         currentEnemyActor = playScreen.enemyActorList.get(0);

@@ -23,13 +23,12 @@
         <file id="19" name="sword_5.png" width="106" height="328" pivot_x="0.301887" pivot_y="0.0609756"/>
         <file id="20" name="sword_6.png" width="102" height="301" pivot_x="0.392157" pivot_y="0.13289"/>
         <file id="21" name="sword_7.png" width="95" height="430" pivot_x="0.347368" pivot_y="0.172093"/>
-        <file id="22" name="ps4007.tmp" width="102" height="463" pivot_x="0.382353" pivot_y="0.172786"/>
+        <file id="22" name="sword_8.png" width="106" height="328" pivot_x="0" pivot_y="1"/>
         <file id="23" name="sword_0.png" width="106" height="328" pivot_x="0" pivot_y="1"/>
         <file id="24" name="effect.png" width="103" height="122" pivot_x="0.5" pivot_y="0.5"/>
         <file id="25" name="scyth_0.png" width="248" height="351" pivot_x="0.217742" pivot_y="0.207977"/>
         <file id="26" name="effect_0.png" width="416" height="244" pivot_x="0.787709" pivot_y="0.335347"/>
         <file id="27" name="Head_sleeping.png" width="208" height="184" pivot_x="0.639423" pivot_y="0.130435"/>
-        <file id="28" name="Z.png" width="47" height="63" pivot_x="0" pivot_y="1"/>
     </folder>
     <folder id="1" name="forge">
         <file id="0" name="forge/blade0.png" width="106" height="390" pivot_x="0" pivot_y="1"/>

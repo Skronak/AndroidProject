@@ -257,7 +257,7 @@ public class ForgeMenu extends AbstractMenu {
 
     @Override
     public void draw(){
-        batch.setProjectionMatrix(gameManager.playScreen.stage.getCamera().combined);
+        batch.setProjectionMatrix(gameManager.battleScreen.stage.getCamera().combined);
         batch.begin();
         itemSpriterPlayer.update();
         drawer.draw(itemSpriterPlayer);

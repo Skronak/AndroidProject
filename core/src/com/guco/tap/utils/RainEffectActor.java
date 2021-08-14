@@ -1,7 +1,7 @@
 package com.guco.tap.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.screen.BattleScreen;
 
 /**
  * Created by Skronak on 23/08/2017.
@@ -9,11 +9,11 @@ import com.guco.tap.screen.PlayScreen;
 
 public class RainEffectActor extends AbstractParticleEffectActor {
 
-    private PlayScreen playScreen;
+    private BattleScreen battleScreen;
 
-    public RainEffectActor(PlayScreen screen){
+    public RainEffectActor(BattleScreen screen){
         super();
-        playScreen = screen;
+        battleScreen = screen;
 
         particleEffect.load(Gdx.files.internal("particles/rain.party"),Gdx.files.internal("particles"));
         particleEffect.getEmitters().first().setPosition(0, Constants.V_HEIGHT);

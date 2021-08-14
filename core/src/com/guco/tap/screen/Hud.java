@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -43,6 +42,7 @@ import com.guco.tap.menu.inventory.alternate.InventoryMenu;
 import com.guco.tap.menu.itemAttribute.ItemAttributeMenu;
 import com.guco.tap.menu.option.OptionMenu;
 import com.guco.tap.menu.shop.AreaMenu;
+import com.guco.tap.screen.actor.PlayerDetailUiActor;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -111,7 +111,7 @@ public class Hud implements Disposable {
         menuLayer = new Group();
     }
 
-    public void initializeHud(){
+    public void initializeHud() {
         initMenu();
         initButton();
         initHud();
@@ -297,6 +297,7 @@ public class Hud implements Disposable {
         versionLabel = new Label(Constants.CURRENT_VERSION, new Label.LabelStyle(font, Color.WHITE));
         versionLabel.setFontScale(0.5f);
         versionLabel.setWrap(true);
+
         goldLabel = new Label(largeMath.getDisplayValue(gameInformation.currentGoldValue, gameInformation.currentGoldCurrency), new Label.LabelStyle(font, Color.WHITE));
         goldLabel.setAlignment(Align.center);
 //        goldLabel.setFontScale(2);
@@ -315,12 +316,14 @@ public class Hud implements Disposable {
         stack.add(goldDecreaseLabel);
 
         Table topHorizontalTable = new Table();
-        topHorizontalTable.add(button_5).height(40).width(40).expandX();
-        VerticalGroup verticalGroup = new VerticalGroup();
-        verticalGroup.addActor(floorLabel);
-        verticalGroup.addActor(battleNbLabel);
-        topHorizontalTable.add(verticalGroup).left();
-        topHorizontalTable.add(goldIcon).size(30,30).right();
+        PlayerDetailUiActor playerDetailActor = new PlayerDetailUiActor(gameManager);
+        topHorizontalTable.add(playerDetailActor).expandX().height(40).width(130).left();
+        topHorizontalTable.debug();
+//        VerticalGroup verticalGroup = new VerticalGroup();
+//        verticalGroup.addActor(floorLabel);
+//        verticalGroup.addActor(battleNbLabel);
+//        topHorizontalTable.add(verticalGroup).left();
+        topHorizontalTable.add(goldIcon).size(30,30);//.right();
         topHorizontalTable.add(stack).right();
 
         TextureRegionDrawable backgroundImg = new TextureRegionDrawable(gameManager.assetsManager.brownTexture);
@@ -439,7 +442,7 @@ public class Hud implements Disposable {
     private void toggleMenu(AbstractMenu menu) {
         menu.parentTable.clearActions();
         if (gameManager.currentState.equals(GameState.LEVEL)){
-            game.setScreen(game.playScreen);
+            game.setScreen(game.battleScreen);
         }
 
         if (currentMenu == null) {

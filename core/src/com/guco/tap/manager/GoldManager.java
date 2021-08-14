@@ -45,7 +45,7 @@ public class GoldManager {
         final GoldActor goldCoin = new GoldActor(position.x+randomPositionXList.get(0), position.y);
         randomPositionXList.remove(0);
 
-        gameManager.playScreen.getHud().sceneLayer.addActor(goldCoin);
+        gameManager.battleScreen.getHud().sceneLayer.addActor(goldCoin);
         goldCoinList.add(goldCoin);
         goldCoin.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -74,7 +74,7 @@ public class GoldManager {
         String value = gameManager.largeMath.getDisplayValue(goldValue);
         Label goldValueLabel = new Label("+ "+value ,gameManager.assetsManager.getSkin());
         goldValueLabel.setPosition(goldActor.getX(),goldActor.getY());
-        gameManager.playScreen.getHud().sceneLayer.addActor(goldValueLabel);
+        gameManager.battleScreen.getHud().sceneLayer.addActor(goldValueLabel);
         goldValueLabel.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0,50,1f),Actions.fadeOut(0.5f)),Actions.removeActor()));
     }
 }

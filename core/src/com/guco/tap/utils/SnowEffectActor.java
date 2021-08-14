@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.screen.BattleScreen;
 
 public class SnowEffectActor extends AbstractParticleEffectActor {
     private Image snow1;
@@ -12,11 +12,11 @@ public class SnowEffectActor extends AbstractParticleEffectActor {
     private Image snow3;
     private Image fog;
     private Image background;
-    private PlayScreen playScreen;
+    private BattleScreen battleScreen;
 
-    public SnowEffectActor(PlayScreen screen){
+    public SnowEffectActor(BattleScreen screen){
         super();
-        playScreen = screen;
+        battleScreen = screen;
 
         particleEffect.load(Gdx.files.internal("particles/snow.party"),Gdx.files.internal("particles"));
         particleEffect.getEmitters().first().setPosition(0, Constants.V_HEIGHT);
@@ -64,11 +64,11 @@ public class SnowEffectActor extends AbstractParticleEffectActor {
 //        background.setScale(playScreen.getBackgroundImage().getScaleX(),playScreen.getBackgroundImage().getScaleY());
         background.getColor().a=0f;
 
-        playScreen.layerEnemy.addActor(background);
-        playScreen.layerEnemy.addActor(snow1);
-        playScreen.layerEnemy.addActor(snow2);
-        playScreen.layerEnemy.addActor(snow3);
-        playScreen.layerEnemy.addActor(fog);
+        battleScreen.layerEnemy.addActor(background);
+        battleScreen.layerEnemy.addActor(snow1);
+        battleScreen.layerEnemy.addActor(snow2);
+        battleScreen.layerEnemy.addActor(snow3);
+        battleScreen.layerEnemy.addActor(fog);
         fog.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10f), Actions.fadeOut(10f),Actions.removeActor(fog)));
         background.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(20f),Actions.delay(10), Actions.fadeOut(10f),Actions.removeActor(background)));
         snow1.addAction(Actions.sequence(Actions.delay(5f),Actions.fadeIn(5f),Actions.delay(30f), Actions.fadeOut(5f),Actions.removeActor(snow1)));

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.guco.tap.actor.AnimatedBaseActor;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.utils.Constants;
 
 import static com.badlogic.gdx.Gdx.files;
@@ -15,15 +15,15 @@ import static com.badlogic.gdx.Gdx.files;
  * RewardManager
  */
 public class RewardManager {
-    PlayScreen playScreen;
+    BattleScreen battleScreen;
     AnimatedBaseActor restRewardActor;
     boolean rewardToCollect;
     GameManager gameManager;
 
-    public RewardManager(PlayScreen playScreen, GameManager gameManager){
+    public RewardManager(BattleScreen battleScreen, GameManager gameManager){
         Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
-        this.playScreen = playScreen;
+        this.battleScreen = battleScreen;
         this.gameManager = gameManager;
     }
 

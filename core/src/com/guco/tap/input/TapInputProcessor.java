@@ -4,12 +4,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.GameState;
 
-/**
- * Created by Skronak on 29/01/2017.
- * Listener des input sur le Playscreen
- */
 public class TapInputProcessor implements InputProcessor {
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public TapInputProcessor(GameManager gameManager) {
         this.gameManager = gameManager;

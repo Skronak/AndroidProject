@@ -21,7 +21,6 @@ import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.entity.CalculatedStat;
 import com.guco.tap.entity.Item;
-import com.guco.tap.input.PlayerListenerImpl;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.menu.AbstractMenu;
 import com.guco.tap.utils.MenuState;
@@ -72,7 +71,8 @@ public class InventoryMenu extends AbstractMenu {
         itemSpriterPlayer = loadPlayer();
         itemSpriterPlayer.setScale(0.5f);
         itemSpriterPlayer.setEntity(playerData.getEntity("inventoryMenu"));
-        itemSpriterPlayer.setPosition(70, 320);
+//        itemSpriterPlayer.setPosition(70, 320);
+        itemSpriterPlayer.setPosition(250, 320);
         itemSpriterPlayer.speed=1;
 
         menuState = MenuState.WEAPON;
@@ -101,7 +101,7 @@ public class InventoryMenu extends AbstractMenu {
         spriterPlayer.setScale(0.37f);
         spriterPlayer.speed = 15;
         spriterPlayer.setAnimation("idle");
-        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, gameManager));
+//        spriterPlayer.addListener(new PlayerListenerImpl(spriterPlayer, gameManager));
         spriterPlayer.characterMaps[weaponMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.gameInformation.equipedWeapon.mapName);
         spriterPlayer.characterMaps[headMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.assetsManager.helmList.get(gameManager.gameInformation.equipedHead).mapName);
         spriterPlayer.characterMaps[bodyMap] = spriterPlayer.getEntity().getCharacterMap(gameManager.assetsManager.bodyList.get(gameManager.gameInformation.equipedBody).mapName);
@@ -129,28 +129,27 @@ public class InventoryMenu extends AbstractMenu {
             }});
 
         addMenuHeader("INVENTORY2",2);
-        Table leftTable = new Table();
-        leftTable.top().left();
-        Image image = new Image();
-        leftTable.add(image).height(250);
-        leftTable.row();
-        leftTable.add(new Label(CURRENT_LEVEL, skin)).left();
-        leftTable.row();
-        leftTable.add(damageLabel).left().padLeft(10);
-        leftTable.add(upImage).size(15,15);
-        leftTable.row();
-        leftTable.add(weaponDamageLabel).left().padLeft(10);
-        leftTable.row();
-        leftTable.add(new Label(NEXT_LEVEL, skin)).left();
-        leftTable.row();
-        leftTable.add(weaponDamageNextLvlLabel).left().padLeft(10);
-        leftTable.row();
-        leftTable.add(upgradeButton);
-        parentTable.add(leftTable).top().width(100).expand().top().height(200).padTop(5);
-        parentTable.add(initMenuContent()).expandX().top().padTop(5);
+        parentTable.add(initScrollableItemComponent()).top();
+        parentTable.add(initSelectedItemDetails());
+
     }
 
-    public Table initMenuContent() {
+    private Table initSelectedItemDetails() {
+        Table selectedItemDetails = new Table();
+        selectedItemDetails.top().left();
+        Image image = new Image();
+        selectedItemDetails.add(image).height(250).pad(10).row();
+        selectedItemDetails.add(new Label(CURRENT_LEVEL, skin)).left().row();
+        selectedItemDetails.add(damageLabel).left().padLeft(10);
+        selectedItemDetails.add(upImage).size(15,15).row();
+        selectedItemDetails.add(weaponDamageLabel).left().padLeft(10).row();
+        selectedItemDetails.add(new Label(NEXT_LEVEL, skin)).left().row();
+        selectedItemDetails.add(weaponDamageNextLvlLabel).left().padLeft(10).row();
+        selectedItemDetails.add(upgradeButton);
+        return selectedItemDetails;
+    }
+
+    public Table initScrollableItemComponent() {
         final Table table = new Table();
         ImageButton.ImageButtonStyle styleHead = new ImageButton.ImageButtonStyle();
         styleHead.up = new TextureRegionDrawable(new TextureRegion(gameManager.assetsManager.headHTexture));
@@ -195,8 +194,7 @@ public class InventoryMenu extends AbstractMenu {
 
         table.add(headButton).right().expandX().size(45,40);
         table.add(bodyButton).right().size(45,40);
-        table.add(weapButton).right().size(45,40);
-        table.row();
+        table.add(weapButton).right().size(45,40).row();
         table.add(inventoryPane).colspan(3);
 
         return table;
@@ -229,7 +227,7 @@ public class InventoryMenu extends AbstractMenu {
 
         gameManager.dataManager.calculateTapDamage();
         Item itemSource= inventoryPane.selectedItemElement.itemSource;
-        gameManager.playScreen.playerActor.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.playScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
+        gameManager.battleScreen.playerActor.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.battleScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
     }
 
     public void updateBuyButton () {
@@ -254,7 +252,7 @@ public class InventoryMenu extends AbstractMenu {
         weapDamage = gameManager.largeMath.getDisplayValue(valueDTO);
         weaponDamageNextLvlLabel.setText(WEAPON_DMG_NEXT_LVL_LABEL + weapDamage);
 
-        upgradeButton.setText(gameManager.largeMath.getDisplayValue(new ValueDTO(itemSource.calculatedStat.costValue,itemSource.calculatedStat.costCurrency)));
+        upgradeButton.setText("UPGRADE "+gameManager.largeMath.getDisplayValue(new ValueDTO(itemSource.calculatedStat.costValue,itemSource.calculatedStat.costCurrency)));
 
         if(selectedItem.calculatedStat.damageCurrency > gameManager.gameInformation.tapDamageCurrency){
             upImage.setVisible(true);

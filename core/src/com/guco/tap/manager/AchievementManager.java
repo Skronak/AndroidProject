@@ -5,9 +5,6 @@ import com.guco.tap.menu.achievement.AchievementElement;
 
 import java.util.List;
 
-/**
- * Todo menu is calculting achivement status, to do here
- */
 public class AchievementManager {
     private GameManager gameManager;
     public List<AchievementElement> achievementElementList;

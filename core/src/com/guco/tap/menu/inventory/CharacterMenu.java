@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.actor.InventorySlotImage;
-import com.guco.tap.actor.PlayerActor;
+import com.guco.tap.actor.SpriterActor;
 import com.guco.tap.dto.SpriterDto;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.entity.Item;
@@ -26,7 +26,7 @@ public class CharacterMenu extends AbstractMenu {
     private Label characterNameLabel;
     private Label weaponDamageLabel;
     private Label criticalRateLabel;
-    private InventorySlotImage weaponSlot, bodySlot, headSlot, legSlot, armSlot, mantleSlot, ringSlot1, ringSlot2; // A RENOMER SELON LE TYPE DE SLOT
+    private InventorySlotImage weaponSlot, bodySlot, headSlot, legSlot, armSlot, mantleSlot, ringSlot1, ringSlot2;
     private Label hpLabel;
     private int SLOT_SIZE = 40;
     private GameInformation gameInformation;
@@ -38,7 +38,7 @@ public class CharacterMenu extends AbstractMenu {
     private Label weaponAttackLabel;
     private InventorySlotImage currentSelectedInventorySlot, currentEquipedInventorySlot;
     private Item currentEquipedItem;
-    private PlayerActor playerActor;
+    private SpriterActor playerActor;
 
     public CharacterMenu(final TapDungeonGame game, final CharacterInventoryMenu characterInventoryMenu) {
         super(game.gameManager);
@@ -95,7 +95,6 @@ public class CharacterMenu extends AbstractMenu {
 
         updateCharacterDetails();
         initInventoryPanel();
-
     }
 
     private InventorySlotImage addSlot(float posX, float posY, Item item) {
@@ -184,7 +183,7 @@ public class CharacterMenu extends AbstractMenu {
         currentEquipedInventorySlot = inventorySlotImage;
         gameInformation.equipedWeapon = inventorySlotImage.item;
         gameManager.dataManager.calculateTapDamage();
-        gameManager.playScreen.playerActor.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.playScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
+        gameManager.battleScreen.playerActor.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.battleScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
         updateCharacterDetails();
     }
 

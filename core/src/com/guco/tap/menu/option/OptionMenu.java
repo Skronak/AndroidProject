@@ -92,7 +92,7 @@ public class OptionMenu extends AbstractMenu {
 
     public void switchFpsMode(){
         gameManager.gameInformation.optionFps=(!gameManager.gameInformation.optionFps);
-        gameManager.playScreen.getHud().fpsActor.setVisible(gameManager.gameInformation.optionFps);
+        gameManager.battleScreen.getHud().fpsActor.setVisible(gameManager.gameInformation.optionFps);
         update();
     }
 
@@ -105,7 +105,7 @@ public class OptionMenu extends AbstractMenu {
     public void triggerReset(){
         gameManager.gameInformationManager.reset();
 //        gameManager.attributeManager.evaluateAttributeGeneration();
-        gameManager.playScreen.getHud().updateCurrentMenu();
+        gameManager.battleScreen.getHud().updateCurrentMenu();
     }
 
     public void addGoldMode(){

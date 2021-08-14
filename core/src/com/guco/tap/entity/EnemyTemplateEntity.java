@@ -12,7 +12,8 @@ public class EnemyTemplateEntity {
     private int posY;
     private int width;
     private int height;
-    private int gold;
+    private int attackDuration; // maybe useless, je le determine grace aux metas de l'animation
+    private String scmlFile;
     private List<String> framesIdle;
     private List<String> framesHurt;
     private List<String> framesDeath;
@@ -89,14 +90,6 @@ public class EnemyTemplateEntity {
         this.height = height;
     }
 
-    public int getGold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
     public List<String> getFramesDeath() {
         return framesDeath;
     }
@@ -119,5 +112,21 @@ public class EnemyTemplateEntity {
 
     public void setFramesHurt(List<String> framesHurt) {
         this.framesHurt = framesHurt;
+    }
+
+    public int getAttackDuration() {
+        return attackDuration;
+    }
+
+    public void setAttackDuration(int attackDuration) {
+        this.attackDuration = attackDuration;
+    }
+
+    public String getScmlFile() {
+        return scmlFile;
+    }
+
+    public void setScmlFile(String scmlFile) {
+        this.scmlFile = scmlFile;
     }
 }

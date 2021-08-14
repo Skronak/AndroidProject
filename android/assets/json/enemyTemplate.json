@@ -1,0 +1,28 @@
+[
+  {
+    "id": 0,
+    "name": "Brutus",
+    "scmlFile":"Brutus_boss\\Brutus_Boss.scml",
+    "category": 1,
+    "baseHp": 10,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 120,
+    "height": 120,
+    "attackDuration": 1
+  },
+  {
+    "id": 0,
+    "name": "Wonky Skeleton",
+    "scmlFile":"WonkySkeleton\\WonkySkeleton.scml",
+    "category": 1,
+    "baseHp": 10,
+    "time":50,
+    "posX": -30,
+    "posY": 200,
+    "width": 120,
+    "height": 120,
+    "attackDuration": 1
+  }
+]

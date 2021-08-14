@@ -13,14 +13,14 @@ import com.guco.tap.manager.GameManager;
 import com.guco.tap.manager.ItemManager;
 import com.guco.tap.screen.Hud;
 import com.guco.tap.screen.LoadingScreen;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.screen.SplashScreen;
 import com.guco.tap.utils.LargeMath;
 
 
 public class TapDungeonGame extends Game {
 
-	public PlayScreen playScreen;
+	public BattleScreen battleScreen;
 	public SplashScreen splashScreen;
 	public LoadingScreen loadingScreen;
 	public GameManager gameManager;
@@ -28,7 +28,6 @@ public class TapDungeonGame extends Game {
 	public GameInformationManager gameInformationManager;
 	public AreaManager areaManager;
 	private boolean devMode;
-	private boolean disconnectedLastTime;
     public GameInformation gameInformation;
 	public LargeMath largeMath;
 	public SpriteBatch sb;
@@ -62,10 +61,10 @@ public class TapDungeonGame extends Game {
 
 			gameManager = new GameManager(this);
 			hud = new Hud(this);
-			playScreen = new PlayScreen(this);
+			battleScreen = new BattleScreen(this);
 //			AreaScreen areaScreen = new AreaScreen(this);
-			gameManager.playScreen = playScreen;
-			setScreen(playScreen);
+			gameManager.battleScreen = battleScreen;
+			setScreen(battleScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
 			splashScreen=new SplashScreen(this);
@@ -82,7 +81,7 @@ public class TapDungeonGame extends Game {
 	@Override
 	public void dispose () {
 		gameInformationManager.saveData();
-		playScreen.dispose();
+		battleScreen.dispose();
 	}
 
 }

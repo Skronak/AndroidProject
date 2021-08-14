@@ -13,6 +13,7 @@ import java.util.Locale;
  * Classe utilitaire pour gerer
  * les tres larges montants du jeu
  */
+//TODO switch sur les biginteger
 public class LargeMath {
 
     private DecimalFormat decimalFormat;
@@ -127,15 +128,14 @@ public class LargeMath {
          * @return
          */
     public ValueDTO decreaseValue(float baseValue, int baseCurrency, float substractValue, int subtractCurrency) {
-        float newValue=baseValue;
         int currencyDifference = baseCurrency - subtractCurrency ;
         int maxCurrency = Math.max(baseCurrency, subtractCurrency);
 
         if (currencyDifference >= Constants.UNLIMITED_CURRENCY_TRIGGER) {
-            Gdx.app.debug("LargeMath", "Non significative value " + newValue + " currencyDif " + currencyDifference);
-            return new ValueDTO(newValue, baseCurrency);
+            Gdx.app.debug("LargeMath", "Non significative value " + baseValue + " currencyDif " + currencyDifference);
+            return new ValueDTO(baseValue, baseCurrency);
         } else if (-currencyDifference >= 1) {
-            Gdx.app.debug("LargeMath", "Non significative value " + newValue + " currencyDif " + currencyDifference);
+            Gdx.app.debug("LargeMath", "Non significative value " + baseValue + " currencyDif " + currencyDifference);
             return new ValueDTO(0, 0);
         } else if (currencyDifference == 0) {
             return new ValueDTO(baseValue - substractValue, baseCurrency);

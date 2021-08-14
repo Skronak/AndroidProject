@@ -8,13 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.actor.PlayerActor;
+import com.guco.tap.actor.SpriterActor;
+import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.dto.Area;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
-import com.guco.tap.input.PlayerListenerImpl;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.input.PlayerSpriterListenerImpl;
+import com.guco.tap.input.SpriterActorListenerImpl;
+import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -32,47 +34,28 @@ import static com.badlogic.gdx.math.MathUtils.random;
  */
 public class GameManager {
 
-    public PlayScreen playScreen;
-
+    public BattleScreen battleScreen;
     public LargeMath largeMath;
-
-    //public WeatherManager weatherManager;
-
-    //public AttributeManager attributeManager;
-
     public AchievementManager achievementManager;
-
     public DataManager dataManager;
-
     public AreaManager areaManager;
-
-    public float autoSaveTimer, increaseGoldTimer, logicTimer;
-
     public ItemManager itemManager;
-
-    // EnemyTemplateEntity present on this floor
-    public ArrayList<EnemyActor> waitingEnemies;
-
-    // Etat du jeu
-    public GameState currentState;
-
-    public EnemyActor currentEnemyActor;
-
-    Random rand = new Random();
-
-    public SpriterPlayer spriterPlayer;
-
-    public TapDungeonGame game;
-
     public AssetsManager assetsManager;
-
     public GameInformationManager gameInformationManager;
-
-    public GameInformation gameInformation;
-
     public GoldManager goldManager;
 
+    private float autoSaveTimer, increaseGoldTimer, logicTimer;
+    public ArrayList<EnemyActor> waitingEnemies;
+    public ArrayList<SpriterEnemyActor> floorEnemies;
+    public GameState currentState;
+    public EnemyActor currentEnemyActor;
+    Random rand = new Random();
+    public SpriterPlayer spriterPlayer;
+    public TapDungeonGame game;
+    public GameInformation gameInformation;
     public Area currentArea;
+    private SpriterActor player;
+    private SpriterEnemyActor currentEnemy;
 
     public GameManager(TapDungeonGame game) {
         this.game = game;
@@ -90,57 +73,32 @@ public class GameManager {
         increaseGoldTimer = 0f;
         logicTimer = 0f;
         waitingEnemies = new ArrayList<EnemyActor>();
+        floorEnemies= new ArrayList<SpriterEnemyActor>();
     }
 
     public void loadArea() {
-/*        int ID_AREA = 1;
-        Area area = assetsManager.areaList.get(ID_AREA);
-        AreaScreen areaScreen = new AreaScreen(game);
-        areaScreen.backgroundImage = new Image(assetsManager.menuBackgroundTextureList.get(ID_AREA));
-        areaScreen.backgroundImage.setSize(Constants.BACKGROUND_WIDTH, Constants.BACKGROUND_LENGTH);
-        areaScreen.backgroundImage.setPosition(Constants.BACKGROUND_POS_X, Constants.BACKGROUND_POS_Y);
-
-        EnemyActor enemyActor = waitingEnemies.get(0);
-        enemyActor.setPosition(area.enemyPosX, area.enemyPosY);
-        EnemyActor nextEnemyActor = waitingEnemies.get(1);
-        nextEnemyActor.setPosition(area.enemyBackPosX, area.enemyBackPosY);
-        nextEnemyActor.setColor(Color.BLACK);
-        EnemyActor hiddenEnemyActor = waitingEnemies.get(2);
-        hiddenEnemyActor.setPosition(area.enemyHiddenPosX, area.enemyHiddenPosY);
-        hiddenEnemyActor.getColor().a = 0f;
-
-        areaScreen.enemyActorList = new ArrayList<EnemyActor>();
-        areaScreen.enemyActorList.add(enemyActor);
-        areaScreen.enemyActorList.add(nextEnemyActor);
-        areaScreen.enemyActorList.add(hiddenEnemyActor);
-
-        for (int i = 0; i < area.objectList.size(); i++) {
-            areaScreen.layer0GraphicObject.addActor((Actor) area.objectList.get(i));
-            area.objectList.get(i).start();
-        }*/
     }
 
-    public void initialiseGame() {
+    public void initialiseGame(SpriteBatch sb) {
         initArea();
-        initFloorEnemies();
+        initFloorEnemiesOld();
+        initEnemies(sb);
 
         startGame();
-
-//        attributeManager.initialize(game.hud.characterAttributeMenu);
     }
 
-    private void startGame(){
-        game.hud.floorLabel.setText(currentArea.name + " - "+gameInformation.areaLevel);
+    private void startGame() {
+        game.hud.floorLabel.setText(currentArea.name + " - " + gameInformation.areaLevel);
         game.hud.enemyInformation.init(currentEnemyActor);
     }
 
-    public PlayerActor loadPlayerActor(SpriteBatch spriteBatch) {
-        PlayerActor playerActor = new PlayerActor(spriteBatch,"spriter/animation.scml");
+    public SpriterActor loadPlayerActor(SpriteBatch spriteBatch) {
+        SpriterActor playerActor = new SpriterActor(spriteBatch, "spriter/animation.scml");
         playerActor.setPosition(85, 220);
         playerActor.setScale(0.37f);
         playerActor.spriterPlayer.speed = 15;
         playerActor.spriterPlayer.setAnimation("idle");
-        playerActor.spriterPlayer.addListener(new PlayerListenerImpl(playerActor.spriterPlayer, this));
+        playerActor.spriterPlayer.addListener(new PlayerSpriterListenerImpl(playerActor.spriterPlayer, this));
         playerActor.spriterPlayer.characterMaps[0] = playerActor.spriterPlayer.getEntity().getCharacterMap(gameInformation.equipedWeapon.mapName);
         playerActor.spriterPlayer.characterMaps[1] = playerActor.spriterPlayer.getEntity().getCharacterMap(assetsManager.helmList.get(gameInformation.equipedHead).mapName);
         playerActor.spriterPlayer.characterMaps[2] = playerActor.spriterPlayer.getEntity().getCharacterMap(assetsManager.bodyList.get(gameInformation.equipedBody).mapName);
@@ -148,10 +106,24 @@ public class GameManager {
         return playerActor;
     }
 
+    public SpriterActor loadPlayer(SpriteBatch spriteBatch) {
+        player = new SpriterActor(spriteBatch, "spriter/PlatformerSKIN_CAT/player.scml");
+        player.spriterPlayer.addListener(new SpriterActorListenerImpl(player));
+        player.setPosition(100, 220);
+        player.setScale(0.37f);
+        player.spriterPlayer.speed = 15;
+        player.spriterPlayer.setAnimation("idle");
+
+        return player;
+    }
 
     public void hitEnemy() {
-        playScreen.playerActor.setAnimation("atk");
-        gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1); // updateStat
+        player.isAttacking = true;
+        player.setAnimation("atk");
+        if (!currentEnemy.isAttacking) {
+            currentEnemy.setAnimation("hit");
+        }
+        updateStats();
 
         int randCritical = random.nextInt(Constants.CRITICAL_CHANCE) + 1;
         if (randCritical == 1) {
@@ -160,7 +132,11 @@ public class GameManager {
         ValueDTO damageData = new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency);
         hurtEnemy(new ValueDTO(gameInformation.tapDamageValue, gameInformation.tapDamageCurrency));
         String damageString = largeMath.getDisplayValue(damageData);
-        playScreen.addDamageLabel(damageString);
+        battleScreen.addDamageLabel(damageString);
+    }
+
+    public void updateStats() {
+        gameInformation.totalTapNumber = (gameInformation.totalTapNumber + 1); // updateStat
     }
 
     public void updateLogic(float delta) {
@@ -170,6 +146,7 @@ public class GameManager {
 
         switch (currentState) {
             case IN_GAME:
+                battleScreen.enemyActor.update(delta); //TODO a changer
                 break;
             case MENU:
                 if (logicTimer > 1f) {
@@ -199,20 +176,43 @@ public class GameManager {
         }
     }
 
-    public void initFloorEnemies() {
+    public void initEnemies(SpriteBatch sb) {
+        floorEnemies.clear();
+
+        for (int i =0; i < currentArea.fights;i++) {
+            int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
+            EnemyTemplateEntity enemyTemplateEntity = assetsManager.enemyTemplateList.get(randomNum);
+            SpriterEnemyActor enemyActor = new SpriterEnemyActor(sb,this,"spriter", 6f, enemyTemplateEntity, gameInformation.areaLevel);
+            enemyActor.spriterPlayer.addListener(new SpriterActorListenerImpl(enemyActor));
+            enemyActor.setPosition(250, 220);
+            enemyActor.setScale(0.37f);
+            enemyActor.spriterPlayer.speed = 15;
+            enemyActor.spriterPlayer.setAnimation("idle");
+            enemyActor.spriterPlayer.flipX();
+
+            floorEnemies.add(enemyActor);
+        }
+
+    }
+    public void initFloorEnemiesOld() {
         waitingEnemies.clear();
 
         gameInformation.currentEnemyIdx = 1; // TODO ne peux pas reprendre si moins de 2 enemies pour init playscreen
         // Generate random enemy list from enemy available at this stage
-        for (int i = gameInformation.currentEnemyIdx; i < currentArea.fights+1; i++) {
+        for (int i = gameInformation.currentEnemyIdx; i < currentArea.fights + 1; i++) {
             int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
             EnemyTemplateEntity enemyTemplateEntity = assetsManager.enemyTemplateEntityList.get(randomNum);
             EnemyActor enemyActor = new EnemyActor(enemyTemplateEntity, gameInformation.areaLevel);
             waitingEnemies.add(enemyActor);
         }
-        currentEnemyActor = waitingEnemies.get(currentArea.fights-gameInformation.currentEnemyIdx);
+        currentEnemyActor = waitingEnemies.get(currentArea.fights - gameInformation.currentEnemyIdx);
 
-        playScreen.initFloor();
+        battleScreen.initFloor();
+    }
+
+    public SpriterEnemyActor getNextEnemy() {
+        currentEnemy = floorEnemies.get(gameInformation.currentEnemyIdx);
+        return currentEnemy;
     }
 
     public void showNextEnemy() {
@@ -220,17 +220,10 @@ public class GameManager {
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
 
 //        playScreen.swapEnemy();
-        playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(0));
-
-//        if (gameInformation.currentEnemyIdx + 3 < waitingEnemies.size()) { // TODO ???
-//            playScreen.enemyActorList.set(2, waitingEnemies.get(gameInformation.currentEnemyIdx + 2));
-//            playScreen.layerEnemy.addActor(playScreen.enemyActorList.get(2));
-//            playScreen.enemyActorList.get(2).setPosition(220, 235);
-//            playScreen.enemyActorList.get(2).getColor().a = 0f;
-//        }
+        battleScreen.layerEnemy.addActor(battleScreen.enemyActorList.get(0));
 
         // Set new Current Actor
-        currentEnemyActor = playScreen.enemyActorList.get(0);
+        currentEnemyActor = battleScreen.enemyActorList.get(0);
         // Add little delay before showing new enemy bar & restarting action
         currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.8f), Actions.run(new Runnable() {
             @Override
@@ -241,9 +234,9 @@ public class GameManager {
         })));
     }
 
-     public void showBoss(){
+    public void showBoss() {
 //         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
-     }
+    }
 
     private void hurtEnemy(ValueDTO damageData) {
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint, damageData);
@@ -288,7 +281,7 @@ public class GameManager {
         })));
         waitingEnemies.remove(0);
         if (waitingEnemies.isEmpty()) {
-            initFloorEnemies();
+            initFloorEnemiesOld();
         }
     }
 
@@ -298,17 +291,25 @@ public class GameManager {
 
     private void updateCurrentArea() {
         gameInformation.areaLevel += 1;
-        initFloorEnemies();
+        initFloorEnemiesOld();
         showNextEnemy();
     }
 
     public void initArea() {
         currentArea = assetsManager.areaList.get(gameInformation.areaId);
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/"+currentArea.backgroundTexture));
+        Texture backgroundTexture = new Texture(files.internal("sprites/background/" + currentArea.backgroundTexture));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegionDrawable drawable = new TextureRegionDrawable(backgroundTexture);
 
-        playScreen.initScreen(drawable);
+        battleScreen.initScreen(drawable);
+    }
+
+    public void handleEnemyAttack() {
+        Gdx.app.log(this.getClass().toString(), String.valueOf(player.isAttacking));
+        if (!player.isAttacking) {
+            battleScreen.player.setAnimation("block_hit");
+            battleScreen.effectActor.setVisible(true);
+        }
     }
 }

@@ -26,7 +26,6 @@ public class InventoryElement extends Table {
     private TextButton unlockButton;
     private TextButton equipButton;
     public TextButton sellButton;
-    private TextButton perkButton;
     private String ICON_PATH = "sprites/icon/";
     private String DAMAGE_LABEL = "Damage ";
 
@@ -69,15 +68,7 @@ public class InventoryElement extends Table {
         upgradeButton = new TextButton("",gameManager.assetsManager.getModuleMenuUpgradeTxtBtnStyle());
         upgradeButton.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.getHud().showUpgradeMenu(itemSource.id);
-                return true;
-            }});
-
-        perkButton = new TextButton("PERK", gameManager.assetsManager.getSkin());
-        perkButton.getLabel().setFontScale(0.7f);
-        perkButton.addListener(new ClickListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.getHud().showUpgradeMenu(itemSource.id);
+                gameManager.battleScreen.getHud().showUpgradeMenu(itemSource.id);
                 return true;
             }});
 
@@ -120,16 +111,12 @@ public class InventoryElement extends Table {
         moduleLevelGroup.row();
 
         moduleLevelGroup.add(overlapButtons).height(20).width(80).padLeft(10).padBottom(5);
-        moduleLevelGroup.row();
-        moduleLevelGroup.add(sellButton).height(20).width(80).padLeft(10).padBottom(5);
-        moduleLevelGroup.row();
-        moduleLevelGroup.add(perkButton).height(20).width(80).padLeft(10);
-
+//        moduleLevelGroup.row();
+//        moduleLevelGroup.add(sellButton).height(20).width(80).padLeft(10).padBottom(5);
         //moduleLevelGroup.add(upgradeButton).height(20).width(40).right();
 
         if (itemSource.level==0){
             sellButton.setVisible(false);
-            perkButton.setVisible(false);
         }
         //TODO specialize content for locked item, switch to another content if unlocked
         lockedItemContent = new Table();
@@ -151,7 +138,6 @@ public class InventoryElement extends Table {
 
     public void showUnlockedItemOption(){
         sellButton.setVisible(true);
-        perkButton.setVisible(true);
     }
 
     public void equipItem(){
@@ -173,7 +159,7 @@ public class InventoryElement extends Table {
         dialog.button("Yes", true); //sends "true" as the result
         dialog.button("No", false);  //sends "false" as the result
         dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-        dialog.show(gameManager.playScreen.getHud().stage);
+        dialog.show(gameManager.battleScreen.getHud().stage);
     }
     public void update() {
         String damage = gameManager.largeMath.getDisplayValue(itemSource.calculatedStat.damageValue, itemSource.calculatedStat.damageCurrency);

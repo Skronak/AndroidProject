@@ -129,7 +129,7 @@ public class AttributeManager {
     public void increaseAttributeLevel(int idSelect) {
         // Calcul et Affichage de la soustraction
         ValueDTO decreaseValue = attributeEntityList.get(idSelect).getLevel().get(gameManager.gameInformation.attributeLevel.get(idSelect)).getCost();
-        gameManager.playScreen.getHud().animateDecreaseGold(decreaseValue);
+        gameManager.battleScreen.getHud().animateDecreaseGold(decreaseValue);
 
         // Mise a jour du montant des golds du joueur
         ValueDTO gameInformationValue = gameManager.largeMath.decreaseValue(gameManager.gameInformation.currentGoldValue,gameManager.gameInformation.currentGoldCurrency,decreaseValue.value, decreaseValue.currency);

@@ -1,7 +1,7 @@
 package com.guco.tap.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.guco.tap.screen.PlayScreen;
+import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.utils.FogEffectActor;
 import com.guco.tap.utils.RainEffectActor;
 import com.guco.tap.utils.SnowEffectActor;
@@ -11,12 +11,12 @@ import java.util.Random;
 public class WeatherManager {
 
     private RainEffectActor rainEffectActor;
-    private PlayScreen screen;
+    private BattleScreen screen;
     private SnowEffectActor snowEffectActor;
     private FogEffectActor fogEffectActor;
     private Random random;
 
-    public WeatherManager(PlayScreen screen){
+    public WeatherManager(BattleScreen screen){
         Gdx.app.debug(this.getClass().getSimpleName(), "Instantiate");
 
         this.screen = screen;

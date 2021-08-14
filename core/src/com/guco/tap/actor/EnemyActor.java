@@ -30,11 +30,7 @@ public class EnemyActor extends AnimatedBaseActor {
         return life;
     }
 
-    private ValueDTO calculateGoldReward(int dungeonLevel){
-        return null;
-    }
-
-    private void loadAnimation(EnemyTemplateEntity enemyTemplateEntity) {
+     private void loadAnimation(EnemyTemplateEntity enemyTemplateEntity) {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i< enemyTemplateEntity.getFramesIdle().size(); i++){
             frames.add(new TextureRegion(new Texture(Gdx.files.internal("sprites/character/"+ enemyTemplateEntity.getFramesIdle().get(i)))));
@@ -58,7 +54,7 @@ public class EnemyActor extends AnimatedBaseActor {
         storeAnimation("death", deathAnimation);
     }
 
-    public void hurt(){
+    public void hurt() {
         this.setActiveAnimation("hurt");
     }
 

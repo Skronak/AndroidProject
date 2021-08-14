@@ -51,7 +51,7 @@ public class LoadingScreen implements Screen {
             background.addAction(Actions.sequence(Actions.fadeOut(2.0f), Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    game.setScreen(game.playScreen);
+                    game.setScreen(game.battleScreen);
                 }
             })));
         }

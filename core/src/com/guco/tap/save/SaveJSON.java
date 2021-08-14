@@ -9,8 +9,9 @@ public class SaveJSON {
     public Long lastLogin;
     public float currentGoldValue;
     public int currentGoldCurrency;
-//    public int[] attributeLevel;
+    public int[] attributeLevel;
     public Long totalGameTime;
+    public int dungeonLevel;
     public int totalTapNumber;
     public int areaLevel;
     public int areaId;

@@ -46,6 +46,7 @@ public class AssetsManager {
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
     public ArrayList<EnemyTemplateEntity> enemyTemplateEntityList;
+    public ArrayList<EnemyTemplateEntity> enemyTemplateList;
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
     public ArrayList<Area> areaList;
@@ -56,7 +57,7 @@ public class AssetsManager {
     public Texture bodyHTexture,headHTexture,weapHTexture,bodyHTextureR,headHTextureR,weapHTextureR;
     public Texture diffTexture0,diffTexture1,diffTexture2,diffTexture3,diffTexture4, torchTexture, achievementTexture,achievementAvaibleTexture;
     public Texture upgradeButtonTextureUp,skillButtonTextureUp,achievButtonTextureUp,upgradeButtonTextureDown,skillButtonTextureDown,achievButtonTextureDown,mapButtonTextureDown,mapButtonTextureUp,passivButtonTextureup,passivButtonTextureDown,button6TextureUp,button6TextureDown, lockedButton;
-
+    public Texture playerInfos;
     private int loadValue;
 
     public AssetsManager() {
@@ -106,6 +107,7 @@ public class AssetsManager {
         achievementElementList = json.fromJson(ArrayList.class, AchievementElement.class, Gdx.files.internal(JSON_PATH+"achievementElement.json"));
 
         enemyTemplateEntityList = json.fromJson(ArrayList.class, EnemyTemplateEntity.class, Gdx.files.internal(JSON_PATH+"enemyJSON.json"));
+        enemyTemplateList = json.fromJson(ArrayList.class, EnemyTemplateEntity.class, Gdx.files.internal(JSON_PATH+"enemyTemplate.json"));
         weaponList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"weapon.json"));
         helmList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"helm.json"));
         bodyList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"body.json"));
@@ -193,6 +195,8 @@ public class AssetsManager {
         bodyHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_body_r.png"));
         headHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_head_r.png"));
         weapHTextureR = new Texture(Gdx.files.internal(ICON_PATH+"icon_header_sword_r.png"));
+
+        playerInfos = new Texture(Gdx.files.internal(UI_PATH+"playerInfo.png"));
 
         loadValue+=1;
         debugLogLoading();

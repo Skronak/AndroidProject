@@ -58,7 +58,7 @@ public abstract class AbstractMenu {
         closeMenuIcon = new Image(new Texture("sprites/icon/arrow_down.png"));
         closeMenuIcon.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-               gameManager.playScreen.getHud().closeCurrentMenu();
+               gameManager.battleScreen.getHud().closeCurrentMenu();
                 return true;
             }});
         closeMenuIcon.getDrawable().setMinWidth(40);
@@ -80,7 +80,7 @@ public abstract class AbstractMenu {
         Image returnMenuIcon = new Image(new Texture("sprites/icon/arrow_down.png"));
         returnMenuIcon.addListener(new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameManager.playScreen.getHud().closeCurrentMenu();
+                gameManager.battleScreen.getHud().closeCurrentMenu();
                 return true;
             }});
 

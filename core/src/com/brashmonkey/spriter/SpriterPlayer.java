@@ -1,10 +1,5 @@
 package com.brashmonkey.spriter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import com.brashmonkey.spriter.Entity.CharacterMap;
 import com.brashmonkey.spriter.Entity.ObjectInfo;
 import com.brashmonkey.spriter.Mainline.Key.BoneRef;
@@ -12,6 +7,11 @@ import com.brashmonkey.spriter.Mainline.Key.ObjectRef;
 import com.brashmonkey.spriter.Timeline.Key.Bone;
 import com.brashmonkey.spriter.Timeline.Key.Object;
 import com.guco.tap.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A SpriterPlayer instance is responsible for updating an {@link Animation} properly.
@@ -594,10 +594,11 @@ public class SpriterPlayer {
 	 */
 	public void setAnimation(Animation animation){
 		Animation prevAnim = this.animation;
-		//if(animation == this.animation) return;
-		if(animation == null) throw new SpriterException("animation can not be null!");
+		if(animation == null) {
+			throw new SpriterException("animation can not be null!");
+		}
 		if(!this.entity.containsAnimation(animation) && animation.id != -1) throw new SpriterException("animation has to be in the same entity as the current set one!");
-		/*if(animation != this.animation)*/ time = 0;
+		time = 0;
 		this.animation = animation;
 		int tempTime = this.time;
 		this.time = 0;

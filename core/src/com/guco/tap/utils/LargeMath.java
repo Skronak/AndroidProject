@@ -3,7 +3,6 @@ package com.guco.tap.utils;
 import com.badlogic.gdx.Gdx;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -64,17 +63,6 @@ public class LargeMath {
     public ValueDTO increaseValue(ValueDTO firstValueDTO, ValueDTO secondValueDTO) {
         ValueDTO newValueDTO = increaseValue(firstValueDTO.value, firstValueDTO.currency, secondValueDTO.value, secondValueDTO.currency);
         return newValueDTO;
-    }
-
-    public String add(String v1, String v2) {
-        String result;
-        if (v1.length() - v2.length() < 6) {
-            BigInteger res = new BigInteger(v1).add(new BigInteger(v2));
-            result = res.toString();
-            return result;
-        } else {
-            return v1;
-        }
     }
 
     /**

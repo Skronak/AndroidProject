@@ -22,7 +22,6 @@ import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.SpriterActor;
 import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.game.TapDungeonGame;
-import com.guco.tap.input.EffectActorListenerImpl;
 import com.guco.tap.input.TapInputProcessor;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
@@ -49,11 +48,12 @@ public class BattleScreen extends AbstractScreen {
     public InputMultiplexer inputMultiplexer;
     GameManager gameManager;
 
+    @Deprecated
     public SpriterActor playerActor;// ancienne representation du joueur
     public SpriterActor player;
     public SpriterActor effectActor;
-    public SpriterEnemyActor enemyActor;
-    public List<EnemyActor> enemyActorList;
+    public SpriterEnemyActor currentEnemyActor;
+    public List<EnemyActor> waitingEnemyActors;
 
     public BattleScreen(TapDungeonGame tapDungeonGame) {
         super(tapDungeonGame);
@@ -68,16 +68,9 @@ public class BattleScreen extends AbstractScreen {
         textAnimMinX =100;
         random = new Random();
 
-        playerActor = gameManager.loadPlayerActor(spriteBatch);//todo legacy
+        playerActor = gameManager.loadPlayerActor(spriteBatch);
         player = gameManager.loadPlayer(spriteBatch);
-
-        effectActor = new SpriterActor(spriteBatch,"spriter/Effects/Impacts.scml");
-        effectActor.spriterPlayer.addListener(new EffectActorListenerImpl(effectActor));
-        effectActor.setPosition(130, 250);
-        effectActor.setScale(0.5f);
-        effectActor.spriterPlayer.speed = 15;
-        effectActor.spriterPlayer.setAnimation("impact_0");
-        effectActor.setVisible(false);//TODO incorporer ca directement dans sprite du player
+        effectActor = gameManager.loadEffect(spriteBatch);
 
         hud.initializeHud();
         hud.update();
@@ -92,14 +85,14 @@ public class BattleScreen extends AbstractScreen {
         // Init torch
 //        TorchActor torchActor = new TorchActor(gameManager.assetsManager);
 //        torchActor.start();
-        enemyActor = gameManager.getNextEnemy();
+        currentEnemyActor = gameManager.getNextEnemy();
 
         // Ajout des objets dans les calques
         layerBackground.addActor(backgroundImage);
 //        layerBackground.addActor(torchActor);
 //        layerEnemy.addActor(enemyActorList.get(0));
         layerFrontObjects.addActor(doorImage);
-        layerFrontObjects.addActor(enemyActor);
+        layerFrontObjects.addActor(currentEnemyActor);
         //layerFrontObjects.addActor(playerActor);
         layerFrontObjects.addActor(player);
         layerFrontObjects.addActor(effectActor);
@@ -127,44 +120,43 @@ public class BattleScreen extends AbstractScreen {
         doorImage = new Image(doorTexture);
         doorImage.setSize(backgroundImage.getWidth(), backgroundImage.getHeight());
         doorImage.setPosition(backgroundImage.getX(), backgroundImage.getY());
-
     }
 
     public void initFloor() {
-        enemyActorList = new ArrayList<EnemyActor>();
+        waitingEnemyActors = new ArrayList<EnemyActor>();
         Vector2[] enemyFixedPosition = new Vector2[]{new Vector2(130,220), new Vector2(190,235), new Vector2(220,235)};
         for (int i=0;i<3 && i<gameManager.waitingEnemies.size();i++) {
             EnemyActor enemyActor = gameManager.waitingEnemies.get(i);
             enemyActor.setPosition(enemyFixedPosition[i].x, enemyFixedPosition[i].y);
-            enemyActorList.add(enemyActor);
+            waitingEnemyActors.add(enemyActor);
         }
     }
 
     public void swapEnemy() {
-        enemyActorList.get(0).clearActions();
-        enemyActorList.get(1).clearActions();
-        enemyActorList.get(0).setPosition(130, 220);
-        enemyActorList.get(1).setPosition(190, 235);
+        waitingEnemyActors.get(0).clearActions();
+        waitingEnemyActors.get(1).clearActions();
+        waitingEnemyActors.get(0).setPosition(130, 220);
+        waitingEnemyActors.get(1).setPosition(190, 235);
 
-        enemyActorList.get(1).setActiveAnimation("idle");
+        waitingEnemyActors.get(1).setActiveAnimation("idle");
 
-        enemyActorList.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
-        enemyActorList.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
+        waitingEnemyActors.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
+        waitingEnemyActors.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
 
         // Change order of enemy on screen (0: current, 1: visible, 2: swap
-        Collections.swap(enemyActorList, 0, 1);
-        if (enemyActorList.size()>2) {
-            enemyActorList.get(2).clearActions();
-            enemyActorList.get(2).setPosition(220, 235);
-            enemyActorList.get(2).getColor().a = 0f;
-            enemyActorList.get(2).setActiveAnimation("idle");
-            enemyActorList.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
+        Collections.swap(waitingEnemyActors, 0, 1);
+        if (waitingEnemyActors.size()>2) {
+            waitingEnemyActors.get(2).clearActions();
+            waitingEnemyActors.get(2).setPosition(220, 235);
+            waitingEnemyActors.get(2).getColor().a = 0f;
+            waitingEnemyActors.get(2).setActiveAnimation("idle");
+            waitingEnemyActors.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
 
-            Collections.swap(enemyActorList, 1, 2);
+            Collections.swap(waitingEnemyActors, 1, 2);
         }
 
         // first actor always on top
-        layerEnemy.swapActor(enemyActorList.get(0), enemyActorList.get(1));
+        layerEnemy.swapActor(waitingEnemyActors.get(0), waitingEnemyActors.get(1));
     }
 
     public void initStartScreen() {
@@ -219,7 +211,7 @@ public class BattleScreen extends AbstractScreen {
         });
     }
 
-    public void initScreen(TextureRegionDrawable backgroundDrawable) {
+    public void changeBackround(TextureRegionDrawable backgroundDrawable) {
         backgroundImage.setDrawable(backgroundDrawable);
     }
 
@@ -285,7 +277,7 @@ public class BattleScreen extends AbstractScreen {
 
     public void addDamageLabel(String damage) {
         damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
-        damageLabel.setPosition(enemyActorList.get(0).getX()+enemyActorList.get(0).getWidth()/2,enemyActorList.get(0).getY()+enemyActorList.get(0).getHeight()/2);
+        damageLabel.setPosition(waitingEnemyActors.get(0).getX()+ waitingEnemyActors.get(0).getWidth()/2, waitingEnemyActors.get(0).getY()+ waitingEnemyActors.get(0).getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
         } else {

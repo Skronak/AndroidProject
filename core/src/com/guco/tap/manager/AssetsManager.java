@@ -45,6 +45,7 @@ public class AssetsManager {
     private Skin skin;
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
+    @Deprecated
     public ArrayList<EnemyTemplateEntity> enemyTemplateEntityList;
     public ArrayList<EnemyTemplateEntity> enemyTemplateList;
     private ArrayList<Item> itemList;

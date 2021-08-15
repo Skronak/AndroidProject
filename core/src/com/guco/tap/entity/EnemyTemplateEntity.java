@@ -12,8 +12,10 @@ public class EnemyTemplateEntity {
     private int posY;
     private int width;
     private int height;
-    private int attackDuration; // maybe useless, je le determine grace aux metas de l'animation
+    private float attackDuration; // maybe useless, je le determine grace aux metas de l'animation
     private String scmlFile;
+    private boolean switchX;
+    private float scale;
     private List<String> framesIdle;
     private List<String> framesHurt;
     private List<String> framesDeath;
@@ -114,11 +116,11 @@ public class EnemyTemplateEntity {
         this.framesHurt = framesHurt;
     }
 
-    public int getAttackDuration() {
+    public float getAttackDuration() {
         return attackDuration;
     }
 
-    public void setAttackDuration(int attackDuration) {
+    public void setAttackDuration(float attackDuration) {
         this.attackDuration = attackDuration;
     }
 
@@ -128,5 +130,21 @@ public class EnemyTemplateEntity {
 
     public void setScmlFile(String scmlFile) {
         this.scmlFile = scmlFile;
+    }
+
+    public boolean isSwitchX() {
+        return switchX;
+    }
+
+    public void setSwitchX(boolean switchX) {
+        this.switchX = switchX;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 }

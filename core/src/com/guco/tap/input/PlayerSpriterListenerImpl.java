@@ -45,9 +45,9 @@ public class PlayerSpriterListenerImpl implements SpriterPlayer.PlayerListener {
     public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
         if (spriterPlayerParent.getAnimation().name.equals("atk") && newKey.id == 5) {
 //            gameManager.currentEnemyActor.hurt();
-            if (gameManager.battleScreen.enemyActor.spriterPlayer.getAnimation().name.equals("idle") ||
-                    gameManager.battleScreen.enemyActor.spriterPlayer.getAnimation().name.equals("hit")) {
-                gameManager.battleScreen.enemyActor.setAnimation("hit");
+            if (gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals("idle") ||
+                    gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals("hit")) {
+                gameManager.battleScreen.currentEnemyActor.setAnimation("hit");
             }
         }
     }

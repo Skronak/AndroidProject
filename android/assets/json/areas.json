@@ -20,7 +20,7 @@
     "fights": 10,
     "backgroundTexture": "dg_background.png",
     "menuBackgroundTexture": "area1.png",
-    "enemiesId": [0,1],
+    "enemiesId": [0,1,2],
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,

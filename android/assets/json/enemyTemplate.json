@@ -6,23 +6,42 @@
     "category": 1,
     "baseHp": 10,
     "time":50,
-    "posX": -30,
-    "posY": 200,
-    "width": 120,
-    "height": 120,
-    "attackDuration": 1
+    "posX": 250,
+    "posY": 220,
+    "width" :0,
+    "height": 0,
+    "scale": 0.37,
+    "attackDuration": 0.7,
+    "switchX": true
   },
   {
-    "id": 0,
+    "id": 1,
     "name": "Wonky Skeleton",
     "scmlFile":"WonkySkeleton\\WonkySkeleton.scml",
     "category": 1,
     "baseHp": 10,
     "time":50,
-    "posX": -30,
-    "posY": 200,
-    "width": 120,
-    "height": 120,
-    "attackDuration": 1
+    "posX": 250,
+    "posY": 210,
+    "width": 0,
+    "height": 0,
+    "scale": 0.37,
+    "attackDuration": 0.5,
+    "switchX": true
+  },
+  {
+    "id": 2,
+    "name": "Scary ghost",
+    "scmlFile":"Ghost\\enemy_ghost.scml",
+    "category": 1,
+    "baseHp": 10,
+    "time":50,
+    "posX": 200,
+    "posY": 250,
+    "width": 0,
+    "height": 0,
+    "scale": 0.30,
+    "attackDuration": 0.2,
+    "switchX": false
   }
 ]

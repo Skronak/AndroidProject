@@ -11,6 +11,7 @@ public class SpriterEnemyActor extends SpriterActor {
     private float actionTimer;
     private float actionDelay;
     private float damageDelay;
+    private float attackDuration;
     private GameManager gameManager;
     private String name;
     private ValueDTO lifePoint;
@@ -21,6 +22,7 @@ public class SpriterEnemyActor extends SpriterActor {
         this.gameManager = gameManager;
         this.name = enemyTemplateEntity.getName();
         this.lifePoint = calculateHP(enemyTemplateEntity.getBaseHp(), dungeonLevel);
+        this.attackDuration = enemyTemplateEntity.getAttackDuration();
     }
 
     public void update(float delta) {
@@ -32,9 +34,11 @@ public class SpriterEnemyActor extends SpriterActor {
         }
 
 
+        //anime le block cote joueur
         if (isAttacking) {
             damageDelay += delta;
-            if (damageDelay >= 0.7f) {
+
+            if (damageDelay >= attackDuration) {
                 gameManager.handleEnemyAttack();
                 damageDelay = 0;
                 isAttacking = false;
@@ -47,5 +51,4 @@ public class SpriterEnemyActor extends SpriterActor {
         ValueDTO life = new ValueDTO(baseHp*level, currency);
         return life;
     }
-
 }

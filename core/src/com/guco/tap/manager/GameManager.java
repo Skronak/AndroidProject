@@ -14,9 +14,11 @@ import com.guco.tap.dto.Area;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
+import com.guco.tap.input.EffectActorListenerImpl;
 import com.guco.tap.input.PlayerSpriterListenerImpl;
 import com.guco.tap.input.SpriterActorListenerImpl;
 import com.guco.tap.screen.BattleScreen;
+import com.guco.tap.utils.AnimationStatusEnum;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 import com.guco.tap.utils.LargeMath;
@@ -117,6 +119,18 @@ public class GameManager {
         return player;
     }
 
+    public SpriterActor loadEffect(SpriteBatch spriteBatch) {
+        SpriterActor effectActor = new SpriterActor(spriteBatch,"spriter/Effects/Impacts.scml");
+        effectActor.spriterPlayer.addListener(new EffectActorListenerImpl(effectActor));
+        effectActor.setPosition(130, 250);
+        effectActor.setScale(0.5f);
+        effectActor.spriterPlayer.speed = 15;
+        effectActor.spriterPlayer.setAnimation("impact_0");
+        effectActor.setVisible(false);
+
+        return effectActor;
+    }
+
     public void hitEnemy() {
         player.isAttacking = true;
         player.setAnimation("atk");
@@ -146,7 +160,7 @@ public class GameManager {
 
         switch (currentState) {
             case IN_GAME:
-                battleScreen.enemyActor.update(delta); //TODO a changer
+                battleScreen.currentEnemyActor.update(delta); //TODO a changer
                 break;
             case MENU:
                 if (logicTimer > 1f) {
@@ -182,22 +196,25 @@ public class GameManager {
         for (int i =0; i < currentArea.fights;i++) {
             int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
             EnemyTemplateEntity enemyTemplateEntity = assetsManager.enemyTemplateList.get(randomNum);
-            SpriterEnemyActor enemyActor = new SpriterEnemyActor(sb,this,"spriter", 6f, enemyTemplateEntity, gameInformation.areaLevel);
+            SpriterEnemyActor enemyActor = new SpriterEnemyActor(sb,this,"spriter", 3f, enemyTemplateEntity, gameInformation.areaLevel);
             enemyActor.spriterPlayer.addListener(new SpriterActorListenerImpl(enemyActor));
-            enemyActor.setPosition(250, 220);
-            enemyActor.setScale(0.37f);
+            enemyActor.setPosition(enemyTemplateEntity.getPosX(), enemyTemplateEntity.getPosY());
+            enemyActor.setScale(enemyTemplateEntity.getScale());
             enemyActor.spriterPlayer.speed = 15;
             enemyActor.spriterPlayer.setAnimation("idle");
-            enemyActor.spriterPlayer.flipX();
+            if (enemyTemplateEntity.isSwitchX()) {
+                enemyActor.spriterPlayer.flipX();
+            }
 
             floorEnemies.add(enemyActor);
         }
-
     }
+
+    @Deprecated
     public void initFloorEnemiesOld() {
         waitingEnemies.clear();
 
-        gameInformation.currentEnemyIdx = 1; // TODO ne peux pas reprendre si moins de 2 enemies pour init playscreen
+        gameInformation.currentEnemyIdx = 1;
         // Generate random enemy list from enemy available at this stage
         for (int i = gameInformation.currentEnemyIdx; i < currentArea.fights + 1; i++) {
             int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
@@ -220,10 +237,10 @@ public class GameManager {
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);
 
 //        playScreen.swapEnemy();
-        battleScreen.layerEnemy.addActor(battleScreen.enemyActorList.get(0));
+        battleScreen.layerEnemy.addActor(battleScreen.waitingEnemyActors.get(0));
 
         // Set new Current Actor
-        currentEnemyActor = battleScreen.enemyActorList.get(0);
+        currentEnemyActor = battleScreen.waitingEnemyActors.get(0);
         // Add little delay before showing new enemy bar & restarting action
         currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.8f), Actions.run(new Runnable() {
             @Override
@@ -242,6 +259,7 @@ public class GameManager {
         currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint, damageData);
         game.hud.updateEnemyInformation(damageData);
         if (currentEnemyActor.lifePoint.value <= 0) {
+            battleScreen.currentEnemyActor.setAnimation(AnimationStatusEnum.idle.toString());
             winBattle();
         }
     }
@@ -256,7 +274,7 @@ public class GameManager {
             //showBoss();
             updateArea();
         } else if (gameInformation.currentEnemyIdx < currentArea.fights) {
-            showNextEnemy();
+//            showNextEnemy();
         } else {
             updateArea();
         }
@@ -302,13 +320,13 @@ public class GameManager {
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegionDrawable drawable = new TextureRegionDrawable(backgroundTexture);
 
-        battleScreen.initScreen(drawable);
+        battleScreen.changeBackround(drawable);
     }
 
     public void handleEnemyAttack() {
         Gdx.app.log(this.getClass().toString(), String.valueOf(player.isAttacking));
         if (!player.isAttacking) {
-            battleScreen.player.setAnimation("block_hit");
+            battleScreen.player.setAnimation(AnimationStatusEnum.block_hit.toString());
             battleScreen.effectActor.setVisible(true);
         }
     }

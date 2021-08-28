@@ -48,8 +48,6 @@ public class BattleScreen extends AbstractScreen {
     public InputMultiplexer inputMultiplexer;
     GameManager gameManager;
 
-    @Deprecated
-    public SpriterActor playerActor;// ancienne representation du joueur
     public SpriterActor player;
     public SpriterActor effectActor;
     public SpriterEnemyActor currentEnemyActor;
@@ -68,7 +66,6 @@ public class BattleScreen extends AbstractScreen {
         textAnimMinX =100;
         random = new Random();
 
-        playerActor = gameManager.loadPlayerActor(spriteBatch);
         player = gameManager.loadPlayer(spriteBatch);
         effectActor = gameManager.loadEffect(spriteBatch);
 
@@ -277,7 +274,7 @@ public class BattleScreen extends AbstractScreen {
 
     public void addDamageLabel(String damage) {
         damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
-        damageLabel.setPosition(waitingEnemyActors.get(0).getX()+ waitingEnemyActors.get(0).getWidth()/2, waitingEnemyActors.get(0).getY()+ waitingEnemyActors.get(0).getHeight()/2);
+        damageLabel.setPosition(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+ currentEnemyActor.getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
         } else {

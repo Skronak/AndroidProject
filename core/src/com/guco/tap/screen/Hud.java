@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.EnemyHudUI;
 import com.guco.tap.actor.FpsActor;
+import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.actor.UiLevelSelect;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
@@ -117,9 +118,6 @@ public class Hud implements Disposable {
         initHud();
     }
 
-    /**
-     * Initialise les menu
-     */
     private void initMenu() {
         characterAttributeMenu = new CharacterAttributeMenu(gameManager);
         areaMenu = new AreaMenu(gameManager);
@@ -490,7 +488,7 @@ public class Hud implements Disposable {
         updateCurrentMenu();
     }
 
-    public void initFight(EnemyActor enemyActor){
+    public void initFight(SpriterEnemyActor enemyActor){
         floorLabel.setText(gameManager.currentArea.name + " - "+gameInformation.areaLevel);
         enemyInformation.init(enemyActor);
     }

@@ -50,6 +50,7 @@ public class GameManager {
     public ArrayList<EnemyActor> waitingEnemies;
     public ArrayList<SpriterEnemyActor> floorEnemies;
     public GameState currentState;
+    @Deprecated
     public EnemyActor currentEnemyActor;
     Random rand = new Random();
     public SpriterPlayer spriterPlayer;
@@ -83,15 +84,17 @@ public class GameManager {
 
     public void initialiseGame(SpriteBatch sb) {
         initArea();
-        initFloorEnemiesOld();
+//        initFloorEnemiesOld();
         initEnemies(sb);
 
         startGame();
     }
 
     private void startGame() {
-        game.hud.floorLabel.setText(currentArea.name + " - " + gameInformation.areaLevel);
-        game.hud.enemyInformation.init(currentEnemyActor);
+//        game.hud.floorLabel.setText(currentArea.name + " - " + gameInformation.areaLevel);
+//        game.hud.enemyInformation.init(currentEnemyActor);
+        currentEnemy = floorEnemies.get(0);
+        game.hud.initFight(currentEnemy);
     }
 
     public SpriterActor loadPlayerActor(SpriteBatch spriteBatch) {
@@ -133,9 +136,9 @@ public class GameManager {
 
     public void hitEnemy() {
         player.isAttacking = true;
-        player.setAnimation("atk");
+        player.setAnimation(AnimationStatusEnum.ATTACK);
         if (!currentEnemy.isAttacking) {
-            currentEnemy.setAnimation("hit");
+            currentEnemy.setAnimation(AnimationStatusEnum.HIT);
         }
         updateStats();
 
@@ -160,7 +163,7 @@ public class GameManager {
 
         switch (currentState) {
             case IN_GAME:
-                battleScreen.currentEnemyActor.update(delta); //TODO a changer
+//                battleScreen.currentEnemyActor.update(delta); //TODO a changer
                 break;
             case MENU:
                 if (logicTimer > 1f) {
@@ -245,7 +248,7 @@ public class GameManager {
         currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.8f), Actions.run(new Runnable() {
             @Override
             public void run() {
-                game.hud.initFight(currentEnemyActor);
+                game.hud.initFight(currentEnemy);
                 currentState = GameState.IN_GAME;
             }
         })));
@@ -256,17 +259,16 @@ public class GameManager {
     }
 
     private void hurtEnemy(ValueDTO damageData) {
-        currentEnemyActor.lifePoint = largeMath.decreaseValue(currentEnemyActor.lifePoint, damageData);
+        currentEnemy.lifePoint = largeMath.decreaseValue(currentEnemy.lifePoint, damageData);
         game.hud.updateEnemyInformation(damageData);
-        if (currentEnemyActor.lifePoint.value <= 0) {
-            battleScreen.currentEnemyActor.setAnimation(AnimationStatusEnum.idle.toString());
+        if (currentEnemy.lifePoint.value <= 0) {
+//            battleScreen.currentEnemy.setAnimation(AnimationStatusEnum.idle.toString());
             winBattle();
         }
     }
 
     public void winBattle() {
         currentState = GameState.PAUSE;
-
         killCurrentEnemy();
         addReward();
 
@@ -290,14 +292,9 @@ public class GameManager {
     }
 
     public void killCurrentEnemy() {
-        currentEnemyActor.death();
-        currentEnemyActor.addAction(Actions.sequence(Actions.delay(0.5f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                currentEnemyActor.destroy();
-            }
-        })));
-        waitingEnemies.remove(0);
+        currentEnemy.die();
+
+//        waitingEnemies.remove(0);
         if (waitingEnemies.isEmpty()) {
             initFloorEnemiesOld();
         }
@@ -326,7 +323,7 @@ public class GameManager {
     public void handleEnemyAttack() {
         Gdx.app.log(this.getClass().toString(), String.valueOf(player.isAttacking));
         if (!player.isAttacking) {
-            battleScreen.player.setAnimation(AnimationStatusEnum.block_hit.toString());
+            battleScreen.player.setAnimation(AnimationStatusEnum.BLOCK_HIT);
             battleScreen.effectActor.setVisible(true);
         }
     }

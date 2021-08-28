@@ -227,7 +227,6 @@ public class InventoryMenu extends AbstractMenu {
 
         gameManager.dataManager.calculateTapDamage();
         Item itemSource= inventoryPane.selectedItemElement.itemSource;
-        gameManager.battleScreen.playerActor.spriterPlayer.characterMaps[itemSource.mapId] = gameManager.battleScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(itemSource.mapName);
     }
 
     public void updateBuyButton () {

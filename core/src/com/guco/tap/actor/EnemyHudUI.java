@@ -25,7 +25,7 @@ public class EnemyHudUI extends Group {
     private float BAR_WIDTH=170;
     private float BAR_HEIGHT=15;
     private float percent;
-    private EnemyActor targetActor;
+    private SpriterEnemyActor targetActor;
     private LargeMath largeMath;
 
     public EnemyHudUI(GameManager gameManager) {
@@ -55,9 +55,9 @@ public class EnemyHudUI extends Group {
         this.setPosition(Constants.V_WIDTH/2-BAR_WIDTH/2, 450);
     }
 
-    public void init(EnemyActor enemyActor) {
-        this.targetActor = enemyActor;
-        this.maxHpValue = enemyActor.lifePoint;
+    public void init(SpriterEnemyActor sourceActor) {
+        this.targetActor = sourceActor;
+        this.maxHpValue = sourceActor.lifePoint;
         redImage.setWidth(BAR_WIDTH);
         nameLabel.setText(targetActor.name);
 

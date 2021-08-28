@@ -3,6 +3,7 @@ package com.guco.tap.actor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.utils.AnimationStatusEnum;
 import com.guco.tap.utils.ValueDTO;
 
 import java.io.File;
@@ -13,8 +14,8 @@ public class SpriterEnemyActor extends SpriterActor {
     private float damageDelay;
     private float attackDuration;
     private GameManager gameManager;
-    private String name;
-    private ValueDTO lifePoint;
+    public String name;
+    public ValueDTO lifePoint;
 
     public SpriterEnemyActor(SpriteBatch spriteBatch, GameManager gameManager, String animationPath, float actionDelay, EnemyTemplateEntity enemyTemplateEntity, int dungeonLevel) {
         super(spriteBatch, animationPath+ File.separator+enemyTemplateEntity.getScmlFile());
@@ -33,7 +34,6 @@ public class SpriterEnemyActor extends SpriterActor {
             isAttacking = true;
         }
 
-
         //anime le block cote joueur
         if (isAttacking) {
             damageDelay += delta;
@@ -50,5 +50,9 @@ public class SpriterEnemyActor extends SpriterActor {
         int currency = 0;
         ValueDTO life = new ValueDTO(baseHp*level, currency);
         return life;
+    }
+
+    public void die() {
+        setAnimation(AnimationStatusEnum.DIE);
     }
 }

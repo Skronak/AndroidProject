@@ -13,6 +13,7 @@ import com.brashmonkey.spriter.LibGdxDrawer;
 import com.brashmonkey.spriter.LibGdxLoader;
 import com.brashmonkey.spriter.SCMLReader;
 import com.brashmonkey.spriter.SpriterPlayer;
+import com.guco.tap.utils.AnimationStatusEnum;
 
 public class SpriterActor extends Actor {
     Drawer<Sprite> drawer;
@@ -44,7 +45,7 @@ public class SpriterActor extends Actor {
         spriterPlayer.setScale(scale);
     }
 
-    public void setAnimation(String animation) {
-        spriterPlayer.setAnimation(animation);
+    public void setAnimation(AnimationStatusEnum animation) {
+        spriterPlayer.setAnimation(animation.getName());
     }
  }

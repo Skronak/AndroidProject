@@ -4,6 +4,7 @@ import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.manager.GameManager;
+import com.guco.tap.utils.AnimationStatusEnum;
 
 public class PlayerSpriterListenerImpl implements SpriterPlayer.PlayerListener {
 
@@ -45,9 +46,9 @@ public class PlayerSpriterListenerImpl implements SpriterPlayer.PlayerListener {
     public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
         if (spriterPlayerParent.getAnimation().name.equals("atk") && newKey.id == 5) {
 //            gameManager.currentEnemyActor.hurt();
-            if (gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals("idle") ||
-                    gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals("hit")) {
-                gameManager.battleScreen.currentEnemyActor.setAnimation("hit");
+            if (gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals(AnimationStatusEnum.HIT.getName()) ||
+            gameManager.battleScreen.currentEnemyActor.spriterPlayer.getAnimation().name.equals(AnimationStatusEnum.HIT.getName())) {
+                gameManager.battleScreen.currentEnemyActor.setAnimation(AnimationStatusEnum.HIT);
             }
         }
     }

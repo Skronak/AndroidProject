@@ -183,7 +183,7 @@ public class CharacterMenu extends AbstractMenu {
         currentEquipedInventorySlot = inventorySlotImage;
         gameInformation.equipedWeapon = inventorySlotImage.item;
         gameManager.dataManager.calculateTapDamage();
-        gameManager.battleScreen.playerActor.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.battleScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
+//        gameManager.battleScreen.playerActor.spriterPlayer.characterMaps[inventorySlotImage.item.mapId] = gameManager.battleScreen.playerActor.spriterPlayer.getEntity().getCharacterMap(inventorySlotImage.item.mapName);
         updateCharacterDetails();
     }
 

@@ -5,7 +5,8 @@ public enum AnimationStatusEnum {
     HIT("hit"),
     ATTACK("attack"),
     DIE("die"),
-    BLOCK_HIT("block_hit");
+    BLOCK_HIT("block_hit"),
+    WALK("walk");
 
     private String name;
 

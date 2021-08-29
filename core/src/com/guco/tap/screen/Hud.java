@@ -23,8 +23,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.guco.tap.actor.EnemyActor;
-import com.guco.tap.actor.EnemyHudUI;
+import com.guco.tap.actor.EnemyHealthBarUI;
 import com.guco.tap.actor.FpsActor;
 import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.actor.UiLevelSelect;
@@ -86,7 +85,7 @@ public class Hud implements Disposable {
     private ArrayList<AbstractMenu> activeMenuList;
     public Label floorLabel;
     public FpsActor fpsActor;
-    public EnemyHudUI enemyInformation;
+    public EnemyHealthBarUI enemyInformation;
     public Label battleNbLabel;
     public ImageButton goToNextAreaButton;
     private GameInformation gameInformation;
@@ -331,7 +330,7 @@ public class Hud implements Disposable {
 
         // ***** OTHER *****
         // Hp bar & name
-        enemyInformation = new EnemyHudUI(gameManager);
+        enemyInformation = new EnemyHealthBarUI(gameManager);
         sceneLayer.addActor(enemyInformation);
 
         // Visual button to go upstairs
@@ -488,12 +487,12 @@ public class Hud implements Disposable {
         updateCurrentMenu();
     }
 
-    public void initFight(SpriterEnemyActor enemyActor){
+    public void initFight(SpriterEnemyActor enemyActor) {
         floorLabel.setText(gameManager.currentArea.name + " - "+gameInformation.areaLevel);
         enemyInformation.init(enemyActor);
     }
 
-    public void updateEnemyInformation(ValueDTO damage){
+    public void updateEnemyInformation(ValueDTO damage) {
         enemyInformation.updateLifeBar(damage);
     }
 

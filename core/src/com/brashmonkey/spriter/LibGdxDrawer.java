@@ -11,6 +11,8 @@ public class LibGdxDrawer extends Drawer<Sprite>{
     SpriteBatch batch;
     ShapeRenderer renderer;
 
+    public boolean blackRender; // render current sprite in black
+
     public LibGdxDrawer(Loader<Sprite> loader, SpriteBatch batch, ShapeRenderer renderer){
         super(loader);
         this.batch = batch;
@@ -51,8 +53,14 @@ public class LibGdxDrawer extends Drawer<Sprite>{
         sprite.setOrigin(newPivotX, newPivotY);
         sprite.setRotation(object.angle);
 
-        sprite.setColor(1f, 1f, 1f, object.alpha);
+        if (!blackRender) {
+            sprite.setColor(1f, 1f, 1f, object.alpha);
+        } else {
+            sprite.setColor(0.05f, 0.05f, 0.05f, object.alpha);
+        }
+
         sprite.setScale(object.scale.x, object.scale.y);
         sprite.draw(batch);
     }
+
 }

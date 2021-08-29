@@ -706,7 +706,7 @@ public class SpriterPlayer {
 		this.speed = prevSpeed;
 		return this;
 	}
-	
+
 	/**
 	 * Sets the scale of this spriterPlayer to the given one.
 	 * Only uniform scaling is supported.
@@ -781,7 +781,7 @@ public class SpriterPlayer {
 	public int flippedY(){
 		return (int) Math.signum(root.scale.y);
 	}
-	
+
 	/**
 	 * Sets the position of this spriterPlayer to the given coordinates.
 	 * @param x the new position in x direction
@@ -793,7 +793,11 @@ public class SpriterPlayer {
 		this.position.set(x,y);
 		return this;
 	}
-	
+
+	public Point getPosition() {
+		return position;
+	}
+
 	/**
 	 * Sets the position of the spriterPlayer to the given one.
 	 * @param position the new position

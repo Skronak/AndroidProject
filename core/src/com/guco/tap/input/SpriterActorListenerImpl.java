@@ -4,6 +4,7 @@ import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.actor.SpriterActor;
+import com.guco.tap.utils.AnimationStatusEnum;
 
 public class SpriterActorListenerImpl implements SpriterPlayer.PlayerListener {
 
@@ -17,9 +18,11 @@ public class SpriterActorListenerImpl implements SpriterPlayer.PlayerListener {
     @Override
     public void animationFinished(Animation animation) {
         spriterActor.spriterPlayer.animationFinished = true;
-        spriterActor.spriterPlayer.setAnimation("idle");
+        if (!spriterActor.spriterPlayer.getAnimation().name.equals(AnimationStatusEnum.DIE.getName())) {
+            spriterActor.spriterPlayer.setAnimation(AnimationStatusEnum.IDLE.getName());
+        }
 
-        if (animation.name.equals("atk")) {
+        if (animation.name.equals(AnimationStatusEnum.ATTACK.getName())) {
             spriterActor.isAttacking = false;
         }
     }

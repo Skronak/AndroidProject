@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guco.tap.utils.AnimationStatusEnum;
 
 import java.util.HashMap;
 
@@ -106,8 +107,8 @@ public class AnimatedBaseActor extends BaseActor
     {
         region.setRegion( activeAnim.getKeyFrame(elapsedTime) );
         super.draw(batch, parentAlpha);
-        if (!activeName.equals("death") && animationStorage.get(getAnimationName()).isAnimationFinished(elapsedTime)) {
-            setActiveAnimation("idle");
+        if (!activeName.equals(AnimationStatusEnum.DIE.getName()) && animationStorage.get(getAnimationName()).isAnimationFinished(elapsedTime)) {
+            setActiveAnimation(AnimationStatusEnum.IDLE.getName());
         }
     }
 

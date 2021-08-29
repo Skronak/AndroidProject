@@ -1,6 +1,7 @@
 package com.guco.tap.actor;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.brashmonkey.spriter.Point;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.AnimationStatusEnum;
@@ -16,6 +17,7 @@ public class SpriterEnemyActor extends SpriterActor {
     private GameManager gameManager;
     public String name;
     public ValueDTO lifePoint;
+    public boolean active;
 
     public SpriterEnemyActor(SpriteBatch spriteBatch, GameManager gameManager, String animationPath, float actionDelay, EnemyTemplateEntity enemyTemplateEntity, int dungeonLevel) {
         super(spriteBatch, animationPath+ File.separator+enemyTemplateEntity.getScmlFile());
@@ -24,26 +26,33 @@ public class SpriterEnemyActor extends SpriterActor {
         this.name = enemyTemplateEntity.getName();
         this.lifePoint = calculateHP(enemyTemplateEntity.getBaseHp(), dungeonLevel);
         this.attackDuration = enemyTemplateEntity.getAttackDuration();
+        this.active=true;
     }
 
     public void update(float delta) {
         actionTimer += delta;
-        if (actionTimer >= actionDelay) {
-            actionTimer = 0;
-            spriterPlayer.setAnimation("attack");
-            isAttacking = true;
-        }
+        if(active) {
+            if (actionTimer >= actionDelay) {
+                actionTimer = 0;
+                spriterPlayer.setAnimation("attack");
+                isAttacking = true;
+            }
 
-        //anime le block cote joueur
-        if (isAttacking) {
-            damageDelay += delta;
+            //anime le block cote joueur
+            if (isAttacking) {
+                damageDelay += delta;
 
-            if (damageDelay >= attackDuration) {
-                gameManager.handleEnemyAttack();
-                damageDelay = 0;
-                isAttacking = false;
+                if (damageDelay >= attackDuration) {
+                    gameManager.handleEnemyAttack();
+                    damageDelay = 0;
+                    isAttacking = false;
+                }
             }
         }
+    }
+
+    public Point getPosition() {
+        return spriterPlayer.getPosition();
     }
 
     private ValueDTO calculateHP(int baseHp, int level) {
@@ -54,5 +63,13 @@ public class SpriterEnemyActor extends SpriterActor {
 
     public void die() {
         setAnimation(AnimationStatusEnum.DIE);
+    }
+
+    public void renderBlack() {
+        drawer.blackRender = true;
+    }
+
+    public void renderNormal() {
+        drawer.blackRender = false;
     }
 }

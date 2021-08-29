@@ -13,7 +13,7 @@ import com.guco.tap.utils.ValueDTO;
  * TODO a revoir pour prendre en compte
  * ValueDTO previousLife? 
  */
-public class EnemyHudUI extends Group {
+public class EnemyHealthBarUI extends Group {
     private Image redImage;
     private Image orangeImage;
     private Image greyImage;
@@ -28,7 +28,7 @@ public class EnemyHudUI extends Group {
     private SpriterEnemyActor targetActor;
     private LargeMath largeMath;
 
-    public EnemyHudUI(GameManager gameManager) {
+    public EnemyHealthBarUI(GameManager gameManager) {
         nameLabel = new Label("default", gameManager.assetsManager.getSkin());
         healthLabel = new Label("", gameManager.assetsManager.getSkin());
         largeMath = gameManager.largeMath;

@@ -3,11 +3,9 @@ package com.guco.tap.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -18,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
-import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.SpriterActor;
 import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.game.TapDungeonGame;
@@ -27,13 +24,9 @@ import com.guco.tap.manager.GameManager;
 import com.guco.tap.utils.Constants;
 import com.guco.tap.utils.GameState;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.files;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 public class BattleScreen extends AbstractScreen {
 
@@ -50,8 +43,8 @@ public class BattleScreen extends AbstractScreen {
 
     public SpriterActor player;
     public SpriterActor effectActor;
-    public SpriterEnemyActor currentEnemyActor;
-    public List<EnemyActor> waitingEnemyActors;
+    public SpriterEnemyActor currentEnemy;
+    public SpriterEnemyActor enemyInShadow;
 
     public BattleScreen(TapDungeonGame tapDungeonGame) {
         super(tapDungeonGame);
@@ -79,20 +72,20 @@ public class BattleScreen extends AbstractScreen {
         stage.addActor(layerEnemy);
         stage.addActor(layerFrontObjects);
 
-        // Init torch
-//        TorchActor torchActor = new TorchActor(gameManager.assetsManager);
-//        torchActor.start();
-        currentEnemyActor = gameManager.getNextEnemy();
+        currentEnemy = gameManager.getCurrentEnemy();
+//        enemyInShadow = gameManager.getEnemyInShadow();
 
         // Ajout des objets dans les calques
         layerBackground.addActor(backgroundImage);
 //        layerBackground.addActor(torchActor);
 //        layerEnemy.addActor(enemyActorList.get(0));
         layerFrontObjects.addActor(doorImage);
-        layerFrontObjects.addActor(currentEnemyActor);
-        //layerFrontObjects.addActor(playerActor);
+        layerFrontObjects.addActor(currentEnemy);
+
+  //      layerEnemy.addActor(enemyInShadow);
         layerFrontObjects.addActor(player);
         layerFrontObjects.addActor(effectActor);
+
         TapInputProcessor inputProcessor = new TapInputProcessor(gameManager);
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud.stage);
@@ -119,41 +112,32 @@ public class BattleScreen extends AbstractScreen {
         doorImage.setPosition(backgroundImage.getX(), backgroundImage.getY());
     }
 
-    public void initFloor() {
-        waitingEnemyActors = new ArrayList<EnemyActor>();
-        Vector2[] enemyFixedPosition = new Vector2[]{new Vector2(130,220), new Vector2(190,235), new Vector2(220,235)};
-        for (int i=0;i<3 && i<gameManager.waitingEnemies.size();i++) {
-            EnemyActor enemyActor = gameManager.waitingEnemies.get(i);
-            enemyActor.setPosition(enemyFixedPosition[i].x, enemyFixedPosition[i].y);
-            waitingEnemyActors.add(enemyActor);
-        }
-    }
-
     public void swapEnemy() {
-        waitingEnemyActors.get(0).clearActions();
-        waitingEnemyActors.get(1).clearActions();
-        waitingEnemyActors.get(0).setPosition(130, 220);
-        waitingEnemyActors.get(1).setPosition(190, 235);
 
-        waitingEnemyActors.get(1).setActiveAnimation("idle");
-
-        waitingEnemyActors.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
-        waitingEnemyActors.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
-
-        // Change order of enemy on screen (0: current, 1: visible, 2: swap
-        Collections.swap(waitingEnemyActors, 0, 1);
-        if (waitingEnemyActors.size()>2) {
-            waitingEnemyActors.get(2).clearActions();
-            waitingEnemyActors.get(2).setPosition(220, 235);
-            waitingEnemyActors.get(2).getColor().a = 0f;
-            waitingEnemyActors.get(2).setActiveAnimation("idle");
-            waitingEnemyActors.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
-
-            Collections.swap(waitingEnemyActors, 1, 2);
-        }
-
-        // first actor always on top
-        layerEnemy.swapActor(waitingEnemyActors.get(0), waitingEnemyActors.get(1));
+//        waitingEnemyActors.get(0).clearActions();
+//        waitingEnemyActors.get(1).clearActions();
+//        waitingEnemyActors.get(0).setPosition(130, 220);
+//        waitingEnemyActors.get(1).setPosition(190, 235);
+//
+//        waitingEnemyActors.get(1).setActiveAnimation("idle");
+//
+//        waitingEnemyActors.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
+//        waitingEnemyActors.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
+//
+//        // Change order of enemy on screen (0: current, 1: visible, 2: swap
+//        Collections.swap(waitingEnemyActors, 0, 1);
+//        if (waitingEnemyActors.size()>2) {
+//            waitingEnemyActors.get(2).clearActions();
+//            waitingEnemyActors.get(2).setPosition(220, 235);
+//            waitingEnemyActors.get(2).getColor().a = 0f;
+//            waitingEnemyActors.get(2).setActiveAnimation("idle");
+//            waitingEnemyActors.get(2).addAction(Actions.parallel(Actions.moveTo(190, 235, 1f), fadeIn(3f), Actions.color(Color.BLACK)));
+//
+//            Collections.swap(waitingEnemyActors, 1, 2);
+//        }
+//
+//        // first actor always on top
+//        layerEnemy.swapActor(waitingEnemyActors.get(0), waitingEnemyActors.get(1));
     }
 
     public void initStartScreen() {
@@ -274,7 +258,7 @@ public class BattleScreen extends AbstractScreen {
 
     public void addDamageLabel(String damage) {
         damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
-        damageLabel.setPosition(currentEnemyActor.getX()+currentEnemyActor.getWidth()/2, currentEnemyActor.getY()+ currentEnemyActor.getHeight()/2);
+        damageLabel.setPosition(currentEnemy.getPosition().x + currentEnemy.getWidth()/2, currentEnemy.getPosition().y + currentEnemy.getHeight()/2);
         if (gLPPointer< damageLabelPosition.length-1){
             gLPPointer++;
         } else {

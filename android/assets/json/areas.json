@@ -4,10 +4,15 @@
     "name": "Garden of freedom",
     "levels": 2,
     "fights": 10,
+    "enemiesId": [
+      1,
+      2
+    ],
+    "bossId": [
+      0
+    ],
     "backgroundTexture": "dg_background2.png",
     "menuBackgroundTexture": "area0.png",
-    "enemiesId": [0,1,2],
-    "bossId": [1],
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
@@ -18,9 +23,13 @@
     "name": "Bamboo Forest",
     "levels": 5,
     "fights": 10,
-    "backgroundTexture": "dg_background.png",
+    "enemiesId": [
+      3
+    ],
+    "bossId": [
+      0
+    ],    "backgroundTexture": "dg_background1.png",
     "menuBackgroundTexture": "area1.png",
-    "enemiesId": [0,1,2],
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
@@ -31,9 +40,13 @@
     "name": "Acasia Forest",
     "levels": 5,
     "fights": 10,
-    "backgroundTexture": "dg_background.png",
+    "enemiesId": [
+      4,
+    ],
+    "bossId": [
+      0
+    ],    "backgroundTexture": "dg_background3.png",
     "menuBackgroundTexture": "area2.png",
-    "enemiesId": [3],
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
@@ -44,7 +57,12 @@
     "name": "Refuge of the ancient",
     "levels": 3,
     "fights": 10,
-    "backgroundTexture": "dg_background.png",
+    "enemiesId": [
+      5
+    ],
+    "bossId": [
+      0
+    ],    "backgroundTexture": "dg_background3.png",
     "menuBackgroundTexture": "area3.png",
     "enemyPosX": 0,
     "enemyPosY": 0,
@@ -56,9 +74,32 @@
     "name": "Dark Sanctuary",
     "levels": 5,
     "fights": 10,
-    "backgroundTexture": "dg_background.png",
+    "enemiesId": [
+      1,
+      2
+    ],
+    "bossId": [
+      0
+    ],
+    "backgroundTexture": "dg_background4.png",
     "menuBackgroundTexture": "area4.png",
-    "enemiesId": [3],
+    "enemyPosX": 0,
+    "enemyPosY": 0,
+    "playerPosX": 0,
+    "playerPosY": 0
+  },
+  {
+    "id": 5,
+    "name": "Refuge of the ancient",
+    "levels": 3,
+    "fights": 10,
+    "enemiesId": [
+      4
+    ],
+    "bossId": [
+      0
+    ],    "backgroundTexture": "dg_background5.png",
+    "menuBackgroundTexture": "area3.png",
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,

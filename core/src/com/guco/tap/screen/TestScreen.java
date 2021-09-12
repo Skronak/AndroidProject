@@ -62,7 +62,7 @@ public class TestScreen implements Screen, InputProcessor {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        backgroundTexture = new Texture(files.internal("sprites/badlogic.jpg"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setSize(410,Constants.V_HEIGHT+15);

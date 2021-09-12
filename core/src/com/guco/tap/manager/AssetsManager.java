@@ -45,8 +45,6 @@ public class AssetsManager {
     private Skin skin;
     private ArrayList<Texture> upgradeLvlImageList;
     private ArrayList<AchievementElement> achievementElementList;
-    @Deprecated
-    public ArrayList<EnemyTemplateEntity> enemyTemplateEntityList;
     public ArrayList<EnemyTemplateEntity> enemyTemplateList;
     private ArrayList<Item> itemList;
     public ArrayList<Item> weaponList,helmList, bodyList;
@@ -68,7 +66,7 @@ public class AssetsManager {
         loadValue=0;
     }
 
-    public void loadAsset(){
+    public void loadAsset() {
         readFromFile();
         loadIcons();
         loadImage();
@@ -107,7 +105,6 @@ public class AssetsManager {
         achievementElementList = new ArrayList<AchievementElement>();
         achievementElementList = json.fromJson(ArrayList.class, AchievementElement.class, Gdx.files.internal(JSON_PATH+"achievementElement.json"));
 
-        enemyTemplateEntityList = json.fromJson(ArrayList.class, EnemyTemplateEntity.class, Gdx.files.internal(JSON_PATH+"enemyJSON.json"));
         enemyTemplateList = json.fromJson(ArrayList.class, EnemyTemplateEntity.class, Gdx.files.internal(JSON_PATH+"enemyTemplate.json"));
         weaponList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"weapon.json"));
         helmList = json.fromJson(ArrayList.class, Item.class, Gdx.files.internal(JSON_PATH+"helm.json"));

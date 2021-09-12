@@ -25,6 +25,7 @@ import com.guco.tap.utils.LargeMath;
 import com.guco.tap.utils.ValueDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.files;
@@ -82,7 +83,6 @@ public class GameManager {
 
     public void initialiseGame(SpriteBatch sb) {
         initArea();
-//        initFloorEnemiesOld();
         initEnemies(sb);
 
         startGame();
@@ -177,9 +177,11 @@ public class GameManager {
         }
 
         // Autosave
+
+        // Desactiver l'auto save au profit d'un save des uq'on gagne objet ou bat enemy
         if (autoSaveTimer >= Constants.DELAY_AUTOSAVE) {
             Gdx.app.debug("PlayScreen", "Saving");
-            gameInformationManager.saveData();
+//            gameInformationManager.saveData();
             autoSaveTimer = 0f;
         }
 
@@ -194,10 +196,15 @@ public class GameManager {
 
     public void initEnemies(SpriteBatch sb) {
         floorEnemies.clear();
+        List<EnemyTemplateEntity> availableEnemy = new ArrayList<EnemyTemplateEntity>();
+        for (int i =0; i < currentArea.enemiesId.length; i++) {
+            availableEnemy.add(assetsManager.enemyTemplateList.get(currentArea.enemiesId[i]));
+        }
 
         for (int i =0; i < currentArea.fights;i++) {
-            int randomNum = rand.nextInt((currentArea.enemiesId.length - 1) + 1);
-            EnemyTemplateEntity enemyTemplateEntity = assetsManager.enemyTemplateList.get(randomNum);
+            int randomNum = rand.nextInt((availableEnemy.size() - 1) + 1);
+            EnemyTemplateEntity enemyTemplateEntity = availableEnemy.get(randomNum);
+
             SpriterEnemyActor enemyActor = new SpriterEnemyActor(sb,this,"spriter", 3f, enemyTemplateEntity, gameInformation.areaLevel);
             enemyActor.spriterPlayer.addListener(new SpriterActorListenerImpl(enemyActor));
             enemyActor.setPosition(enemyTemplateEntity.getPosX(), enemyTemplateEntity.getPosY());
@@ -210,10 +217,6 @@ public class GameManager {
 
             floorEnemies.add(enemyActor);
         }
-    }
-
-    public SpriterEnemyActor getCurrentEnemy() {
-        return currentEnemy;
     }
 
     public SpriterEnemyActor getEnemyInShadow() {
@@ -354,4 +357,9 @@ public class GameManager {
             battleScreen.player.setAnimation(AnimationStatusEnum.HIT);
         }
     }
+
+    public SpriterEnemyActor getCurrentEnemy() {
+        return currentEnemy;
+    }
+
 }

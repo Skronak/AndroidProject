@@ -5,7 +5,16 @@ import java.util.List;
 public class EnemyTemplateEntity {
     private String id;
     private String name;
-    private int category;
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
+
+    private boolean canAttack;
     private int baseHp;
     private int time;
     private int posX;
@@ -34,14 +43,6 @@ public class EnemyTemplateEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
     }
 
     public int getBaseHp() {

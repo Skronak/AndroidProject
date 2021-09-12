@@ -100,7 +100,7 @@ public class BattleScreen extends AbstractScreen {
         layerEnemy = new Group();
         layerFrontObjects = new Group();
 
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/dg_background.png"));
+        Texture         backgroundTexture = new Texture(files.internal("sprites/badlogic.jpg"));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setSize(410, Constants.V_HEIGHT + 15);
@@ -211,7 +211,6 @@ public class BattleScreen extends AbstractScreen {
 
         gameManager.updateLogic(delta);
         hud.updateGoldLabel();
-        //boss.update();
         debugMode(delta);
 
         stage.act();

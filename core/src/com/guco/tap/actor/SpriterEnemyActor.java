@@ -26,7 +26,7 @@ public class SpriterEnemyActor extends SpriterActor {
         this.name = enemyTemplateEntity.getName();
         this.lifePoint = calculateHP(enemyTemplateEntity.getBaseHp(), dungeonLevel);
         this.attackDuration = enemyTemplateEntity.getAttackDuration();
-        this.active=true;
+        this.active = enemyTemplateEntity.isCanAttack();
     }
 
     public void update(float delta) {

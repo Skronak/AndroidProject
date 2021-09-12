@@ -11,9 +11,9 @@ import com.guco.tap.manager.AssetsManager;
 import com.guco.tap.manager.GameInformationManager;
 import com.guco.tap.manager.GameManager;
 import com.guco.tap.manager.ItemManager;
+import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.screen.Hud;
 import com.guco.tap.screen.LoadingScreen;
-import com.guco.tap.screen.BattleScreen;
 import com.guco.tap.screen.SplashScreen;
 import com.guco.tap.utils.LargeMath;
 
@@ -21,7 +21,6 @@ import com.guco.tap.utils.LargeMath;
 public class TapDungeonGame extends Game {
 
 	public BattleScreen battleScreen;
-	public SplashScreen splashScreen;
 	public LoadingScreen loadingScreen;
 	public GameManager gameManager;
 	public AssetsManager assetsManager;
@@ -32,7 +31,7 @@ public class TapDungeonGame extends Game {
 	public LargeMath largeMath;
 	public SpriteBatch sb;
 	public AdController adController;
-
+	public ItemManager itemManager;
 	public Hud hud;
 
 	public TapDungeonGame(boolean devMode, AdController adController) {
@@ -40,35 +39,17 @@ public class TapDungeonGame extends Game {
         this.devMode=devMode;
     }
 
-	public ItemManager itemManager;
-
 	@Override
 	public void create () {
-		largeMath = new LargeMath();
-    	itemManager = new ItemManager(this);
-        assetsManager = new AssetsManager();
-		areaManager = new AreaManager(this);
-		gameInformationManager = new GameInformationManager(assetsManager, itemManager);
 		loadingScreen = new LoadingScreen(this);
-		loadingScreen.loadAsset();
-
-        gameInformationManager.loadGameData();
-        gameInformation = gameInformationManager.gameInformation;
 
         if(devMode) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
-			sb = new SpriteBatch();
-
-			gameManager = new GameManager(this);
-			hud = new Hud(this);
-			battleScreen = new BattleScreen(this);
-//			AreaScreen areaScreen = new AreaScreen(this);
-			gameManager.battleScreen = battleScreen;
+			loadingScreen.load();
 			setScreen(battleScreen);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
-			splashScreen=new SplashScreen(this);
-			setScreen(splashScreen);
+			setScreen(new SplashScreen(this));
 		}
 	}
 

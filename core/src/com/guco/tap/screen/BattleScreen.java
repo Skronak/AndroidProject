@@ -36,7 +36,7 @@ public class BattleScreen extends AbstractScreen {
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     public Group layerBackground, layerEnemy, layerFrontObjects;
     public Label damageLabel;
-    private int[] damageLabelPosition = {100,80,120,70,130};
+    private int[] damageLabelPosition = {100, 80, 120, 70, 130};
     int gLPPointer;
     public InputMultiplexer inputMultiplexer;
     GameManager gameManager;
@@ -51,12 +51,25 @@ public class BattleScreen extends AbstractScreen {
         this.gameManager = tapDungeonGame.gameManager;
         this.hud = tapDungeonGame.hud;
 
-        buildScene();
+        layerBackground = new Group();
+        layerEnemy = new Group();
+        layerFrontObjects = new Group();
+
+        Texture backgroundTexture = new Texture(files.internal("sprites/badlogic.jpg"));
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setSize(410, Constants.V_HEIGHT + 15);
+        backgroundImage.setPosition(-90, -20);
+
+        Texture doorTexture = new Texture(files.internal("sprites/background/dg_door.png"));
+        doorImage = new Image(doorTexture);
+        doorImage.setSize(backgroundImage.getWidth(), backgroundImage.getHeight());
+        doorImage.setPosition(backgroundImage.getX(), backgroundImage.getY());
     }
 
     @Override
     public void show() {
-        textAnimMinX =100;
+        textAnimMinX = 100;
         random = new Random();
 
         player = gameManager.loadPlayer(spriteBatch);
@@ -82,7 +95,7 @@ public class BattleScreen extends AbstractScreen {
         layerFrontObjects.addActor(doorImage);
         layerFrontObjects.addActor(currentEnemy);
 
-  //      layerEnemy.addActor(enemyInShadow);
+        //      layerEnemy.addActor(enemyInShadow);
         layerFrontObjects.addActor(player);
         layerFrontObjects.addActor(effectActor);
 
@@ -93,23 +106,6 @@ public class BattleScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         initStartScreen();
-    }
-
-    private void buildScene() {
-        layerBackground = new Group();
-        layerEnemy = new Group();
-        layerFrontObjects = new Group();
-
-        Texture         backgroundTexture = new Texture(files.internal("sprites/badlogic.jpg"));
-        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        backgroundImage = new Image(backgroundTexture);
-        backgroundImage.setSize(410, Constants.V_HEIGHT + 15);
-        backgroundImage.setPosition(-90, -20);
-
-        Texture doorTexture = new Texture(files.internal("sprites/background/dg_door.png"));
-        doorImage = new Image(doorTexture);
-        doorImage.setSize(backgroundImage.getWidth(), backgroundImage.getHeight());
-        doorImage.setPosition(backgroundImage.getX(), backgroundImage.getY());
     }
 
     public void swapEnemy() {
@@ -143,18 +139,18 @@ public class BattleScreen extends AbstractScreen {
     public void initStartScreen() {
         final Label titleLabel = new Label("TAP DUNGEON", game.assetsManager.getSkin());
         titleLabel.setFontScale(2);
-        titleLabel.setPosition(Constants.V_WIDTH/2-titleLabel.getWidth(),Constants.V_HEIGHT-Constants.V_HEIGHT/6);
+        titleLabel.setPosition(Constants.V_WIDTH / 2 - titleLabel.getWidth(), Constants.V_HEIGHT - Constants.V_HEIGHT / 6);
         final Label startLabel = new Label("TAP TO START", game.assetsManager.getSkin());
         startLabel.setFontScale(2);
-        startLabel.setPosition(Constants.V_WIDTH/2-startLabel.getWidth(), Constants.V_HEIGHT/6);
-        startLabel.addAction(Actions.forever(new BlinkAction(3,1)));
+        startLabel.setPosition(Constants.V_WIDTH / 2 - startLabel.getWidth(), Constants.V_HEIGHT / 6);
+        startLabel.addAction(Actions.forever(new BlinkAction(3, 1)));
 
         hud.stage.addActor(titleLabel);
         hud.stage.addActor(startLabel);
 
-        gameManager.currentState=GameState.PAUSE;
-        camera.zoom-=0.5;
-        camera.translate(-70,0);
+        gameManager.currentState = GameState.PAUSE;
+        camera.zoom -= 0.5;
+        camera.translate(-70, 0);
         hud.setVisible(false);
 
         hud.stage.addListener(new ClickListener() {
@@ -172,7 +168,7 @@ public class BattleScreen extends AbstractScreen {
                     }
                 })));
                 stage.addAction(Actions.sequence(Actions.parallel(
-                        CameraMoveToAction.action(camera, 3f, camera.position.x + 70, camera.position.y, 0f,Interpolation.exp10In),
+                        CameraMoveToAction.action(camera, 3f, camera.position.x + 70, camera.position.y, 0f, Interpolation.exp10In),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
@@ -182,7 +178,7 @@ public class BattleScreen extends AbstractScreen {
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
-                                gameManager.currentState=GameState.IN_GAME;
+                                gameManager.currentState = GameState.IN_GAME;
                             }
                         })));
                 hud.stage.removeListener(this);
@@ -196,7 +192,7 @@ public class BattleScreen extends AbstractScreen {
         backgroundImage.setDrawable(backgroundDrawable);
     }
 
-    public void zoomTo(float newZoom, float duration){
+    public void zoomTo(float newZoom, float duration) {
         cameraZoomOrigin = camera.zoom;
         cameraZoomTarget = newZoom;
         timeToCameraZoomTarget = cameraZoomDuration = duration;
@@ -207,90 +203,97 @@ public class BattleScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0, 0, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         camera.update();
 
         gameManager.updateLogic(delta);
         hud.updateGoldLabel();
-        debugMode(delta);
 
         stage.act();
         stage.draw();
 
-        spriteBatch.begin();
-        if (gameManager.currentState.equals(GameState.IN_GAME) || gameManager.currentState.equals(GameState.PAUSE)) {
+//        spriteBatch.begin();
+        debugMode(delta);
+
+//        if (gameManager.currentState.equals(GameState.IN_GAME) || gameManager.currentState.equals(GameState.PAUSE)) {
 //            spriterPlayer.update();
 //            playerDrawer.draw(spriterPlayer);
-        } else {
-            hud.draw();
-        }
-        spriteBatch.end();
+//        } else {
+//            hud.draw();
+//        }
 
         hud.draw();
+//        spriteBatch.end();
     }
 
 
-    public void debugMode(float delta){
-        if (timeToCameraZoomTarget > 0){
+    public void debugMode(float delta) {
+        if (timeToCameraZoomTarget > 0) {
             timeToCameraZoomTarget -= delta;
             float progress = timeToCameraZoomTarget < 0 ? 1 : 1f - timeToCameraZoomTarget / cameraZoomDuration;
             camera.zoom = Interpolation.pow3Out.apply(cameraZoomOrigin, cameraZoomTarget, progress);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.B)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.B)) {
             gameManager.spriterPlayer.setAnimation("spec_1");
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            zoomTo(1,3);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            zoomTo(1, 3);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            zoomTo(2,3);        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(-1f,0f);
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            zoomTo(2, 3);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.translate(1f,0f);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            camera.translate(-1f, 0f);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            camera.translate(1f, 0f);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            gameManager.increaseAreaLevel();
         }
     }
 
     public void addDamageLabel(String damage) {
-        damageLabel = new Label(damage,new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
-        damageLabel.setPosition(currentEnemy.getPosition().x + currentEnemy.getWidth()/2, currentEnemy.getPosition().y + currentEnemy.getHeight()/2);
-        if (gLPPointer< damageLabelPosition.length-1){
+        damageLabel = new Label(damage, new Label.LabelStyle(gameManager.assetsManager.getFont(), Constants.NORMAL_LABEL_COLOR));
+        damageLabel.setPosition(currentEnemy.getPosition().x + currentEnemy.getWidth() / 2, currentEnemy.getPosition().y + currentEnemy.getHeight() / 2);
+        if (gLPPointer < damageLabelPosition.length - 1) {
             gLPPointer++;
         } else {
-            gLPPointer=0;
+            gLPPointer = 0;
         }
         layerFrontObjects.addActor(damageLabel);
         damageLabel.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.parallel(
-                    Actions.fadeIn(1f)
+                        Actions.fadeIn(1f)
                 ),
                 Actions.fadeOut(2f),
                 Actions.removeActor(damageLabel)
         ));
         damageLabel.addAction(Actions.parallel(
-                Actions.moveTo(150+random.nextInt(100+textAnimMinX)-textAnimMinX,Constants.V_HEIGHT,4f),
-                ScaleLabelAction.action(damageLabel,5f,2f,Interpolation.linear)
+                Actions.moveTo(150 + random.nextInt(100 + textAnimMinX) - textAnimMinX, Constants.V_HEIGHT, 4f),
+                ScaleLabelAction.action(damageLabel, 5f, 2f, Interpolation.linear)
         ));
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.debug("PlayScreen", "Resize occured w"+width+" h"+height);
+        Gdx.app.debug("PlayScreen", "Resize occured w" + width + " h" + height);
         viewport.update(width, height);
         hud.resize(width, height);
     }
 
     @Override
     public void dispose() {
-        Gdx.app.debug("PlayScreen","dispose");
+        Gdx.app.debug("PlayScreen", "dispose");
         spriteBatch.dispose();
         hud.dispose();
-        Gdx.app.debug("PlayScreen","saveData");
+        Gdx.app.debug("PlayScreen", "saveData");
     }
 
 //*****************************************************

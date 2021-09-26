@@ -23,7 +23,7 @@ public abstract class AbstractScreen implements Screen {
 
     public AbstractScreen (TapDungeonGame game){
         this.game = game;
-        spriteBatch = new SpriteBatch();
+        spriteBatch = game.sb;
         viewport = new StretchViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
         viewport.apply(true);
         stage = new Stage(viewport, spriteBatch);

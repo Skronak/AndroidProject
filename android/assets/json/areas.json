@@ -16,7 +16,8 @@
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 1
   },
   {
     "id": 1,
@@ -28,12 +29,14 @@
     ],
     "bossId": [
       0
-    ],    "backgroundTexture": "dg_background1.png",
+    ],
+    "backgroundTexture": "dg_background1.png",
     "menuBackgroundTexture": "area1.png",
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 2
   },
   {
     "id": 2,
@@ -45,12 +48,14 @@
     ],
     "bossId": [
       0
-    ],    "backgroundTexture": "dg_background3.png",
+    ],
+    "backgroundTexture": "dg_background3.png",
     "menuBackgroundTexture": "area2.png",
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 3
   },
   {
     "id": 3,
@@ -67,7 +72,8 @@
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 4
   },
   {
     "id": 4,
@@ -86,7 +92,8 @@
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 5
   },
   {
     "id": 5,
@@ -103,6 +110,7 @@
     "enemyPosX": 0,
     "enemyPosY": 0,
     "playerPosX": 0,
-    "playerPosY": 0
+    "playerPosY": 0,
+    "nextAreaId": 6
   }
 ]

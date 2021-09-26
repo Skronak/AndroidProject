@@ -92,10 +92,6 @@ public class AssetsManager {
 
         loadValue += 1;
         debugLogLoading();
-
-        for (int i = 0; i < areaList.size(); i++) {
-
-        }
     }
 
     private void readFromFile() {

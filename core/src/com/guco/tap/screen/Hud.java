@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -26,7 +27,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.guco.tap.actor.EnemyHealthBarUI;
 import com.guco.tap.actor.FpsActor;
 import com.guco.tap.actor.SpriterEnemyActor;
-import com.guco.tap.actor.UiLevelSelect;
 import com.guco.tap.entity.GameInformation;
 import com.guco.tap.game.TapDungeonGame;
 import com.guco.tap.manager.GameManager;
@@ -83,10 +83,9 @@ public class Hud implements Disposable {
     private LargeMath largeMath;
     private AbstractMenu currentMenu;
     private ArrayList<AbstractMenu> activeMenuList;
-    public Label floorLabel;
     public FpsActor fpsActor;
     public EnemyHealthBarUI enemyInformation;
-    public Label battleNbLabel;
+    public Label floorLabel, battleNbLabel, currentLevelLabel;
     public ImageButton goToNextAreaButton;
     private GameInformation gameInformation;
     public Group sceneLayer, menuLayer;
@@ -214,7 +213,7 @@ public class Hud implements Disposable {
         InputListener buttonListener = new ClickListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 toggleMenu(activeMenuList.get(6));
-                gameManager.initArea();
+                gameManager.increaseAreaLevel();
 
                 return true;
             }
@@ -301,6 +300,9 @@ public class Hud implements Disposable {
         floorLabel = new Label(String.valueOf(""+gameInformation.areaLevel), gameManager.assetsManager.getSkin());
         battleNbLabel = new Label(gameInformation.currentEnemyIdx+"/10", gameManager.assetsManager.getSkin());
         battleNbLabel.setFontScale(0.9f,0.9f);
+        currentLevelLabel = new Label(gameInformation.areaId+" :"+gameInformation.areaLevel, gameManager.assetsManager.getSkin());
+        currentLevelLabel.setFontScale(0.9f,0.9f);
+
         goldDecreaseLabel = new Label("", new Label.LabelStyle(font, Color.RED));
         goldDecreaseLabel.setVisible(false);
         goldDecreaseLabel.setFontScale(2);
@@ -316,9 +318,10 @@ public class Hud implements Disposable {
         PlayerDetailUiActor playerDetailActor = new PlayerDetailUiActor(gameManager);
         topHorizontalTable.add(playerDetailActor).expandX().height(40).width(130).left();
         topHorizontalTable.debug();
-//        VerticalGroup verticalGroup = new VerticalGroup();
+        VerticalGroup verticalGroup = new VerticalGroup();
 //        verticalGroup.addActor(floorLabel);
-//        verticalGroup.addActor(battleNbLabel);
+        verticalGroup.addActor(currentLevelLabel);
+        verticalGroup.addActor(battleNbLabel);
 //        topHorizontalTable.add(verticalGroup).left();
         topHorizontalTable.add(goldIcon).size(30,30);//.right();
         topHorizontalTable.add(stack).right();
@@ -353,7 +356,7 @@ public class Hud implements Disposable {
         bottomMenuTable.add(button_4).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
         bottomMenuTable.add(button_6).bottom().height(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT).width(Constants.PLAYSCREEN_MENU_BUTTON_HEIGHT);//.padLeft(3);
 
-        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
+//        UiLevelSelect levelSelect = new UiLevelSelect(gameManager);
         // Assemble hud
         mainTable = new Table();
         mainTable.top();
@@ -361,7 +364,8 @@ public class Hud implements Disposable {
 
         mainTable.add(topHorizontalTable).top().height(45).expandX();
         mainTable.row();
-        mainTable.add(levelSelect).padTop(10);
+        mainTable.add(verticalGroup).right();
+//        mainTable.add(levelSelect).padTop(10);
         mainTable.row();
 
         Table skillMenuTable = new Table();
@@ -390,6 +394,7 @@ public class Hud implements Disposable {
         stage.addActor(sceneLayer);
         stage.addActor(menuLayer);
         stage.addActor(mainTable);
+
 
 //        currentMenu = characterMenu;
 //        characterMenu.show();

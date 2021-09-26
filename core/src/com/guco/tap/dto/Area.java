@@ -23,4 +23,5 @@ public class Area {
     public int playerPosX;
     public int playerPosY;
     public List<AnimatedBackgroundObject> objectList;
+    public int nextAreaId;
 }

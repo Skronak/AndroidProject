@@ -1,6 +1,7 @@
 package com.guco.tap.actor;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.brashmonkey.spriter.Point;
 import com.guco.tap.entity.EnemyTemplateEntity;
 import com.guco.tap.manager.GameManager;
@@ -63,6 +64,7 @@ public class SpriterEnemyActor extends SpriterActor {
 
     public void die() {
         setAnimation(AnimationStatusEnum.DIE);
+        this.addAction(Actions.sequence(Actions.delay(1), Actions.removeActor()));
     }
 
     public void renderBlack() {

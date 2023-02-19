@@ -492,7 +492,7 @@ public class Hud implements Disposable {
         updateCurrentMenu();
     }
 
-    public void initFight(SpriterEnemyActor enemyActor) {
+    public void initFightInformation(SpriterEnemyActor enemyActor) {
         floorLabel.setText(gameManager.currentArea.name + " - "+gameInformation.areaLevel);
         enemyInformation.init(enemyActor);
     }
@@ -533,5 +533,10 @@ public class Hud implements Disposable {
             menuLayer.getColor().a=0;
             mainTable.getColor().a=0;
         }
+    }
+
+    public void updateCurrentLevelCount(int fights, int currentCount) {
+        currentLevelLabel.setText(currentCount+" :"+fights);
+
     }
 }

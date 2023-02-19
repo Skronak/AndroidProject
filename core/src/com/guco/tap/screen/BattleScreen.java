@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.guco.tap.action.BlinkAction;
 import com.guco.tap.action.CameraMoveToAction;
 import com.guco.tap.action.ScaleLabelAction;
+import com.guco.tap.actor.EnemyActor;
 import com.guco.tap.actor.SpriterActor;
 import com.guco.tap.actor.SpriterEnemyActor;
 import com.guco.tap.game.TapDungeonGame;
@@ -120,7 +121,7 @@ public class BattleScreen extends AbstractScreen {
 //        waitingEnemyActors.get(0).addAction(Actions.sequence(Actions.fadeOut(1f), Actions.moveTo(220, 235)));
 //        waitingEnemyActors.get(1).addAction(Actions.parallel(Actions.moveTo(130, 220, 1f), Actions.color(Color.WHITE, 1f)));
 //
-//        // Change order of enemy on screen (0: current, 1: visible, 2: swap
+//        // Changorder of enemy on screen (0: current, 1: visible, 2: swap
 //        Collections.swap(waitingEnemyActors, 0, 1);
 //        if (waitingEnemyActors.size()>2) {
 //            waitingEnemyActors.get(2).clearActions();
@@ -279,6 +280,10 @@ public class BattleScreen extends AbstractScreen {
                 Actions.moveTo(150 + random.nextInt(100 + textAnimMinX) - textAnimMinX, Constants.V_HEIGHT, 4f),
                 ScaleLabelAction.action(damageLabel, 5f, 2f, Interpolation.linear)
         ));
+    }
+
+    public void changeEnemy(EnemyActor enemyActor) {
+
     }
 
     @Override

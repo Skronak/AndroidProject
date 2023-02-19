@@ -14,7 +14,7 @@ import com.brashmonkey.spriter.SpriterPlayer;
 import com.guco.tap.utils.AnimationStatusEnum;
 
 public class SpriterActor extends Actor {
-    LibGdxDrawer drawer;
+    public LibGdxDrawer drawer;
     LibGdxLoader loader;
     public SpriterPlayer spriterPlayer;
     public boolean isAttacking;
@@ -34,7 +34,6 @@ public class SpriterActor extends Actor {
         spriterPlayer.update();
         drawer.draw(spriterPlayer);
     }
-
 
     public void setPosition(int posX, int posY) {
         spriterPlayer.setPosition(posX, posY);

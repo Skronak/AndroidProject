@@ -93,6 +93,7 @@ project(":core") {
     apply plugin: "war"
 
     dependencies {
+        compile "com.strongjoshua:libgdx-inGameConsole:1.0.0"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         implementation "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"

@@ -3,6 +3,7 @@ package com.guco.tap.utils;
 public enum AnimationStatusEnum {
     IDLE("idle"),
     HIT("hit"),
+    WALK("walk"),
     ATTACK("attack"),
     DIE("die"),
     BLOCK_HIT("block_hit");

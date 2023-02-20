@@ -253,22 +253,31 @@ public class GameManager {
         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/" + currentArea.fights);//todo a bouger
 
         final SpriterEnemyActor newEnemy = floorEnemies.get(gameInformation.currentEnemyIdx);
-        newEnemy.setColor(newEnemy.getColor().r,newEnemy.getColor().g,newEnemy.getColor().b,0f);
-        newEnemy.addAction(Actions.sequence(Actions.delay(1f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                currentState = GameState.IN_GAME;
-            }
-        })));
 
         currentEnemy = newEnemy;
 
-        currentEnemy.setAnimation(AnimationStatusEnum.IDLE);
+        currentEnemy.setAnimation(AnimationStatusEnum.WALK);
         battleScreen.layerFrontObjects.addActor(currentEnemy);
 
         game.hud.initFightInformation(currentEnemy);
 
-        showNextEnemyDisfonctionnel();
+        currentEnemy.setPosition(350, currentEnemy.getPosition().y);
+        float walkAnimDuration = 1f;
+        currentEnemy.addAction(Actions.sequence(Actions.moveTo(200, currentEnemy.getPosition().y, walkAnimDuration)));
+        // force la position de spriterPlayer a suivre celle du parent
+        RepeatAction forever = Actions.forever(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                currentEnemy.spriterPlayer.setPosition(currentEnemy.getX(), currentEnemy.getY());
+            }
+        }));
+        currentEnemy.addAction(Actions.parallel(forever, Actions.sequence(Actions.delay(walkAnimDuration), Actions.removeAction(forever), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                currentEnemy.setAnimation(AnimationStatusEnum.IDLE);
+                currentState = GameState.IN_GAME;
+            }
+        }))));
     }
 
     private void showNextEnemyDisfonctionnel() {

@@ -103,7 +103,7 @@ public class AreaMenu extends AbstractMenu {
         ScrollPane pane = new ScrollPane(container, paneStyle);
         pane.setScrollingDisabled(true, false);
 
-        for (int i = 0; i<currentArea.levels; i++) {
+        for (int i = 0; i<currentArea.floors; i++) {
             TextButton textButton = new TextButton(i+"1-"+(i+1)+"0",gameManager.assetsManager.getSkin());
             textButton.addListener(new InputListener(){
                 @Override

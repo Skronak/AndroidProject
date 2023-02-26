@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -318,10 +317,10 @@ public class Hud implements Disposable {
         PlayerDetailUiActor playerDetailActor = new PlayerDetailUiActor(gameManager);
         topHorizontalTable.add(playerDetailActor).expandX().height(40).width(130).left();
         topHorizontalTable.debug();
-        VerticalGroup verticalGroup = new VerticalGroup();
-//        verticalGroup.addActor(floorLabel);
-        verticalGroup.addActor(currentLevelLabel);
-        verticalGroup.addActor(battleNbLabel);
+        Table floorInfosTable = new Table();
+        floorInfosTable.add(floorLabel).expandX();
+//        verticalGroup.addActor(currentLevelLabel);
+        floorInfosTable.add(battleNbLabel).right();
 //        topHorizontalTable.add(verticalGroup).left();
         topHorizontalTable.add(goldIcon).size(30,30);//.right();
         topHorizontalTable.add(stack).right();
@@ -364,7 +363,7 @@ public class Hud implements Disposable {
 
         mainTable.add(topHorizontalTable).top().height(45).expandX();
         mainTable.row();
-        mainTable.add(verticalGroup).right();
+        mainTable.add(floorInfosTable).fillX();
 //        mainTable.add(levelSelect).padTop(10);
         mainTable.row();
 

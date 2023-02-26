@@ -7,12 +7,13 @@ import java.util.List;
 public class Area {
     public int id;
     public String name;
-    public int levels;
-    public int fights;
+    public int enemiesBaseLevel;// monster level
+    public int fights;//nb fight per level
+    public int floors;// nb levels of this area
     public String backgroundTexture;
     public String menuBackgroundTexture;
     public String icon;
-    public int[] enemiesId;
+    public int[] enemiesId; // enemies that can appear at that level
     public int[] bossId;
     public int enemyPosX;
     public int enemyPosY;

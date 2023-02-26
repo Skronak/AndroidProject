@@ -15,7 +15,7 @@ import com.guco.tap.utils.Constants;
 public abstract class AbstractScreen implements Screen {
     protected Viewport viewport;
     protected Hud hud;
-    protected SpriteBatch spriteBatch;
+    public SpriteBatch spriteBatch;
     protected TapDungeonGame game;
     public Stage stage;
     protected TapActor tapActor;

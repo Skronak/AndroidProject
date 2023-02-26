@@ -80,20 +80,20 @@ public class GameManager {
     }
 
     public void initialiseGame(SpriteBatch sb) {
-        initArea();
+        loadArea(gameInformation.areaId);
         initEnemies(sb);
 
         startGame();
     }
 
-    private void initArea() {
-        currentArea = assetsManager.areaList.get(gameInformation.areaId);
+    private void loadArea(int areaId) {
+        currentArea = assetsManager.areaList.get(areaId);
 
         Texture backgroundTexture = new Texture(files.internal("sprites/background/" + currentArea.backgroundTexture));
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegionDrawable drawable = new TextureRegionDrawable(backgroundTexture);
-
         battleScreen.changeBackround(drawable);
+        game.hud.floorLabel.setText(currentArea.name + " - " + gameInformation.areaLevel);
     }
 
     public void initEnemies(SpriteBatch sb) {
@@ -102,8 +102,14 @@ public class GameManager {
         for (int i =0; i < currentArea.enemiesId.length; i++) {
             availableEnemy.add(assetsManager.enemyTemplateList.get(currentArea.enemiesId[i]));
         }
+        loadEnemies(sb, availableEnemy);
 
-        for (int i =0; i < currentArea.fights;i++) {
+        currentEnemy = floorEnemies.get(gameInformation.currentEnemyIdx);
+        game.hud.initFightInformation(currentEnemy);
+    }
+
+    private void loadEnemies(SpriteBatch sb, List<EnemyTemplateEntity> availableEnemy) {
+        for (int i=0; i < currentArea.fights;i++) {
             int randomNum = rand.nextInt((availableEnemy.size() - 1) + 1);
             EnemyTemplateEntity enemyTemplateEntity = availableEnemy.get(randomNum);
 
@@ -116,7 +122,6 @@ public class GameManager {
             if (enemyTemplateEntity.isSwitchX()) {
                 enemyActor.spriterPlayer.flipX();
             }
-
             floorEnemies.add(enemyActor);
         }
     }
@@ -124,8 +129,6 @@ public class GameManager {
     private void startGame() {
 //        game.hud.floorLabel.setText(currentArea.name + " - " + gameInformation.areaLevel);
 //        game.hud.enemyInformation.init(currentEnemyActor);
-        currentEnemy = floorEnemies.get(gameInformation.currentEnemyIdx);
-        game.hud.initFightInformation(currentEnemy);
     }
 
     public SpriterActor loadPlayerActor(SpriteBatch spriteBatch) {
@@ -196,7 +199,6 @@ public class GameManager {
         switch (currentState) {
             case IN_GAME:
                 currentEnemy.update(delta);
-//                battleScreen.currentEnemyActor.update(delta); //TODO a changer
                 break;
             case MENU:
                 if (logicTimer > 1f) {
@@ -215,32 +217,32 @@ public class GameManager {
         // todo Desactiver l'auto save au profit d'un save des uq'on gagne objet ou bat enemy
         if (autoSaveTimer >= Constants.DELAY_AUTOSAVE) {
             Gdx.app.debug("PlayScreen", "Saving");
-//            gameInformationManager.saveData();
+            gameInformationManager.saveData();
             autoSaveTimer = 0f;
         }
 
         // Increase Gold passivly
-        if (increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
-            dataManager.increaseGoldPassive();
-            dataManager.increaseGoldPassive();
-            game.hud.updateGoldLabel();
-            increaseGoldTimer = 0f;
-        }
+//        if (increaseGoldTimer >= Constants.DELAY_GENGOLD_PASSIV) {
+//            dataManager.increaseGoldPassive();
+//            dataManager.increaseGoldPassive();
+//            game.hud.updateGoldLabel();
+//            increaseGoldTimer = 0f;
+//        }
     }
 
-    public SpriterEnemyActor getEnemyInShadow() {
-        int currentEnemyIdx = gameInformation.currentEnemyIdx;
-        if (floorEnemies.size() != currentEnemyIdx) {
-            SpriterEnemyActor enemyInShadow = floorEnemies.get(currentEnemyIdx + 1);
-            enemyInShadow.spriterPlayer.scale(0.9f);
-            enemyInShadow.spriterPlayer.setPosition(270, 240);
-            enemyInShadow.renderBlack();
-            enemyInShadow.active=false;
-            return enemyInShadow;
-        } else {
-            return null;
-        }
-    }
+//    public SpriterEnemyActor getEnemyInShadow() {
+//        int currentEnemyIdx = gameInformation.currentEnemyIdx;
+//        if (floorEnemies.size() != currentEnemyIdx) {
+//            SpriterEnemyActor enemyInShadow = floorEnemies.get(currentEnemyIdx + 1);
+//            enemyInShadow.spriterPlayer.scale(0.9f);
+//            enemyInShadow.spriterPlayer.setPosition(270, 240);
+//            enemyInShadow.renderBlack();
+//            enemyInShadow.active=false;
+//            return enemyInShadow;
+//        } else {
+//            return null;
+//        }
+//    }
 
 
     @Deprecated
@@ -262,7 +264,7 @@ public class GameManager {
         game.hud.initFightInformation(currentEnemy);
 
         currentEnemy.setPosition(350, currentEnemy.getPosition().y);
-        float walkAnimDuration = 1f;
+        float walkAnimDuration = 0.2f;
         currentEnemy.addAction(Actions.sequence(Actions.moveTo(200, currentEnemy.getPosition().y, walkAnimDuration)));
         // force la position de spriterPlayer a suivre celle du parent
         RepeatAction forever = Actions.forever(Actions.run(new Runnable() {
@@ -280,42 +282,42 @@ public class GameManager {
         }))));
     }
 
-    private void showNextEnemyDisfonctionnel() {
-        //        currentEnemy.addAction(Actions.sequence(Actions.delay(1.5f), Actions.removeActor()));
-        final SpriterEnemyActor enemyInShadow = battleScreen.enemyInShadow;
-
-        // defini la position du parent enemyShadow, pour lui appliquer un deplacement
-        enemyInShadow.setPosition(enemyInShadow.spriterPlayer.getPosition().x,enemyInShadow.spriterPlayer.getPosition().y );
-        enemyInShadow.setAnimation(AnimationStatusEnum.IDLE);
-        enemyInShadow.addAction(Actions.sequence(Actions.moveTo(currentEnemy.getPosition().x, currentEnemy.getPosition().y,1f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                enemyInShadow.renderNormal();
-            }
-        })));
-
-        // force la position de spriterPlayer a suivre celle du parent
-        RepeatAction forever = Actions.forever(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                enemyInShadow.spriterPlayer.setPosition(enemyInShadow.getX(), enemyInShadow.getY());
-            }
-        }));
-        enemyInShadow.addAction(Actions.parallel(forever, Actions.sequence(Actions.delay(1f), Actions.removeAction(forever))));
-
-        currentEnemy.addAction(Actions.delay(1f, Actions.removeActor()));
-        currentEnemy = enemyInShadow;
-        currentEnemy.addAction(Actions.sequence(Actions.delay(2f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                battleScreen.layerEnemy.addActor(currentEnemy);
-                game.hud.initFightInformation(currentEnemy);
-                currentState = GameState.IN_GAME;
-            }
-        })));
-        SpriterEnemyActor newEnemyInShadow = getEnemyInShadow();
-        battleScreen.layerEnemy.addActor(newEnemyInShadow);
-    }
+//    private void showNextEnemyDisfonctionnel() {
+//        //        currentEnemy.addAction(Actions.sequence(Actions.delay(1.5f), Actions.removeActor()));
+//        final SpriterEnemyActor enemyInShadow = battleScreen.enemyInShadow;
+//
+//        // defini la position du parent enemyShadow, pour lui appliquer un deplacement
+//        enemyInShadow.setPosition(enemyInShadow.spriterPlayer.getPosition().x,enemyInShadow.spriterPlayer.getPosition().y );
+//        enemyInShadow.setAnimation(AnimationStatusEnum.IDLE);
+//        enemyInShadow.addAction(Actions.sequence(Actions.moveTo(currentEnemy.getPosition().x, currentEnemy.getPosition().y,1f), Actions.run(new Runnable() {
+//            @Override
+//            public void run() {
+//                enemyInShadow.renderNormal();
+//            }
+//        })));
+//
+//        // force la position de spriterPlayer a suivre celle du parent
+//        RepeatAction forever = Actions.forever(Actions.run(new Runnable() {
+//            @Override
+//            public void run() {
+//                enemyInShadow.spriterPlayer.setPosition(enemyInShadow.getX(), enemyInShadow.getY());
+//            }
+//        }));
+//        enemyInShadow.addAction(Actions.parallel(forever, Actions.sequence(Actions.delay(1f), Actions.removeAction(forever))));
+//
+//        currentEnemy.addAction(Actions.delay(1f, Actions.removeActor()));
+//        currentEnemy = enemyInShadow;
+//        currentEnemy.addAction(Actions.sequence(Actions.delay(2f), Actions.run(new Runnable() {
+//            @Override
+//            public void run() {
+//                battleScreen.layerEnemy.addActor(currentEnemy);
+//                game.hud.initFightInformation(currentEnemy);
+//                currentState = GameState.IN_GAME;
+//            }
+//        })));
+//        SpriterEnemyActor newEnemyInShadow = getEnemyInShadow();
+//        battleScreen.layerEnemy.addActor(newEnemyInShadow);
+//    }
 
     public void showBoss() {
 //         game.hud.battleNbLabel.setText(gameInformation.currentEnemyIdx + "/10");
@@ -337,13 +339,8 @@ public class GameManager {
         }
         addReward();
 
-        if (gameInformation.currentEnemyIdx == currentArea.fights) { // terminé tous les combats de la zone
-            if (gameInformation.areaLevel < 10) { // augmente le lvl et on continue
-                increaseAreaLevel();
-            } else {
-                loadNextArea();
-            }
-
+        if ((gameInformation.currentEnemyIdx + 1) == currentArea.fights) { // terminé tous les combats de la zone
+                updateArea();
         } else {
             gameInformation.areaLevel+=1;
             game.hud.updateCurrentLevelCount(currentArea.fights, gameInformation.areaLevel);
@@ -352,18 +349,29 @@ public class GameManager {
         }
     }
 
+    private void updateArea() {
+        if (gameInformation.areaLevel >= currentArea.floors) {
+            if (gameInformation.areaId < assetsManager.areaList.size()-1) {
+                loadNextArea();
+            } else {
+                // victoire?
+            }
+        } else {
+            increaseAreaLevel();
+        }
+    }
+
     private void addReward() {
         goldManager.addGoldCoin(new Vector2(currentEnemy.getPosition().x, player.spriterPlayer.getPosition().y));
     }
 
-    private void loadNextArea() {
+    public void loadNextArea() {
+        gameInformation.areaId +=1;
+        gameInformation.areaLevel=0;
+        loadArea(gameInformation.areaId);
         gameInformation.currentEnemyIdx = 0;
-
-        Texture backgroundTexture = new Texture(files.internal("sprites/background/" + currentArea.backgroundTexture));
-        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        TextureRegionDrawable drawable = new TextureRegionDrawable(backgroundTexture);
-
-        battleScreen.changeBackround(drawable);
+        initEnemies(battleScreen.spriteBatch);
+        showNextEnemy();
     }
 
     public void increaseAreaLevel() {

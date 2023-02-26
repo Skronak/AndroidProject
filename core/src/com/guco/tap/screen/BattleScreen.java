@@ -204,7 +204,6 @@ public class BattleScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0, 0, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         camera.update();
 
         gameManager.updateLogic(delta);
@@ -254,8 +253,11 @@ public class BattleScreen extends AbstractScreen {
             camera.translate(1f, 0f);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            gameManager.increaseAreaLevel();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            gameManager.gameInformation.areaId+=2;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            gameManager.gameInformation.areaId-=2;
         }
     }
 
